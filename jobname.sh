@@ -22,13 +22,11 @@ elif [[ $1 == '-r' ]]; then
 elif [[ -z $3 ]]; then
     name=$2
     DIR=$(seq 1 $1)
-    echo $name $DIR
 else
     name=$3
     DIR=$(seq $1 $2)
-    echo $name $DIR
 fi
-exit 1
+
 # loop
 for i in $DIR
 do
@@ -36,4 +34,5 @@ do
     j=$(echo $i | cut -c 1)
     sed -i "/#SBATCH -J/c\#SBATCH -J $name$j" $i/submit.sh
 done
+
 grep '#SBATCH -J' */submit.sh
