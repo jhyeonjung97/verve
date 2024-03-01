@@ -30,10 +30,11 @@ else
     DIR=$(seq $1 $2)
 fi
 
+echo $DIR
+
 # loop
 for i in $DIR
 do
-    echo $i
     # i=${i%/}
     # j=$(echo $i | cut -c 1)
     # sed -i "/#SBATCH -J/c\#SBATCH -J $name$j" $i/submit.sh
