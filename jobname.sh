@@ -16,7 +16,7 @@ function numb {
 name=$2
 
 if [[ -z $3 ]]; then
-    sed -i "/#SBATCH -J/c\#SBATCH -J $name" run_slurm.sh
+    sed -i "/#SBATCH -J/c\#SBATCH -J $name" submit.sh
     if [[ -f lobster.sh ]]; then
         sed -i "/#SBATCH -J/c\#SBATCH -J $name" lobster.sh
     fi
@@ -41,6 +41,6 @@ for i in $SET
 do
     i=${i%/}
     j=$(echo $i | cut -c 1)
-    sed -i "/#SBATCH -J/c\#SBATCH -J $name$j" $i/run_slurm.sh
+    sed -i "/#SBATCH -J/c\#SBATCH -J $name$j" $i/submit.sh
 done
-grep '#SBATCH -J' */run_slurm.sh
+grep '#SBATCH -J' */submit.sh
