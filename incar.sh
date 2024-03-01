@@ -19,15 +19,13 @@ if [[ ! -f $filename ]]; then
     exit 1
 fi
 
-# Update the file with the specified pattern=value
-if [[ -z value ]]; then
+# Delete the pattern if value is empty
+if [[ -z $value ]]; then
     sed -i "/$pattern=.*/d" $filename
+    echo "'$pattern' is deleted from '$filename'."
     exit 0
 fi
 
-if [[ -n $(grep $pattern $filename) ]]; then
-    sed -i "/calc = vasp_calculator.Vasp(/a\                            $pattern=" "$filename"
-fi
-
-sed -i "s/$pattern=.*/$pattern=$value/" $filename
-echo "Pattern '$pattern' updated to '$pattern=$value' in '$filename'."
+# Update the file with the specified pattern=value
+sed -i "s/\($pattern\s*=\s*\).*/\1$value/" $filename
+echo "'$pattern' updated to '$pattern=$value' in '$filename'."
