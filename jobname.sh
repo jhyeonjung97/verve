@@ -22,9 +22,11 @@ elif [[ $1 == '-r' ]]; then
 elif [[ -z $3 ]]; then
     name=$2
     DIR=$(seq 1 $1)
+    echo $name $DIR
 else
     name=$3
     DIR=$(seq $1 $2)
+    echo $name $DIR
 fi
 exit 1
 # loop
