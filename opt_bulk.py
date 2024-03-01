@@ -32,11 +32,6 @@ ldau_luj = {'Ti':{'L':2,  'U':3.00, 'J':0.0},
           'Ni':{'L':2,  'U':6.45, 'J':0.0},
           'Cu':{'L':2, 'U':3.0,  'J':0.0},
          },
-
-def cell(atoms, scaling=True, factor=1.0):
-    if not scaling:
-        factor = (atoms.cell[0][0] + factor) / atoms.cell[0][0]
-    atoms.set_cell(atoms.get_cell() * factor, scale_atoms=True)
     
 if path.exists('restart.json'):
     atoms = read('restart.json')
