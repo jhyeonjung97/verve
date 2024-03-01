@@ -5,8 +5,8 @@
 #SBATCH -C cpu
 #SBATCH -A m2997
 #SBATCH -q debug
-#SBATCH -e STDERR.%N.%j.err
-#SBATCH -o STDOUT.%N.%j.out
+#SBATCH -e STDERR.%j.err
+#SBATCH -o STDOUT.%j.out
 
 module load vasp-tpc/6.3.2-cpu
 
