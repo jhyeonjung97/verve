@@ -28,27 +28,33 @@ def get_bader_charges(traj='OUTCAR'):
         subprocess.call('bader CHGCAR', shell=True)
     else:
         print(homebin+'/{}/ -> does not exist'.format(vtst))
-
+    print('# Run Bader analysis')
+    
     # Read charge data from ACF.dat
     with open("ACF.dat", "r") as file:
         lines = file.readlines()[4:]  # Skip the first 4 lines
+    print('# Read charge data from ACF.dat')
 
     # Extract charge information
     charge_data = np.array([list(map(float, line.split())) for line in lines])
     charge = charge_data[:, 4]
+    print('# Extract charge information')
 
     # Read atom names and positions from the trajectory file
     atoms = io.read(traj)
     atom_names = [atom.symbol for atom in atoms]
+    print('# Read atom names and positions from the trajectory file')
 
     # Remove unnecessary lines from the trajectory file
     filelist = glob.glob('*.xyz')
     xyzfile = filelist[0]
     with open(xyzfile, "r") as file:
         lines = file.readlines()[2:]
+    print('# Remove unnecessary lines from the trajectory file')
 
     # Extract atom names from the trajectory file
     atom_names_traj = [line.split()[0] for line in lines]
+    print('# Extract atom names from the trajectory file')
 
     # Write Bader charges to a TSV file
     outfilename = 'bader_charges.tsv'
