@@ -19,6 +19,8 @@ if [[ -z $2 ]]; then
 elif [[ $1 == '-r' ]]; then
     name=$2
     DIR='*/'
+    echo $name
+    echo $DIR
 elif [[ $1 == '-s' ]]; then
     name=$-1
     DIR=${2:-1}
@@ -29,14 +31,12 @@ else
     name=$3
     DIR=$(seq $1 $2)
 fi
-
-echo $DIR
-
+exit 1
 # loop
 for i in $DIR
 do
-    # i=${i%/}
-    # j=$(echo $i | cut -c 1)
-    # sed -i "/#SBATCH -J/c\#SBATCH -J $name$j" $i/submit.sh
+    i=${i%/}
+    j=$(echo $i | cut -c 1)
+    sed -i "/#SBATCH -J/c\#SBATCH -J $name$j" $i/submit.sh
 done
 grep '#SBATCH -J' */submit.sh
