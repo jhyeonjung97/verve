@@ -18,7 +18,7 @@ if [[ -z $2 ]]; then
     exit 0
 else
     if [[ $1 == '-r' && ! -z $2 ]]; then
-        DIR='*/'
+        usage_error
     elif [[ $1 == '-s' && ! -z $2 ]]; then
         DIR=$2
     elif [[ $1 == '-r' ]]; then
@@ -28,6 +28,8 @@ else
         DIR=$(seq ${1:-1} ${2:-$1})
     fi
 fi
+
+echo $DIR
 
 # Loop through directories and update job names
 for i in $DIR
