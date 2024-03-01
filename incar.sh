@@ -24,9 +24,9 @@ sed -i "s/# $pattern/$pattern/g" $filename
 
 if [[ -z $value ]]; then
     sed -i "s/$pattern/# $pattern/g" $filename
+    echo "'$pattern' set to default value in '$filename'."
 else
     sed -i "s/\($pattern\s*=\s*\).*/\1$value,/" $filename
-
+    echo "'$pattern' updated to '$pattern=$value' in '$filename'."
 fi
 
-echo "'$pattern' updated to '$pattern=$value' in '$filename'."
