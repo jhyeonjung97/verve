@@ -21,7 +21,7 @@ elif [[ $1 == '-r' ]]; then
     DIR='*/'
 elif [[ $1 == '-s' ]]; then
     name=$-1
-    DIR=${2:-2}
+    DIR=${2:-1}
 elif [[ -z $3 ]]; then
     name=$2
     DIR=$(seq 1 $1)
