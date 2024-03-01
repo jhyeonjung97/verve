@@ -11,6 +11,7 @@ fi
 
 if [[ -z $1 ]]; then
     sbatch submit.sh
+    exit 0
 else
     if [[ $1 == '-r' ]]; then
         DIR='*/'
@@ -19,10 +20,10 @@ else
     else
         DIR=$(seq ${1:-1} ${2:-$1})
     fi
-    
-    for i in $DIR
-    do
-        i=${i%/}
-        cd $i* && sbatch submit.sh && cd ..
-    done
 fi
+
+for i in $DIR
+do
+    i=${i%/}
+    cd $i* && sbatch submit.sh && cd ..
+done
