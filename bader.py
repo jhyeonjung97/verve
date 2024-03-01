@@ -3,6 +3,7 @@ import os
 from ase import io
 import glob
 import numpy as np
+import sys
 
 # Define the dictionary for reference charges of each element
 chargedict = {
