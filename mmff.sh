@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ $1 =~ '-h' ]] || [[ $1 != '*.inp' ]] || [[ -z $2 ]]; then
+if [[ $1 =~ '-h' ]]; then
     echo 'usage: pack [NAME.inp] (lattice A, B, C)'
     exit 1
 fi
