@@ -21,5 +21,7 @@ fi
 for i in $DIR
 do
     i=${i%/}
-    cd $i* && sbatch submit.sh && cd ..
+    cd $i*
+    sbatch submit.sh
+    cd ..
 done
