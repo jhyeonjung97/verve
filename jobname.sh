@@ -16,21 +16,21 @@ if [[ -z $2 ]]; then
         sed -i "/#SBATCH -J/c\#SBATCH -J $job_name" lobster.sh
     fi
     exit 0
-
-elif [[ $1 == '-r' && ! -z $2 ]]; then
-    if [[ -z $3 ]]; then
-        usage_error
-    fi
-    job_name=$2
-    SET=$(seq ${3:-1} ${4:-$3})
 else
-    numb $2
-    job_name=$1
-    SET=$(seq ${3:-1} ${4:-$3})
+    if [[ $1 == '-r' && ! -z $2 ]]; then
+        DIR='*/'
+    elif [[ $1 == '-s' && ! -z $2 ]]; then
+        DIR=$2
+    elif [[ $1 == '-r' ]]; then
+        job_name=$2
+        DIR=$(seq ${3:-1} ${4:-$3})
+    else
+        DIR=$(seq ${1:-1} ${2:-$1})
+    fi
 fi
 
 # Loop through directories and update job names
-for i in $SET
+for i in $DIR
 do
     i=${i%/}
     j=$(echo $i | cut -c 1)
