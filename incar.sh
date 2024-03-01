@@ -19,13 +19,14 @@ if [[ ! -f $filename ]]; then
     exit 1
 fi
 
-# Delete the pattern if value is empty
+sed -i "s/#$pattern/$pattern/g" $filename
+sed -i "s/# $pattern/$pattern/g" $filename
+
 if [[ -z $value ]]; then
-    sed -i "/$pattern=.*/d" $filename
-    echo "'$pattern' is deleted from '$filename'."
-    exit 0
+    sed -i "s/$pattern/# $pattern/g" $filename
+else
+    sed -i "s/\($pattern\s*=\s*\).*/\1$value/" $filename
+
 fi
 
-# Update the file with the specified pattern=value
-sed -i "s/\($pattern\s*=\s*\).*/\1$value/" $filename
 echo "'$pattern' updated to '$pattern=$value' in '$filename'."
