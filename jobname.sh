@@ -33,8 +33,9 @@ fi
 # loop
 for i in $DIR
 do
-    i=${i%/}
-    j=$(echo $i | cut -c 1)
-    sed -i "/#SBATCH -J/c\#SBATCH -J $name$j" $i/submit.sh
+    echo $i
+    # i=${i%/}
+    # j=$(echo $i | cut -c 1)
+    # sed -i "/#SBATCH -J/c\#SBATCH -J $name$j" $i/submit.sh
 done
 grep '#SBATCH -J' */submit.sh
