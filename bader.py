@@ -67,24 +67,24 @@ def get_bader_charges(traj):
         'Cd': 12, 'In': 3, 'Sn': 4, 'Sb': 5, 'Ir': 9, 'Al': 3, 'Au': 11, 'S': 6,
         'O': 6, 'N': 5, 'C': 4, 'P': 5, 'B': 3, 'Na': 1, 'K': 7, 'Li': 1, 'Cl': 7,
         'Y': 11, 'Bi': 5, 'La': 11, 'H': 1}
-
-	write_charge=[]
-	outfilename = 'bader_charges.tsv'
-	with open(outfilename, 'w') as f:
-		f.write("# index\t name\t charge\n")
-		for i in range(0,len(charge)):
-			name_i = name[i]
-			index = i	
-			charge_i=charge[i]
-			netcharge=-(charge_i-chargedict[name_i])
-			netcharge_round=round(netcharge,2)
-			print (netcharge_round)
-			f.write("%d\t %s\t %f\n" % (index, name_i, netcharge))
-			write_charge.append(netcharge_round)
-			print ('index: '+str(index)+' name: '+name_i+' charge: '+str(netcharge))
-	f.close()
-
-	return write_charge
+    
+    write_charge=[]
+    outfilename = 'bader_charges.tsv'
+    with open(outfilename, 'w') as f:
+        f.write("# index\t name\t charge\n")
+        for i in range(0,len(charge)):
+            name_i = name[i]
+            index = i
+            charge_i = charge[i]
+            netcharge = -(charge_i-chargedict[name_i])
+            netcharge_round = round(netcharge,2)
+            print (netcharge_round)
+            f.write("%d\t %s\t %f\n" % (index, name_i, netcharge))
+            write_charge.append(netcharge_round)
+            print('index: '+str(index)+' name: '+name_i+' charge: '+str(netcharge))
+    f.close()
+    
+    return write_charge
 
 if __name__ == '__main__':
 	print ('Argument List:', str(sys.argv))
