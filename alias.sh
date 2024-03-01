@@ -34,8 +34,8 @@ alias ee='grep E0 stdout* | tail -n 3'
 alias freq='grep THz OUTCAR'
 alias fermi='grep E-fermi OUTCAR | tail -n 1'
 alias magnet='awk "/magnetization \(x\)/,/tot /" OUTCAR'
-alias bader='sh ~/bin/verve/bader.py'
-alias dos3='sh ~/bin/shoulder/dos3.sh'
+alias bader='python ~/bin/verve/bader.py'
+alias dos3='python ~/bin/shoulder/dos3.py'
 
 # Git
 alias orange='dir_now=$PWD
