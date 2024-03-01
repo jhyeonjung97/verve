@@ -6,10 +6,11 @@ if [[ $1 =~ '-h' ]] || [[ $1 == '*.inp' ]] || [[ -z $2 ]]; then
 fi
 
 name="${1%.*}"
+seed=$2
 
-a=$2
-b=$3
-c=$4
+a=$3
+b=$4
+c=$5
 if [[ -z $a ]]; then
     echo 'use default lattice parameter 30 A, 30 A, 40 A...'
     a=30.
