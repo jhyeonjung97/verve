@@ -43,4 +43,4 @@ do
     j=$(echo $i | cut -c 1)
     sed -i "/#SBATCH -J/c\#SBATCH -J $name$j" $i/submit.sh
 done
-grep '#SBATCH -J' */submit.sh
+grep "#SBATCH -J" */submit.sh
