@@ -26,6 +26,7 @@ alias PBE='grep TITEL POTCAR'
 alias sub='sh ~/bin/verve/sub.sh'
 alias resub='rm STD*; sh ~/bin/verve/resub.sh'
 alias name='sh ~/bin/verve/jobname.sh'
+alias incar='sh ~/bin/verve/incar.sh'
 
 # Analysis
 alias ta='tail */std*'
