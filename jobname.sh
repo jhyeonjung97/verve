@@ -19,7 +19,7 @@ if [[ -z $2 ]]; then
 elif [[ $1 == '-r' ]]; then
     name=$2
     DIR='*/'
-elif [[ $1 == '-s' ]; then
+elif [[ $1 == '-s' ]]; then
     name=$-1
     DIR=${2:-2}
 elif [[ -z $3 ]]; then
