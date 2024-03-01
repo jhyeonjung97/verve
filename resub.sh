@@ -5,10 +5,6 @@ function usage_error {
     exit 1
 }
 
-if [[ $1 == '-h' || $1 == '--help' || -z $1 ]]; then
-    usage_error
-fi
-
 if [[ -z $1 ]]; then
     rm STD*
     sbatch submit.sh
