@@ -94,7 +94,7 @@ nbands = get_bands(atoms)
 kpoints = get_kpoints(atoms, effective_length=25, bulk=True)
 
 calc = vasp_calculator.Vasp(
-                            istart=1,
+                            istart=0,
                             encut=600,
                             xc='PBE',
                             gga='PE',
