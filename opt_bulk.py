@@ -12,7 +12,6 @@ import ase.calculators.vasp as vasp_calculator
 
 name = 'vasp_run1'
 
-mag = afm # fm: ferro-, afm: antiferro-
 effective_length = 25
 
 spin_states_plus_4 = {'Sc': 0, 'Ti': 0, 'V': 1, 'Cr': 2, 'Mn': 3, 'Fe': 4, 
