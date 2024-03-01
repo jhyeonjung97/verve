@@ -20,7 +20,7 @@ elif [[ $1 == '-r' ]]; then
     name=$2
     DIR='*/'
 elif [[ $1 == '-s' ]]; then
-    name=$-1
+    name=${!#}
     DIR=${2:-1}
     echo $name
     echo $DIR
