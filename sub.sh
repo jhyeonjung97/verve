@@ -14,7 +14,7 @@ if [[ -z $2 ]]; then
 else
     if [[ $1 == '-r' ]]; then
         DIR='*/'
-    elif [[ $1 == '-s' && ! -z $2 ]]; then
+    elif [[ $1 == '-s' && -n $2 ]]; then
         DIR=$2
     else
         DIR=$(seq ${1:-1} ${2:-$1})

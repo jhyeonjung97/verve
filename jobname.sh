@@ -17,19 +17,17 @@ if [[ -z $2 ]]; then
     fi
     exit 0
 else
-    if [[ $1 == '-r' && ! -z $2 ]]; then
+    if [[ $1 == '-r' && -z $2 ]]; then
         usage_error
-    elif [[ $1 == '-s' && ! -z $2 ]]; then
-        DIR=$2
     elif [[ $1 == '-r' ]]; then
         job_name=$2
-        DIR=$(seq ${3:-1} ${4:-$3})
+        DIR='*/'
+    elif [[ $1 == '-s' && -n $2 ]]; then
+        DIR=$@
     else
         DIR=$(seq ${1:-1} ${2:-$1})
     fi
 fi
-
-echo $DIR
 
 # Loop through directories and update job names
 for i in $DIR
