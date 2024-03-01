@@ -18,6 +18,8 @@ alias nofile='mkdir _trash
 find . -maxdepth 1 -type f -exec mv {} _trash \;
 ~/bin/rm_mv _trash'
 
+alias spread='~/bin/verve/spread.sh'
+
 # Preperation
 alias ma='grep MAGMOM */INCAR'
 alias PBE='grep TITEL POTCAR'
