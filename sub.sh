@@ -9,7 +9,7 @@ if [[ $1 == '-h' || $1 == '--help' || -z $1 ]]; then
     usage_error
 fi
 
-if [[ -z $2 ]]; then
+if [[ -z $1 ]]; then
     sbatch submit.sh
 else
     if [[ $1 == '-r' ]]; then
