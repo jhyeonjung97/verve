@@ -33,6 +33,11 @@ ldau_luj = {'Ti':{'L':2,  'U':3.00, 'J':0.0},
           'Cu':{'L':2, 'U':3.0,  'J':0.0},
          },
 
+def cell(atoms, scaling=True, factor=1.0):
+    if not scaling:
+        factor = (atoms.cell[0][0] + factor) / atoms.cell[0][0]
+    atoms.set_cell(atoms.get_cell() * factor, scale_atoms=True)
+    
 if path.exists('restart.json'):
     atoms = read('restart.json')
 else:
@@ -47,13 +52,6 @@ for a in atoms:
     if a.symbol not in ldau_luj:
         ldau_luj[a.symbol] = {'L': -1, 'U': 0.0, 'J': 0.0}
 
-#cons = FixAtoms([a.index for a in atoms])
-
-#subprocess.call('cp -rf OUTCAR OUTCAR_$(date +%s)', shell=True)
-#subprocess.call('cp -rf moments.traj moments.traj_$(date +%s)', shell=True)
-
-#atoms.write(name+'_init'+'.traj')
-#atoms.write(name+'_init'+'.cif')
 
 def get_bands(atoms):
     """
@@ -155,12 +153,9 @@ eng = atoms.get_potential_energy()
 
 print ('Calculation Complete, storing the run + calculator to traj file')
 
-# traj2=Trajectory('final_with_calculator.traj','w')
-# traj2.write(atoms)
-
-# subprocess.call('ase convert -f final_with_calculator.traj  final_with_calculator.json', shell=True)
+Trajectory('final_with_calculator.traj','w').write(atoms)
+subprocess.call('ase convert -f final_with_calculator.traj  final_with_calculator.json', shell=True)
 subprocess.call('ase convert -f OUTCAR full_relax.json', shell=True)
-
 
 import subprocess
 

@@ -7,22 +7,33 @@ alias ....='cd ../../..'
 
 alias rm='~/bin/rm_mv'
 alias remove='/bin/rm'
+alias lsport='ls ~/port/'
 alias cpport='cp *.vasp ~/port'
-
-
+alias rmport='~/bin/rm_mv ~/port; mkdir ~/port'
+alias vitemp='vi ~/bin/temp.sh'
+alias rmtemp='~/bin/rm_mv ~/bin/temp.sh'
 alias vbash='vi ~/.bashrc'
 alias sbash='source ~/.bashrc'
-
 alias nofile='mkdir _trash
 find . -maxdepth 1 -type f -exec mv {} _trash \;
 ~/bin/rm_mv _trash'
 
+# Preperation
+alias ma='grep MAGMOM */INCAR'
+alias PBE='grep TITEL POTCAR'
+alias sub='sh ~/bin/verve/sub.sh'
+
 # Analysis
 alias ta='tail */std*'
+alias e='grep E0 stdout*'
+alias ee='grep E0 stdout* | tail -n 3'
+alias freq='grep THz OUTCAR'
+alias fermi='grep E-fermi OUTCAR | tail -n 1'
 alias magnet='awk "/magnetization \(x\)/,/tot /" OUTCAR'
-
 alias dos3='sh ~/bin/shoulder/dos3.sh'
 
+
+# Git
 alias orange='dir_now=$PWD
 cd ~/bin/orange
 git stash
