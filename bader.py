@@ -1,90 +1,119 @@
-import subprocess
-import os
-from ase import io
-import glob
+# prints out excess charge associated with each atom
+
+from ase.io import read, write
 import numpy as np
+import os
+import subprocess
 import sys
+import glob
 
-# Define the dictionary for reference charges of each element
-chargedict = {
-    'Pt': 10, 'Ce': 12, 'W': 6, 'Sm': 11, 'Ti': 4, 'V': 5, 'Cr': 6, 'Mn': 7,
-    'Fe': 8, 'Co': 9, 'Ni': 10, 'Cu': 11, 'Zn': 12, 'Ga': 3, 'Ge': 4, 'As': 5,
-    'Zr': 12, 'Nb': 11, 'Mo': 14, 'Tc': 7, 'Ru': 8, 'Rh': 9, 'Pd': 10, 'Ag': 11,
-    'Cd': 12, 'In': 3, 'Sn': 4, 'Sb': 5, 'Ir': 9, 'Al': 3, 'Au': 11, 'S': 6,
-    'O': 6, 'N': 5, 'C': 4, 'P': 5, 'B': 3, 'Na': 1, 'K': 7, 'Li': 1, 'Cl': 7,
-    'Y': 11, 'Bi': 5, 'La': 11, 'H': 1
-}
+home=os.path.expanduser('~')
+homebin=home+'/bin'
 
-def get_bader_charges(traj='OUTCAR'):
-    # Check for the existence and non-emptiness of CHGCAR
-    if not os.path.exists('CHGCAR') or os.path.getsize('CHGCAR') == 0:
-        quit('ERROR: No or empty CHGCAR present')
+def get_bader_charges(traj):
+	# get_vtst
+	vtst=None
+	for filename in os.listdir(homebin):
+		if filename.startswith('vtstscripts'):
+			if os.path.isdir(homebin+'/'+filename):
+				vtst = filename
+	if not (os.path.exists('CHGCAR')):
+		quit('ERROR no CHGCAR present')
+	else:
+		filesize = os.path.getsize('CHGCAR')
+		if filesize == 0:
+			quit('CHGCAR is empty')
+	if(os.path.exists('AECCAR0')):
+		if(os.path.exists(homebin+'/{}/'.format(vtst))):
+			subprocess.call(homebin+'/{}/chgsum.pl AECCAR0 AECCAR2'.format(vtst), shell=True)
+			subprocess.call('bader CHGCAR -ref CHGCAR_sum', shell=True)
+		else:
+			print(homebin+'/{}/ -> does not exist'.format(vtst))
+	else:
+		print("AECCAR0 does not exist")
+		subprocess.call('bader CHGCAR', shell=True)
 
-    # Run Bader analysis
-    if os.path.exists('AECCAR0'):
-        subprocess.call('/global/homes/j/jiuy97/bin/vtstscripts/chgsum.pl AECCAR0 AECCAR2', shell=True)
-        subprocess.call('bader CHGCAR -ref CHGCAR_sum', shell=True)
-    elif not os.path.exists('AECCAR0'):
-        print("AECCAR0 does not exist")
-        subprocess.call('bader CHGCAR', shell=True)
-    else:
-        print(homebin+'/{}/ -> does not exist'.format(vtst))
-    print('# Run Bader analysis')
-    
-    # Read charge data from ACF.dat
-    with open("ACF.dat", "r") as file:
-        lines = file.readlines()[4:]  # Skip the first 4 lines
-    print('# Read charge data from ACF.dat')
+	# outfilename = 'bader_charges.txt'
+	# outfile=open(outfilename, 'w+')
+	file = open("ACF.dat","r")
+	lines = file.readlines() # This is what you forgot
+	file.close()
+	for j in [1, 0, -4,-3, -2, -1]:
+		del lines[j]
 
-    # Extract charge information
-    charge_data = np.array([list(map(float, line.split())) for line in lines])
-    charge = charge_data[:, 4]
-    print('# Extract charge information')
+	newlines = []
+	for line in lines:
+		newline = map(float,line.split())
+		newlines.append(list(newline))
 
-    # Read atom names and positions from the trajectory file
-    atoms = io.read(traj)
-    atom_names = [atom.symbol for atom in atoms]
-    print('# Read atom names and positions from the trajectory file')
+	newlines = np.array(newlines)
+	#print ((newlines[:,4]))
+	charge = newlines[:,4]
 
-    # Remove unnecessary lines from the trajectory file
-    filelist = glob.glob('*.xyz')
-    xyzfile = filelist[0]
-    with open(xyzfile, "r") as file:
-        lines = file.readlines()[2:]
-    print('# Remove unnecessary lines from the trajectory file')
+	#atoms=io.read('OUTCAR')
+	atoms=read(traj)
+	write('qn.xyz',atoms)
 
-    # Extract atom names from the trajectory file
-    atom_names_traj = [line.split()[0] for line in lines]
-    print('# Extract atom names from the trajectory file')
+	# get xyz file  
+	filelist = glob.glob('*.xyz')
+	xyzfile = filelist[0]		
+	file = open(xyzfile,"r")
+	lines = file.readlines() # This is what you forgot
+	file.close()
+	for j in [1, 0]:
+		del lines[j]
+	
+	del newlines
+	newlines = []
+	for line in lines:
+		newline =line.split() # map(float,line.split())
+		newlines.append(newline)
 
-    # Write Bader charges to a TSV file
-    outfilename = 'bader_charges.tsv'
-    with open(outfilename, 'w') as f:
-        f.write("# index\t name\t charge\n")
-        for i, (name_i, charge_i) in enumerate(zip(atom_names_traj, charge)):
-            net_charge = -(charge_i - chargedict.get(name_i, 0))
-            net_charge_round = round(net_charge, 2)
-            print(net_charge_round)
-            f.write("%d\t %s\t %f\n" % (i, name_i, net_charge))
-            print('index: ' + str(i) + ' name: ' + name_i + ' charge: ' + str(net_charge))
-    print('Bader charges written to {}'.format(outfilename))
+	newarray = np.array(newlines)
+	name = newarray[:,0]
 
-    return [round(charge_i, 2) for charge_i in charge]
+	# Define the dictionary for reference charges of each element
+    chargedict = {
+        'Pt': 10, 'Ce': 12, 'W': 6, 'Sm': 11, 'Ti': 4, 'V': 5, 'Cr': 6, 'Mn': 7,
+        'Fe': 8, 'Co': 9, 'Ni': 10, 'Cu': 11, 'Zn': 12, 'Ga': 3, 'Ge': 4, 'As': 5,
+        'Zr': 12, 'Nb': 11, 'Mo': 14, 'Tc': 7, 'Ru': 8, 'Rh': 9, 'Pd': 10, 'Ag': 11,
+        'Cd': 12, 'In': 3, 'Sn': 4, 'Sb': 5, 'Ir': 9, 'Al': 3, 'Au': 11, 'S': 6,
+        'O': 6, 'N': 5, 'C': 4, 'P': 5, 'B': 3, 'Na': 1, 'K': 7, 'Li': 1, 'Cl': 7,
+        'Y': 11, 'Bi': 5, 'La': 11, 'H': 1}
+
+	write_charge=[]
+	outfilename = 'bader_charges.tsv'
+	with open(outfilename, 'w') as f:
+		f.write("# index\t name\t charge\n")
+		for i in range(0,len(charge)):
+			name_i = name[i]
+			index = i	
+			charge_i=charge[i]
+			netcharge=-(charge_i-chargedict[name_i])
+			netcharge_round=round(netcharge,2)
+			print (netcharge_round)
+			f.write("%d\t %s\t %f\n" % (index, name_i, netcharge))
+			write_charge.append(netcharge_round)
+			print ('index: '+str(index)+' name: '+name_i+' charge: '+str(netcharge))
+	f.close()
+
+	return write_charge
 
 if __name__ == '__main__':
-    print('Argument List:', str(sys.argv))
-    traj = 'OUTCAR'
-    Len = len(sys.argv)
-    if Len > 1:
-        for i in range(1, Len):
-            if sys.argv[i] == "-t":
-                traj = sys.argv[i+1]
+	print ('Argument List:', str(sys.argv))
+	traj='OUTCAR'
+	Len = len(sys.argv)
+	if Len > 1:
+		for i in range(1,Len): 
+			if sys.argv[i] == "-t":
+				traj = sys.argv[i+1]
 
-    atoms_charge = get_bader_charges(traj)
-    write_charge_traj = True
-    if write_charge_traj:
-        atoms = io.read(traj)
-        atoms.set_initial_charges(atoms_charge)
-        io.write('atoms_bader_charge.json', atoms)
+	atoms_charge=get_bader_charges(traj)
+	write_charge_traj=True
+	if write_charge_traj:
+		atoms=read(traj)
+		#atoms_charge.set_initial_magnetic_moments(write_charge)
+		atoms.set_initial_charges(atoms_charge)
+		write('atoms_bader_charge.json',atoms)
 
-    print('DONE with BADER')
+print ('DONE with BADER')
