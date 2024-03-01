@@ -25,7 +25,7 @@ sed -i "s/# $pattern/$pattern/g" $filename
 if [[ -z $value ]]; then
     sed -i "s/$pattern/# $pattern/g" $filename
 else
-    sed -i "s/\($pattern\s*=\s*\).*/\1$value/" $filename
+    sed -i "s/\($pattern\s*=\s*\).*/\1$value,/" $filename
 
 fi
 
