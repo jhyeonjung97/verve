@@ -8,7 +8,7 @@
 #SBATCH -e STDERR.%j.err
 #SBATCH -o STDOUT.%j.out
 
-module load vasp-tpc/6.3.2-cpu
+module load vasp-tpc/5.4.4-cpu
 
 echo "import os" > run_vasp.py
 echo "exitcode = os.system('srun -n 256 vasp_std')" >> run_vasp.py
