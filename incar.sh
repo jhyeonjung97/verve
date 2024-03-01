@@ -20,6 +20,10 @@ if [[ ! -f $filename ]]; then
 fi
 
 # Update the file with the specified pattern=value
+if [[ -z value ]]; then
+    sed -i "/$pattern=.*/d" $filename
+    exit 0
+fi
 
 if [[ -n $(grep $pattern $filename) ]]; then
     sed -i "/calc = vasp_calculator.Vasp(/a\                            $pattern=" "$filename"
