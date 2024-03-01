@@ -19,11 +19,6 @@ if [[ -z $2 ]]; then
 elif [[ $1 == '-r' ]]; then
     name=$2
     DIR='*/'
-elif [[ $1 == '-s' ]]; then
-    name=${!#}
-    DIR=${2:-1}
-    echo $name
-    echo $DIR
 elif [[ -z $3 ]]; then
     name=$2
     DIR=$(seq 1 $1)
