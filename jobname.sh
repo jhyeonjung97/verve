@@ -12,9 +12,7 @@ fi
 if [[ -z $2 ]]; then
     name=$1
     sed -i "/#SBATCH -J/c\#SBATCH -J $name" submit.sh
-    if [[ -f lobster.sh ]]; then
-        sed -i "/#SBATCH -J/c\#SBATCH -J $name" lobster.sh
-    fi
+    grep '#SBATCH -J' submit.sh
     exit 0
 elif [[ $1 == '-r' ]]; then
     name=$2
