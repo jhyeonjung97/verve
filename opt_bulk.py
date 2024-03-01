@@ -94,7 +94,7 @@ nbands = get_bands(atoms)
 kpoints = get_kpoints(atoms, effective_length=25, bulk=True)
 
 calc = vasp_calculator.Vasp(
-                            istart=0,
+                            istart=1,
                             encut=600,
                             xc='PBE',
                             gga='PE',
@@ -149,17 +149,13 @@ eng = atoms.get_potential_energy()
 
 print ('Calculation Complete, storing the run + calculator to traj file')
 
+command = "grep 'build' OUTCAR | grep 'vasp.\\6'"
+result = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+if result.returncode == 0 and result.stdout:
+    subprocess.call('mv /global/homes/j/jiuy97/bin/vasp_outcar_parsers6.py /global/homes/j/jiuy97/.local/lib/python3.11/site-packages/ase/io/vasp_parsers/vasp_outcar_parsers.py', shell=True)
+else:
+    subprocess.call('mv /global/homes/j/jiuy97/bin/vasp_outcar_parsers5.py /global/homes/j/jiuy97/.local/lib/python3.11/site-packages/ase/io/vasp_parsers/vasp_outcar_parsers.py', shell=True)  
+
 Trajectory('final_with_calculator.traj','w').write(atoms)
 subprocess.call('ase convert -f final_with_calculator.traj  final_with_calculator.json', shell=True)
 subprocess.call('ase convert -f OUTCAR full_relax.json', shell=True)
-
-import subprocess
-import os
-import shutil
-
-if 'build' in open('OUTCAR').read() and 'vasp.\6' in open('OUTCAR').read():
-    shutil.move('/global/homes/j/jiuy97/.local/lib/python3.11/site-packages/ase/io/vasp_parsers/vasp_outcar_parsers6.py',
-                '/global/homes/j/jiuy97/.local/lib/python3.11/site-packages/ase/io/vasp_parsers/vasp_outcar_parsers.py')
-else:
-    shutil.move('/global/homes/j/jiuy97/.local/lib/python3.11/site-packages/ase/io/vasp_parsers/vasp_outcar_parsers5.py',
-                '/global/homes/j/jiuy97/.local/lib/python3.11/site-packages/ase/io/vasp_parsers/vasp_outcar_parsers.py')
