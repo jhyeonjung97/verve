@@ -9,28 +9,29 @@ if [[ $1 == '-h' ]] || [[ -z $1 ]]; then
     usage_error
 fi
 
-name=$2
-if [[ -z $name ]]; then
+if [[ -z $2 ]]; then
+    name=$1
     sed -i "/#SBATCH -J/c\#SBATCH -J $name" submit.sh
     if [[ -f lobster.sh ]]; then
         sed -i "/#SBATCH -J/c\#SBATCH -J $name" lobster.sh
     fi
     exit 0
 elif [[ $1 == '-r' ]]; then
-    if [[ -z $4 ]]; then
-        SET=$(seq 1 $3)
-    elif [[ -z $5 ]]; then
-        SET=$(seq $3 $4)
-    else
-        usage_error
-    fi
+    name=$2
+    DIR='*/'
+elif [[ $1 == '-s' ]; then
+    name=$-1
+    DIR=${2:-2}
+elif [[ -z $3 ]]; then
+    name=$2
+    DIR=$(seq 1 $1)
 else
-    name=$1
-    SET=$(seq 1 $2)
+    name=$3
+    DIR=$(seq $1 $2)
 fi
 
 # loop
-for i in $SET
+for i in $DIR
 do
     i=${i%/}
     j=$(echo $i | cut -c 1)

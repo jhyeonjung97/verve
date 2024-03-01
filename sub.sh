@@ -12,15 +12,17 @@ fi
 if [[ -z $1 ]]; then
     sbatch submit.sh
     exit 0
+elif [[ $1 == '-r' ]]; then
+    DIR='*/'
+elif [[ $1 == '-s' ]]; then
+    DIR=${2:@}
+elif [[ -z $2 ]]; then
+    DIR=$(seq 1 $1)
 else
-    if [[ $1 == '-r' ]]; then
-        DIR='*/'
-    elif [[ $1 == '-s' && -n $2 ]]; then
-        DIR=$2
-    else
-        DIR=$(seq ${1:-1} ${2:-$1})
-    fi
+    DIR=$(seq $1 $2)
 fi
+
+echo $DIR
 
 for i in $DIR
 do
