@@ -27,7 +27,7 @@ alias sub='sh ~/bin/verve/sub.sh'
 alias resub='rm STD*; sh ~/bin/verve/resub.sh'
 alias name='sh ~/bin/verve/jobname.sh'
 alias incar='sh ~/bin/verve/incar.sh'
-alias seed='sh ~/bin/verve/seed.sh'
+alias mmff='sh ~/bin/verve/mmff.sh'
 
 # Analysis
 alias ta='tail */std*'
