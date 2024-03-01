@@ -5,7 +5,7 @@ function usage_error {
     exit 1
 }
 
-if [[ -z $1 || -z $2 || -z $3 ]]; then
+if [[ -z $1 || -z $2 ]]; then
     usage_error
 fi
 
