@@ -24,9 +24,9 @@ def get_bader_charges(traj):
         print("AECCAR0 does not exist")
         subprocess.call('bader CHGCAR', shell=True)
     print('# Run Bader analysis')
-
-	file = open("ACF.dat", "r")
-	lines = file.readlines() # This is what you forgot
+    
+    file = open('ACF.dat', 'r')
+    lines = file.readlines() # This is what you forgot
 	file.close()
 	for j in [1, 0, -4,-3, -2, -1]:
 		del lines[j]
