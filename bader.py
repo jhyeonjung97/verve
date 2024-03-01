@@ -27,9 +27,9 @@ def get_bader_charges(traj):
     
     file = open('ACF.dat', 'r')
     lines = file.readlines() # This is what you forgot
-	file.close()
-	for j in [1, 0, -4,-3, -2, -1]:
-		del lines[j]
+    file.close()
+    for j in [1, 0, -4, -3, -2, -1]:
+        del lines[j]
 
 	newlines = []
 	for line in lines:
