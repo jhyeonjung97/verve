@@ -103,5 +103,4 @@ if __name__ == '__main__':
 		atoms.set_initial_charges(atoms_charge)
 		write('atoms_bader_charge.json',atoms)
 
-print ('DONE with BADER')
-exit 0
+print('DONE with BADER')
