@@ -15,19 +15,13 @@ chargedict = {
 }
 
 def get_bader_charges(traj='OUTCAR'):
-    # Identify the vtstscripts directory
-    vtst = None
-    for filename in os.listdir(homebin):
-        if filename.startswith('vtstscripts') and os.path.isdir(homebin+'/'+filename):
-            vtst = filename
-
     # Check for the existence and non-emptiness of CHGCAR
     if not os.path.exists('CHGCAR') or os.path.getsize('CHGCAR') == 0:
         quit('ERROR: No or empty CHGCAR present')
 
     # Run Bader analysis
-    if os.path.exists('AECCAR0') and os.path.exists(homebin+'/{}/'.format(vtst)):
-        subprocess.call(homebin+'/{}/chgsum.pl AECCAR0 AECCAR2'.format(vtst), shell=True)
+    if os.path.exists('AECCAR0'):
+        subprocess.call('/global/homes/j/jiuy97/bin/vtstscripts/chgsum.pl AECCAR0 AECCAR2', shell=True)
         subprocess.call('bader CHGCAR -ref CHGCAR_sum', shell=True)
     elif not os.path.exists('AECCAR0'):
         print("AECCAR0 does not exist")
