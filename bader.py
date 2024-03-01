@@ -11,31 +11,21 @@ home=os.path.expanduser('~')
 homebin=home+'/bin'
 
 def get_bader_charges(traj):
-	# get_vtst
-	vtst=None
-	for filename in os.listdir(homebin):
-		if filename.startswith('vtstscripts'):
-			if os.path.isdir(homebin+'/'+filename):
-				vtst = filename
-	if not (os.path.exists('CHGCAR')):
-		quit('ERROR no CHGCAR present')
-	else:
-		filesize = os.path.getsize('CHGCAR')
-		if filesize == 0:
-			quit('CHGCAR is empty')
-	if(os.path.exists('AECCAR0')):
-		if(os.path.exists(homebin+'/{}/'.format(vtst))):
-			subprocess.call(homebin+'/{}/chgsum.pl AECCAR0 AECCAR2'.format(vtst), shell=True)
-			subprocess.call('bader CHGCAR -ref CHGCAR_sum', shell=True)
-		else:
-			print(homebin+'/{}/ -> does not exist'.format(vtst))
-	else:
-		print("AECCAR0 does not exist")
-		subprocess.call('bader CHGCAR', shell=True)
+    # Check for the existence and non-emptiness of CHGCAR
+    if not os.path.exists('CHGCAR') or os.path.getsize('CHGCAR') == 0:
+        quit('ERROR: No or empty CHGCAR present')
 
-	# outfilename = 'bader_charges.txt'
-	# outfile=open(outfilename, 'w+')
-	file = open("ACF.dat","r")
+    # Run Bader analysis
+    if os.path.exists('AECCAR0'):
+        subprocess.call('/global/homes/j/jiuy97/bin/vtstscripts/chgsum.pl AECCAR0 AECCAR2',
+                        shell=True)
+        subprocess.call('bader CHGCAR -ref CHGCAR_sum', shell=True)
+    else:
+        print("AECCAR0 does not exist")
+        subprocess.call('bader CHGCAR', shell=True)
+    print('# Run Bader analysis')
+
+	file = open("ACF.dat", "r")
 	lines = file.readlines() # This is what you forgot
 	file.close()
 	for j in [1, 0, -4,-3, -2, -1]:
@@ -63,6 +53,7 @@ def get_bader_charges(traj):
 	for j in [1, 0]:
 		del lines[j]
 	
+
 	del newlines
 	newlines = []
 	for line in lines:
@@ -117,3 +108,4 @@ if __name__ == '__main__':
 		write('atoms_bader_charge.json',atoms)
 
 print ('DONE with BADER')
+exit 0
