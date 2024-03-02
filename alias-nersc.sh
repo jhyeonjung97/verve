@@ -14,17 +14,17 @@ alias orange='dir_now=$PWD
 cd ~/bin/orange
 git stash
 git pull
-chmod 644 *
+chmod 755 *
 cd $dir_now'
 alias shoulder='dir_now=$PWD
 cd ~/bin/shoulder
 git stash
 git pull
-chmod 644 *
+chmod 755 *
 cd $dir_now'
 alias verve='dir_now=$PWD
 cd ~/bin/verve
 git stash
 git pull
-chmod 644 *
+chmod 755 *
 cd $dir_now'
