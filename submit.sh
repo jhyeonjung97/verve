@@ -1,10 +1,10 @@
 #!/bin/sh
 #SBATCH -J test
-#SBATCH -t 00:10:00
+#SBATCH -t 12:00:00
 #SBATCH -N 1
 #SBATCH -C cpu
 #SBATCH -A m2997
-#SBATCH -q debug
+#SBATCH -q regular
 #SBATCH -e STDERR.%j.log
 #SBATCH -o stdout.%j.log
 
