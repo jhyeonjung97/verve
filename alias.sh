@@ -38,23 +38,7 @@ alias fermi='grep E-fermi OUTCAR | tail -n 1'
 alias magnet='awk "/magnetization \(x\)/,/tot /" OUTCAR'
 alias bader='python ~/bin/verve/bader.py'
 alias dos3='python ~/bin/shoulder/dos3.py'
-
-# Git
-alias orange='dir_now=$PWD
-cd ~/bin/orange
-git stash
-git pull
-cd $dir_now'
-alias shoulder='dir_now=$PWD
-cd ~/bin/shoulder
-git stash
-git pull
-cd $dir_now'
-alias verve='dir_now=$PWD
-cd ~/bin/verve
-git stash
-git pull
-cd $dir_now'
+alias time='grep sec OUTCAR'
 
 #SSH
 alias burning='ssh -X -Y hyeonjung@burning.postech.ac.kr -p 54329'

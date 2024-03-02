@@ -9,4 +9,22 @@ alias mystat='squeue -o "%.18i %.9P %.18j %.8u %.10T %.8M %.10l %.6D %R" --me --
 
 alias qdel='scancel'
 
-alias time='grep sec OUTCAR'
+# Git
+alias orange='dir_now=$PWD
+cd ~/bin/orange
+git stash
+git pull
+chmod 644 *
+cd $dir_now'
+alias shoulder='dir_now=$PWD
+cd ~/bin/shoulder
+git stash
+git pull
+chmod 644 *
+cd $dir_now'
+alias verve='dir_now=$PWD
+cd ~/bin/verve
+git stash
+git pull
+chmod 644 *
+cd $dir_now'
