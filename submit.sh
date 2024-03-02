@@ -5,10 +5,11 @@
 #SBATCH -C cpu
 #SBATCH -A m2997
 #SBATCH -q debug
-#SBATCH -e STDERR.%j.err
-#SBATCH -o STDOUT.%j.out
+#SBATCH -e STDERR.%j.log
+#SBATCH -o stdout.%j.log
 
-module load vasp-tpc/5.4.4-cpu
+module purge
+module load python/3.11 vasp-tpc/5.4.4-cpu
 
 echo "import os" > run_vasp.py
 echo "exitcode = os.system('srun -n 256 vasp_std')" >> run_vasp.py
