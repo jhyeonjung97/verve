@@ -33,12 +33,12 @@ do
     sed -i "/output/c\output $name$i.xyz" $name.inp
     sed -i "/seed/c\seed $i" $name.inp
     ~/bin/packmol/packmol < $name.inp
+    echo "obabel $name$i.xyz -O $name$i.mol2"
+    obabel $name$i.xyz -O $name$i.mol2
 done
 
 for i in {0..9}
 do
-    echo "obabel $name$i.xyz -O $name$i.mol2"
-    obabel $name$i.xyz -O $name$i.mol2
     echo "obminimize -n 100000000 -sd -c 1e-8 -ff MMFF94s $name$i.mol2 > $name$i.pdb"
     obminimize -n 100000000 -sd -c 1e-8 -ff MMFF94s $name$i.mol2 > $name$i.pdb
 done
