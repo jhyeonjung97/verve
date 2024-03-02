@@ -28,19 +28,21 @@ else
     fi
 fi
 
-for i in {0..9}
+for i in {0..99}
 do
-    sed -i "/output/c\output $name$i.xyz" $name.inp
+    j=$(printf "%02d" $i)
+    sed -i "/output/c\output $name$j.xyz" $name.inp
     sed -i "/seed/c\seed $i" $name.inp
     ~/bin/packmol/packmol < $name.inp
-    echo "obabel $name$i.xyz -O $name$i.mol2"
-    obabel $name$i.xyz -O $name$i.mol2
+    echo "obabel $name$j.xyz -O $name$j.mol2"
+    obabel $name$j.xyz -O $name$j.mol2
 done
 
-for i in {0..9}
+for i in {0..99}
 do
-    echo "obminimize -n 100000000 -sd -c 1e-8 -ff MMFF94s $name$i.mol2 > $name$i.pdb"
-    obminimize -n 100000000 -sd -c 1e-8 -ff MMFF94s $name$i.mol2 > $name$i.pdb
+    j=$(printf "%02d" $i)    
+    echo "obminimize -n 100000000 -sd -c 1e-8 -ff MMFF94s $name$j.mol2 > $name$j.pdb"
+    obminimize -n 100000000 -sd -c 1e-8 -ff MMFF94s $name$j.mol2 > $name$j.pdb
 done
 
 python3 ~/bin/orange/convert.py pdb json $a $b $c
