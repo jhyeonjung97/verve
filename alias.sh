@@ -24,27 +24,36 @@ alias spread='~/bin/verve/spread.sh'
 alias ma='grep MAGMOM */INCAR'
 alias PBE='grep TITEL POTCAR'
 alias sub='sh ~/bin/verve/sub.sh'
-alias resub='sh ~/bin/verve/resub.sh'
+alias resub='rm STD*; sh ~/bin/verve/resub.sh'
 alias name='sh ~/bin/verve/jobname.sh'
-alias incar='sh ~/bin/verve/incar.sh'
-alias mmff='sh ~/bin/verve/mmff.sh'
 
 # Analysis
 alias ta='tail */std*'
-<<<<<<< HEAD
 alias me='grep MAGMOM */OUTCAR'
 alias e='grep E0 stdout*'
 alias ee='grep E0 stdout* | tail -n 3'
-=======
-alias e='grep E0 OSZICAR'
-alias ee='grep E0 OSZICAR | tail -n 3'
->>>>>>> a550d38ee28047cbc0f251fb94ab6f5689cc37bf
 alias freq='grep THz OUTCAR'
 alias fermi='grep E-fermi OUTCAR | tail -n 1'
 alias magnet='awk "/magnetization \(x\)/,/tot /" OUTCAR'
 alias bader='python ~/bin/verve/bader.py'
 alias dos3='python ~/bin/shoulder/dos3.py'
-alias time='grep sec OUTCAR'
+
+# Git
+alias orange='dir_now=$PWD
+cd ~/bin/orange
+git stash
+git pull
+cd $dir_now'
+alias shoulder='dir_now=$PWD
+cd ~/bin/shoulder
+git stash
+git pull
+cd $dir_now'
+alias verve='dir_now=$PWD
+cd ~/bin/verve
+git stash
+git pull
+cd $dir_now'
 
 #SSH
 alias burning='ssh -X -Y hyeonjung@burning.postech.ac.kr -p 54329'
