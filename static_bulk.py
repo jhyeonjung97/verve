@@ -35,12 +35,8 @@ ldau_luj = {'Ti':{'L':2,  'U':3.00, 'J':0.0},
 if path.exists('restart.json'):
     atoms = read('restart.json')
 else:
-    atoms = read('start.traj')
-    i = 1
-    for a in atoms:
-        if a.symbol in spin_states_plus_4:
-            a.magmom = i*spin_states_plus_4.get(a.symbol)
-            i *= -1 # set AFM, only for pure oxides
+    print('it is static calculation, and you do not have restart.json file')
+    exit 1
 
 for a in atoms:
     if a.symbol not in ldau_luj:

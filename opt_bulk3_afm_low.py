@@ -41,8 +41,7 @@ else:
         if a.symbol in spin_states_plus_4:
             a.magmom = i*spin_states_plus_4.get(a.symbol)
             i *= -1 # set AFM, only for pure oxides
-        print('symbol: ', a.symbol, 'magmom: ',a.magmom, 'i: ', i)
-            
+
 for a in atoms:
     if a.symbol not in ldau_luj:
         ldau_luj[a.symbol] = {'L': -1, 'U': 0.0, 'J': 0.0}
@@ -136,11 +135,9 @@ atoms.calc = vasp_calculator.Vasp(
                     # ldipol=True
                     )
 
-print('get_magnetic_moment: ', atoms.get_magnetic_moment())
 eng = atoms.get_potential_energy()
-print('get_magnetic_moment: ', atoms.get_magnetic_moment())
 print ('Calculation Complete, storing the run + calculator to traj file')
 
-Trajectory('final_opt_bulk3.traj','w').write(atoms)
-subprocess.call('ase convert -f final_opt_bulk3.traj  final_opt_bulk3.json', shell=True)
-subprocess.call('ase convert -f OUTCAR restart.json', shell=True)
+Trajectory('final_opt_bulk3_afm_low.traj','w').write(atoms)
+subprocess.call('ase convert -f final_opt_bulk3.traj final_opt_bulk3_afm_low.json', shell=True)
+subprocess.call('ase convert -f OUTCAR full_opt_bulk3_afm_low.json', shell=True)

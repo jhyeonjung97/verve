@@ -138,6 +138,6 @@ atoms.calc = vasp_calculator.Vasp(
 eng = atoms.get_potential_energy()
 print ('Calculation Complete, storing the run + calculator to traj file')
 
-Trajectory('final_opt_bulk3.traj','w').write(atoms)
-subprocess.call('ase convert -f final_opt_bulk3.traj  final_opt_bulk3.json', shell=True)
-subprocess.call('ase convert -f OUTCAR restart.json', shell=True)
+Trajectory('final_opt_bulk2_afm_low.traj', 'w').write(atoms)
+subprocess.call('ase convert -f final_opt_bulk2_afm_low.traj restart.json', shell=True)
+subprocess.call('ase convert -f OUTCAR full_opt_bulk2_afm_low.json', shell=True)
