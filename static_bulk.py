@@ -30,7 +30,7 @@ ldau_luj = {'Ti':{'L':2,  'U':3.00, 'J':0.0},
           'Cu':{'L':2, 'U':3.0,  'J':0.0},
          }
 
-if os.path.exists('restart.json'):
+if path.exists('restart.json'):
     atoms = read('restart.json')
 else:
     print('It is a static calculation, and you do not have a restart.json file.')
