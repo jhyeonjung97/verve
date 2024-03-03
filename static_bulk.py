@@ -10,8 +10,6 @@ from ase.calculators.vasp import Vasp
 from ase.io.trajectory import Trajectory
 import ase.calculators.vasp as vasp_calculator
 
-name = 'vasp_run1'
-
 effective_length = 25
 
 spin_states_plus_4 = {'Sc': 0, 'Ti': 0, 'V': 1, 'Cr': 2, 'Mn': 3, 'Fe': 4, 
@@ -31,17 +29,16 @@ ldau_luj = {'Ti':{'L':2,  'U':3.00, 'J':0.0},
           'Ni':{'L':2,  'U':6.45, 'J':0.0},
           'Cu':{'L':2, 'U':3.0,  'J':0.0},
          }
-    
-if path.exists('restart.json'):
+
+if os.path.exists('restart.json'):
     atoms = read('restart.json')
 else:
-    print('it is static calculation, and you do not have restart.json file')
-    exit 1
+    print('It is a static calculation, and you do not have a restart.json file.')
+    sys.exit(1)
 
 for a in atoms:
     if a.symbol not in ldau_luj:
         ldau_luj[a.symbol] = {'L': -1, 'U': 0.0, 'J': 0.0}
-
 
 def get_bands(atoms):
     """
@@ -134,6 +131,6 @@ atoms.calc = vasp_calculator.Vasp(
 eng = atoms.get_potential_energy()
 print ('Calculation Complete, storing the run + calculator to traj file')
 
-Trajectory('final_opt_bulk3.traj','w').write(atoms)
-subprocess.call('ase convert -f final_opt_bulk3.traj  final_opt_bulk3.json', shell=True)
+Trajectory('final_static_bulk.traj','w').write(atoms)
+subprocess.call('ase convert -f final_static_bulk.traj final_static_bulk.json', shell=True)
 # subprocess.call('ase convert -f OUTCAR full_relax.json', shell=True)
