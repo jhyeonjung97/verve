@@ -8,7 +8,6 @@
 #SBATCH -e STDERR.%j.log
 #SBATCH -o stdout.%j.log
 
-module purge
 module load python/3.11 vasp-tpc/5.4.4-cpu
 
 echo "import os" > run_vasp.py
