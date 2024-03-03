@@ -29,6 +29,7 @@ alias name='sh ~/bin/verve/jobname.sh'
 
 # Analysis
 alias ta='tail */std*'
+alias me='grep MAGMOM */OUTCAR'
 alias e='grep E0 stdout*'
 alias ee='grep E0 stdout* | tail -n 3'
 alias freq='grep THz OUTCAR'
