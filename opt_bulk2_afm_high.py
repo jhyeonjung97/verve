@@ -140,4 +140,5 @@ print ('Calculation Complete, storing the run + calculator to traj file')
 
 Trajectory('final_opt_bulk2_afm_high.traj', 'w').write(atoms)
 subprocess.call('ase convert -f final_opt_bulk2_afm_high.traj restart.json', shell=True)
+subprocess.call('ase convert -f final_opt_bulk2_afm_high.traj final_opt_bulk2_afm_high.json', shell=True)
 subprocess.call('ase convert -f OUTCAR full_opt_bulk2_afm_high.json', shell=True)
