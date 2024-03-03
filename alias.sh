@@ -24,7 +24,7 @@ alias spread='~/bin/verve/spread.sh'
 alias ma='grep MAGMOM */INCAR'
 alias PBE='grep TITEL POTCAR'
 alias sub='sh ~/bin/verve/sub.sh'
-alias resub='rm STD*; sh ~/bin/verve/resub.sh'
+alias resub='sh ~/bin/verve/resub.sh'
 alias name='sh ~/bin/verve/jobname.sh'
 
 # Analysis
