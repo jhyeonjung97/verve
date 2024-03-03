@@ -1,9 +1,15 @@
 #!/bin/bash
 
-DIR=${1: '-r'}
-file=${@: -1}  # Get the last argument
+if [[ $1 = '-r' ]]; then
+    shift
+    DIR='*/*/'
+    file=$@
+else
+    DIR='*/'
+    file=$@
+fi
 
 for dir in $DIR
 do
-    cp "$file" "$dir"
+    cp $file $dir
 done

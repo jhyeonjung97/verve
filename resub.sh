@@ -6,7 +6,7 @@ function usage_error {
 }
 
 if [[ -z $1 ]]; then
-    rm STD*
+    rm *.log
     sbatch submit.sh
     exit 0
 else
@@ -14,13 +14,18 @@ else
         DIR='*/'
     elif [[ $1 == '-s' && -n $2 ]]; then
         DIR=$2
+    elif [[ -n $2 ]]; then
+        DIR=$(seq $1 $2)
     else
-        DIR=$(seq ${1:-1} ${2:-$1})
+        DIR=$(seq 1 $1)
     fi
 fi
 
 for i in $DIR
 do
     i=${i%/}
-    cd $i* && rm STD* && sbatch submit.sh && cd ..
+    cd $i*
+    rm *.log
+    sbatch submit.sh
+    cd ..
 done
