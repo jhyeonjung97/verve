@@ -19,14 +19,17 @@ def extract_values(directory, patterns, dir_range):
         'PAW_double_counting': r'PAW double counting   =\s+([0-9.-]+)\s+([0-9.-]+)'
     }
     values = {key: [] for key in patterns}  # Initialize dict to store values for each pattern
-    
-    # Split dir_range into start and end, then generate the range of directories to process
-    start_dir, end_dir = map(int, dir_range.split(','))
-    dir_nums = range(start_dir, end_dir + 1)
 
-    # List directories and filter based on the input range
-    dirs = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))]
-    dirs = [d for d in dirs if any(d.startswith(str(num)) for num in dir_nums)]
+    if dir_range is not None:
+        # Split dir_range into start and end, then generate the range of directories to process
+        start_dir, end_dir = map(int, dir_range.split(','))
+        dir_nums = range(start_dir, end_dir + 1)
+        # List directories and filter based on the input range
+        dirs = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))]
+        dirs = [d for d in dirs if any(d.startswith(str(num)) for num in dir_nums)]
+    else:
+        dirs = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))]
+    
     dirs.sort(key=lambda x: [int(c) if c.isdigit() else c for c in re.split('(\d+)', x)])
 
     for dir_name in dirs:
@@ -74,7 +77,7 @@ def plot_values(values_dict):
     
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-d', '--dir-range', type=str, required=True, help='Range of directories to investigate, e.g., "3,6"')
+    parser.add_argument('-d', '--dir-range', type=str, default=None, help='Range of directories to investigate, e.g., "3,6"')
     parser.add_argument('-p', '--patterns', nargs='+', required=True, help='Patterns to search and plot')
     args = parser.parse_args()
 
