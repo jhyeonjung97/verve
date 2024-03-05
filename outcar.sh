@@ -2,7 +2,6 @@ mag_tag=0
 chg_tag=0
 ene_tag=0
 dir_tag=0
-file='OUTCAR'
 while getopts ":mcerf:" opt; do
   case $opt in
     m)
@@ -17,9 +16,6 @@ while getopts ":mcerf:" opt; do
     r)
       dir_tag=1
       ;;
-    f)
-      file="$OPTARG"
-      ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
       exit 1
@@ -30,6 +26,15 @@ while getopts ":mcerf:" opt; do
       ;;
   esac
 done
+
+# Shift the options out, so $1, $2, etc. are the non-option arguments
+shift "$((OPTIND-1))"
+
+if [[ -n $1 ]]; then
+    file=$1
+else
+    file='OUTCAR'
+fi
 
 if [[ $mag_tag == 1 ]]; then
     pattern_s='magnetization \(x\)'
