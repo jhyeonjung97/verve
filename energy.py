@@ -24,7 +24,7 @@ def extract_values(directory, patterns, dir_range):
     if dir_range is not None:
         if ',' in dir_range:
             start_dir, end_dir = map(int, dir_range.split(','))
-        elif dir_range is not None: 
+        else: 
             start_dir, end_dir = 1, int(dir_range)
         dir_nums = range(start_dir, end_dir + 1)
         dirs = [d for d in dirs if any(d.startswith(str(num)) for num in dir_nums)]
