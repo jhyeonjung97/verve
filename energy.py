@@ -21,7 +21,7 @@ def extract_values(directory, patterns, dir_range):
     values = {key: [] for key in patterns}  # Initialize dict to store values for each pattern
 
     dirs = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))]
-    if dir_range in not None:
+    if dir_range is not None:
         if ',' in dir_range:
             start_dir, end_dir = map(int, dir_range.split(','))
         elif dir_range is not None: 
