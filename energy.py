@@ -56,7 +56,7 @@ def extract_values(directory, patterns, dir_range):
                             break
     return values, dir_names
 
-def plot_values(values_dict, dir_names):
+def plot_values(values_dict, dir_names, xlabel, save, filename):
     """Plot the extracted last values for all selected patterns on a single graph."""
     plt.figure(figsize=(10, 6))
 
@@ -85,14 +85,22 @@ def plot_values(values_dict, dir_names):
     plt.grid(True)
     plt.legend()
     plt.tight_layout()
+    
+    if save:
+        plt.gcf().savefig(filename, bbox_inches="tight")
+        print(f"Figure saved as {filename}")
+        
     plt.show()
-
+            
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-d', '--dir-range', type=str, default=None, help='Range of directories to investigate, e.g., "3,6"')
     parser.add_argument('-p', '--patterns', nargs='+', required=True, help='Patterns to search and plot')
     parser.add_argument('-a', '--all', action='store_true', default=False, help='Show all components')
     parser.add_argument('--no-total', action='store_true', default=False, help='Do not show total energy')
+    parser.add_argument('--xlabel', default='Spin', type=float, help="x-axis title of the figure")
+    parser.add_argument('-s', '--save', default=True, action='store_true', help="save files")
+    parser.add_argument('-o', '--filename', default='energy.png', type=str, help="output filename")
     args = parser.parse_args()
 
     if args.all:
@@ -108,7 +116,7 @@ def main():
     # dir_names = [name[2:] for name in dir_names]  # Slice names here if not already done
 
     if any(values_dict.values()):
-        plot_values(values_dict, dir_names)
+        plot_values(values_dict, dir_names, xlabel=args.xlabel, save=args.save, filename=args.filename)
     else:
         print('No values found for the given patterns.')
 
