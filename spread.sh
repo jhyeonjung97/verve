@@ -2,13 +2,16 @@
 
 dir_tag=0
 numb_tag=0
-while getopts ":rnf:" opt; do
+while getopts ":rnd:f:" opt; do
   case $opt in
     r)
       dir_tag=1
       ;;
     n)
       numb_tag=1
+      ;;
+    d)
+      SET="$OPTARG"
       ;;
     f)
       file="$OPTARG"
@@ -24,7 +27,11 @@ while getopts ":rnf:" opt; do
   esac
 done
 
-if [[ $dir_tag = 1 ]]; then
+if [[ -n $SET ]]; then
+    a=${SET%,*}
+    b=${SET##*,}
+    DIR=$(seq $a $b)
+elif [[ $dir_tag = 1 ]]; then
     DIR='*/*/'
 else
     DIR='*/'
