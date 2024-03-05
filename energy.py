@@ -34,7 +34,8 @@ def extract_values(directory, patterns, dir_range):
 
     for dir_name in dirs:
         dir_path = os.path.join(directory, dir_name)
-        dir_names.append(dir_name)
+        trimmed_dir_name = dir_name[2:]  # Remove the first two characters
+        dir_names.append(trimmed_dir_name)
         for file_name in os.listdir(dir_path):
             if file_name == 'OUTCAR':
                 file_path = os.path.join(dir_path, file_name)
@@ -104,6 +105,8 @@ def main():
 
     directory = './'  # Adjust based on your directory structure
     values_dict, dir_names = extract_values(directory, patterns, args.dir_range)
+    # dir_names = [name[2:] for name in dir_names]  # Slice names here if not already done
+
     if any(values_dict.values()):
         plot_values(values_dict, dir_names)
     else:
