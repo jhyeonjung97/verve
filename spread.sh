@@ -29,11 +29,13 @@ done
 shift "$((OPTIND-1))"   
 
 file=$1
+echo $file
 
 if [[ -n $set ]]; then
     a=${set%,*}
     b=${set##*,}
 fi
+echo $a $b
 
 if [[ $dir_tag = 1 ]]; then
     DIR='*/*/'
