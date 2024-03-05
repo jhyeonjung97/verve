@@ -28,10 +28,10 @@ alias resub='sh ~/bin/verve/resub.sh'
 alias name='sh ~/bin/verve/jobname.sh'
 
 # Analysis
-alias ta='tail */std*'
+alias ta='tail */vasp.out'
 alias me='grep MAGMOM */OUTCAR'
-alias e='grep E0 stdout*'
-alias ee='grep E0 stdout* | tail -n 3'
+alias e='grep E0 OSZICAR'
+alias ee='grep E0 OSZICAR | tail -n 3'
 alias freq='grep THz OUTCAR'
 alias fermi='grep E-fermi OUTCAR | tail -n 1'
 alias magnet='awk "/magnetization \(x\)/,/tot /" OUTCAR'
