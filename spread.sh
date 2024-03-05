@@ -2,13 +2,13 @@
 
 dir_tag=0
 numb_tag=0
-while getopts ":ri:" opt; do
+while getopts ":rnf:" opt; do
   case $opt in
     r)
       dir_tag=1
     n)
       numb_tag=1
-    i)
+    f)
       filename="$OPTARG"
       ;;
     \?)
