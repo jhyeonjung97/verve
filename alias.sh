@@ -41,6 +41,7 @@ alias outcar='sh ~/bin/verve/outcar.sh'
 alias bader='python ~/bin/verve/bader.py'
 alias dos3='python ~/bin/shoulder/dos3.py'
 alias cohp='python ~/bin/playground/aloha/cohp.py'
+alias cobi='python ~/bin/playground/aloha/cobi.py'
 
 # Git
 alias orange='dir_now=$PWD
