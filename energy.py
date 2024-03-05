@@ -45,6 +45,7 @@ def plot_values(values_dict):
     for i, key in enumerate(patterns, 1):
         plt.subplot(1, len(patterns), i)
         values = values_dict[key]
+        print(values)
         if isinstance(values[0], tuple):  # Handle patterns with two values
             values1, values2 = zip(*values)
             plt.plot(values1, marker='o', linestyle='-', label=f'{key} 1')
