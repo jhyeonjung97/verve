@@ -97,8 +97,8 @@ def main():
     parser.add_argument('-d', '--dir-range', type=str, default=None, help='Range of directories to investigate, e.g., "3,6"')
     parser.add_argument('-p', '--patterns', nargs='+', required=True, help='Patterns to search and plot')
     parser.add_argument('-a', '--all', action='store_true', default=False, help='Show all components')
-    parser.add_argument('--no-total', action='store_true', default=False, help='Do not show total energy')
-    parser.add_argument('--xlabel', default='Spin', type=str, help="x-axis title of the figure")
+    parser.add_argument('--total', action='store_true', default=False, help='Show total energy')
+    parser.add_argument('--xlabel', default='Lattice parameter (Å)', type=str, help="x-axis title of the figure")
     parser.add_argument('-s', '--save', default=True, action='store_true', help="save files")
     parser.add_argument('-o', '--filename', default='energy.png', type=str, help="output filename")
     args = parser.parse_args()
@@ -108,8 +108,8 @@ def main():
     else:
         patterns = set(args.patterns)
 
-    if args.no_total and 'TOTEN' in patterns:
-        patterns.remove('TOTEN')
+    if args.total and 'TOTEN' not in patterns:
+        patterns.append('TOTEN')
 
     directory = './'  # Adjust based on your directory structure
     values_dict, dir_names = extract_values(directory, patterns, args.dir_range)
