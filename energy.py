@@ -95,7 +95,7 @@ def plot_values(values_dict, dir_names, xlabel, save, filename):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-d', '--dir-range', type=str, default=None, help='Range of directories to investigate, e.g., "3,6"')
-    parser.add_argument('-p', '--patterns', nargs='+', required=True, help='Patterns to search and plot')
+    parser.add_argument('-p', '--patterns', nargs='+', default='TOTEN', help='Patterns to search and plot')
     parser.add_argument('-a', '--all', action='store_true', default=False, help='Show all components')
     parser.add_argument('--total', action='store_true', default=False, help='Show total energy')
     parser.add_argument('--xlabel', default='Lattice parameter (Å)', type=str, help="x-axis title of the figure")
