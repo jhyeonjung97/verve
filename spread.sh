@@ -31,6 +31,11 @@ shift "$((OPTIND-1))"
 file=$1
 name=${file%.*}
 ext=${file##*.}
+if [[ $name == $ext ]]; then
+    ext=''
+else
+    ext='.'$ext
+fi
 
 if [[ -n $set ]]; then
     a=${set%,*}
