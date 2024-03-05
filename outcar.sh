@@ -2,7 +2,8 @@ mag_tag=0
 chg_tag=0
 ene_tag=0
 dir_tag=0
-while getopts ":mcer" opt; do
+file='OUTCAR'
+while getopts ":mcerf:" opt; do
   case $opt in
     m)
       mag_tag=1
@@ -15,6 +16,9 @@ while getopts ":mcer" opt; do
       ;;
     r)
       dir_tag=1
+      ;;
+    f)
+      file="$OPTARG"
       ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
@@ -51,10 +55,10 @@ dir_now=$PWD
 for dir in $DIR
 do
     cd $dir
-    dir_pwd=$(pwd)
-    echo -e "$clr_tag$dir_pwd\e[0m"
-    n=$(awk "/$pattern_s/{flag=1;next}/$pattern_e/{if(flag){count++;flag=0}}END{print count}" OUTCAR)
-    m=$(awk "/$pattern_s/{count=0;flag=1;next}/$pattern_e/{if(flag){print count;flag=0}}flag{count++}" OUTCAR | tail -n 1)
-    awk "/$pattern_s/,/$pattern_e/" OUTCAR | tail -n $(($m+2))
+    # dir_pwd=$(pwd)
+    echo -e "$clr_tag$PWD\e[0m"
+    n=$(awk "/$pattern_s/{flag=1;next}/$pattern_e/{if(flag){count++;flag=0}}END{print count}" $file)
+    m=$(awk "/$pattern_s/{count=0;flag=1;next}/$pattern_e/{if(flag){print count;flag=0}}flag{count++}" $file | tail -n 1)
+    awk "/$pattern_s/,/$pattern_e/" $file | tail -n $(($m+2))
     cd $dir_now
 done
