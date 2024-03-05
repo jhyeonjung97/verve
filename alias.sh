@@ -26,6 +26,8 @@ alias PBE='grep TITEL POTCAR'
 alias sub='sh ~/bin/verve/sub.sh'
 alias resub='sh ~/bin/verve/resub.sh'
 alias name='sh ~/bin/verve/jobname.sh'
+alias spread='python ~/bin/verve/spread.py'
+alias cell-size='python ~/bin/verve/cell-size.py'
 
 # Analysis
 alias ta='tail */vasp.out'
@@ -37,6 +39,7 @@ alias fermi='grep E-fermi OUTCAR | tail -n 1'
 alias magnet='awk "/magnetization \(x\)/,/tot /" OUTCAR'
 alias bader='python ~/bin/verve/bader.py'
 alias dos3='python ~/bin/shoulder/dos3.py'
+alias cohp='python ~/bin/playground/aloha/cohp.py'
 
 # Git
 alias orange='dir_now=$PWD
