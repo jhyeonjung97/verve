@@ -49,7 +49,7 @@ for dir in $DIR
 do
     cd $dir
     dir_pwd=$(pwd)
-    echo -e "\e[1m$dir_pwd\e[0m"
+    echo -e "\e[34m$dir_pwd\e[0m"
     n=$(awk "/$pattern_s/{flag=1;next}/$pattern_e/{if(flag){count++;flag=0}}END{print count}" OUTCAR)
     m=$(awk "/$pattern_s/{count=0;flag=1;next}/$pattern_e/{if(flag){print count;flag=0}}flag{count++}" OUTCAR | tail -n 1)
     awk "/$pattern_s/,/$pattern_e/" OUTCAR | tail -n $(($m+2))
