@@ -29,6 +29,7 @@ done
 shift "$((OPTIND-1))"   
 
 file=$1
+files=$1
 name=${file%.*}
 ext=${file##*.}
 if [[ $name == $ext ]]; then
@@ -49,14 +50,14 @@ fi
 if [[ -n $set ]]; then
     for i in $(seq $a $b)
     do
-        cp $file $i*/$file
-        echo "cp $file $i*/$file"
+        cp $files $i*
+        echo "cp $files $i*"
     done
 elif [[ $numb_tag = 0 ]]; then
     for dir in $DIR
     do
-        cp $file $dir
-        echo "cp $file $dir"
+        cp $files $dir
+        echo "cp $files $dir"
     done
 else
     for dir in $DIR

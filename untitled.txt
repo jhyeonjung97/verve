@@ -1,0 +1,7 @@
+cell-size -f -0.3 -o start1.traj
+cell-size -f -0.2 -o start2.traj
+cell-size -f -0.1 -o start3.traj
+cell-size -f 0.0 -o start4.traj
+cell-size -f 0.1 -o start5.traj
+cell-size -f 0.2 -o start6.traj
+cell-size -f 0.3 -o start7.traj
