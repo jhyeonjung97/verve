@@ -44,8 +44,13 @@ def extract_values(directory, patterns, dir_range):
                     for line in reversed(lines):  # Search from the end of the file
                         match = pattern.search(line)
                         if match:
-                            # Assuming single value patterns for simplicity; adjust if handling tuples
-                            values[key].append(float(match.group(1)))
+                            if key == 'PAW_double_counting':
+                                # Add the two values together
+                                combined_value = sum(map(float, match.groups()))
+                                values[key].append(combined_value)
+                            else:
+                                # For all other patterns, assuming single value patterns for simplicity
+                                values[key].append(float(match.group(1)))
                             break
     return values
 
