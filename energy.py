@@ -4,8 +4,7 @@ import re
 import matplotlib.pyplot as plt
 import numpy as np
 
-
-def extract_values(directory, patterns):
+def extract_values(directory, patterns, dir_range):
     """Extract the last values for the given patterns from OUTCAR files in the given directories, sorted numerically."""
     pattern_map = {
         'PSCENC': r'alpha Z        PSCENC =\s+([0-9.-]+)',
@@ -20,9 +19,14 @@ def extract_values(directory, patterns):
         'PAW_double_counting': r'PAW double counting   =\s+([0-9.-]+)\s+([0-9.-]+)'
     }
     values = {key: [] for key in patterns}  # Initialize dict to store values for each pattern
+    
+    # Split dir_range into start and end, then generate the range of directories to process
+    start_dir, end_dir = map(int, dir_range.split(','))
+    dir_nums = range(start_dir, end_dir + 1)
 
-    # List and sort directories numerically
+    # List directories and filter based on the input range
     dirs = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))]
+    dirs = [d for d in dirs if any(d.startswith(str(num)) for num in dir_nums)]
     dirs.sort(key=lambda x: [int(c) if c.isdigit() else c for c in re.split('(\d+)', x)])
 
     for dir_name in dirs:
