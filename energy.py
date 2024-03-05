@@ -14,10 +14,10 @@ def extract_values(directory, patterns, dir_range):
         'XCENC': r'-V(xc)+E(xc)   XCENC  =\s+([0-9.-]+)',
         'EENTRO': r'entropy T*S    EENTRO =\s+([0-9.-]+)',
         'EBANDS': r'eigenvalues    EBANDS =\s+([0-9.-]+)',
-        'EATOM': r'EATOM =\s+([0-9.-]+)',
-        'Ediel_sol': r'atomic energy  EATOM  =\s+([0-9.-]+)',
+        'EATOM': r'atomic energy  EATOM  =\s+([0-9.-]+)',
+        'Ediel_sol': r'Solvation  Ediel_sol  =\s+([0-9.-]+)',
         'PAW_double_counting': r'PAW double counting   =\s+([0-9.-]+)\s+([0-9.-]+)',
-        'TOTEN': r'free energy    TOTEN  =\s+([0-9.-]+)\s+([0-9.-]+)'
+        'TOTEN': r'free energy    TOTEN  =\s+([0-9.-]+)'
     }
     values = {key: [] for key in patterns}  # Initialize dict to store values for each pattern
     dir_names = []
