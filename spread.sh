@@ -29,26 +29,29 @@ done
 shift "$((OPTIND-1))"   
 
 file=$1
-echo $file
 
 if [[ -n $set ]]; then
     a=${set%,*}
     b=${set##*,}
-fi
-echo $a $b
-
-if [[ $dir_tag = 1 ]]; then
+elif [[ $dir_tag = 1 ]]; then
     DIR='*/*/'
 else
     DIR='*/'
 fi
-        
-if [[ $numb_tag = 0 ]]; then
+
+if [[ -n $set ]]; then
+    for i in $(seq $a $b)
+    do
+        cp $name$i.$ext $i'*'/$file
+        echo "cp $name$i.$ext $i'*'/$file"
+    done
+elif [[ $numb_tag = 0 ]]; then
     for dir in $DIR
     do
         cp $file $dir
+        echo "cp $file $dir"
     done
-elif [[ -z $set ]]; then
+else
     name=${file%.*}
     ext=${file##*.}
     for dir in $DIR
@@ -58,11 +61,5 @@ elif [[ -z $set ]]; then
             cp $name$i.$ext $dir$file
             echo "cp $name$i.$ext $dir$file"
         fi
-    done
-else
-    for i in $(seq $a $b)
-    do
-        cp $name$i.$ext $i'*'/$file
-        echo "cp $name$i.$ext $i'*'/$file"
     done
 fi
