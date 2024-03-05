@@ -49,7 +49,7 @@ fi
 if [[ -n $set ]]; then
     for i in $(seq $a $b)
     do
-        dir=$i*
+        dir="$i*/"
         cp $file $dir
         echo "cp $file $dir"
     done
