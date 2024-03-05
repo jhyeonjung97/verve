@@ -46,7 +46,7 @@ def extract_values(directory, patterns, dir_range):
                             break
     return values
 
-def plot_values_combined(values_dict):
+def plot_values(values_dict):
     """Plot the extracted last values for all selected patterns on a single graph."""
     plt.figure(figsize=(10, 6))
     
@@ -71,17 +71,16 @@ def plot_values_combined(values_dict):
     plt.grid(True)
     plt.legend()
     plt.show()
-
+    
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-r', '--dir', action='store_true', help='Directory flag')
+    parser.add_argument('-d', '--dir-range', type=str, required=True, help='Range of directories to investigate, e.g., "3,6"')
     parser.add_argument('-p', '--patterns', nargs='+', required=True, help='Patterns to search and plot')
-    parser.add_argument('file', nargs='?', default='OUTCAR', help='File to process (default: OUTCAR)')
     args = parser.parse_args()
 
-    directory = './' if args.dir else os.getcwd()
-    values_dict = extract_values(directory, args.patterns)
+    directory = './'  # Adjust based on your directory structure
+    values_dict = extract_values(directory, args.patterns, args.dir_range)
     if any(values_dict.values()):
-        plot_values_combined(values_dict)
+        plot_values(values_dict)
     else:
         print(f'No values found for the given patterns.')
