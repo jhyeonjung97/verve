@@ -20,10 +20,17 @@ def extract_values(directory, patterns, dir_range):
     }
     values = {key: [] for key in patterns}  # Initialize dict to store values for each pattern
 
-    if dir_range is not None:
+    if ',' in dir_range:
         # Split dir_range into start and end, then generate the range of directories to process
         start_dir, end_dir = map(int, dir_range.split(','))
         dir_nums = range(start_dir, end_dir + 1)
+        # List directories and filter based on the input range
+        dirs = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))]
+        dirs = [d for d in dirs if any(d.startswith(str(num)) for num in dir_nums)]
+    elif dirs is not None: 
+        # Split dir_range into start and end, then generate the range of directories to process
+        end_dir = int(dir_range)
+        dir_nums = range(1, end_dir + 1)
         # List directories and filter based on the input range
         dirs = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))]
         dirs = [d for d in dirs if any(d.startswith(str(num)) for num in dir_nums)]
