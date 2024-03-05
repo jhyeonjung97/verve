@@ -29,7 +29,7 @@ done
 shift "$((OPTIND-1))"   
 
 file=$1
-files=$1
+files=$@
 name=${file%.*}
 ext=${file##*.}
 if [[ $name == $ext ]]; then
