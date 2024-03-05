@@ -4,6 +4,7 @@ alias ls='ls --color=auto'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
+alias grep='grep --color=auto'
 
 alias rm='~/bin/rm_mv'
 alias remove='/bin/rm'
@@ -32,6 +33,7 @@ alias cell-size='python ~/bin/verve/cell-size.py'
 
 # Analysis
 alias ta='tail */vasp.out'
+alias te='grep free_energy */final*json'
 alias me='grep MAGMOM */OUTCAR'
 alias e='grep E0 OSZICAR'
 alias ee='grep E0 OSZICAR | tail -n 3'
