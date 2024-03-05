@@ -74,6 +74,6 @@ if __name__ == '__main__':
     directory = './' if args.dir else os.getcwd()
     values_dict = extract_values(directory, args.patterns)
     if any(values_dict.values()):
-        plot_values(values_dict)
+        plot_values_combined(values_dict)
     else:
         print(f'No values found for the given patterns.')
