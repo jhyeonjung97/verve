@@ -29,6 +29,8 @@ done
 shift "$((OPTIND-1))"   
 
 file=$1
+name=${file%.*}
+ext=${file##*.}
 
 if [[ -n $set ]]; then
     a=${set%,*}
@@ -52,8 +54,6 @@ elif [[ $numb_tag = 0 ]]; then
         echo "cp $file $dir"
     done
 else
-    name=${file%.*}
-    ext=${file##*.}
     for dir in $DIR
     do
         i=$(echo ${dir%/} | cut -c 1)
