@@ -5,7 +5,7 @@ from os import path
 def main():
     parser = argparse.ArgumentParser(description='Command-line options example')
 
-    parser.add_argument('-r', '--ratio', action='store_true', default=True, help='use ratio for scaling')
+    parser.add_argument('-r', '--ratio', action='store_true', default=False, help='use ratio for scaling')
     parser.add_argument('factor', type=float, default=1.0, help='scaling factor or fixed size')
 
     args = parser.parse_args()
