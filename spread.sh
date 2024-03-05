@@ -49,8 +49,8 @@ fi
 if [[ -n $set ]]; then
     for i in $(seq $a $b)
     do
-        cp $file $i*/
-        echo "cp $file $i*/"
+        cp $file $i*
+        echo "cp $file $i*"
     done
 elif [[ $numb_tag = 0 ]]; then
     for dir in $DIR
