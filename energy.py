@@ -79,7 +79,7 @@ def plot_values(values_dict, dir_names, xlabel, save, filename):
         plt.plot(values, marker='o', linestyle='-', label=pattern, color=color)
     
     plt.title('Pattern Values Across OUTCAR Files')
-    plt.xlabel('Directory')
+    plt.xlabel(xlabel)
     plt.ylabel('Energy (eV)')
     plt.xticks(x, dir_names, rotation='vertical')  # Set directory names as x-axis labels
     plt.grid(True)
