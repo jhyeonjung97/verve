@@ -4,8 +4,9 @@ import re
 import matplotlib.pyplot as plt
 import numpy as np
 
+
 def extract_values(directory, patterns):
-    """Extract the last values for the given patterns from OUTCAR files in the given directory."""
+    """Extract the last values for the given patterns from OUTCAR files in the given directories, sorted numerically."""
     pattern_map = {
         'PSCENC': r'alpha Z        PSCENC =\s+([0-9.-]+)',
         'TEWEN': r'Ewald energy   TEWEN  =\s+([0-9.-]+)',
@@ -19,25 +20,28 @@ def extract_values(directory, patterns):
         'PAW_double_counting': r'PAW double counting   =\s+([0-9.-]+)\s+([0-9.-]+)'
     }
     values = {key: [] for key in patterns}  # Initialize dict to store values for each pattern
-    for subdir, dirs, files in os.walk(directory):
-        for file in files:
-            if file == 'OUTCAR':
-                file_path = os.path.join(subdir, file)
-                with open(file_path, 'r') as f:
-                    lines = f.readlines()
+
+    # List and sort directories numerically
+    dirs = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))]
+    dirs.sort(key=lambda x: [int(c) if c.isdigit() else c for c in re.split('(\d+)', x)])
+
+    for dir_name in dirs:
+        dir_path = os.path.join(directory, dir_name)
+        for file_name in os.listdir(dir_path):
+            if file_name == 'OUTCAR':
+                file_path = os.path.join(dir_path, file_name)
+                with open(file_path, 'r') as file:
+                    lines = file.readlines()
                 for key in patterns:
                     pattern = re.compile(pattern_map[key])
                     for line in reversed(lines):  # Search from the end of the file
                         match = pattern.search(line)
                         if match:
-                            # For patterns with two values, store them as a tuple
-                            if key == 'PAW_double_counting':
-                                values[key].append((float(match.group(1)), float(match.group(2))))
-                            else:
-                                values[key].append(float(match.group(1)))
+                            # Assuming single value patterns for simplicity; adjust if handling tuples
+                            values[key].append(float(match.group(1)))
                             break
     return values
-    
+
 def plot_values_combined(values_dict):
     """Plot the extracted last values for all selected patterns on a single graph."""
     plt.figure(figsize=(10, 6))
