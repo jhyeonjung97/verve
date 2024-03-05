@@ -41,7 +41,7 @@ else
     for dir in $DIR
     do
         i=$(echo ${dir%/} | cut -c 1)
-        if [[ -n $name$i.$ext ]]; then
+        if [[ -s $name$i.$ext ]]; then
             cp $name$i.$ext $dir$file
             echo "cp $name$i.$ext $dir$file"
         fi
