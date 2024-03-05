@@ -37,15 +37,17 @@ def extract_values(directory, patterns):
                                 values[key].append(float(match.group(1)))
                             break
     return values
-
 def plot_values(values_dict):
     """Plot the extracted last values for all selected patterns."""
     plt.figure(figsize=(14, 7))
     patterns = list(values_dict.keys())
     for i, key in enumerate(patterns, 1):
-        plt.subplot(1, len(patterns), i)
         values = values_dict[key]
-        print(values)
+        if not values:  # Check if the list is empty and skip plotting if it is
+            print(f"No values found for pattern: {key}")
+            continue  # Skip to the next pattern
+        
+        plt.subplot(1, len(patterns), i)
         if isinstance(values[0], tuple):  # Handle patterns with two values
             values1, values2 = zip(*values)
             plt.plot(values1, marker='o', linestyle='-', label=f'{key} 1')
@@ -53,10 +55,12 @@ def plot_values(values_dict):
             plt.legend()
         else:
             plt.plot(values, marker='o', linestyle='-')
+        
         plt.title(f'{key} Values Across OUTCAR Files')
         plt.xlabel('File Index')
         plt.ylabel(f'{key} Value')
         plt.grid(True)
+    
     plt.tight_layout()
     plt.show()
 
