@@ -2,7 +2,7 @@
 
 dir_tag=0
 numb_tag=0
-while getopts ":rnd:f:" opt; do
+while getopts ":rnd:" opt; do
   case $opt in
     r)
       dir_tag=1
@@ -12,9 +12,6 @@ while getopts ":rnd:f:" opt; do
       ;;
     d)
       SET="$OPTARG"
-      ;;
-    f)
-      file="$OPTARG"
       ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
@@ -26,6 +23,11 @@ while getopts ":rnd:f:" opt; do
       ;;
   esac
 done
+
+# Shift the options out, so $1, $2, etc. are the non-option arguments
+shift "$((OPTIND-1))"   
+
+file=$1
 
 if [[ -n $SET ]]; then
     a=${SET%,*}
