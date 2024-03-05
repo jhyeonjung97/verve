@@ -30,7 +30,7 @@ else
     DIR='*/'
 fi
         
-if [[ $numb_tag = 1 ]]; then
+if [[ $numb_tag = 0 ]]; then
     for dir in $DIR
     do
         cp $file $dir
