@@ -7,16 +7,16 @@ import numpy as np
 def extract_values(directory, patterns):
     """Extract the last values for the given patterns from OUTCAR files in the given directory."""
     pattern_map = {
-        'PSCENC': r'PSCENC =\s+([0-9.-]+)',
-        'TEWEN': r'TEWEN =\s+([0-9.-]+)',
-        'DENC': r'DENC =\s+([0-9.-]+)',
-        'EXHF': r'EXHF =\s+([0-9.-]+)',
-        'XCENC': r'XCENC =\s+([0-9.-]+)',
-        'EENTRO': r'EENTRO =\s+([0-9.-]+)',
-        'EBANDS': r'EBANDS =\s+([0-9.-]+)',
+        'PSCENC': r'alpha Z        PSCENC =\s+([0-9.-]+)',
+        'TEWEN': r'Ewald energy   TEWEN  =\s+([0-9.-]+)',
+        'DENC': r'-Hartree energ DENC   =\s+([0-9.-]+)',
+        'EXHF': r'-exchange      EXHF   =\s+([0-9.-]+)',
+        'XCENC': r'-V(xc)+E(xc)   XCENC  =\s+([0-9.-]+)',
+        'EENTRO': r'entropy T*S    EENTRO =\s+([0-9.-]+)',
+        'EBANDS': r'eigenvalues    EBANDS =\s+([0-9.-]+)',
         'EATOM': r'EATOM =\s+([0-9.-]+)',
-        'Ediel_sol': r'Ediel_sol =\s+([0-9.-]+)',
-        'PAW_double_counting': r'PAW double counting\s+=\s+([0-9.-]+)\s+([0-9.-]+)'
+        'Ediel_sol': r'atomic energy  EATOM  =\s+([0-9.-]+)',
+        'PAW_double_counting': r'PAW double counting   =\s+([0-9.-]+)\s+([0-9.-]+)'
     }
     values = {key: [] for key in patterns}  # Initialize dict to store values for each pattern
     for subdir, dirs, files in os.walk(directory):
