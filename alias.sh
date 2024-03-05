@@ -26,7 +26,7 @@ alias PBE='grep TITEL POTCAR'
 alias sub='sh ~/bin/verve/sub.sh'
 alias resub='sh ~/bin/verve/resub.sh'
 alias name='sh ~/bin/verve/jobname.sh'
-alias spread='python ~/bin/verve/spread.py'
+alias spread='sh ~/bin/verve/spread.sh'
 alias cell-size='python ~/bin/verve/cell-size.py'
 
 # Analysis
