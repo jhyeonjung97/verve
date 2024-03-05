@@ -16,9 +16,11 @@ def extract_values(directory, patterns, dir_range):
         'EBANDS': r'eigenvalues    EBANDS =\s+([0-9.-]+)',
         'EATOM': r'EATOM =\s+([0-9.-]+)',
         'Ediel_sol': r'atomic energy  EATOM  =\s+([0-9.-]+)',
-        'PAW_double_counting': r'PAW double counting   =\s+([0-9.-]+)\s+([0-9.-]+)'
+        'PAW_double_counting': r'PAW double counting   =\s+([0-9.-]+)\s+([0-9.-]+)',
+        'TOTEN': r'free energy    TOTEN  =\s+([0-9.-]+)\s+([0-9.-]+)'
     }
     values = {key: [] for key in patterns}  # Initialize dict to store values for each pattern
+    dir_names = []
 
     dirs = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))]
     if dir_range is not None:
@@ -32,6 +34,7 @@ def extract_values(directory, patterns, dir_range):
 
     for dir_name in dirs:
         dir_path = os.path.join(directory, dir_name)
+        dir_names.append(dir_name)
         for file_name in os.listdir(dir_path):
             if file_name == 'OUTCAR':
                 file_path = os.path.join(dir_path, file_name)
@@ -50,11 +53,14 @@ def extract_values(directory, patterns, dir_range):
                                 # For all other patterns, assuming single value patterns for simplicity
                                 values[key].append(float(match.group(1)))
                             break
-    return values
+    return values, dir_names
 
-def plot_values(values_dict):
+def plot_values(values_dict, dir_names):
     """Plot the extracted last values for all selected patterns on a single graph."""
     plt.figure(figsize=(10, 6))
+
+    num_dirs = len(dir_names)
+    x = np.arange(num_dirs) # Generate x locations for each directory
     
     # Generating a color map for different patterns
     colors = plt.cm.viridis(np.linspace(0, 1, len(values_dict)))
@@ -72,21 +78,36 @@ def plot_values(values_dict):
         plt.plot(values, marker='o', linestyle='-', label=pattern, color=color)
     
     plt.title('Pattern Values Across OUTCAR Files')
-    plt.xlabel('File Index')
-    plt.ylabel('Value')
+    plt.xlabel('Directory')
+    plt.ylabel('Energy (eV)')
+    plt.xticks(x, dir_names, rotation='vertical')  # Set directory names as x-axis labels
     plt.grid(True)
     plt.legend()
+    plt.tight_layout()
     plt.show()
-    
-if __name__ == '__main__':
+
+def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-d', '--dir-range', type=str, default=None, help='Range of directories to investigate, e.g., "3,6"')
     parser.add_argument('-p', '--patterns', nargs='+', required=True, help='Patterns to search and plot')
+    parser.add_argument('-a', '--all', action='store_true', default=False, help='Show all components')
+    parser.add_argument('--no-total', action='store_true', default=False, help='Do not show total energy')
     args = parser.parse_args()
 
-    directory = './'  # Adjust based on your directory structure
-    values_dict = extract_values(directory, args.patterns, args.dir_range)
-    if any(values_dict.values()):
-        plot_values(values_dict)
+    if args.all:
+        patterns = {'PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'EENTRO', 'EBANDS', 'EATOM', 'PAW_double_counting', 'TOTEN'}
     else:
-        print(f'No values found for the given patterns.')
+        patterns = set(args.patterns)
+
+    if args.no_total and 'TOTEN' in patterns:
+        patterns.remove('TOTEN')
+
+    directory = './'  # Adjust based on your directory structure
+    values_dict, dir_names = extract_values(directory, patterns, args.dir_range)
+    if any(values_dict.values()):
+        plot_values(values_dict, dir_names)
+    else:
+        print('No values found for the given patterns.')
+
+if __name__ == '__main__':
+    main()
