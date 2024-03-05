@@ -11,7 +11,7 @@ while getopts ":rnf:" opt; do
       numb_tag=1
       ;;
     f)
-      filename="$OPTARG"
+      file="$OPTARG"
       ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
@@ -29,16 +29,18 @@ if [[ $dir_tag = 1 ]]; then
 else
     DIR='*/'
 fi
-
+        
 if [[ $numb_tag = 1 ]]; then
     for dir in $DIR
     do
         cp $file $dir
     done
 else
+    name=${file%.*}
+    ext=${file##*.}
     for dir in $DIR
     do
         i=$(echo ${dir%/} | cut -c 1)
-        cp $file$i $dir
+        cp $name$i.$ext $dir$file
     done
 fi
