@@ -37,31 +37,31 @@ def extract_values(directory, patterns):
                                 values[key].append(float(match.group(1)))
                             break
     return values
-def plot_values(values_dict):
-    """Plot the extracted last values for all selected patterns."""
-    plt.figure(figsize=(14, 7))
-    patterns = list(values_dict.keys())
-    for i, key in enumerate(patterns, 1):
-        values = values_dict[key]
-        if not values:  # Check if the list is empty and skip plotting if it is
-            print(f"No values found for pattern: {key}")
-            continue  # Skip to the next pattern
-        
-        plt.subplot(1, len(patterns), i)
-        if isinstance(values[0], tuple):  # Handle patterns with two values
-            values1, values2 = zip(*values)
-            plt.plot(values1, marker='o', linestyle='-', label=f'{key} 1')
-            plt.plot(values2, marker='o', linestyle='-', label=f'{key} 2')
-            plt.legend()
-        else:
-            plt.plot(values, marker='o', linestyle='-')
-        
-        plt.title(f'{key} Values Across OUTCAR Files')
-        plt.xlabel('File Index')
-        plt.ylabel(f'{key} Value')
-        plt.grid(True)
     
-    plt.tight_layout()
+def plot_values_combined(values_dict):
+    """Plot the extracted last values for all selected patterns on a single graph."""
+    plt.figure(figsize=(10, 6))
+    
+    # Generating a color map for different patterns
+    colors = plt.cm.viridis(np.linspace(0, 1, len(values_dict)))
+    
+    for (pattern, values), color in zip(values_dict.items(), colors):
+        # Check if we're dealing with single values or tuples (for patterns like PAW_double_counting)
+        if all(isinstance(v, tuple) for v in values):
+            # If tuples, assuming we want to plot the first value
+            values = [v[0] for v in values]
+        
+        if not values:  # Skip patterns with no values found
+            print(f"No values found for pattern: {pattern}")
+            continue
+        
+        plt.plot(values, marker='o', linestyle='-', label=pattern, color=color)
+    
+    plt.title('Pattern Values Across OUTCAR Files')
+    plt.xlabel('File Index')
+    plt.ylabel('Value')
+    plt.grid(True)
+    plt.legend()
     plt.show()
 
 if __name__ == '__main__':
