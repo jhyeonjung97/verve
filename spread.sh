@@ -6,8 +6,10 @@ while getopts ":rnf:" opt; do
   case $opt in
     r)
       dir_tag=1
+      ;;
     n)
       numb_tag=1
+      ;;
     f)
       filename="$OPTARG"
       ;;
