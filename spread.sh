@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set_tag=0
 dir_tag=0
 numb_tag=0
 while getopts ":rnd:" opt; do
@@ -11,7 +12,7 @@ while getopts ":rnd:" opt; do
       numb_tag=1
       ;;
     d)
-      SET="$OPTARG"
+      set="$OPTARG"
       ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
@@ -29,11 +30,12 @@ shift "$((OPTIND-1))"
 
 file=$1
 
-if [[ -n $SET ]]; then
-    a=${SET%,*}
-    b=${SET##*,}
-    DIR=$(seq $a $b)
-elif [[ $dir_tag = 1 ]]; then
+if [[ -n $set ]]; then
+    a=${set%,*}
+    b=${set##*,}
+fi
+
+if [[ $dir_tag = 1 ]]; then
     DIR='*/*/'
 else
     DIR='*/'
@@ -44,7 +46,7 @@ if [[ $numb_tag = 0 ]]; then
     do
         cp $file $dir
     done
-else
+elif [[ -z $set ]]; then
     name=${file%.*}
     ext=${file##*.}
     for dir in $DIR
@@ -54,5 +56,11 @@ else
             cp $name$i.$ext $dir$file
             echo "cp $name$i.$ext $dir$file"
         fi
+    done
+else
+    for i in $(seq $a $b)
+    do
+        cp $name$i.$ext $i'*'/$file
+        echo "cp $name$i.$ext $i'*'/$file"
     done
 fi
