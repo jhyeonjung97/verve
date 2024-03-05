@@ -42,5 +42,6 @@ else
     do
         i=$(echo ${dir%/} | cut -c 1)
         cp $name$i.$ext $dir$file
+        echo "cp $name$i.$ext $dir$file"
     done
 fi
