@@ -49,8 +49,8 @@ fi
 if [[ -n $set ]]; then
     for i in $(seq $a $b)
     do
-        cp $name$i.$ext $i'*'/$file
-        echo "cp $name$i.$ext $i'*'/$file"
+        cp $name$i$ext $i'*'/$file
+        echo "cp $name$i$ext $i'*'/$file"
     done
 elif [[ $numb_tag = 0 ]]; then
     for dir in $DIR
@@ -62,9 +62,9 @@ else
     for dir in $DIR
     do
         i=$(echo ${dir%/} | cut -c 1)
-        if [[ -s $name$i.$ext ]]; then
-            cp $name$i.$ext $dir$file
-            echo "cp $name$i.$ext $dir$file"
+        if [[ -s $name$i$ext ]]; then
+            cp $name$i$ext $dir$file
+            echo "cp $name$i$ext $dir$file"
         fi
     done
 fi
