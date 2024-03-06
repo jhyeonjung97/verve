@@ -31,7 +31,7 @@ def main():
         patterns.discard('TOTEN')
 
     directory='./'
-    values_dict, dir_names, atom_list = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
+    values_dict, dir_names, metal_list = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
     
     if 'mag' in values_dict:
         del values_dict['mag']
@@ -42,7 +42,7 @@ def main():
     if args.ref is not None:
         values_dict = adjust_values(values_dict, ref=args.ref)
     if any(values_dict.values()):
-        plot_merged(values_dict, dir_names, args.xlabel, args.save, args.filename, atom_list)
+        plot_merged(values_dict, dir_names, args.xlabel, args.save, args.filename, metal_list)
         if args.seperate:
             plot_separately(values_dict, dir_names, args.xlabel, args.save, args.filename)
     else:
@@ -169,7 +169,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                                 if atom_numb == len(atom_list):
                                     break
                                     
-    return values, dir_names, atom_list
+    return values, dir_names, metal_list
 
 def adjust_values(values_dict, ref):
     """Subtract the reference value from each pattern's data set."""
@@ -215,13 +215,13 @@ def plot_separately(values_dict, dir_names, xlabel, save, filename):
         
         # plt.show()
 
-def plot_merged(values_dict, dir_names, xlabel, save, filename, atom_list):
+def plot_merged(values_dict, dir_names, xlabel, save, filename, metal_list):
     plt.figure(figsize=(10, 6))
 
     patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
                       'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Mulliken', 'Loewdin', 'ICOHP', 'ICOBI', 'mag', 'chg']
-    patterns_order.extend(['mag_'+atom for atom in atom_list])
-    patterns_order.extend(['chg_'+atom for atom in atom_list])
+    patterns_order.extend(['mag_'+atom for atom in metal_list])
+    patterns_order.extend(['chg_'+atom for atom in metal_list])
     print(patterns_order)
     filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
 
