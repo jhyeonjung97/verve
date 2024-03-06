@@ -32,7 +32,7 @@ def main():
 
     directory='./'
     values_dict, dir_names = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
-    print(values_dict, dir_names)
+
     if args.ref is not None:
         values_dict = adjust_values(values_dict, ref=args.ref)
     if any(values_dict.values()):
@@ -73,7 +73,7 @@ def extract_values(directory, patterns, dir_range, outcar):
         dir_nums = range(start_dir, end_dir + 1)
         dirs = [d for d in dirs if any(d.startswith(str(num)) for num in dir_nums)]
     dirs.sort(key=lambda x: [int(c) if c.isdigit() else c for c in re.split('(\d+)', x)])
-    print(dirs)
+
     for dir_name in dirs:
         dir_path = os.path.join(directory, dir_name)
         trimmed_dir_name = dir_name[2:]  # Remove the first two characters
@@ -127,7 +127,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                     if match:
                         values.setdefault('ICOBI', []).append(float(match.group(2)))
                         break
-        print(patterns)
+
         if patterns:
             print(patterns)
             outcar_path = os.path.join(dir_path, outcar)
