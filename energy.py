@@ -197,9 +197,9 @@ if __name__ == '__main__':
         patterns.discard('TOTEN')
 
     directory = './'  # Adjust based on your directory structure
-
+    print(patterns)
     values_dict, dir_names = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
-        
+    
     if args.ref is not None:
         values_dict = adjust_values(values_dict, ref=args.ref)
     if any(values_dict.values()):
