@@ -111,7 +111,7 @@ def extract_values(directory, patterns, dir_range, outcar):
             ICOHP_path = os.path.join(dir_path, 'icohp.txt')
             if not os.path.exists(ICOHP_path):
                 os.chdir(dir_path)
-                subprocess.call('sh -c "python ~/bin/playground/aloha/cohp.py > icohp.txt"', shell=True))
+                subprocess.call('sh -c "python ~/bin/playground/aloha/cohp.py > icohp.txt"', shell=True)
             if os.path.exists(ICOHP_path):
                 with open(ICOHP_path, 'r') as file:
                     lines = file.readlines()
