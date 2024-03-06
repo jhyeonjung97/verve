@@ -56,8 +56,6 @@ def extract_values(directory, patterns, dir_range, outcar):
                         else:
                             # For all other patterns, assuming single value patterns for simplicity
                             values[key].append(float(match.group(1)))
-                        break
-
         if Madelung:
             madelung_path = os.path.join(dir_path, 'MadelungEnergies.lobster')
             if os.path.exists(madelung_path):
