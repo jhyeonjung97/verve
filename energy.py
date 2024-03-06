@@ -34,9 +34,9 @@ def main():
     values_dict, dir_names, atom_list = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
     print(values_dict, dir_names, atom_list)
     if 'mag' in values_dict:
-        values_dict.discard('mag')
+        del values_dict['mag']
     if 'chg' in values_dict:
-        values_dict.discard('chg')
+        del values_dict['chg']
         
     if args.ref is not None:
         values_dict = adjust_values(values_dict, ref=args.ref)
@@ -218,6 +218,8 @@ def plot_merged(values_dict, dir_names, xlabel, save, filename, atom_list):
                       'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Mulliken', 'Loewdin', 'ICOHP', 'ICOBI', 'mag', 'chg']
     patterns_order.append('mag_'+atom[atom_numb] for atom in atom_list)
     patterns_order.append('chg_'+atom[atom_numb] for atom in atom_list)
+    print(value_dict)
+    print(patterns_order)
     filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
 
     colors = plt.cm.turbo(np.linspace(0, 1, len(filtered_patterns_order))) 
