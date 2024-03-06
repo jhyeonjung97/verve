@@ -78,12 +78,14 @@ def adjust_values(values_dict, ref_type):
 def plot_values(values_dict, dir_names, xlabel, save, filename):
     """Plot the extracted last values for all selected patterns on a single graph."""
     plt.figure(figsize=(10, 6))
-
-    x = np.arange(len(dir_names))
-    patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 'EENTRO', 'EBANDS', 'EATOM', 'TOTEN']
-    colors = plt.cm.turbo(np.linspace(0, 1, len(values_dict))) # viridis, magma, plasma, inferno, cividis, mako, rocket, turbo
     
-    for pattern, color in zip(patterns_order, colors):
+    patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 'EENTRO', 'EBANDS', 'EATOM', 'TOTEN']
+    filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
+
+    colors = plt.cm.turbo(np.linspace(0, 1, len(filtered_patterns_order))) 
+    # viridis, magma, plasma, inferno, cividis, mako, rocket, turbo
+    
+    for pattern, color in zip(filtered_patterns_order, colors):
         values = values_dict.get(pattern, [])
         if all(isinstance(v, tuple) for v in values):
             values = [v[0] for v in values]
@@ -95,7 +97,7 @@ def plot_values(values_dict, dir_names, xlabel, save, filename):
     plt.title('Energy Contribution')
     plt.xlabel(xlabel)
     plt.ylabel('Energy (eV)')
-    plt.xticks(x, dir_names, rotation='vertical')  # Set directory names as x-axis labels
+    plt.xticks(np.arange(len(dir_names)), dir_names, rotation='vertical')  # Set directory names as x-axis labels
     plt.grid(True)
     plt.legend()
     plt.tight_layout()
@@ -117,7 +119,7 @@ def main():
     parser.add_argument('-s', '--save', default=True, action='store_true', help="save files")
     parser.add_argument('-o', '--filename', default='energy.png', type=str, help="output filename")
     args = parser.parse_args()
-
+    
     if args.all:
         patterns = {'PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 'EENTRO', 'EBANDS', 'EATOM', 'TOTEN'}
     else:
