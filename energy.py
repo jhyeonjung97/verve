@@ -187,8 +187,8 @@ def main():
         values_dict = adjust_values(values_dict, ref_type=args.ref_type)
     
     if any(values_dict.values()):
-        plot_separately(values_dict, dir_names, xlabel=args.xlabel, save=args.save, filename=args.filename)
         plot_merged(values_dict, dir_names, xlabel=args.xlabel, save=args.save, filename=args.filename)
+        plot_separately(values_dict, dir_names, xlabel=args.xlabel, save=args.save, filename=args.filename)
         # plot_values(values_dict, dir_names, xlabel=args.xlabel, save=args.save, filename=args.filename)
     else:
         print('No values found for the given patterns.')
