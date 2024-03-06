@@ -91,6 +91,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                 if os.path.exists(poscar_path):
                     atoms = read(poscar_path)
                     atom_list = [atom.symbol+str(atom.index) for atom in atoms if atom.symbol != 'O']
+                    reversed_atom_list = reversed(atom_list)
                     break
             in_charge_section = False
             
@@ -149,7 +150,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                                 values[key].append(combined_value)
                                 break
                             elif key == 'mag':
-                                values.setdefault('mag_'+atom_list[atom_numb], []).append(float(match.group(1)))
+                                values.setdefault('mag_'+reversed_atom_list[atom_numb], []).append(float(match.group(1)))
                                 atom_numb += 1
                                 if atom_numb == len(atom_list):
                                     break
@@ -161,7 +162,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                         if key == 'chg' and in_charge_section:
                             match_chg = re.search(r'\s*\d+\s+\d+\.\d+\s+\d+\.\d+\s+\d+\.\d+\s+(\d+\.\d+)', line)
                             if match_chg:
-                                values.setdefault('chg_'+atom_list[atom_numb], []).append(float(match_chg.group(1)))
+                                values.setdefault('chg_'+reversed_atom_list[atom_numb], []).append(float(match_chg.group(1)))
                                 atom_numb += 1
                                 if atom_numb == len(atom_list):
                                     break
