@@ -108,6 +108,8 @@ def extract_values(directory, patterns, dir_range, outcar):
                         break
         if ICOHP:
             ICOHP_path = os.path.join(dir_path, 'icohp.txt')
+            if not os.path.exists(ICOHP_path):
+                subprocess.call('sh ~/bin/verve/icohp.sh')
             if os.path.exists(ICOHP_path):
                 with open(ICOHP_path, 'r') as file:
                     lines = file.readlines()
@@ -115,7 +117,6 @@ def extract_values(directory, patterns, dir_range, outcar):
                     match = re.search(r'-ICOHP sum:(\s*)([0-9.]+)', line)
                     if match:
                         values.setdefault('ICOHP', []).append(-float(match.group(2)))
-                        print(-float(match.group(2)))
                         break
 
     return values, dir_names
