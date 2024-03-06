@@ -4,7 +4,7 @@ import re
 import matplotlib.pyplot as plt
 import numpy as np
 
-def extract_values(directory, patterns, dir_range):
+def extract_values(directory, patterns, dir_range, outcar):
     """Extract the last values for the given patterns from OUTCAR files in the given directories, sorted numerically."""
     pattern_map = {
         'PSCENC': r'alpha Z        PSCENC =\s+([0-9.-]+)',
@@ -37,7 +37,7 @@ def extract_values(directory, patterns, dir_range):
         trimmed_dir_name = dir_name[2:]  # Remove the first two characters
         dir_names.append(trimmed_dir_name)
         for file_name in os.listdir(dir_path):
-            if file_name == 'OUTCAR':
+            if file_name == outcar:
                 file_path = os.path.join(dir_path, file_name)
                 with open(file_path, 'r') as file:
                     lines = file.readlines()
@@ -169,7 +169,8 @@ def main():
     parser.add_argument('--total', action='store_false', default=True, help='No show total energy')
     parser.add_argument('--save', action='store_false', default=True, help="save files")
     parser.add_argument('-s', '--seperate', action='store_true', default=False, help="save the plots seperately")
-    parser.add_argument('-o', '--filename', default='energy.png', type=str, help="output filename")
+    parser.add_argument('-i', '--input', dest='outcar', type=str, default='OUTCAR', help='input filename')
+    parser.add_argument('-o', '--output', dest='filename', type=str, default='energy.png', help="output filename")
     args = parser.parse_args()
     
     if args.all:
@@ -181,7 +182,7 @@ def main():
         patterns.discard('TOTEN')
 
     directory = './'  # Adjust based on your directory structure
-    values_dict, dir_names = extract_values(directory, patterns, args.dir_range)
+    values_dict, dir_names = extract_values(directory, patterns, args.dir_range, args.outcar)
     # dir_names = [name[2:] for name in dir_names]  # Slice names here if not already done
 
     if args.ref_type is not None:
