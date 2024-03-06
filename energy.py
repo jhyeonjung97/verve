@@ -158,6 +158,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                                 values.setdefault('chg_'+atom_list[atom_numb], []).append(float(match_chg.group(1)))
                                 atom_numb += 1
                                 if atom_numb == len(atom_list):
+                                    patterns.
                                     break
     print(values)
     return values, dir_names
