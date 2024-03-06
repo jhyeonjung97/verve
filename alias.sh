@@ -19,7 +19,7 @@ alias sbash='source ~/.bashrc'
 alias nofile='mkdir _trash
 find . -maxdepth 1 -type f -exec mv {} _trash \;
 ~/bin/rm_mv _trash'
-
+alias rsync='sh ~/bin/verve/archieve.sh'
 alias spread='~/bin/verve/spread.sh'
 
 # Preperation
