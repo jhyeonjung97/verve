@@ -112,7 +112,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                 with open(ICOHP_path, 'r') as file:
                     lines = file.readlines()
                 for line in reversed(lines):
-                    match = re.search(r'-ICOHP sum:+([0-9.-]+)', line)
+                    match = re.search(r'-ICOHP sum:(\s*)([0-9.]+)', line)
                     if match:
                         values.setdefault('ICOHP', []).append(-float(match.group(1)))
                         break
