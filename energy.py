@@ -163,7 +163,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
     
     if args.all:
-        patterns = {'PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 'EENTRO', 'EBANDS', 'EATOM', 'TOTEN'}
+        patterns = {'PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
+                    'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung'}
     else:
         patterns = set(args.patterns)
 
