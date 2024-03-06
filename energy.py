@@ -74,7 +74,58 @@ def adjust_values(values_dict, ref_type):
         else:
             adjusted_values_dict[pattern] = values  # No adjustment needed
     return adjusted_values_dict
+
+def plot_merged(values_dict, dir_names, xlabel, save, filename):
+    """Plot all patterns on a single graph."""
+    plt.figure(figsize=(10, 6))
+    x = np.arange(len(dir_names))
+    patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 'EENTRO', 'EBANDS', 'EATOM', 'TOTEN']
+    colors = plt.cm.viridis(np.linspace(0, 1, len(patterns_order)))
     
+    for pattern, color in zip(patterns_order, colors):
+        values = values_dict.get(pattern, [])
+        if not values:
+            print(f"No values found for pattern: {pattern}")
+            continue
+        plt.plot(values, marker='o', linestyle='-', label=pattern, color=color)
+    
+    plt.title('Energy Contribution')
+    plt.xlabel(xlabel)
+    plt.ylabel('Energy (eV)')
+    plt.xticks(x, dir_names, rotation='vertical')
+    plt.grid(True)
+    plt.legend()
+    plt.tight_layout()
+    if save:
+        plt.savefig(filename, bbox_inches="tight")
+        print(f"Figure saved as {filename}")
+    plt.show()
+
+def plot_separately(values_dict, dir_names, xlabel, save, filename_prefix):
+    """Plot each pattern on its own graph."""
+    x = np.arange(len(dir_names))
+    for i, (pattern, values) in enumerate(values_dict.items()):
+        if not values:
+            print(f"No values found for pattern: {pattern}")
+            continue
+        plt.figure(figsize=(10, 6))
+        plt.plot(x, values, marker='o', linestyle='-', label=pattern)
+        
+        plt.title(f'{pattern} Energy Contribution')
+        plt.xlabel(xlabel)
+        plt.ylabel('Energy (eV)')
+        plt.xticks(x, dir_names, rotation='vertical')
+        plt.grid(True)
+        plt.legend()
+        plt.tight_layout()
+        
+        if save:
+            pattern_filename = f"{filename_prefix}_{pattern}.png"
+            plt.savefig(pattern_filename, bbox_inches="tight")
+            print(f"Figure saved as {pattern_filename}")
+        
+        plt.show()
+
 def plot_values(values_dict, dir_names, xlabel, save, filename):
     """Plot the extracted last values for all selected patterns on a single graph."""
     plt.figure(figsize=(10, 6))
@@ -110,11 +161,12 @@ def plot_values(values_dict, dir_names, xlabel, save, filename):
             
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-r', '--ref-type', type=str, default=None, help='Adjust values by subtracting the minimum')
     parser.add_argument('-d', '--dir-range', type=str, default=None, help='Range of directories to investigate, e.g., "3,6"')
     parser.add_argument('-p', '--patterns', nargs='+', default=['TOTEN'], help='Patterns to search and plot')
     parser.add_argument('-a', '--all', action='store_true', default=False, help='Show all components')
     parser.add_argument('--no-total', action='store_true', default=False, help='No show total energy')
+    parser.add_argument('-r', '--ref-type', type=str, default=None, help='Adjust values by subtracting the minimum')
+    parser.add_argument('-m', '--merge', action='store_true', help='Merge all plots into a single graph')
     parser.add_argument('--xlabel', default='Lattice parameter (Å)', type=str, help="x-axis title of the figure")
     parser.add_argument('-s', '--save', default=True, action='store_true', help="save files")
     parser.add_argument('-o', '--filename', default='energy.png', type=str, help="output filename")
@@ -134,9 +186,13 @@ def main():
 
     if args.ref_type is not None:
         values_dict = adjust_values(values_dict, ref_type=args.ref_type)
-        
+    
     if any(values_dict.values()):
-        plot_values(values_dict, dir_names, xlabel=args.xlabel, save=args.save, filename=args.filename)
+        if args.merge:
+            plot_merged(values_dict, dir_names, xlabel=args.xlabel, args.save, filename=args.filename)
+        else:
+            plot_separately(values_dict, dir_names, xlabel=args.xlabel, args.save, filename=args.filename)
+        # plot_values(values_dict, dir_names, xlabel=args.xlabel, save=args.save, filename=args.filename)
     else:
         print('No values found for the given patterns.')
 
