@@ -17,7 +17,7 @@ def extract_values(directory, patterns, dir_range, outcar):
         'EBANDS': r'eigenvalues    EBANDS =\s+([0-9.-]+)',
         'EATOM': r'atomic energy  EATOM  =\s+([0-9.-]+)',
         'Ediel_sol': r'Solvation  Ediel_sol  =\s+([0-9.-]+)',
-        'TOTEN': r'free energy    TOTEN  =\s+([0-9.-]+)'
+        'TOTEN': r'free energy    TOTEN  =\s+([0-9.-]+)',
     }
     values = {key: [] for key in patterns}  # Initialize dict to store values for each pattern
     dir_names = []
@@ -54,6 +54,16 @@ def extract_values(directory, patterns, dir_range, outcar):
                                 # For all other patterns, assuming single value patterns for simplicity
                                 values[key].append(float(match.group(1)))
                             break
+            elif file_name == 'MadelungEnergies.lobster':
+                file_path = os.path.join(dir_path, file_name)
+                with open(file_path, 'r') as file:
+                    lines = file.readlines()
+                for line in reversed(lines):  # Search from the end of the file
+                    match = re.search(r'\s*\d+\.\d+\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)', text)
+                    if match:
+                        values['Mulliken'].append(float(match.group(1)))
+                        values['Loewdin'].append(float(match.group(2)))
+                        break
     return values, dir_names
 
 def adjust_values(values_dict, ref):
@@ -158,18 +168,18 @@ def plot_values(values_dict, dir_names, xlabel, save, filename):
         print(f"Figure saved as {filename}")
         
     plt.show()
-            
-def main():
+
+if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-d', '--dir-range', type=str, default=None, help='Range of directories to investigate, e.g., "3,6"')
     parser.add_argument('-p', '--patterns', nargs='+', default=['TOTEN'], help='Patterns to search and plot')
     parser.add_argument('-a', '--all', action='store_true', default=False, help='Show all components')
-    parser.add_argument('-r', '--adjust', dest='ref', type=str, default=None, help='Adjust values by subtracting the minimum')
+    parser.add_argument('-r', '--ref', type=str, default=None, help='Adjust values by subtracting the minimum')
     parser.add_argument('-x', '--xlabel', default='Lattice parameter (Å)', type=str, help="x-axis title of the figure")
     parser.add_argument('--total', action='store_false', default=True, help='No show total energy')
     parser.add_argument('--save', action='store_false', default=True, help="save files")
     parser.add_argument('-s', '--seperate', action='store_true', default=False, help="save the plots seperately")
-    parser.add_argument('-i', '--input', dest='outcar', type=str, default='OUTCAR', help='input filename')
+    parser.add_argument('-i', '--input', type=str, default='OUTCAR', help='input filename')
     parser.add_argument('-o', '--output', dest='filename', type=str, default='energy.png', help="output filename")
     args = parser.parse_args()
     
@@ -182,12 +192,15 @@ def main():
         patterns.discard('TOTEN')
 
     directory = './'  # Adjust based on your directory structure
-    values_dict, dir_names = extract_values(directory, patterns, args.dir_range, args.outcar)
-    # dir_names = [name[2:] for name in dir_names]  # Slice names here if not already done
 
+    if 'Madelung' in patterns:
+        values_dict, dir_names = extract_values_Madelung(directory, patterns, 
+                                                         dir_range=args.dir_range, input='MadelungEnergies.lobster')
+    else:
+        values_dict, dir_names = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.input)
+        
     if args.ref is not None:
         values_dict = adjust_values(values_dict, ref=args.ref)
-    
     if any(values_dict.values()):
         plot_merged(values_dict, dir_names, xlabel=args.xlabel, save=args.save, filename=args.filename)
         if args.seperate:
@@ -195,6 +208,3 @@ def main():
         # plot_values(values_dict, dir_names, xlabel=args.xlabel, save=args.save, filename=args.filename)
     else:
         print('No values found for the given patterns.')
-
-if __name__ == '__main__':
-    main()
