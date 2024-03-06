@@ -19,11 +19,11 @@ def extract_values(directory, patterns, dir_range, outcar):
         'Ediel_sol': r'Solvation  Ediel_sol  =\s+([0-9.-]+)',
         'TOTEN': r'free energy    TOTEN  =\s+([0-9.-]+)',
     }
-    values = {key: [] for key in patterns}  # Initialize dict to store values for each pattern
-    dir_names = []
     Madelung = 'Madelung' in patterns
     if Madelung:
-        patterns.delete('Madelung')
+        patterns.discard('Madelung')
+    values = {key: [] for key in patterns}  # Initialize dict to store values for each pattern
+    dir_names = []
 
     dirs = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))]
     if dir_range is not None:
