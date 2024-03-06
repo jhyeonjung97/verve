@@ -90,7 +90,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                 poscar_path = os.path.join(dir_path, poscar)
                 if os.path.exists(poscar_path):
                     atoms = read(poscar_path)
-                    atom_list = [atom.symbol+str(atom.index) for atom in atoms]
+                    atom_list = [atom.symbol+str(atom.index) for atom in atoms if atom.symbol != 'O']
                     break
             in_charge_section = False
             
