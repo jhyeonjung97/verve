@@ -217,9 +217,8 @@ def plot_merged(values_dict, dir_names, xlabel, save, filename, atom_list):
 
     patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
                       'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Mulliken', 'Loewdin', 'ICOHP', 'ICOBI', 'mag', 'chg']
-    patterns_order.append('mag_'+atom for atom in atom_list)
-    patterns_order.append('chg_'+atom for atom in atom_list)
-    print(values_dict)
+    patterns_order.extend(['mag_'+atom for atom in atom_list])
+    patterns_order.extend(['chg_'+atom for atom in atom_list])
     print(patterns_order)
     filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
 
