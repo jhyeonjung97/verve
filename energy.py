@@ -50,12 +50,11 @@ def extract_values(directory, patterns, dir_range, outcar):
                     match = pattern.search(line)
                     if match:
                         if key == 'PAW_double_counting':
-                            # Add the two values together
-                            combined_value = sum(map(float, match.groups()))
-                            values[key].append(combined_value)
+                            last_value = sum(map(float, match.groups()))
                         else:
-                            # For all other patterns, assuming single value patterns for simplicity
-                            values[key].append(float(match.group(1)))
+                            last_value = float(match.groups(1))
+            if last_value is not None:
+                values[key].append(last_value)
         if Madelung:
             madelung_path = os.path.join(dir_path, 'MadelungEnergies.lobster')
             if os.path.exists(madelung_path):
