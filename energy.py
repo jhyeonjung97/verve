@@ -65,7 +65,7 @@ def adjust_values(values_dict, ref_type):
                 ref_value = min(values)
             elif ref_type == 'max':
                 ref_value = max(values)
-            elif ref_type == 'median' or ref_type == 'middle' or ref_type == 'center':
+            elif ref_type == 'mid':
                 ref_value = np.median(values)
             else:
                 raise ValueError(f"Unknown reference type: {ref_type}")
