@@ -56,13 +56,20 @@ def extract_values(directory, patterns, dir_range):
                             break
     return values, dir_names
 
-def adjust_values_by_min(values_dict):
-    """Subtract the minimum value from each pattern's data set."""
+def adjust_values(values_dict, ref_type):
+    """Subtract the reference value from each pattern's data set."""
     adjusted_values_dict = {}
     for pattern, values in values_dict.items():
-        if values:  # Ensure there are values to adjust
-            min_value = min(values)
-            adjusted_values = [value - min_value for value in values]
+        if values:
+            if ref_type == 'min':
+                ref_value = min(values)
+            elif ref_type == 'max':
+                ref_value = max(values)
+            elif ref_type == 'median':
+                ref_value = np.median(values)
+            else:
+                raise ValueError(f"Unknown reference type: {ref_type}")
+            adjusted_values = [value - ref_value for value in values]
             adjusted_values_dict[pattern] = adjusted_values
         else:
             adjusted_values_dict[pattern] = values  # No adjustment needed
@@ -101,7 +108,7 @@ def plot_values(values_dict, dir_names, xlabel, save, filename):
             
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-m', '--min-adjust', action='store_true', help='Adjust values by subtracting the minimum')
+    parser.add_argument('-r', '--ref-type', typ=str, default='median', help='Adjust values by subtracting the minimum')
     parser.add_argument('-d', '--dir-range', type=str, default=None, help='Range of directories to investigate, e.g., "3,6"')
     parser.add_argument('-p', '--patterns', nargs='+', default='TOTEN', help='Patterns to search and plot')
     parser.add_argument('-a', '--all', action='store_true', default=False, help='Show all components')
@@ -123,8 +130,8 @@ def main():
     values_dict, dir_names = extract_values(directory, patterns, args.dir_range)
     # dir_names = [name[2:] for name in dir_names]  # Slice names here if not already done
 
-    if args.min_adjust:
-        values_dict = adjust_values_by_min(values_dict)
+    if args.ref_type:
+        values_dict = adjust_values(values_dict, ref_type=args.ref_type)
         
     if any(values_dict.values()):
         plot_values(values_dict, dir_names, xlabel=args.xlabel, save=args.save, filename=args.filename)
