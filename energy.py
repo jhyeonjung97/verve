@@ -73,8 +73,7 @@ def plot_values(values_dict, dir_names, xlabel, save, filename):
     plt.figure(figsize=(10, 6))
 
     x = np.arange(len(dir_names))
-    patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 
-                      'EENTRO', 'EBANDS', 'EATOM', 'PAW_double_counting', 'TOTEN']
+    patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 'EENTRO', 'EBANDS', 'EATOM', 'TOTEN']
     colors = plt.cm.viridis(np.linspace(0, 1, len(values_dict)))
     
     for pattern, color in zip(patterns_order, colors):
