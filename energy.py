@@ -4,8 +4,7 @@ import re
 import matplotlib.pyplot as plt
 import numpy as np
 import subprocess
-from aloha.cohp_analysis import *
-from aloha.cohp_analysis import *
+from ase.io import read
 
 def get_parser():
     parser = argparse.ArgumentParser()
@@ -25,7 +24,7 @@ def main():
     args = get_parser().parse_args()
     if args.all:
         patterns = {'PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
-                    'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung', 'ICOHP'}
+                    'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung', 'ICOHP', 'ICOBI', 'mag', 'chg'}
     else:
         patterns = set(args.patterns)
     if not args.total:
@@ -56,17 +55,15 @@ def extract_values(directory, patterns, dir_range, outcar):
         'EATOM': r'atomic energy  EATOM  =\s+([0-9.-]+)',
         'Ediel_sol': r'Solvation  Ediel_sol  =\s+([0-9.-]+)',
         'TOTEN': r'free energy    TOTEN  =\s+([0-9.-]+)',
+        'mag': r'\s*\d+\s+\d+\.\d+\s+\d+\.\d+\s+\d+\.\d+\s+(\d+\.\d+)',
+        'chg': r'magnetization \(x\)',
     }
-    Madelung = 'Madelung' in patterns
-    ICOHP = 'ICOHP' in patterns
-    if Madelung:
-        patterns.discard('Madelung')
-    if ICOHP:
-        patterns.discard('ICOHP')
+    
     values = {key: [] for key in patterns}  # Initialize dict to store values for each pattern
     dir_names = []
-
+    
     dirs = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))]
+    
     if dir_range is not None:
         if ',' in dir_range:
             start_dir, end_dir = map(int, dir_range.split(','))
@@ -80,23 +77,19 @@ def extract_values(directory, patterns, dir_range, outcar):
         dir_path = os.path.join(directory, dir_name)
         trimmed_dir_name = dir_name[2:]  # Remove the first two characters
         dir_names.append(trimmed_dir_name)
-
-        outcar_path = os.path.join(dir_path, outcar)
-        if os.path.exists(outcar_path) and patterns:  # Check if OUTCAR file exists
-            with open(outcar_path, 'r') as file:
-                lines = file.readlines()
-            for key in patterns:
-                pattern = re.compile(pattern_map[key])
-                for line in reversed(lines):  # Search from the end of the file
-                    match = pattern.search(line)
-                    if match:
-                        if key == 'PAW_double_counting':
-                            combined_value = sum(map(float, match.groups()))
-                            values[key].append(combined_value)
-                        else:
-                            values[key].append(float(match.group(1)))
-                        break
-        if Madelung:
+        
+        if 'mag' in patterns or 'chg' in patterns:
+            for poscar in ['POSCAR', 'CONTCAR', 'start.traj', 'restart.json']:
+                poscar_path = os.path.join(dir_path, poscar)
+                if os.path.exists(poscar_path):
+                    atoms = read(poscar_path)
+                    atom_list = [atom.symbol+str(atom.index) for atom in atoms]
+                    break
+            print('atom list: ', atom_list)
+            in_charge_section = False
+            
+        if 'Madelung' in patterns:
+            patterns.discard('Madelung')
             madelung_path = os.path.join(dir_path, 'MadelungEnergies.lobster')
             if os.path.exists(madelung_path):
                 with open(madelung_path, 'r') as file:
@@ -107,7 +100,8 @@ def extract_values(directory, patterns, dir_range, outcar):
                         values.setdefault('Mulliken', []).append(float(match.group(1)))
                         values.setdefault('Loewdin', []).append(float(match.group(2)))
                         break
-        if ICOHP:
+        if 'ICOHP' in patterns:
+            patterns.discard('ICOHP')
             ICOHP_path = os.path.join(dir_path, 'icohp.txt')
             if not os.path.exists(ICOHP_path):
                 subprocess.call('python ~/bin/playground/aloha/cohp.py > icohp.txt', shell=True, cwd=dir_path)
@@ -119,7 +113,51 @@ def extract_values(directory, patterns, dir_range, outcar):
                     if match:
                         values.setdefault('ICOHP', []).append(-float(match.group(2)))
                         break
-
+        if 'ICOBI' in patterns:
+            patterns.discard('ICOBI')
+            ICOBI_path = os.path.join(dir_path, 'icobi.txt')
+            if not os.path.exists(ICOBI_path):
+                subprocess.call('python ~/bin/playground/aloha/cobi.py > icobi.txt', shell=True, cwd=dir_path)
+            if os.path.exists(ICOBI_path):
+                with open(ICOBI_path, 'r') as file:
+                    lines = file.readlines()
+                for line in reversed(lines):
+                    match = re.search(r'ICOBI sum:(\s*)([0-9.]+)', line)
+                    if match:
+                        values.setdefault('ICOBI', []).append(float(match.group(2)))
+                        break
+        if patterns:
+            outcar_path = os.path.join(dir_path, outcar)
+            if os.path.exists(outcar_path) and patterns:
+                with open(outcar_path, 'r') as file:
+                    lines = file.readlines()
+                for key in patterns:
+                    atom_numb = 0
+                    pattern = re.compile(pattern_map[key])
+                    for line in reversed(lines):
+                        match = pattern.search(line)
+                        if match:
+                            if key == 'PAW_double_counting':
+                                combined_value = sum(map(float, match.groups()))
+                                values[key].append(combined_value)
+                                break
+                            elif key == 'mag':
+                                values['mag_'+atom_list[atom_numb]].append(float(match.group(1)))
+                                atom_numb += 1
+                                if atom_numb == len(atom_list):
+                                    break
+                            elif key == 'chg' and not in_charge_section:
+                                in_charge_section = True                                
+                            else:
+                                values[key].append(float(match.group(1)))
+                                break
+                        if key == 'chg' and in_charge_section:
+                            match_chg = re.search(r'\s*\d+\s+\d+\.\d+\s+\d+\.\d+\s+\d+\.\d+\s+(\d+\.\d+)', line)
+                            if match_chg:
+                                values['chg_'+atom_list[atom_numb]].append(float(match_chg.group(1)))
+                                atom_numb += 1
+                                if atom_numb == len(atom_list):
+                                    break
     return values, dir_names
 
 def adjust_values(values_dict, ref):
@@ -170,7 +208,7 @@ def plot_merged(values_dict, dir_names, xlabel, save, filename):
     plt.figure(figsize=(10, 6))
 
     patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
-                      'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Mulliken', 'Loewdin', 'ICOHP']
+                      'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Mulliken', 'Loewdin', 'ICOHP', 'ICOBI', 'mag', 'chg']
     filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
 
     colors = plt.cm.turbo(np.linspace(0, 1, len(filtered_patterns_order))) 
