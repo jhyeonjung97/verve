@@ -3,6 +3,7 @@ import os
 import re
 import matplotlib.pyplot as plt
 import numpy as np
+import subprocess
 from aloha.cohp_analysis import *
 from aloha.cohp_analysis import *
 
@@ -109,7 +110,8 @@ def extract_values(directory, patterns, dir_range, outcar):
         if ICOHP:
             ICOHP_path = os.path.join(dir_path, 'icohp.txt')
             if not os.path.exists(ICOHP_path):
-                subprocess.call('sh ~/bin/verve/icohp.sh')
+                os.chdir(dir_path)
+                subprocess.call('sh -c "python ~/bin/playground/aloha/cohp.py > icohp.txt"', shell=True))
             if os.path.exists(ICOHP_path):
                 with open(ICOHP_path, 'r') as file:
                     lines = file.readlines()
