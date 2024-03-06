@@ -86,7 +86,6 @@ def extract_values(directory, patterns, dir_range, outcar):
                     atoms = read(poscar_path)
                     atom_list = [atom.symbol+str(atom.index) for atom in atoms]
                     break
-            print('atom list: ', atom_list)
             in_charge_section = False
             
         if 'Madelung' in patterns:
@@ -129,7 +128,6 @@ def extract_values(directory, patterns, dir_range, outcar):
                         break
 
         if patterns:
-            print(patterns)
             outcar_path = os.path.join(dir_path, outcar)
             if os.path.exists(outcar_path) and patterns:
                 with open(outcar_path, 'r') as file:
@@ -161,6 +159,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                                 atom_numb += 1
                                 if atom_numb == len(atom_list):
                                     break
+    print(values)
     return values, dir_names
 
 def adjust_values(values_dict, ref):
