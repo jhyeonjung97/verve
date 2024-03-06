@@ -128,6 +128,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                         values.setdefault('ICOBI', []).append(float(match.group(2)))
                         break
         if patterns:
+            print(patterns)
             outcar_path = os.path.join(dir_path, outcar)
             if os.path.exists(outcar_path) and patterns:
                 with open(outcar_path, 'r') as file:
