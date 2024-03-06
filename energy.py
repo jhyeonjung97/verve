@@ -12,11 +12,11 @@ def extract_values(directory, patterns, dir_range):
         'DENC': r'-Hartree energ DENC   =\s+([0-9.-]+)',
         'EXHF': r'-exchange      EXHF   =\s+([0-9.-]+)',
         'XCENC': r'-V\(xc\)\+E\(xc\)   XCENC  =\s+([0-9.-]+)',
+        'PAW_double_counting': r'PAW double counting   =\s+([0-9.-]+)\s+([0-9.-]+)',
         'EENTRO': r'entropy T\*S    EENTRO =\s+([0-9.-]+)',
         'EBANDS': r'eigenvalues    EBANDS =\s+([0-9.-]+)',
         'EATOM': r'atomic energy  EATOM  =\s+([0-9.-]+)',
         'Ediel_sol': r'Solvation  Ediel_sol  =\s+([0-9.-]+)',
-        'PAW_double_counting': r'PAW double counting   =\s+([0-9.-]+)\s+([0-9.-]+)',
         'TOTEN': r'free energy    TOTEN  =\s+([0-9.-]+)'
     }
     values = {key: [] for key in patterns}  # Initialize dict to store values for each pattern
@@ -72,22 +72,18 @@ def plot_values(values_dict, dir_names, xlabel, save, filename):
     """Plot the extracted last values for all selected patterns on a single graph."""
     plt.figure(figsize=(10, 6))
 
-    num_dirs = len(dir_names)
-    x = np.arange(num_dirs) # Generate x locations for each directory
-    
-    # Generating a color map for different patterns
+    x = np.arange(len(dir_names))
+    patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 
+                      'EENTRO', 'EBANDS', 'EATOM', 'PAW_double_counting', 'TOTEN']
     colors = plt.cm.viridis(np.linspace(0, 1, len(values_dict)))
     
-    for (pattern, values), color in zip(values_dict.items(), colors):
-        # Check if we're dealing with single values or tuples (for patterns like PAW_double_counting)
+    for pattern, color in zip(patterns_order, colors):
+        values = values_dict.get(pattern, [])
         if all(isinstance(v, tuple) for v in values):
-            # If tuples, assuming we want to plot the first value
             values = [v[0] for v in values]
-        
-        if not values:  # Skip patterns with no values found
+        if not values:
             print(f"No values found for pattern: {pattern}")
             continue
-        
         plt.plot(values, marker='o', linestyle='-', label=pattern, color=color)
     
     plt.title('Energy Contribution')
@@ -117,7 +113,7 @@ def main():
     args = parser.parse_args()
 
     if args.all:
-        patterns = {'PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'EENTRO', 'EBANDS', 'EATOM', 'PAW_double_counting', 'TOTEN'}
+        patterns = {'PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 'EENTRO', 'EBANDS', 'EATOM', 'TOTEN'}
     else:
         patterns = set(args.patterns)
 
