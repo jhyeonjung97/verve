@@ -90,8 +90,10 @@ def extract_values(directory, patterns, dir_range, outcar):
                 poscar_path = os.path.join(dir_path, poscar)
                 if os.path.exists(poscar_path):
                     atoms = read(poscar_path)
-                    atom_list = [atom.symbol+str(atom.index) for atom in atoms if atom.symbol != 'O']
+                    atom_list = [atom.symbol+str(atom.index) for atom in atoms]
+                    metal_list = [atom.symbol+str(atom.index) for atom in atoms if atom.symbol != 'O']
                     reversed_atom_list = list(reversed(atom_list))
+                    reversed_metal_list = list(reversed(metal_list))
                     break
             in_charge_section = False
             
