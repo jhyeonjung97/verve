@@ -4,6 +4,41 @@ import re
 import matplotlib.pyplot as plt
 import numpy as np
 
+def get_parser():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-d', '--dir-range', type=str, default=None, help='Range of directories to investigate, e.g., "3,6"')
+    parser.add_argument('-p', '--patterns', nargs='+', default=['TOTEN'], help='Patterns to search and plot')
+    parser.add_argument('-a', '--all', action='store_true', default=False, help='Show all components')
+    parser.add_argument('-r', '--ref', type=str, default=None, help='Adjust values by subtracting the minimum')
+    parser.add_argument('-x', '--xlabel', default='Lattice parameter (Å)', type=str, help="x-axis title of the figure")
+    parser.add_argument('--total', action='store_false', default=True, help='No show total energy')
+    parser.add_argument('--save', action='store_false', default=True, help="save files")
+    parser.add_argument('-s', '--seperate', action='store_true', default=False, help="save the plots seperately")
+    parser.add_argument('-i', '--input', dest='outcar', type=str, default='OUTCAR', help='input filename')
+    parser.add_argument('-o', '--output', dest='filename', type=str, default='energy.png', help="output filename")
+    return parser
+
+def main():
+    args = get_parser().parse_args()
+    if args.all:
+        patterns = {'PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
+                    'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung'}
+    else:
+        patterns = set(args.patterns)
+    if not args.total:
+        patterns.discard('TOTEN')
+
+    values_dict, dir_names = extract_values(directory='./', patterns=patterns, dir_range=args.dir_range, outcar=args.outcar)
+    if args.ref is not None:
+        values_dict = adjust_values(values_dict, ref=args.ref)
+    if any(values_dict.values()):
+        plot_merged(values_dict, dir_names, xlabel=args.xlabel, save=args.save, filename=args.filename)
+        if args.seperate:
+            plot_separately(values_dict, dir_names, xlabel=args.xlabel, save=args.save, filename=args.filename)
+        # plot_values(values_dict, dir_names, xlabel=args.xlabel, save=args.save, filename=args.filename)
+    else:
+        print('No values found for the given patterns.')
+
 def extract_values(directory, patterns, dir_range, outcar):
     """Extract the last values for the given patterns from OUTCAR files in the given directories, sorted numerically."""
     pattern_map = {
@@ -115,7 +150,6 @@ def plot_separately(values_dict, dir_names, xlabel, save, filename):
         # plt.show()
 
 def plot_merged(values_dict, dir_names, xlabel, save, filename):
-    """Plot the extracted last values for all selected patterns on a single graph."""
     plt.figure(figsize=(10, 6))
 
     patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
@@ -149,36 +183,5 @@ def plot_merged(values_dict, dir_names, xlabel, save, filename):
     plt.show()
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-d', '--dir-range', type=str, default=None, help='Range of directories to investigate, e.g., "3,6"')
-    parser.add_argument('-p', '--patterns', nargs='+', default=['TOTEN'], help='Patterns to search and plot')
-    parser.add_argument('-a', '--all', action='store_true', default=False, help='Show all components')
-    parser.add_argument('-r', '--ref', type=str, default=None, help='Adjust values by subtracting the minimum')
-    parser.add_argument('-x', '--xlabel', default='Lattice parameter (Å)', type=str, help="x-axis title of the figure")
-    parser.add_argument('--total', action='store_false', default=True, help='No show total energy')
-    parser.add_argument('--save', action='store_false', default=True, help="save files")
-    parser.add_argument('-s', '--seperate', action='store_true', default=False, help="save the plots seperately")
-    parser.add_argument('-i', '--input', dest='outcar', type=str, default='OUTCAR', help='input filename')
-    parser.add_argument('-o', '--output', dest='filename', type=str, default='energy.png', help="output filename")
-    args = parser.parse_args()
-    
-    if args.all:
-        patterns = {'PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
-                    'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung'}
-    else:
-        patterns = set(args.patterns)
+    main()
 
-    if not args.total:
-        patterns.discard('TOTEN')
-
-    values_dict, dir_names = extract_values(directory='./', patterns=patterns, dir_range=args.dir_range, outcar=args.outcar)
-    
-    if args.ref is not None:
-        values_dict = adjust_values(values_dict, ref=args.ref)
-    if any(values_dict.values()):
-        plot_merged(values_dict, dir_names, xlabel=args.xlabel, save=args.save, filename=args.filename)
-        if args.seperate:
-            plot_separately(values_dict, dir_names, xlabel=args.xlabel, save=args.save, filename=args.filename)
-        # plot_values(values_dict, dir_names, xlabel=args.xlabel, save=args.save, filename=args.filename)
-    else:
-        print('No values found for the given patterns.')
