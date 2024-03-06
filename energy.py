@@ -80,7 +80,7 @@ def plot_merged(values_dict, dir_names, xlabel, save, filename):
     plt.figure(figsize=(10, 6))
     x = np.arange(len(dir_names))
     patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 'EENTRO', 'EBANDS', 'EATOM', 'TOTEN']
-    colors = plt.cm.viridis(np.linspace(0, 1, len(patterns_order)))
+    colors = plt.cm.turbo(np.linspace(0, 1, len(patterns_order)))
     
     for pattern, color in zip(patterns_order, colors):
         values = values_dict.get(pattern, [])
@@ -148,7 +148,7 @@ def plot_values(values_dict, dir_names, xlabel, save, filename):
     plt.title('Energy Contribution')
     plt.xlabel(xlabel)
     plt.ylabel('Energy (eV)')
-    plt.xticks(np.arange(len(dir_names)), dir_names, rotation='vertical')  # Set directory names as x-axis labels
+    plt.xticks(np.arange(len(dir_names)), dir_names, rotation='vertical')
     plt.grid(True)
     plt.legend()
     plt.tight_layout()
