@@ -24,7 +24,7 @@ def extract_values(directory, patterns, dir_range, outcar):
     Madelung = 'Madelung' in patterns
     if Madelung:
         patterns.discard('Madelung')
-    print(patterns)
+
     dirs = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))]
     if dir_range is not None:
         if ',' in dir_range:
@@ -197,6 +197,7 @@ if __name__ == '__main__':
         patterns.discard('TOTEN')
 
     values_dict, dir_names = extract_values(directory='./', patterns=patterns, dir_range=args.dir_range, outcar=args.outcar)
+    print(values_dict, dir_names)
     
     if args.ref is not None:
         values_dict = adjust_values(values_dict, ref=args.ref)
