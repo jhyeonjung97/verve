@@ -65,7 +65,7 @@ def adjust_values(values_dict, ref_type):
                 ref_value = min(values)
             elif ref_type == 'max':
                 ref_value = max(values)
-            elif ref_type == 'median':
+            elif ref_type == 'median' or ref_type == 'middle' or ref_type == 'center':
                 ref_value = np.median(values)
             else:
                 raise ValueError(f"Unknown reference type: {ref_type}")
@@ -108,7 +108,7 @@ def plot_values(values_dict, dir_names, xlabel, save, filename):
             
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-r', '--ref-type', type=str, default='median', help='Adjust values by subtracting the minimum')
+    parser.add_argument('-r', '--ref-type', type=str, default=None, help='Adjust values by subtracting the minimum')
     parser.add_argument('-d', '--dir-range', type=str, default=None, help='Range of directories to investigate, e.g., "3,6"')
     parser.add_argument('-p', '--patterns', nargs='+', default='TOTEN', help='Patterns to search and plot')
     parser.add_argument('-a', '--all', action='store_true', default=False, help='Show all components')
@@ -130,7 +130,7 @@ def main():
     values_dict, dir_names = extract_values(directory, patterns, args.dir_range)
     # dir_names = [name[2:] for name in dir_names]  # Slice names here if not already done
 
-    if args.ref_type:
+    if args.ref_type is not None:
         values_dict = adjust_values(values_dict, ref_type=args.ref_type)
         
     if any(values_dict.values()):
