@@ -21,7 +21,7 @@ def extract_values(directory, patterns, dir_range, outcar):
     }
     values = {key: [] for key in patterns}  # Initialize dict to store values for each pattern
     dir_names = []
-    Madelung = 'Madelung' in patterns:
+    Madelung = 'Madelung' in patterns
     if Madelung:
         patterns.discard('Madelung')
     
