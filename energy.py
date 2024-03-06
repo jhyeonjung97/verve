@@ -21,7 +21,8 @@ def extract_values(directory, patterns, dir_range, outcar):
     }
     values = {key: [] for key in patterns}  # Initialize dict to store values for each pattern
     dir_names = []
-
+    Madelung = 'Madelung' in patterns
+    
     dirs = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))]
     if dir_range is not None:
         if ',' in dir_range:
@@ -31,43 +32,42 @@ def extract_values(directory, patterns, dir_range, outcar):
         dir_nums = range(start_dir, end_dir + 1)
         dirs = [d for d in dirs if any(d.startswith(str(num)) for num in dir_nums)]
     dirs.sort(key=lambda x: [int(c) if c.isdigit() else c for c in re.split('(\d+)', x)])
-
-    if 'Madelung' in patterns:
-        Madelung = True
-        patterns.discard('Madelung')
         
     for dir_name in dirs:
         dir_path = os.path.join(directory, dir_name)
         trimmed_dir_name = dir_name[2:]  # Remove the first two characters
         dir_names.append(trimmed_dir_name)
-        for file_name in os.listdir(dir_path):
-            if file_name == outcar:
-                file_path = os.path.join(dir_path, file_name)
-                with open(file_path, 'r') as file:
-                    lines = file.readlines()
-                for key in patterns:
-                    pattern = re.compile(pattern_map[key])
-                    for line in reversed(lines):  # Search from the end of the file
-                        match = pattern.search(line)
-                        if match:
-                            if key == 'PAW_double_counting':
-                                # Add the two values together
-                                combined_value = sum(map(float, match.groups()))
-                                values[key].append(combined_value)
-                            else:
-                                # For all other patterns, assuming single value patterns for simplicity
-                                values[key].append(float(match.group(1)))
-                            break
-            elif file_name == 'MadelungEnergies.lobster' and Madelung:
-                file_path = os.path.join(dir_path, file_name)
-                with open(file_path, 'r') as file:
-                    lines = file.readlines()
+
+        outcar_path = os.path.join(dir_path, outcar)
+        if os.path.exists(outcar_path):  # Check if OUTCAR file exists
+            with open(outcar_path, 'r') as file:
+                lines = file.readlines()
+            for key in patterns:
+                pattern = re.compile(pattern_map[key])
                 for line in reversed(lines):  # Search from the end of the file
-                    match = re.search(r'\s*\d+\.\d+\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)', 'MadelungEnergies.lobster')
+                    match = pattern.search(line)
                     if match:
-                        values['Mulliken'].append(float(match.group(1)))
-                        values['Loewdin'].append(float(match.group(2)))
+                        if key == 'PAW_double_counting':
+                            # Add the two values together
+                            combined_value = sum(map(float, match.groups()))
+                            values[key].append(combined_value)
+                        else:
+                            # For all other patterns, assuming single value patterns for simplicity
+                            values[key].append(float(match.group(1)))
+
+        if Madelung:
+            madelung_path = os.path.join(dir_path, 'MadelungEnergies.lobster')
+            if os.path.exists(madelung_path):
+                with open(madelung_path, 'r') as file:
+                    lines = file.readlines()
+                for line in reversed(lines):
+                    match = re.search(r'\s*\d+\.\d+\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)', line)
+                    if match:
+                        # Assuming 'Mulliken' and 'Loewdin' should be initialized in values
+                        values.setdefault('Mulliken', []).append(float(match.group(1)))
+                        values.setdefault('Loewdin', []).append(float(match.group(2)))
                         break
+
     return values, dir_names
 
 def adjust_values(values_dict, ref):
