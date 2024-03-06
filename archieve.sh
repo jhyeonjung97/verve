@@ -1,0 +1,36 @@
+#!/bin/bash
+/usr/bin/rsync -e 'ssh -p 1234' --ignore-times --size-only -avlzp -K --max-size=50000m \
+	--include="*/" \
+	--include="*.py" \
+	--include="*.png" \
+	--include="*.ipynb" \
+	--include="*.sh" \
+	--include="*POSCAR" \
+	--include="*.pbs" \
+	--include="*.db" \
+	--include="*.cif" \
+	--include="*.gp" \
+	--include="*.pdf" \
+	--include="*.eps" \
+	--include="*.png" \
+	--include="*.dat" \
+	--include="*.cube" \
+	--include="*.gif" \
+	--include="*.txt" \
+	--include="*.nw" \
+	--include="*.xml" \
+	--include="*.pckl" \
+	--include="DONE" \
+	--include="CONTCAR" \
+	--include="INCAR" \
+	--include="POTCAR" \
+	--include="PROCAR" \
+	--include="KPOINTS" \
+	--include="OUTCAR" \
+	--include="DOSCAR" \
+	--include="vasprun.xml" \
+	--include="*.traj" \
+	--include="*.json" \
+	--include="*.out" \
+	--exclude="*" $1 $2
+echo "Rsync of $1 completed"
