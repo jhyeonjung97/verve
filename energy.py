@@ -179,7 +179,7 @@ if __name__ == '__main__':
     parser.add_argument('--total', action='store_false', default=True, help='No show total energy')
     parser.add_argument('--save', action='store_false', default=True, help="save files")
     parser.add_argument('-s', '--seperate', action='store_true', default=False, help="save the plots seperately")
-    parser.add_argument('-i', '--input', type=str, default='OUTCAR', help='input filename')
+    parser.add_argument('-i', '--input', dest='outcar', type=str, default='OUTCAR', help='input filename')
     parser.add_argument('-o', '--output', dest='filename', type=str, default='energy.png', help="output filename")
     args = parser.parse_args()
     
@@ -193,11 +193,7 @@ if __name__ == '__main__':
 
     directory = './'  # Adjust based on your directory structure
 
-    if 'Madelung' in patterns:
-        values_dict, dir_names = extract_values_Madelung(directory, patterns, 
-                                                         dir_range=args.dir_range, input='MadelungEnergies.lobster')
-    else:
-        values_dict, dir_names = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.input)
+    values_dict, dir_names = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
         
     if args.ref is not None:
         values_dict = adjust_values(values_dict, ref=args.ref)
