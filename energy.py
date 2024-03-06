@@ -32,6 +32,10 @@ def extract_values(directory, patterns, dir_range, outcar):
         dirs = [d for d in dirs if any(d.startswith(str(num)) for num in dir_nums)]
     dirs.sort(key=lambda x: [int(c) if c.isdigit() else c for c in re.split('(\d+)', x)])
 
+    if 'Madelung' in patterns:
+        Madelung = True
+        patterns.discard('Madelung')
+        
     for dir_name in dirs:
         dir_path = os.path.join(directory, dir_name)
         trimmed_dir_name = dir_name[2:]  # Remove the first two characters
@@ -54,7 +58,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                                 # For all other patterns, assuming single value patterns for simplicity
                                 values[key].append(float(match.group(1)))
                             break
-            elif file_name == 'MadelungEnergies.lobster':
+            elif file_name == 'MadelungEnergies.lobster' and Madelung:
                 file_path = os.path.join(dir_path, file_name)
                 with open(file_path, 'r') as file:
                     lines = file.readlines()
