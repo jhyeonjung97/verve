@@ -3,6 +3,8 @@ import os
 import re
 import matplotlib.pyplot as plt
 import numpy as np
+from aloha.cohp_analysis import *
+from aloha.cohp_analysis import *
 
 def get_parser():
     parser = argparse.ArgumentParser()
@@ -22,20 +24,20 @@ def main():
     args = get_parser().parse_args()
     if args.all:
         patterns = {'PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
-                    'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung'}
+                    'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung', 'ICOHP'}
     else:
         patterns = set(args.patterns)
     if not args.total:
         patterns.discard('TOTEN')
-
-    values_dict, dir_names = extract_values(directory='./', patterns=patterns, dir_range=args.dir_range, outcar=args.outcar)
+        
+    directory='./'
+    values_dict, dir_names = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
     if args.ref is not None:
         values_dict = adjust_values(values_dict, ref=args.ref)
     if any(values_dict.values()):
         plot_merged(values_dict, dir_names, xlabel=args.xlabel, save=args.save, filename=args.filename)
         if args.seperate:
             plot_separately(values_dict, dir_names, xlabel=args.xlabel, save=args.save, filename=args.filename)
-        # plot_values(values_dict, dir_names, xlabel=args.xlabel, save=args.save, filename=args.filename)
     else:
         print('No values found for the given patterns.')
 
@@ -55,8 +57,11 @@ def extract_values(directory, patterns, dir_range, outcar):
         'TOTEN': r'free energy    TOTEN  =\s+([0-9.-]+)',
     }
     Madelung = 'Madelung' in patterns
+    ICOHP = 'ICOHP' in patterns
     if Madelung:
         patterns.discard('Madelung')
+    if ICOHP:
+        patterns.discard('ICOHP')
     values = {key: [] for key in patterns}  # Initialize dict to store values for each pattern
     dir_names = []
 
@@ -98,9 +103,18 @@ def extract_values(directory, patterns, dir_range, outcar):
                 for line in reversed(lines):
                     match = re.search(r'\s*\d+\.\d+\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)', line)
                     if match:
-                        # Assuming 'Mulliken' and 'Loewdin' should be initialized in values
                         values.setdefault('Mulliken', []).append(float(match.group(1)))
                         values.setdefault('Loewdin', []).append(float(match.group(2)))
+                        break
+        if ICOHP:
+            ICOHP_path = os.path.join(dir_path, 'icohp.txt')
+            if os.path.exists(ICOHP_path):
+                with open(ICOHP_path, 'r') as file:
+                    lines = file.readlines()
+                for line in reversed(lines):
+                    match = re.search(r'-ICOHP sum:([0-9.-]+)', line)
+                    if match:
+                        values.setdefault('ICOHP', []).append(-float(match.group(1)))
                         break
 
     return values, dir_names
