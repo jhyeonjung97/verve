@@ -21,8 +21,8 @@ def extract_values(directory, patterns, dir_range, outcar):
     }
     values = {key: [] for key in patterns}  # Initialize dict to store values for each pattern
     dir_names = []
-    if 'Madelung' in patterns:
-        Madelung = True
+    Madelung = 'Madelung' in patterns:
+    if Madelung:
         patterns.discard('Madelung')
     
     dirs = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))]
@@ -41,7 +41,7 @@ def extract_values(directory, patterns, dir_range, outcar):
         dir_names.append(trimmed_dir_name)
 
         outcar_path = os.path.join(dir_path, outcar)
-        if os.path.exists(outcar_path):  # Check if OUTCAR file exists
+        if os.path.exists(outcar_path) and patterns:  # Check if OUTCAR file exists
             with open(outcar_path, 'r') as file:
                 lines = file.readlines()
             for key in patterns:
