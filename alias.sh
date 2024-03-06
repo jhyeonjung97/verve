@@ -46,22 +46,6 @@ alias dos3='python ~/bin/shoulder/dos3.py'
 alias cohp='python ~/bin/playground/aloha/cohp.py'
 alias cobi='python ~/bin/playground/aloha/cobi.py'
 
-# Git
-alias orange='dir_now=$PWD
-cd ~/bin/orange
-git stash
-git pull
-cd $dir_now'
-alias shoulder='dir_now=$PWD
-cd ~/bin/shoulder
-git stash
-git pull
-cd $dir_now'
-alias verve='dir_now=$PWD
-cd ~/bin/verve
-git stash
-git pull
-cd $dir_now'
 
 #SSH
 alias burning='ssh -X -Y hyeonjung@burning.postech.ac.kr -p 54329'
