@@ -74,7 +74,7 @@ def plot_values(values_dict, dir_names, xlabel, save, filename):
 
     x = np.arange(len(dir_names))
     patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 'EENTRO', 'EBANDS', 'EATOM', 'TOTEN']
-    colors = plt.cm.viridis(np.linspace(0, 1, len(values_dict)))
+    colors = plt.cm.turbo(np.linspace(0, 1, len(values_dict))) # viridis, magma, plasma, inferno, cividis, mako, rocket, turbo
     
     for pattern, color in zip(patterns_order, colors):
         values = values_dict.get(pattern, [])
