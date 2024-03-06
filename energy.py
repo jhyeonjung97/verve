@@ -31,14 +31,14 @@ def main():
         patterns.discard('TOTEN')
 
     directory='./'
-    values_dict, dir_names = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
+    values_dict, dir_names, atom_list = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
 
     if args.ref is not None:
         values_dict = adjust_values(values_dict, ref=args.ref)
     if any(values_dict.values()):
-        plot_merged(values_dict, dir_names, xlabel=args.xlabel, save=args.save, filename=args.filename)
+        plot_merged(values_dict, dir_names, args.xlabel, args.save, args.filename, atom_list)
         if args.seperate:
-            plot_separately(values_dict, dir_names, xlabel=args.xlabel, save=args.save, filename=args.filename)
+            plot_separately(values_dict, dir_names, args.xlabel, args.save, args.filename)
     else:
         print('No values found for the given patterns.')
 
@@ -146,6 +146,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                                 values.setdefault('mag_'+atom_list[atom_numb], []).append(float(match.group(1)))
                                 atom_numb += 1
                                 if atom_numb == len(atom_list):
+                                    patterns.discard('mag')
                                     break
                             elif key == 'chg' and not in_charge_section:
                                 in_charge_section = True                                
@@ -158,10 +159,9 @@ def extract_values(directory, patterns, dir_range, outcar):
                                 values.setdefault('chg_'+atom_list[atom_numb], []).append(float(match_chg.group(1)))
                                 atom_numb += 1
                                 if atom_numb == len(atom_list):
-                                    patterns.
+                                    patterns.discard('chg')
                                     break
-    print(values)
-    return values, dir_names
+    return values, dir_names, atom_list
 
 def adjust_values(values_dict, ref):
     """Subtract the reference value from each pattern's data set."""
@@ -207,11 +207,13 @@ def plot_separately(values_dict, dir_names, xlabel, save, filename):
         
         # plt.show()
 
-def plot_merged(values_dict, dir_names, xlabel, save, filename):
+def plot_merged(values_dict, dir_names, xlabel, save, filename, atom_list):
     plt.figure(figsize=(10, 6))
 
     patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
                       'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Mulliken', 'Loewdin', 'ICOHP', 'ICOBI', 'mag', 'chg']
+    patterns_order.append('mag_'+atom[atom_numb] for atom in atom_list)
+    patterns_order.append('chg_'+atom[atom_numb] for atom in atom_list)
     filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
 
     colors = plt.cm.turbo(np.linspace(0, 1, len(filtered_patterns_order))) 
