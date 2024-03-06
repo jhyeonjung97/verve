@@ -32,7 +32,7 @@ def main():
 
     directory='./'
     values_dict, dir_names, atom_list = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
-
+    print(values_dict, dir_names, atom_list)
     if args.ref is not None:
         values_dict = adjust_values(values_dict, ref=args.ref)
     if any(values_dict.values()):
