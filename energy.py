@@ -108,7 +108,7 @@ def plot_values(values_dict, dir_names, xlabel, save, filename):
             
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-r', '--ref-type', typ=str, default='median', help='Adjust values by subtracting the minimum')
+    parser.add_argument('-r', '--ref-type', type=str, default='median', help='Adjust values by subtracting the minimum')
     parser.add_argument('-d', '--dir-range', type=str, default=None, help='Range of directories to investigate, e.g., "3,6"')
     parser.add_argument('-p', '--patterns', nargs='+', default='TOTEN', help='Patterns to search and plot')
     parser.add_argument('-a', '--all', action='store_true', default=False, help='Show all components')
