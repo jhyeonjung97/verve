@@ -23,7 +23,7 @@ def extract_values(directory, patterns, dir_range, outcar):
     dir_names = []
     Madelung = 'Madelung' in patterns
     if Madelung:
-        patterns.discard('Madelung')
+        patterns.delete('Madelung')
 
     dirs = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))]
     if dir_range is not None:
