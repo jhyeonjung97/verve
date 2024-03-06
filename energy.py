@@ -164,7 +164,7 @@ def main():
     parser.add_argument('-d', '--dir-range', type=str, default=None, help='Range of directories to investigate, e.g., "3,6"')
     parser.add_argument('-p', '--patterns', nargs='+', default=['TOTEN'], help='Patterns to search and plot')
     parser.add_argument('-a', '--all', action='store_true', default=False, help='Show all components')
-    parser.add_argument('-r', '--ref-type', type=str, default=None, help='Adjust values by subtracting the minimum')
+    parser.add_argument('-r', '--adjust', dest='ref', type=str, default=None, help='Adjust values by subtracting the minimum')
     parser.add_argument('-x', '--xlabel', default='Lattice parameter (Å)', type=str, help="x-axis title of the figure")
     parser.add_argument('--total', action='store_false', default=True, help='No show total energy')
     parser.add_argument('--save', action='store_false', default=True, help="save files")
