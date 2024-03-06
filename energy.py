@@ -164,10 +164,10 @@ def main():
     parser.add_argument('-d', '--dir-range', type=str, default=None, help='Range of directories to investigate, e.g., "3,6"')
     parser.add_argument('-p', '--patterns', nargs='+', default=['TOTEN'], help='Patterns to search and plot')
     parser.add_argument('-a', '--all', action='store_true', default=False, help='Show all components')
-    parser.add_argument('--no-total', action='store_true', default=False, help='No show total energy')
+    parser.add_argument('-t', '--no-total', action='store_true', default=False, help='No show total energy')
     parser.add_argument('-r', '--ref-type', type=str, default=None, help='Adjust values by subtracting the minimum')
-    parser.add_argument('-m', '--merge', action='store_true', help='Merge all plots into a single graph')
-    parser.add_argument('--xlabel', default='Lattice parameter (Å)', type=str, help="x-axis title of the figure")
+    parser.add_argument('-m', '--no-merge', action='store_false', default=True, help='Merge all plots into a single graph')
+    parser.add_argument('-x', '--xlabel', default='Lattice parameter (Å)', type=str, help="x-axis title of the figure")
     parser.add_argument('-s', '--save', default=True, action='store_true', help="save files")
     parser.add_argument('-o', '--filename', default='energy.png', type=str, help="output filename")
     args = parser.parse_args()
@@ -188,10 +188,10 @@ def main():
         values_dict = adjust_values(values_dict, ref_type=args.ref_type)
     
     if any(values_dict.values()):
-        if args.merge:
-            plot_merged(values_dict, dir_names, xlabel=args.xlabel, save=args.save, filename=args.filename)
-        else:
+        if args.no_merge:
             plot_separately(values_dict, dir_names, xlabel=args.xlabel, save=args.save, filename=args.filename)
+        else:
+            plot_merged(values_dict, dir_names, xlabel=args.xlabel, save=args.save, filename=args.filename)
         # plot_values(values_dict, dir_names, xlabel=args.xlabel, save=args.save, filename=args.filename)
     else:
         print('No values found for the given patterns.')
