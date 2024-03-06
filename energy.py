@@ -114,7 +114,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                 for line in reversed(lines):
                     match = re.search(r'-ICOHP sum:+([0-9.-]+)', line)
                     if match:
-                        values.setdefault('ICOHP', []).append(-float(match.group(1)))
+                        values.setdefault('ICOHP', []).append(-float(match.group(0)))
                         break
 
     return values, dir_names
