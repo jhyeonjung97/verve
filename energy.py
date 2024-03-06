@@ -146,7 +146,6 @@ def extract_values(directory, patterns, dir_range, outcar):
                                 values.setdefault('mag_'+atom_list[atom_numb], []).append(float(match.group(1)))
                                 atom_numb += 1
                                 if atom_numb == len(atom_list):
-                                    patterns.discard('mag')
                                     break
                             elif key == 'chg' and not in_charge_section:
                                 in_charge_section = True                                
@@ -159,8 +158,13 @@ def extract_values(directory, patterns, dir_range, outcar):
                                 values.setdefault('chg_'+atom_list[atom_numb], []).append(float(match_chg.group(1)))
                                 atom_numb += 1
                                 if atom_numb == len(atom_list):
-                                    patterns.discard('chg')
                                     break
+                                    
+    if 'mag' in patterns:
+        patterns.discard('mag')
+    if 'chg' in patterns:
+        patterns.discard('chg')
+
     return values, dir_names, atom_list
 
 def adjust_values(values_dict, ref):
