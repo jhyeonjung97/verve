@@ -101,7 +101,7 @@ def plot_merged(values_dict, dir_names, xlabel, save, filename):
         print(f"Figure saved as {filename}")
     plt.show()
 
-def plot_separately(values_dict, dir_names, xlabel, save, filename_prefix):
+def plot_separately(values_dict, dir_names, xlabel, save, filename):
     """Plot each pattern on its own graph."""
     x = np.arange(len(dir_names))
     for i, (pattern, values) in enumerate(values_dict.items()):
@@ -120,9 +120,9 @@ def plot_separately(values_dict, dir_names, xlabel, save, filename_prefix):
         plt.tight_layout()
         
         if save:
-            pattern_filename = f"{filename_prefix}_{pattern}.png"
-            plt.savefig(pattern_filename, bbox_inches="tight")
-            print(f"Figure saved as {pattern_filename}")
+            filename = filename.split(".")[0]
+            plt.savefig(f"{filename}_{pattern}.png", bbox_inches="tight")
+            print(f"Figure saved as {filename}_{pattern}.png")
         
         plt.show()
 
