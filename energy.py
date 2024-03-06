@@ -29,7 +29,7 @@ def main():
         patterns = set(args.patterns)
     if not args.total:
         patterns.discard('TOTEN')
-        
+    print(patterns)
     directory='./'
     values_dict, dir_names = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
     if args.ref is not None:
