@@ -33,6 +33,11 @@ def main():
     directory='./'
     values_dict, dir_names, atom_list = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
     print(values_dict, dir_names, atom_list)
+    if 'mag' in values_dict:
+        values_dict.discard('mag')
+    if 'chg' in values_dict:
+        values_dict.discard('chg')
+        
     if args.ref is not None:
         values_dict = adjust_values(values_dict, ref=args.ref)
     if any(values_dict.values()):
@@ -160,11 +165,6 @@ def extract_values(directory, patterns, dir_range, outcar):
                                 if atom_numb == len(atom_list):
                                     break
                                     
-    if 'mag' in patterns:
-        patterns.discard('mag')
-    if 'chg' in patterns:
-        patterns.discard('chg')
-
     return values, dir_names, atom_list
 
 def adjust_values(values_dict, ref):
