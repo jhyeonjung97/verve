@@ -52,7 +52,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                         if key == 'PAW_double_counting':
                             last_value = sum(map(float, match.groups()))
                         else:
-                            last_value = float(match.groups(1))
+                            last_value = float(match.group(1))
             if last_value is not None:
                 values[key].append(last_value)
         if Madelung:
