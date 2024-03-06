@@ -56,19 +56,19 @@ def extract_values(directory, patterns, dir_range, outcar):
                             break
     return values, dir_names
 
-def adjust_values(values_dict, ref_type):
+def adjust_values(values_dict, ref):
     """Subtract the reference value from each pattern's data set."""
     adjusted_values_dict = {}
     for pattern, values in values_dict.items():
         if values:
-            if ref_type == 'min':
+            if ref == 'min':
                 ref_value = min(values)
-            elif ref_type == 'max':
+            elif ref == 'max':
                 ref_value = max(values)
-            elif ref_type == 'mid':
+            elif ref == 'mid':
                 ref_value = np.median(values)
             else:
-                raise ValueError(f"Unknown reference type: {ref_type}")
+                raise ValueError(f"Unknown reference type: {ref}")
             adjusted_values = [value - ref_value for value in values]
             adjusted_values_dict[pattern] = adjusted_values
         else:
@@ -185,8 +185,8 @@ def main():
     values_dict, dir_names = extract_values(directory, patterns, args.dir_range, args.outcar)
     # dir_names = [name[2:] for name in dir_names]  # Slice names here if not already done
 
-    if args.ref_type is not None:
-        values_dict = adjust_values(values_dict, ref_type=args.ref_type)
+    if args.ref is not None:
+        values_dict = adjust_values(values_dict, ref=args.ref)
     
     if any(values_dict.values()):
         plot_merged(values_dict, dir_names, xlabel=args.xlabel, save=args.save, filename=args.filename)
