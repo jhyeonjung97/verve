@@ -1,3 +1,4 @@
+$dir_now=$PWD
 for i in '*/'
 do
     cd $i
