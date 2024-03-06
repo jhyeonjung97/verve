@@ -62,7 +62,7 @@ def extract_values(directory, patterns, dir_range, outcar):
         'EATOM': r'atomic energy  EATOM  =\s+([0-9.-]+)',
         'Ediel_sol': r'Solvation  Ediel_sol  =\s+([0-9.-]+)',
         'TOTEN': r'free energy    TOTEN  =\s+([0-9.-]+)',
-        'mag': r'\s*\d+\s+\d+\.\d+\s+\d+\.\d+\s+\d+\.\d+\s+(\d+\.\d+)',
+        'mag': r'\s*\d+\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)',
         'chg': r'magnetization \(x\)',
     }
     
@@ -152,7 +152,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                                 values[key].append(combined_value)
                                 break
                             elif key == 'mag':
-                                values.setdefault('mag_'+reversed_atom_list[atom_numb], []).append(float(match.group(1)))
+                                values.setdefault('mag_'+reversed_atom_list[atom_numb], []).append(float(match.group(4)))
                                 atom_numb += 1
                                 if atom_numb == len(atom_list):
                                     break
@@ -162,9 +162,9 @@ def extract_values(directory, patterns, dir_range, outcar):
                                 values[key].append(float(match.group(1)))
                                 break
                         if key == 'chg' and in_charge_section:
-                            match_chg = re.search(r'\s*\d+\s+\d+\.\d+\s+\d+\.\d+\s+\d+\.\d+\s+(\d+\.\d+)', line)
+                            match_chg = re.search(r'\s*\d+\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)', line)
                             if match_chg:
-                                values.setdefault('chg_'+reversed_atom_list[atom_numb], []).append(float(match_chg.group(1)))
+                                values.setdefault('chg_'+reversed_atom_list[atom_numb], []).append(float(match_chg.group(4)))
                                 atom_numb += 1
                                 if atom_numb == len(atom_list):
                                     break
