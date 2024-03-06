@@ -90,32 +90,6 @@ def adjust_values(values_dict, ref):
             adjusted_values_dict[pattern] = values  # No adjustment needed
     return adjusted_values_dict
 
-def plot_merged(values_dict, dir_names, xlabel, save, filename):
-    """Plot all patterns on a single graph."""
-    plt.figure(figsize=(10, 6))
-    x = np.arange(len(dir_names))
-    patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 'EENTRO', 'EBANDS', 'EATOM', 'TOTEN']
-    colors = plt.cm.turbo(np.linspace(0, 1, len(patterns_order)))
-    
-    for pattern, color in zip(patterns_order, colors):
-        values = values_dict.get(pattern, [])
-        if not values:
-            print(f"No values found for pattern: {pattern}")
-            continue
-        plt.plot(values, marker='o', linestyle='-', label=pattern, color=color)
-    
-    plt.title('Energy Contribution')
-    plt.xlabel(xlabel)
-    plt.ylabel('Energy (eV)')
-    plt.xticks(x, dir_names, rotation='vertical')
-    plt.grid(True)
-    plt.legend()
-    plt.tight_layout()
-    if save:
-        plt.savefig(filename, bbox_inches="tight")
-        print(f"Figure saved as {filename}")
-    plt.show()
-
 def plot_separately(values_dict, dir_names, xlabel, save, filename):
     """Plot each pattern on its own graph."""
     x = np.arange(len(dir_names))
@@ -141,14 +115,13 @@ def plot_separately(values_dict, dir_names, xlabel, save, filename):
         
         # plt.show()
 
-def plot_values(values_dict, dir_names, xlabel, save, filename):
+def plot_merged(values_dict, dir_names, xlabel, save, filename):
     """Plot the extracted last values for all selected patterns on a single graph."""
     plt.figure(figsize=(10, 6))
-    print(values_dict, dir_names)
+
     patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
                       'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Mulliken', 'Loewdin']
     filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
-    print(filtered_patterns_order)
 
     colors = plt.cm.turbo(np.linspace(0, 1, len(filtered_patterns_order))) 
     # viridis, magma, plasma, inferno, cividis, mako, rocket, turbo
