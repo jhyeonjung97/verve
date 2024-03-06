@@ -63,7 +63,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                 with open(file_path, 'r') as file:
                     lines = file.readlines()
                 for line in reversed(lines):  # Search from the end of the file
-                    match = re.search(r'\s*\d+\.\d+\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)', text)
+                    match = re.search(r'\s*\d+\.\d+\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)', 'MadelungEnergies.lobster')
                     if match:
                         values['Mulliken'].append(float(match.group(1)))
                         values['Loewdin'].append(float(match.group(2)))
