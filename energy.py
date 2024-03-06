@@ -144,9 +144,11 @@ def plot_separately(values_dict, dir_names, xlabel, save, filename):
 def plot_values(values_dict, dir_names, xlabel, save, filename):
     """Plot the extracted last values for all selected patterns on a single graph."""
     plt.figure(figsize=(10, 6))
-    
-    patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 'EENTRO', 'EBANDS', 'EATOM', 'TOTEN']
+    print(values_dict, dir_names)
+    patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
+                      'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Mulliken', 'Loewdin']
     filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
+    print(filtered_patterns_order)
 
     colors = plt.cm.turbo(np.linspace(0, 1, len(filtered_patterns_order))) 
     # viridis, magma, plasma, inferno, cividis, mako, rocket, turbo
