@@ -48,7 +48,8 @@ alias cobi='python ~/bin/playground/aloha/cobi.py'
 
 
 #SSH
-alias gm='ssh -l jiuy97 -i ~/.ssh/nersc perlmutter.nersc.gov'
+alias gm='~/bin/verve/sshproxy.sh -u jiuy97
+ssh -l jiuy97 -i ~/.ssh/nersc perlmutter.nersc.gov'
 alias burning='ssh -X -Y hyeonjung@burning.postech.ac.kr -p 54329'
 alias snu='ssh -X -Y hyeonjung@210.117.209.87'
 alias x2658='ssh -X -Y x2658a09@nurion.ksc.re.kr'
