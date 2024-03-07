@@ -166,7 +166,6 @@ def extract_values(directory, patterns, dir_range, outcar):
             ICOBI_path = os.path.join(dir_path, 'icobi.txt')
             if not os.path.exists(ICOBI_path):
                 subprocess.call('python ~/bin/playground/aloha/cobi.py > icobi.txt', shell=True, cwd=dir_path)
-                print('hello')
             if os.path.exists(ICOBI_path):
                 for line in open(ICOBI_path, 'r'):
                     match = re.search(r'ICOBI avg:([0-9.]+)', line)
