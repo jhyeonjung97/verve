@@ -128,7 +128,7 @@ def extract_values(directory, patterns, dir_range, outcar):
             gp_path = os.path.join(dir_path, 'GROSSPOP.lobster')
             if os.path.exists(gp_path):
                 for line in open(gp_path, 'r'):
-                    match = re.search(r'\s*total\s+([0-9.]+)\s+([0-9.]+)')
+                    match = re.search(r'\s*total\s+([0-9.]+)\s+([0-9.]+)', line)
                     if match:
                         symbol = atoms[i].symbol
                         zval = zval_dict[symbol]
