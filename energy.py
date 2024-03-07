@@ -121,7 +121,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                     match = re.search(r'\s*\d+\.\d+\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)', line)
                     if match:
                         values.setdefault('Madelung_Mulliken', []).append(float(match.group(1)))
-                        values.setdefault('Madelung(Loewdin)', []).append(float(match.group(2)))
+                        values.setdefault('Madelung_Loewdin', []).append(float(match.group(2)))
                         break
         if 'GP' in specific_patterns:
             i = numb - 1
@@ -133,7 +133,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                         symbol = atoms[i].symbol
                         zval = zval_dict[symbol]
                         values.setdefault('GP_Mulliken_'+symbol+str(i), []).append(zval-float(match.group(1)))
-                        values.setdefault('GP(Loewdin)_'+symbol+str(i), []).append(zval-float(match.group(2)))
+                        values.setdefault('GP_Loewdin_'+symbol+str(i), []).append(zval-float(match.group(2)))
                         if i != 0: i -= 1
                         else: break
         if 'Bader' in specific_patterns:
@@ -281,8 +281,8 @@ def plot_merged(values_dict, dir_names, xlabel, save, filename, atoms):
     plt.figure(figsize=(10, 6))
 
     patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
-                      'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung_Mulliken', 'Madelung(Loewdin)', 
-                      'ICOHP', 'ICOBI', 'GP_Mulliken', 'GP(Loewdin)']
+                      'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung_Mulliken', 'Madelung_Loewdin', 
+                      'ICOHP', 'ICOBI', 'GP_Mulliken', 'GP_Loewdin']
     patterns_order.extend(['mag_'+atom.symbol+str(atom.index) for atom in atoms])
     patterns_order.extend(['chg_'+atom.symbol+str(atom.index) for atom in atoms])
     patterns_order.extend(['Bader_'+atom.symbol+str(atom.index) for atom in atoms])
