@@ -106,7 +106,6 @@ def extract_values(directory, patterns, dir_range, outcar):
             zval_dict = dict(zip(titels, zvals))
                         
         if 'Madelung' in patterns:
-            patterns.discard('Madelung')
             madelung_path = os.path.join(dir_path, 'MadelungEnergies.lobster')
             if os.path.exists(madelung_path):
                 with open(madelung_path, 'r') as file:
@@ -119,7 +118,6 @@ def extract_values(directory, patterns, dir_range, outcar):
                         break
         if 'Bader' in patterns:
             i = numb - 1
-            patterns.discard('Bader')
             Bader_path = os.path.join(dir_path, 'ACF.dat')
             if not os.path.exists(Bader_path):
                 subprocess.call('python ~/bin/verve/bader.py', shell=True, cwd=dir_path)
@@ -131,14 +129,12 @@ def extract_values(directory, patterns, dir_range, outcar):
                     if match:
                         symbol = atoms[i].symbol
                         zval = zval_dict[symbol]
-                        print(symbol, str(i), zval, float(match.group(4)))
                         values.setdefault('Bader_'+symbol+str(i), []).append(zval-float(match.group(4)))
                         if i == 0:
                             break
                         else:
                             i -= 1
         if 'ICOHP' in patterns:
-            patterns.discard('ICOHP')
             ICOHP_path = os.path.join(dir_path, 'icohp.txt')
             if not os.path.exists(ICOHP_path):
                 subprocess.call('python ~/bin/playground/aloha/cohp.py > icohp.txt', shell=True, cwd=dir_path)
@@ -149,7 +145,6 @@ def extract_values(directory, patterns, dir_range, outcar):
                         values.setdefault('ICOHP', []).append(-float(match.group(2)))
                         break
         if 'ICOBI' in patterns:
-            patterns.discard('ICOBI')
             ICOBI_path = os.path.join(dir_path, 'icobi.txt')
             if not os.path.exists(ICOBI_path):
                 subprocess.call('python ~/bin/playground/aloha/cobi.py > icobi.txt', shell=True, cwd=dir_path)
@@ -197,7 +192,10 @@ def extract_values(directory, patterns, dir_range, outcar):
                                     break
                                 else:
                                     i -= 1
-                                    
+    patterns.discard('Madelung')
+    patterns.discard('Bader')
+    patterns.discard('ICOBI')
+    patterns.discard('ICOHP')
     return values, dir_names, atoms
 
 def adjust_values(values_dict, ref):
