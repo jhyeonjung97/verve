@@ -31,7 +31,7 @@ def main():
         patterns.discard('TOTEN')
 
     directory='./'
-    values_dict, dir_names, atom = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
+    values_dict, dir_names, atoms = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
     
     if 'mag' in values_dict:
         del values_dict['mag']
