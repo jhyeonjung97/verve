@@ -32,7 +32,7 @@ def main():
 
     directory='./'
     values_dict, dir_names, atoms = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
-    
+    print(values_dict)
     if 'mag' in values_dict:
         del values_dict['mag']
     if 'chg' in values_dict:
@@ -253,7 +253,6 @@ def plot_merged(values_dict, dir_names, xlabel, save, filename, atoms):
     patterns_order.extend(['mag_'+atom.symbol+str(atom.index) for atom in atoms])
     patterns_order.extend(['chg_'+atom.symbol+str(atom.index) for atom in atoms])
     patterns_order.extend(['Bader_'+atom.symbol+str(atom.index) for atom in atoms])
-    print(patterns_order)
     filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
 
     colors = plt.cm.turbo(np.linspace(0, 1, len(filtered_patterns_order))) 
