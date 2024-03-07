@@ -1,12 +1,10 @@
 dir_now=$PWD
 
-if ${here} == 'slac'; then
-    usr='jiuy97'
-elif ${here} == 'mac'; then
-    usr='hailey'
+if [[ ${here} == 'slac' ]]; then
+    cd /Users/jiuy97/Google\ Drive/My\ Drive
+elif [[ ${here} == 'mac' ]]; then
+    cd /Users/hailey/jiuy97@stanford.edu\ -\ Google\ Drive/My\ Drive
 fi
-
-cd /Users/$usr/jiuy97@stanford.edu\ -\ Google\ Drive/My\ Drive
 
 cp -r /Users/jiuy97/bin/orange/* ./bin/orange
 cp -r /Users/jiuy97/bin/shoulder/* ./bin/shoulder
