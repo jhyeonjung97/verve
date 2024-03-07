@@ -1,10 +1,10 @@
-import argparse
 import os
 import re
-import matplotlib.pyplot as plt
-import numpy as np
+import argparse
 import subprocess
+import numpy as np
 from ase.io import read
+import matplotlib.pyplot as plt
 
 def get_parser():
     parser = argparse.ArgumentParser()
