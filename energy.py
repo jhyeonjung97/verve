@@ -45,9 +45,9 @@ def main():
     if args.ref is not None:
         values_dict = adjust_values(values_dict, ref=args.ref)
     if any(values_dict.values()):
-        plot_merged(values_dict, dir_names, args.xlabel, args.save, args.filename, atoms, symbols)
+        plot_merged(values_dict, dir_names, args.xlabel, args.save, args.filename, atoms, args.symbols)
         if args.seperate:
-            plot_separately(values_dict, dir_names, args.xlabel, args.save, args.filename, symbols)
+            plot_separately(values_dict, dir_names, args.xlabel, args.save, args.filename, args.symbols)
     else:
         print('No values found for the given patterns.')
 
