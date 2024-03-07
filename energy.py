@@ -273,6 +273,7 @@ def plot_separately(values_dict, dir_names, xlabel, save, filename):
             filename = filename.split(".")[0]
             plt.savefig(f"{filename}_{pattern}.png", bbox_inches="tight")
             print(f"Figure saved as {filename}_{pattern}.png")
+            plt.close()
         else:
             plt.show()
 
