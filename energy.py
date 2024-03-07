@@ -96,15 +96,14 @@ def extract_values(directory, patterns, dir_range, outcar):
         titels =[]
         potcar_path = os.path.join(dir_path, 'POTCAR')
         if os.path.exists(potcar_path):
-            with open(potcar_path, 'r') as file:
-                for line in file:
-                    match_zval = re.search(r'POMASS\s*=\s*([0-9.]+);\s*ZVAL\s*=\s*([0-9.]+)', line)
-                    match_titel = re.search(r'PAW_PBE\s+([A-Za-z]{1,2})\s', line)
-                    if match_zval:
-                        zvals.append(float(match_zval.group(2)))
-                    if match_titel:
-                        titels.append(match_titel.group(2))
-                zval_dict = dict(zip(titels, zvals))
+            for line in open(potcar_path, 'r'):
+                match_zval = re.search(r'POMASS\s*=\s*([0-9.]+);\s*ZVAL\s*=\s*([0-9.]+)', line)
+                match_titel = re.search(r'PAW_PBE\s+([A-Za-z]{1,2})\s', line)
+                if match_zval:
+                    zvals.append(float(match_zval.group(2)))
+                if match_titel:
+                    titels.append(match_titel.group(2))
+            zval_dict = dict(zip(titels, zvals))
                         
         if 'Madelung' in patterns:
             patterns.discard('Madelung')
@@ -125,8 +124,7 @@ def extract_values(directory, patterns, dir_range, outcar):
             if not os.path.exists(Bader_path):
                 subprocess.call('python ~/bin/verve/bader.py', shell=True, cwd=dir_path)
             if os.path.exists(Bader_path):
-                with open(Bader_path, 'r') as file:
-                for line in file:
+                for line in open(Bader_path, 'r'):
                     match = re.search(r'\s*\d+\s+([-]?\d+\.\d+)\s+([-]?\d+\.\d+)\s+([-]?\d+\.\d+)\s+([-]?\d+\.\d+)', line)
                     if match:
                         symbol = atoms[i].symbol
@@ -141,8 +139,7 @@ def extract_values(directory, patterns, dir_range, outcar):
             if not os.path.exists(ICOHP_path):
                 subprocess.call('python ~/bin/playground/aloha/cohp.py > icohp.txt', shell=True, cwd=dir_path)
             if os.path.exists(ICOHP_path):
-                with open(ICOHP_path, 'r') as file:
-                for line in file:
+                for line in open(ICOHP_path, 'r'):
                     match = re.search(r'-ICOHP sum:(\s*)([0-9.]+)', line)
                     if match:
                         values.setdefault('ICOHP', []).append(-float(match.group(2)))
@@ -153,11 +150,10 @@ def extract_values(directory, patterns, dir_range, outcar):
             if not os.path.exists(ICOBI_path):
                 subprocess.call('python ~/bin/playground/aloha/cobi.py > icobi.txt', shell=True, cwd=dir_path)
             if os.path.exists(ICOBI_path):
-                with open(ICOBI_path, 'r') as file:
-                for line in file:
-                    match = re.search(r'ICOBI sum:(\s*)([0-9.]+)', line)
+                for line in open(ICOBI_path, 'r'):
+                    match = re.search(r'ICOBI sum:\s*([0-9.]+)', line)
                     if match:
-                        values.setdefault('ICOBI', []).append(float(match.group(2)))
+                        values.setdefault('ICOBI', []).append(float(match.group(1)))
                         break
 
         if patterns:
