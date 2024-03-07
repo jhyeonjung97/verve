@@ -33,13 +33,15 @@ def main():
 
     directory='./'
     values_dict, dir_names, atoms = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
-    print(values_dict)
+    
     
     keys_to_delete = ['mag', 'chg', 'Bader', 'Madelung', 'GP']
     for key in keys_to_delete:
-        if key in values_dict:
-            del values_dict[key]
-        
+        values_dict.pop(key, None)
+        # if key in values_dict:
+        #     del values_dict[key]
+    print(values_dict)
+    
     if args.ref is not None:
         values_dict = adjust_values(values_dict, ref=args.ref)
     if any(values_dict.values()):
