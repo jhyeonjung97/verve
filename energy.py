@@ -33,7 +33,7 @@ def main():
 
     directory='./'
     values_dict, dir_names, atoms = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
-    values_dict = selected_values(values_dict, args.symbols)
+    values_dict = selected_values(values_dict, args.symbols, atoms)
 
     for key, values in values_dict.values():
         rounded_values = [round(value, 3) for value in values]
@@ -228,7 +228,7 @@ def adjust_values(values_dict, ref):
             adjusted_values_dict[pattern] = values  # No adjustment needed
     return adjusted_values_dict
 
-def selected_values(values_dict, symbols):
+def selected_values(values_dict, symbols, atoms):
     keys_to_remove = [
         'mag_' + atom.symbol + str(atom.index) 
         for atom in atoms 
