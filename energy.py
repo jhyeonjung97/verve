@@ -203,7 +203,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                             zval = zval_dict[symbol]
                             match = re.compile(pattern_map['mag']).search(line)
                             if match:
-                                values.setdefault('chg_'+symbol+str(i), []).append(zval-float(match.group(4)))
+                                values.setdefault('chg_'+symbol+str(i), []).append(float(match.group(4)))
                                 if i != 0: i -= 1
                                 else: break
     
