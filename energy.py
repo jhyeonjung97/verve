@@ -103,8 +103,6 @@ def extract_values(directory, patterns, dir_range, outcar):
                     zvals.append(float(match_zval.group(2)))
                 if match_titel:
                     titels.append(match_titel.group(1))
-            print(titels)
-            print(zvals)
             zval_dict = dict(zip(titels, zvals))
                         
         if 'Madelung' in patterns:
@@ -167,7 +165,6 @@ def extract_values(directory, patterns, dir_range, outcar):
                     i = numbs - 1
                     pattern = re.compile(pattern_map[key])
                     for line in reversed(lines):
-                        print(pattern)
                         match = pattern.search(line)
                         if match:
                             if key == 'PAW_double_counting':
@@ -188,12 +185,10 @@ def extract_values(directory, patterns, dir_range, outcar):
                                 break
                         if key == 'chg' and in_charge_section:
                             symbol = atoms[i].symbol
-                            print(symbol)
-                            print(zval_dict)
                             zval = zval_dict[symbol]
-                            match_chg = re.search(r'\s*\d+\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)', line)
-                            if match_chg:
-                                values.setdefault('chg_'+symbol+str(i), []).append(float(match_chg.group(4))-zval)
+                            match = re.compile(pattern_map['mag']).search(line)
+                            if match:
+                                values.setdefault('chg_'+symbol+str(i), []).append(float(match.group(4))-zval)
                                 if i == 0:
                                     break
                                 else:
