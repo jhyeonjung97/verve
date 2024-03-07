@@ -206,6 +206,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                                 values.setdefault('chg_'+symbol+str(i), []).append(zval-float(match.group(4)))
                                 if i != 0: i -= 1
                                 else: break
+                                    
     return values, dir_names, atoms
 
 def adjust_values(values_dict, ref):
