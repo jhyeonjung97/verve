@@ -103,6 +103,8 @@ def extract_values(directory, patterns, dir_range, outcar):
                     zvals.append(float(match_zval.group(2)))
                 if match_titel:
                     titels.append(match_titel.group(1))
+            print(titels)
+            print(zvals)
             zval_dict = dict(zip(titels, zvals))
                         
         if 'Madelung' in patterns:
