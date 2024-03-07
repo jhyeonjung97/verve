@@ -96,7 +96,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                 atoms = read(poscar_path)
                 numb = atoms.get_global_number_of_atoms()
                 break
-
+        print(atoms)
         zvals =[]
         titels =[]
         potcar_path = os.path.join(dir_path, 'POTCAR')
@@ -204,7 +204,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                                 values.setdefault('chg_'+symbol+str(i), []).append(zval-float(match.group(4)))
                                 if i != 0: i -= 1
                                 else: break
-                                    
+    
     return values, dir_names, atoms
 
 def adjust_values(values_dict, ref):
