@@ -89,7 +89,8 @@ def extract_values(directory, patterns, dir_range, outcar):
             if pattern in patterns:
                 patterns.discard(pattern)
                 specific_patterns.append(pattern)
-    
+        print(patterns)
+        print(specific_patterns)
         in_charge_section = False
         for poscar in ['POSCAR', 'CONTCAR', 'start.traj', 'restart.json']:
             poscar_path = os.path.join(dir_path, poscar)
