@@ -33,11 +33,9 @@ def main():
 
     directory='./'
     values_dict, dir_names, atoms = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
+    print(values_dict)
     values_dict = selected_values(values_dict, args.symbols, atoms)
-
-    for key, values in values_dict.values():
-        rounded_values = [round(value, 3) for value in values]
-        print(f"{key}: {rounded_values}")
+    print(values_dict)
         
     if args.ref is not None:
         values_dict = adjust_values(values_dict, ref=args.ref)
