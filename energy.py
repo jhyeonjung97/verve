@@ -84,6 +84,11 @@ def extract_values(directory, patterns, dir_range, outcar):
         trimmed_dir_name = dir_name[2:]  # Remove the first two characters
         dir_names.append(trimmed_dir_name)
 
+        specific_patterns = []
+        for pattern in ['Madelung', 'Bader', 'ICOHP', 'ICOBI']:
+            patterns.discard(pattern)
+            specific_patterns.append(pattern)
+    
         in_charge_section = False
         for poscar in ['POSCAR', 'CONTCAR', 'start.traj', 'restart.json']:
             poscar_path = os.path.join(dir_path, poscar)
@@ -105,7 +110,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                     titels.append(match_titel.group(1))
             zval_dict = dict(zip(titels, zvals))
                         
-        if 'Madelung' in patterns:
+        if 'Madelung' in specific_patterns:
             madelung_path = os.path.join(dir_path, 'MadelungEnergies.lobster')
             if os.path.exists(madelung_path):
                 with open(madelung_path, 'r') as file:
@@ -116,7 +121,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                         values.setdefault('Mulliken', []).append(float(match.group(1)))
                         values.setdefault('Loewdin', []).append(float(match.group(2)))
                         break
-        if 'Bader' in patterns:
+        if 'Bader' in specific_patterns:
             i = numb - 1
             Bader_path = os.path.join(dir_path, 'ACF.dat')
             if not os.path.exists(Bader_path):
@@ -134,7 +139,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                             break
                         else:
                             i -= 1
-        if 'ICOHP' in patterns:
+        if 'ICOHP' in specific_patterns:
             ICOHP_path = os.path.join(dir_path, 'icohp.txt')
             if not os.path.exists(ICOHP_path):
                 subprocess.call('python ~/bin/playground/aloha/cohp.py > icohp.txt', shell=True, cwd=dir_path)
@@ -144,7 +149,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                     if match:
                         values.setdefault('ICOHP', []).append(-float(match.group(2)))
                         break
-        if 'ICOBI' in patterns:
+        if 'ICOBI' in specific_patterns:
             ICOBI_path = os.path.join(dir_path, 'icobi.txt')
             if not os.path.exists(ICOBI_path):
                 subprocess.call('python ~/bin/playground/aloha/cobi.py > icobi.txt', shell=True, cwd=dir_path)
@@ -192,10 +197,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                                     break
                                 else:
                                     i -= 1
-    patterns.discard('Madelung')
-    patterns.discard('Bader')
-    patterns.discard('ICOBI')
-    patterns.discard('ICOHP')
+                                    
     return values, dir_names, atoms
 
 def adjust_values(values_dict, ref):
