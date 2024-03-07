@@ -134,6 +134,7 @@ atoms.calc = vasp_calculator.Vasp(
                     nupdown=0
                     )
 
+print ('Calculation Start: opt_bulk3_afm_low-05.py')
 eng = atoms.get_potential_energy()
 print ('Calculation Complete, storing the run + calculator to traj file')
 

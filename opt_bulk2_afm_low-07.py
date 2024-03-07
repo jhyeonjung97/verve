@@ -13,7 +13,7 @@ import ase.calculators.vasp as vasp_calculator
 effective_length = 25
 
 spin_states_plus_4 = {'Sc': 0, 'Ti': 0, 'V': 1, 'Cr': 2, 'Mn': 3, 'Fe': 4, 
-                    'Co': 0.7, 'Ni': 2, 'Cu': 3, 'Zn': 2, 'Ga': 1, 'Ge': 0,
+                    'Co': 1.2, 'Ni': 2, 'Cu': 3, 'Zn': 2, 'Ga': 1, 'Ge': 0,
                     'Y': 0, 'Zr': 0, 'Nb': 1, 'Mo': 2, 'Tc': 3, 'Ru': 0, 
                     'Pd': 0, 'Rh': 0, 'Ag': 0, 'Cd': 0, 'In': 0, 'Sn': 0,
                     'Hf': 0, 'Ta': 1, 'W': 2, 'Re': 1, 'Os': 0, 'Ir': 0, 
@@ -109,7 +109,7 @@ atoms.calc = vasp_calculator.Vasp(
                     sigma=0.05,
                     algo='normal',
                     ibrion=2,
-                    isif=3,
+                    isif=2,
                     ediffg=-0.02,
                     ediff=1e-6,
                     prec='Normal',
@@ -134,12 +134,12 @@ atoms.calc = vasp_calculator.Vasp(
                     nupdown=0
                     )
 
-print ('Calculation Start: opt_bulk3_afm_low-10.py')
+print ('Calculation Start: opt_bulk3_afm_low-07.py')
 eng = atoms.get_potential_energy()
 print ('Calculation Complete, storing the run + calculator to traj file')
 
-Trajectory('final_opt_bulk3_afm_low.traj','w').write(atoms)
-subprocess.call('ase convert -f final_opt_bulk3_afm_low.traj restart.json', shell=True)
-subprocess.call('ase convert -f final_opt_bulk3_afm_low.traj final_opt_bulk3_afm_low.json', shell=True)
-subprocess.call('ase convert -f OUTCAR full_opt_bulk3_afm_low.json', shell=True)
-subprocess.call('cp OUTCAR OUTCAR_opt_bulk3_afm_low', shell=True)
+Trajectory('final_opt_bulk2_afm_low.traj', 'w').write(atoms)
+subprocess.call('ase convert -f final_opt_bulk2_afm_low.traj restart.json', shell=True)
+subprocess.call('ase convert -f final_opt_bulk2_afm_low.traj final_opt_bulk2_afm_low.json', shell=True)
+subprocess.call('ase convert -f OUTCAR full_opt_bulk2_afm_low.json', shell=True)
+subprocess.call('cp OUTCAR OUTCAR_opt_bulk2_afm_low', shell=True)
