@@ -24,25 +24,24 @@ def main():
     args = get_parser().parse_args()
     if args.all:
         patterns = {'PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
-                    'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung', 'ICOHP', 'ICOBI', 'mag', 'chg'}
+                    'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung', 'ICOHP', 'ICOBI', 'mag', 'chg', 'Bader'}
     else:
         patterns = set(args.patterns)
     if not args.total:
         patterns.discard('TOTEN')
 
     directory='./'
-    values_dict, dir_names, metal_list = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
+    values_dict, dir_names, atom = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
     
     if 'mag' in values_dict:
         del values_dict['mag']
     if 'chg' in values_dict:
         del values_dict['chg']
-    print(values_dict)
     
     if args.ref is not None:
         values_dict = adjust_values(values_dict, ref=args.ref)
     if any(values_dict.values()):
-        plot_merged(values_dict, dir_names, args.xlabel, args.save, args.filename, metal_list)
+        plot_merged(values_dict, dir_names, args.xlabel, args.save, args.filename, atoms)
         if args.seperate:
             plot_separately(values_dict, dir_names, args.xlabel, args.save, args.filename)
     else:
@@ -84,19 +83,29 @@ def extract_values(directory, patterns, dir_range, outcar):
         dir_path = os.path.join(directory, dir_name)
         trimmed_dir_name = dir_name[2:]  # Remove the first two characters
         dir_names.append(trimmed_dir_name)
-        
-        if 'mag' in patterns or 'chg' in patterns:
-            for poscar in ['POSCAR', 'CONTCAR', 'start.traj', 'restart.json']:
-                poscar_path = os.path.join(dir_path, poscar)
-                if os.path.exists(poscar_path):
-                    atoms = read(poscar_path)
-                    atom_list = [atom.symbol+str(atom.index) for atom in atoms]
-                    metal_list = [atom.symbol+str(atom.index) for atom in atoms if atom.symbol != 'O']
-                    reversed_atom_list = list(reversed(atom_list))
-                    reversed_metal_list = list(reversed(metal_list))
-                    break
-            in_charge_section = False
-            
+
+        in_charge_section = False
+        for poscar in ['POSCAR', 'CONTCAR', 'start.traj', 'restart.json']:
+            poscar_path = os.path.join(dir_path, poscar)
+            if os.path.exists(poscar_path):
+                atoms = read(poscar_path)
+                numbs = atoms.get_chemical_symbols()
+                break
+
+        zvals =[]
+        titels =[]
+        potcar_path = os.path.join(dir_path, 'POTCAR')
+        if os.path.exists(potcar_path):
+            with open(potcar_path, 'r') as file:
+                for line in file:
+                    match_zval = re.search(r'POMASS\s*=\s*([0-9.]+);\s*ZVAL\s*=\s*([0-9.]+)', line)
+                    match_titel = re.search(r'PAW_PBE\s+([A-Za-z]{1,2})\s', line)
+                    if match_zval:
+                        zvals.append(float(match_zval.group(2)))
+                    if match_titel:
+                        titels.append(match_titel.group(2))
+                zval_dict = dict(zip(titels, zvals))
+                        
         if 'Madelung' in patterns:
             patterns.discard('Madelung')
             madelung_path = os.path.join(dir_path, 'MadelungEnergies.lobster')
@@ -109,6 +118,23 @@ def extract_values(directory, patterns, dir_range, outcar):
                         values.setdefault('Mulliken', []).append(float(match.group(1)))
                         values.setdefault('Loewdin', []).append(float(match.group(2)))
                         break
+        if 'Bader' in patterns:
+            i = 0
+            patterns.discard('Bader')
+            Bader_path = os.path.join(dir_path, 'ACF.dat')
+            if not os.path.exists(Bader_path):
+                subprocess.call('python ~/bin/verve/bader.py', shell=True, cwd=dir_path)
+            if os.path.exists(Bader_path):
+                with open(Bader_path, 'r') as file:
+                for line in file:
+                    match = re.search(r'\s*\d+\s+([-]?\d+\.\d+)\s+([-]?\d+\.\d+)\s+([-]?\d+\.\d+)\s+([-]?\d+\.\d+)', line)
+                    if match:
+                        symbol = atoms[i].symbol
+                        zval = zval_dict[symbol]
+                        values.setdefault('Bader_'+symbol+str(i), []).append(float(match.group(4))-zval)
+                        i += 1
+                        if i == numbs:
+                            break
         if 'ICOHP' in patterns:
             patterns.discard('ICOHP')
             ICOHP_path = os.path.join(dir_path, 'icohp.txt')
@@ -116,8 +142,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                 subprocess.call('python ~/bin/playground/aloha/cohp.py > icohp.txt', shell=True, cwd=dir_path)
             if os.path.exists(ICOHP_path):
                 with open(ICOHP_path, 'r') as file:
-                    lines = file.readlines()
-                for line in reversed(lines):
+                for line in file:
                     match = re.search(r'-ICOHP sum:(\s*)([0-9.]+)', line)
                     if match:
                         values.setdefault('ICOHP', []).append(-float(match.group(2)))
@@ -129,8 +154,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                 subprocess.call('python ~/bin/playground/aloha/cobi.py > icobi.txt', shell=True, cwd=dir_path)
             if os.path.exists(ICOBI_path):
                 with open(ICOBI_path, 'r') as file:
-                    lines = file.readlines()
-                for line in reversed(lines):
+                for line in file:
                     match = re.search(r'ICOBI sum:(\s*)([0-9.]+)', line)
                     if match:
                         values.setdefault('ICOBI', []).append(float(match.group(2)))
@@ -142,9 +166,10 @@ def extract_values(directory, patterns, dir_range, outcar):
                 with open(outcar_path, 'r') as file:
                     lines = file.readlines()
                 for key in patterns:
-                    atom_numb = 0
+                    i = numbs - 1
                     pattern = re.compile(pattern_map[key])
                     for line in reversed(lines):
+                        print(pattern)
                         match = pattern.search(line)
                         if match:
                             if key == 'PAW_double_counting':
@@ -152,24 +177,29 @@ def extract_values(directory, patterns, dir_range, outcar):
                                 values[key].append(combined_value)
                                 break
                             elif key == 'mag':
-                                values.setdefault('mag_'+reversed_atom_list[atom_numb], []).append(float(match.group(4)))
-                                atom_numb += 1
-                                if atom_numb == len(atom_list):
+                                symbol = atoms[i].symbol
+                                values.setdefault('mag_'+symbol+str(i), []).append(float(match.group(4)))
+                                if i == 0:
                                     break
+                                else:
+                                    i -= 1
                             elif key == 'chg' and not in_charge_section:
                                 in_charge_section = True                                
                             else:
                                 values[key].append(float(match.group(1)))
                                 break
                         if key == 'chg' and in_charge_section:
+                            symbol = atoms[i].symbol
+                            zval = zval_dict[symbol]
                             match_chg = re.search(r'\s*\d+\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)', line)
                             if match_chg:
-                                values.setdefault('chg_'+reversed_atom_list[atom_numb], []).append(float(match_chg.group(4)))
-                                atom_numb += 1
-                                if atom_numb == len(atom_list):
+                                values.setdefault('chg_'+symbol+str(i), []).append(float(match_chg.group(4))-zval)
+                                if i == 0:
                                     break
+                                else:
+                                    i -= 1
                                     
-    return values, dir_names, metal_list
+    return values, dir_names, atoms
 
 def adjust_values(values_dict, ref):
     """Subtract the reference value from each pattern's data set."""
@@ -202,7 +232,7 @@ def plot_separately(values_dict, dir_names, xlabel, save, filename):
         
         plt.title(f'{pattern} Energy Contribution')
         plt.xlabel(xlabel)
-        plt.ylabel('Energy (eV)')
+        plt.ylabel('Energy (eV) or Charge (e-)')
         plt.xticks(x, dir_names, rotation='vertical')
         plt.grid(True)
         plt.legend()
@@ -219,9 +249,10 @@ def plot_merged(values_dict, dir_names, xlabel, save, filename, metal_list):
     plt.figure(figsize=(10, 6))
 
     patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
-                      'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Mulliken', 'Loewdin', 'ICOHP', 'ICOBI', 'mag', 'chg']
-    patterns_order.extend(['mag_'+atom for atom in metal_list])
-    patterns_order.extend(['chg_'+atom for atom in metal_list])
+                      'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Mulliken', 'Loewdin', 'ICOHP', 'ICOBI']
+    patterns_order.extend(['mag_'+atom.symbol+str(atom.index) for atom in atoms])
+    patterns_order.extend(['chg_'+atom.symbol+str(atom.index) for atom in atoms])
+    patterns_order.extend(['Bader_'+atom.symbol+str(atom.index) for atom in atoms])
     print(patterns_order)
     filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
 
