@@ -25,7 +25,7 @@ def main():
     args = get_parser().parse_args()
     if args.all:
         patterns = {'PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
-                    'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung', 'ICOHP', 'ICOBI', 'mag', 'chg', 'Bader'}
+                    'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung', 'ICOHP', 'ICOBI', 'mag', 'chg', 'Bader', 'GP'}
     else:
         patterns = set(args.patterns)
     if not args.total:
@@ -35,12 +35,9 @@ def main():
     values_dict, dir_names, atoms = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
     print(values_dict)
     
-    if 'mag' in values_dict:
-        del values_dict['mag']
-    if 'chg' in values_dict:
-        del values_dict['chg']
-    if 'Bader' in values_dict:
-        del values_dict['Bader']
+    keys_to_delete = ['mag', 'chg', 'Bader', 'Madelung', 'GP']
+    for key in keys_to_delete:
+        values_dict.pop(key, None)
         
     if args.ref is not None:
         values_dict = adjust_values(values_dict, ref=args.ref)
@@ -73,7 +70,7 @@ def extract_values(directory, patterns, dir_range, outcar):
     dir_names = []
     
     specific_patterns = set()
-    for pattern in ['Madelung', 'Bader', 'ICOHP', 'ICOBI']:
+    for pattern in ['Madelung', 'Bader', 'ICOHP', 'ICOBI', 'GP']:
         if pattern in patterns:
             patterns.discard(pattern)
             specific_patterns.add(pattern)
@@ -123,9 +120,22 @@ def extract_values(directory, patterns, dir_range, outcar):
                 for line in reversed(lines):
                     match = re.search(r'\s*\d+\.\d+\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)', line)
                     if match:
-                        values.setdefault('Mulliken', []).append(float(match.group(1)))
-                        values.setdefault('Loewdin', []).append(float(match.group(2)))
+                        values.setdefault('Madelung(Mulliken)', []).append(float(match.group(1)))
+                        values.setdefault('Madelung(Loewdin)', []).append(float(match.group(2)))
                         break
+        if 'GP' in specific_patterns:
+            i = numb - 1
+            gp_path = os.path.join(dir_path, 'GROSSPOP.lobster')
+            if os.path.exists(gp_path):
+                for line in open(gp_path, 'r'):
+                    match = re.search(r'\s*total\s+([0-9.]+)\s+([0-9.]+)')
+                    if match:
+                        symbol = atoms[i].symbol
+                        zval = zval_dict[symbol]
+                        values.setdefault('GP(Mulliken)_'+symbol+str(i), []).append(zval-float(match.group(1)))
+                        values.setdefault('GP(Loewdin)_'+symbol+str(i), []).append(zval-float(match.group(2)))
+                        if i != 0: i -= 1
+                        else: break
         if 'Bader' in specific_patterns:
             i = numb - 1
             Bader_path = os.path.join(dir_path, 'ACF.dat')
@@ -140,10 +150,8 @@ def extract_values(directory, patterns, dir_range, outcar):
                         symbol = atoms[i].symbol
                         zval = zval_dict[symbol]
                         values.setdefault('Bader_'+symbol+str(i), []).append(zval-float(match.group(4)))
-                        if i == 0:
-                            break
-                        else:
-                            i -= 1
+                        if i != 0: i -= 1
+                        else: break
         if 'ICOHP' in specific_patterns:
             ICOHP_path = os.path.join(dir_path, 'icohp.txt')
             if not os.path.exists(ICOHP_path):
@@ -183,10 +191,8 @@ def extract_values(directory, patterns, dir_range, outcar):
                             elif key == 'mag':
                                 symbol = atoms[i].symbol
                                 values.setdefault('mag_'+symbol+str(i), []).append(float(match.group(4)))
-                                if i == 0:
-                                    break
-                                else:
-                                    i -= 1
+                                if i != 0: i -= 1
+                                else: break
                             elif key == 'chg' and not in_charge_section:
                                 in_charge_section = True                                
                             else:
@@ -198,11 +204,8 @@ def extract_values(directory, patterns, dir_range, outcar):
                             match = re.compile(pattern_map['mag']).search(line)
                             if match:
                                 values.setdefault('chg_'+symbol+str(i), []).append(zval-float(match.group(4)))
-                                if i == 0:
-                                    break
-                                else:
-                                    i -= 1
-                                    
+                                if i != 0: i -= 1
+                                else: break
     return values, dir_names, atoms
 
 def adjust_values(values_dict, ref):
@@ -246,8 +249,7 @@ def plot_separately(values_dict, dir_names, xlabel, save, filename, symbols):
     ]
     
     for key in keys_to_remove:
-        if key in values_dict:
-            del values_dict[key]
+        values_dict.pop(key, None)
 
     for i, (pattern, values) in enumerate(values_dict.items()):
         if not values:
@@ -275,7 +277,8 @@ def plot_merged(values_dict, dir_names, xlabel, save, filename, atoms, symbols):
     plt.figure(figsize=(10, 6))
 
     patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
-                      'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Mulliken', 'Loewdin', 'ICOHP', 'ICOBI']
+                      'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung(Mulliken)', 'Madelung(Loewdin)', 
+                      'ICOHP', 'ICOBI', 'GP(Mulliken)', 'GP(Loewdin)']
     if not symbols:
         symbols = list(dict.fromkeys([atom.symbol for atom in atoms]))
     patterns_order.extend(['mag_'+atom.symbol+str(atom.index) for atom in atoms if atom.symbol in symbols])
