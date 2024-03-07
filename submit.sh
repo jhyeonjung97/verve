@@ -2,9 +2,9 @@
 #SBATCH -N 1
 #SBATCH -C gpu
 #SBATCH -G 4
-#SBATCH -q regular
+#SBATCH -q debug
 #SBATCH -J octa-high-gpu
-#SBATCH -t 12:00:00
+#SBATCH -t 00:30:00
 #SBATCH -A m2997
 #SBATCH -e err.%j.log
 #SBATCH -o out.%j.log
@@ -13,6 +13,8 @@
 export OMP_NUM_THREADS=1
 export OMP_PLACES=threads
 export OMP_PROC_BIND=spread
+
+module load vasp-tpc/6.3.2-gpu
 
 echo "import os" > run_vasp.py
 echo "exitcode = os.system('srun -n 4 -c 32 --cpu_bind=cores -G 4 --gpu-bind=none vasp_std')" >> run_vasp.py
