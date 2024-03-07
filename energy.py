@@ -200,7 +200,6 @@ def extract_values(directory, patterns, dir_range, outcar):
                                 break
                         if key == 'chg' and in_charge_section:
                             symbol = atoms[i].symbol
-                            zval = zval_dict[symbol]
                             match = re.compile(pattern_map['mag']).search(line)
                             if match:
                                 values.setdefault('chg_'+symbol+str(i), []).append(float(match.group(4)))
