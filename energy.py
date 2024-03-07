@@ -89,7 +89,7 @@ def extract_values(directory, patterns, dir_range, outcar):
             poscar_path = os.path.join(dir_path, poscar)
             if os.path.exists(poscar_path):
                 atoms = read(poscar_path)
-                numbs = atoms.get_number_of_atoms()
+                numb = atoms.get_number_of_atoms()
                 break
 
         zvals =[]
@@ -165,7 +165,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                 with open(outcar_path, 'r') as file:
                     lines = file.readlines()
                 for key in patterns:
-                    i = numbs - 1
+                    i = numb - 1
                     pattern = re.compile(pattern_map[key])
                     for line in reversed(lines):
                         match = pattern.search(line)
