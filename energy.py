@@ -244,7 +244,8 @@ def selected_values(values_dict, symbols, atoms):
     ] + ['mag', 'chg', 'Bader', 'Madelung', 'GP']
     
     for key in keys_to_remove:
-        del values_dict[key]
+        if key in values_dict:
+            del values_dict[key]
         
     return values_dict
         
