@@ -14,7 +14,7 @@ def get_parser():
     parser.add_argument('-r', '--ref', type=str, default=None, help='Adjust values by subtracting the minimum')
     parser.add_argument('-x', '--xlabel', default='Lattice parameter (Å)', type=str, help="x-axis title of the figure")
     parser.add_argument('--total', action='store_false', default=True, help='No show total energy')
-    parser.add_argument('--save', action='store_false', default=True, help="save files")
+    parser.add_argument('--save', action='store_true', default=False, help="save files")
     parser.add_argument('-s', '--seperate', action='store_true', default=False, help="save the plots seperately")
     parser.add_argument('-i', '--input', dest='outcar', type=str, default='OUTCAR', help='input filename')
     parser.add_argument('-o', '--output', dest='filename', type=str, default='energy.png', help="output filename")
