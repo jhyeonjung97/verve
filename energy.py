@@ -166,9 +166,10 @@ def extract_values(directory, patterns, dir_range, outcar):
             ICOBI_path = os.path.join(dir_path, 'icobi.txt')
             if not os.path.exists(ICOBI_path):
                 subprocess.call('python ~/bin/playground/aloha/cobi.py > icobi.txt', shell=True, cwd=dir_path)
+                print('hello')
             if os.path.exists(ICOBI_path):
                 for line in open(ICOBI_path, 'r'):
-                    match = re.search(r'ICOBI sum:\s*([0-9.]+)', line)
+                    match = re.search(r'ICOBI sum:([0-9.]+)', line)
                     if match:
                         values.setdefault('ICOBI', []).append(float(match.group(1)))
                         break
@@ -273,7 +274,8 @@ def plot_separately(values_dict, dir_names, xlabel, save, filename):
             filename = filename.split(".")[0]
             plt.savefig(f"{filename}_{pattern}.png", bbox_inches="tight")
             print(f"Figure saved as {filename}_{pattern}.png")
-        plt.show()
+        else:
+            plt.show()
 
 def plot_merged(values_dict, dir_names, xlabel, save, filename, atoms):
     plt.figure(figsize=(10, 6))
