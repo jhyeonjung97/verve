@@ -33,9 +33,9 @@ def main():
 
     directory='./'
     values_dict, dir_names, atoms = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
-    print(values_dict)
+    # print(values_dict)
     values_dict = selected_values(values_dict, args.symbols, atoms)
-    print(values_dict)
+    # print(values_dict)
         
     if args.ref is not None:
         values_dict = adjust_values(values_dict, ref=args.ref)
@@ -96,7 +96,9 @@ def extract_values(directory, patterns, dir_range, outcar):
                 atoms = read(poscar_path)
                 numb = atoms.get_global_number_of_atoms()
                 break
-        print(atoms)
+        if not atoms:
+            print('No atomic structure data..')
+            exit()
         zvals =[]
         titels =[]
         potcar_path = os.path.join(dir_path, 'POTCAR')
@@ -227,6 +229,8 @@ def adjust_values(values_dict, ref):
     return adjusted_values_dict
 
 def selected_values(values_dict, symbols, atoms):
+    if not symbols:
+        symbols = atoms.get_chemical_symbols
     keys_to_remove = [
         'mag_' + atom.symbol + str(atom.index) 
         for atom in atoms 
