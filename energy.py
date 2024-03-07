@@ -18,6 +18,7 @@ def get_parser():
     parser.add_argument('-s', '--seperate', action='store_true', default=False, help="save the plots seperately")
     parser.add_argument('-i', '--input', dest='outcar', type=str, default='OUTCAR', help='input filename')
     parser.add_argument('-o', '--output', dest='filename', type=str, default='energy.png', help="output filename")
+    parser.add_argument('-e', '--element', dest='symbols', nargs='+', default=[], help="elements of mag, chg, Bader")
     return parser
 
 def main():
@@ -33,17 +34,20 @@ def main():
     directory='./'
     values_dict, dir_names, atoms = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
     print(values_dict)
+    
     if 'mag' in values_dict:
         del values_dict['mag']
     if 'chg' in values_dict:
         del values_dict['chg']
-    
+    if 'Bader' in values_dict:
+        del values_dict['chg']
+        
     if args.ref is not None:
         values_dict = adjust_values(values_dict, ref=args.ref)
     if any(values_dict.values()):
-        plot_merged(values_dict, dir_names, args.xlabel, args.save, args.filename, atoms)
+        plot_merged(values_dict, dir_names, args.xlabel, args.save, args.filename, atoms, symbols)
         if args.seperate:
-            plot_separately(values_dict, dir_names, args.xlabel, args.save, args.filename)
+            plot_separately(values_dict, dir_names, args.xlabel, args.save, args.filename, symbols)
     else:
         print('No values found for the given patterns.')
 
@@ -220,9 +224,31 @@ def adjust_values(values_dict, ref):
             adjusted_values_dict[pattern] = values  # No adjustment needed
     return adjusted_values_dict
 
-def plot_separately(values_dict, dir_names, xlabel, save, filename):
+def plot_separately(values_dict, dir_names, xlabel, save, filename, symbols):
     """Plot each pattern on its own graph."""
     x = np.arange(len(dir_names))
+    
+    if not symbols:
+        symbols = list(dict.fromkeys([atom.symbol for atom in atoms]))
+    
+    keys_to_remove = [
+        'mag_' + atom.symbol + str(atom.index) 
+        for atom in atoms 
+        if atom.symbol not in symbols
+    ] + [
+        'chg_' + atom.symbol + str(atom.index) 
+        for atom in atoms 
+        if atom.symbol not in symbols
+    ] + [
+        'Bader_' + atom.symbol + str(atom.index) 
+        for atom in atoms 
+        if atom.symbol not in symbols
+    ]
+    
+    for key in keys_to_remove:
+        if key in values_dict:
+            del values_dict[key]
+
     for i, (pattern, values) in enumerate(values_dict.items()):
         if not values:
             print(f"No values found for pattern: {pattern}")
@@ -245,14 +271,16 @@ def plot_separately(values_dict, dir_names, xlabel, save, filename):
         
         # plt.show()
 
-def plot_merged(values_dict, dir_names, xlabel, save, filename, atoms):
+def plot_merged(values_dict, dir_names, xlabel, save, filename, atoms, symbols):
     plt.figure(figsize=(10, 6))
 
     patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
                       'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Mulliken', 'Loewdin', 'ICOHP', 'ICOBI']
-    patterns_order.extend(['mag_'+atom.symbol+str(atom.index) for atom in atoms])
-    patterns_order.extend(['chg_'+atom.symbol+str(atom.index) for atom in atoms])
-    patterns_order.extend(['Bader_'+atom.symbol+str(atom.index) for atom in atoms])
+    if not symbols:
+        symbols = list(dict.fromkeys([atom.symbol for atom in atoms]))
+    patterns_order.extend(['mag_'+atom.symbol+str(atom.index) for atom in atoms if atom.symbol in symbols])
+    patterns_order.extend(['chg_'+atom.symbol+str(atom.index) for atom in atoms if atom.symbol in symbols])
+    patterns_order.extend(['Bader_'+atom.symbol+str(atom.index) for atom in atoms if atom.symbol in symbols])
     filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
 
     colors = plt.cm.turbo(np.linspace(0, 1, len(filtered_patterns_order))) 
