@@ -186,6 +186,8 @@ def extract_values(directory, patterns, dir_range, outcar):
                                 break
                         if key == 'chg' and in_charge_section:
                             symbol = atoms[i].symbol
+                            print(symbol)
+                            print(zval_dict)
                             zval = zval_dict[symbol]
                             match_chg = re.search(r'\s*\d+\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)', line)
                             if match_chg:
