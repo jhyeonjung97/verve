@@ -259,12 +259,13 @@ def plot_separately(values_dict, dir_names, xlabel, save, filename):
         if not values:
             print(f"No values found for pattern: {pattern}")
             continue
+        
         plt.figure(figsize=(10, 6))
         plt.plot(x, values, marker='o', linestyle='-', label=pattern)
         
         plt.title(f'{pattern} Energy Contribution')
         plt.xlabel(xlabel)
-        plt.ylabel('Energy (eV) or Charge (e-)')
+        plt.ylabel('Energy (eV) or Charge')
         plt.xticks(x, dir_names, rotation='vertical')
         plt.grid(True)
         plt.legend()
@@ -274,7 +275,8 @@ def plot_separately(values_dict, dir_names, xlabel, save, filename):
             filename = filename.split(".")[0]
             plt.savefig(f"{filename}_{pattern}.png", bbox_inches="tight")
             print(f"Figure saved as {filename}_{pattern}.png")
-        plt.clf()
+            plt.close()
+        # plt.clf()
         # plt.show()
 
 def plot_merged(values_dict, dir_names, xlabel, save, filename, atoms):
@@ -302,7 +304,7 @@ def plot_merged(values_dict, dir_names, xlabel, save, filename, atoms):
     
     plt.title('Energy Contribution')
     plt.xlabel(xlabel)
-    plt.ylabel('Energy (eV)')
+    plt.ylabel('Energy (eV) or Charge')
     plt.xticks(np.arange(len(dir_names)), dir_names, rotation='vertical')
     plt.grid(True)
     plt.legend()
