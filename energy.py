@@ -64,10 +64,16 @@ def extract_values(directory, patterns, dir_range, outcar):
         'mag': r'\s*\d+\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)',
         'chg': r'magnetization \(x\)',
     }
-    
+            
     values = {key: [] for key in patterns}  # Initialize dict to store values for each pattern
     dir_names = []
     
+    specific_patterns = set()
+    for pattern in ['Madelung', 'Bader', 'ICOHP', 'ICOBI']:
+        if pattern in patterns:
+            patterns.discard(pattern)
+            specific_patterns.add(pattern)
+            
     dirs = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))]
     
     if dir_range is not None:
@@ -84,13 +90,6 @@ def extract_values(directory, patterns, dir_range, outcar):
         trimmed_dir_name = dir_name[2:]  # Remove the first two characters
         dir_names.append(trimmed_dir_name)
 
-        specific_patterns = set()
-        for pattern in ['Madelung', 'Bader', 'ICOHP', 'ICOBI']:
-            if pattern in patterns:
-                patterns.discard(pattern)
-                specific_patterns.add(pattern)
-        print(patterns)
-        print(specific_patterns)
         in_charge_section = False
         for poscar in ['POSCAR', 'CONTCAR', 'start.traj', 'restart.json']:
             poscar_path = os.path.join(dir_path, poscar)
