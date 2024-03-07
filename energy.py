@@ -85,8 +85,8 @@ def extract_values(directory, patterns, dir_range, outcar):
         dir_names.append(trimmed_dir_name)
 
         specific_patterns = []
-        for pattern in patterns:
-            if pattern in ['Madelung', 'Bader', 'ICOHP', 'ICOBI']:
+        for pattern in ['Madelung', 'Bader', 'ICOHP', 'ICOBI']:
+            if pattern in patterns:
                 patterns.discard(pattern)
                 specific_patterns.append(pattern)
     
