@@ -73,7 +73,7 @@ def extract_values(directory, patterns, dir_range, outcar):
             patterns.discard(pattern)
             specific_patterns.add(pattern)
             
-    dirs = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))]
+    dirs = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d)) and '_' in d]
     
     if dir_range is not None:
         if ',' in dir_range:
