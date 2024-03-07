@@ -129,7 +129,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                     if match:
                         symbol = atoms[i].symbol
                         zval = zval_dict[symbol]
-                        values.setdefault('Bader_'+symbol+str(i), []).append(float(match.group(4))-zval)
+                        values.setdefault('Bader_'+symbol+str(i), []).append(zval-float(match.group(4)))
                         i += 1
                         if i == numbs:
                             break
@@ -188,7 +188,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                             zval = zval_dict[symbol]
                             match = re.compile(pattern_map['mag']).search(line)
                             if match:
-                                values.setdefault('chg_'+symbol+str(i), []).append(float(match.group(4))-zval)
+                                values.setdefault('chg_'+symbol+str(i), []).append(zval-float(match.group(4)))
                                 if i == 0:
                                     break
                                 else:
