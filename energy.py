@@ -84,11 +84,11 @@ def extract_values(directory, patterns, dir_range, outcar):
         trimmed_dir_name = dir_name[2:]  # Remove the first two characters
         dir_names.append(trimmed_dir_name)
 
-        specific_patterns = []
+        specific_patterns = set()
         for pattern in ['Madelung', 'Bader', 'ICOHP', 'ICOBI']:
             if pattern in patterns:
                 patterns.discard(pattern)
-                specific_patterns.append(pattern)
+                specific_patterns.add(pattern)
         print(patterns)
         print(specific_patterns)
         in_charge_section = False
