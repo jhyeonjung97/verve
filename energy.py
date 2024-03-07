@@ -89,7 +89,7 @@ def extract_values(directory, patterns, dir_range, outcar):
             poscar_path = os.path.join(dir_path, poscar)
             if os.path.exists(poscar_path):
                 atoms = read(poscar_path)
-                numb = atoms.get_number_of_atoms()
+                numb = atoms.get_global_number_of_atoms()
                 break
 
         zvals =[]
@@ -131,6 +131,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                     if match:
                         symbol = atoms[i].symbol
                         zval = zval_dict[symbol]
+                        print(symbol, str(i), zval, float(match.group(4)))
                         values.setdefault('Bader_'+symbol+str(i), []).append(zval-float(match.group(4)))
                         if i == 0:
                             break
