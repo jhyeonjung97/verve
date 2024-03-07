@@ -85,9 +85,10 @@ def extract_values(directory, patterns, dir_range, outcar):
         dir_names.append(trimmed_dir_name)
 
         specific_patterns = []
-        for pattern in ['Madelung', 'Bader', 'ICOHP', 'ICOBI']:
-            patterns.discard(pattern)
-            specific_patterns.append(pattern)
+        for pattern in patterns:
+            if pattern in ['Madelung', 'Bader', 'ICOHP', 'ICOBI']:
+                patterns.discard(pattern)
+                specific_patterns.append(pattern)
     
         in_charge_section = False
         for poscar in ['POSCAR', 'CONTCAR', 'start.traj', 'restart.json']:
