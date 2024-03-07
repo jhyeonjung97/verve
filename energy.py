@@ -37,7 +37,8 @@ def main():
     
     keys_to_delete = ['mag', 'chg', 'Bader', 'Madelung', 'GP']
     for key in keys_to_delete:
-        values_dict.pop(key, None)
+        if key in values_dict:
+            values_dict.del[key]
         
     if args.ref is not None:
         values_dict = adjust_values(values_dict, ref=args.ref)
@@ -250,7 +251,8 @@ def plot_separately(values_dict, dir_names, xlabel, save, filename, symbols):
     ]
     
     for key in keys_to_remove:
-        values_dict.pop(key, None)
+        if key in values_dict:
+            values_dict.del[key]
 
     for i, (pattern, values) in enumerate(values_dict.items()):
         if not values:
