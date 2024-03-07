@@ -118,21 +118,24 @@ def extract_values(directory, patterns, dir_range, outcar):
                         values.setdefault('Loewdin', []).append(float(match.group(2)))
                         break
         if 'Bader' in patterns:
-            i = 0
+            i = numb - 1
             patterns.discard('Bader')
             Bader_path = os.path.join(dir_path, 'ACF.dat')
             if not os.path.exists(Bader_path):
                 subprocess.call('python ~/bin/verve/bader.py', shell=True, cwd=dir_path)
             if os.path.exists(Bader_path):
-                for line in open(Bader_path, 'r'):
+                with open(Bader_path, 'r') as file:
+                    lines = file.readlines()
+                for line in lines:
                     match = re.search(r'\s*\d+\s+([-]?\d+\.\d+)\s+([-]?\d+\.\d+)\s+([-]?\d+\.\d+)\s+([-]?\d+\.\d+)', line)
                     if match:
                         symbol = atoms[i].symbol
                         zval = zval_dict[symbol]
                         values.setdefault('Bader_'+symbol+str(i), []).append(zval-float(match.group(4)))
-                        i += 1
-                        if i == numbs:
+                        if i == 0:
                             break
+                        else:
+                            i -= 1
         if 'ICOHP' in patterns:
             patterns.discard('ICOHP')
             ICOHP_path = os.path.join(dir_path, 'icohp.txt')
