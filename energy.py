@@ -169,7 +169,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                 print('hello')
             if os.path.exists(ICOBI_path):
                 for line in open(ICOBI_path, 'r'):
-                    match = re.search(r'ICOBI sum:([0-9.]+)', line)
+                    match = re.search(r'ICOBI avg:([0-9.]+)', line)
                     if match:
                         values.setdefault('ICOBI', []).append(float(match.group(1)))
                         break
