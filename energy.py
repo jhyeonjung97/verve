@@ -240,7 +240,7 @@ def plot_separately(values_dict, dir_names, xlabel, save, filename):
         
         # plt.show()
 
-def plot_merged(values_dict, dir_names, xlabel, save, filename, metal_list):
+def plot_merged(values_dict, dir_names, xlabel, save, filename, atoms):
     plt.figure(figsize=(10, 6))
 
     patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
