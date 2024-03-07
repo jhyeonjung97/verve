@@ -33,7 +33,7 @@ def main():
 
     directory='./'
     values_dict, dir_names, atoms = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
-    values_dict = selected_values(values_dict, symbols)
+    values_dict = selected_values(values_dict, args.symbols)
 
     for key, values in values_dict.values():
         rounded_values = [round(value, 3) for value in values]
