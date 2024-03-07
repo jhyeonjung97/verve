@@ -259,7 +259,6 @@ def plot_separately(values_dict, dir_names, xlabel, save, filename):
         if not values:
             print(f"No values found for pattern: {pattern}")
             continue
-        
         plt.figure(figsize=(10, 6))
         plt.plot(x, values, marker='o', linestyle='-', label=pattern)
         
@@ -270,15 +269,11 @@ def plot_separately(values_dict, dir_names, xlabel, save, filename):
         plt.grid(True)
         plt.legend()
         plt.tight_layout()
-        
         if save:
             filename = filename.split(".")[0]
             plt.savefig(f"{filename}_{pattern}.png", bbox_inches="tight")
             print(f"Figure saved as {filename}_{pattern}.png")
-            plt.close()
-            plt.close('all')
-        # plt.clf()
-        # plt.show()
+        plt.close()
 
 def plot_merged(values_dict, dir_names, xlabel, save, filename, atoms):
     plt.figure(figsize=(10, 6))
