@@ -15,7 +15,7 @@ def get_parser():
     parser.add_argument('-x', '--xlabel', default='Lattice parameter (Å)', type=str, help="x-axis title of the figure")
     parser.add_argument('--total', action='store_false', default=True, help='No show total energy')
     parser.add_argument('--save', action='store_true', default=False, help="save files")
-    parser.add_argument('-s', '--seperate', action='store_true', default=False, help="save the plots seperately")
+    parser.add_argument('-s', '--separate', action='store_true', default=False, help="save the plots seperately")
     parser.add_argument('-i', '--input', dest='outcar', type=str, default='OUTCAR', help='input filename')
     parser.add_argument('-o', '--output', dest='filename', type=str, default='energy.png', help="output filename")
     parser.add_argument('-e', '--element', dest='symbols', nargs='+', default=[], help="elements of mag, chg, Bader")
@@ -41,7 +41,7 @@ def main():
         values_dict = adjust_values(values_dict, ref=args.ref)
     if any(values_dict.values()):
         plot_merged(values_dict, dir_names, args.xlabel, args.save, args.filename, atoms)
-        if args.seperate:
+        if args.separate:
             plot_separately(values_dict, dir_names, args.xlabel, args.save, args.filename)
     else:
         print('No values found for the given patterns.')
@@ -274,7 +274,7 @@ def plot_separately(values_dict, dir_names, xlabel, save, filename):
             filename = filename.split(".")[0]
             plt.savefig(f"{filename}_{pattern}.png", bbox_inches="tight")
             print(f"Figure saved as {filename}_{pattern}.png")
-        
+        plt.clf()
         # plt.show()
 
 def plot_merged(values_dict, dir_names, xlabel, save, filename, atoms):
