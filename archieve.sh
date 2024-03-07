@@ -1,6 +1,6 @@
 dir_now=$PWD
 
-if ${here} == 'slac'
+if ${here} == 'slac'; then
     usr='jiuy97'
 elif ${here} == 'mac'; then
     usr='hailey'
