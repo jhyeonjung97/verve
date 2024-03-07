@@ -40,7 +40,7 @@ def main():
     if 'chg' in values_dict:
         del values_dict['chg']
     if 'Bader' in values_dict:
-        del values_dict['chg']
+        del values_dict['Bader']
         
     if args.ref is not None:
         values_dict = adjust_values(values_dict, ref=args.ref)
