@@ -89,7 +89,7 @@ def extract_values(directory, patterns, dir_range, outcar):
             poscar_path = os.path.join(dir_path, poscar)
             if os.path.exists(poscar_path):
                 atoms = read(poscar_path)
-                numbs = atoms.get_chemical_symbols()
+                numbs = atoms.get_number_of_atoms()
                 break
 
         zvals =[]
