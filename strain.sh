@@ -11,10 +11,14 @@ python ~/bin/verve/cell-size.py -f 0.1 -o start5.traj
 python ~/bin/verve/cell-size.py -f 0.2 -o start6.traj
 python ~/bin/verve/cell-size.py -f 0.3 -o start7.traj
 
-for i in {1..7}
-do
-    mv "start$i.traj" $i*/start.traj
-done
+mv start1.traj 1*/start.traj
+mv start2.traj 2*/start.traj
+mv start3.traj 3*/start.traj
+mv start4.traj 4*/start.traj
+mv start5.traj 5*/start.traj
+mv start6.traj 6*/start.traj
+mv start7.traj 7*/start.traj
+
 
 rm 'restart.json'
 ls */
