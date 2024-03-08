@@ -1,0 +1,2 @@
+#SBATCH -t 00:30:00
+#SBATCH -q debug

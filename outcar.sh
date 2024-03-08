@@ -2,7 +2,7 @@ mag_tag=0
 chg_tag=0
 ene_tag=0
 dir_tag=0
-while getopts ":mcerf:" opt; do
+while getopts ":mcer:" opt; do
   case $opt in
     m)
       mag_tag=1

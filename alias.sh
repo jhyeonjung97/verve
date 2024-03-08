@@ -30,6 +30,7 @@ alias resub='sh ~/bin/verve/resub.sh'
 alias name='sh ~/bin/verve/jobname.sh'
 alias spread='sh ~/bin/verve/spread.sh'
 alias cell-size='python ~/bin/verve/cell-size.py'
+alias debug='
 
 # Analysis
 alias ta='tail */vasp.out'
