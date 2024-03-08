@@ -35,4 +35,4 @@ do
     fi
 done
 
-~/bin/rm_mv 'CONTCAR' 'original.trag'
+~/bin/rm_mv 'CONTCAR' 'original.traj'
