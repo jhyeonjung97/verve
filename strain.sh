@@ -22,7 +22,6 @@ ext='.traj'
 for dir in */
 do
     i=$(echo ${dir%/} | cut -c 1)
-    echo $name$i$ext
     if [[ -s $name$i$ext ]]; then
         mv $name$i$ext $dir$name$ext
         echo "mv $name$i$ext $dir$name$ext"
@@ -30,4 +29,3 @@ do
 done
 
 ~/bin/rm_mv 'restart.json' 'original.json'
-ls */
