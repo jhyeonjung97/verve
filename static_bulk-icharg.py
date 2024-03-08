@@ -88,7 +88,7 @@ kpoints = get_kpoints(atoms, effective_length=25, bulk=True)
 
 atoms.calc = vasp_calculator.Vasp(
                     # istart=2,
-                    icharg=11
+                    icharg=11,
                     encut=600,
                     xc='PBE',
                     gga='PE',
