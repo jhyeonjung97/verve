@@ -87,7 +87,6 @@ nbands = get_bands(atoms)
 kpoints = get_kpoints(atoms, effective_length=25, bulk=True)
 
 atoms.calc = vasp_calculator.Vasp(
-                    # istart=0,
                     encut=600,
                     xc='PBE',
                     gga='PE',
@@ -133,7 +132,8 @@ atoms.calc = vasp_calculator.Vasp(
 eng = atoms.get_potential_energy()
 print ('Calculation Complete, storing the run + calculator to traj file')
 
-Trajectory('final_static_bulk.traj','w').write(atoms)
-subprocess.call('ase convert -f final_static_bulk.traj final_static_bulk.json', shell=True)
+name = 'opt_bulk'
+Trajectory(f'final_{name}.traj','w').write(atoms)
+subprocess.call(f'ase convert -f final_{name}.traj final_{name}.json', shell=True)
 # subprocess.call('ase convert -f OUTCAR full_relax.json', shell=True)
-subprocess.call('cp OUTCAR OUTCAR_static_bulk', shell=True)
+subprocess.call(f'cp OUTCAR OUTCAR_{name}', shell=True)
