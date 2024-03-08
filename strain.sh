@@ -6,6 +6,7 @@ elif [[ -s './relaxed/CONTCAR' ]]; then
     cp relaxed/CONTCAR .
 elif [[ -s './relaxed/start.traj' ]]; then
     cp relaxed/start.traj .
+fi
     
 mkdir 1_-0.3  2_-0.2  3_-0.1  4_0.0  5_+0.1  6_+0.2  7_+0.3
 
