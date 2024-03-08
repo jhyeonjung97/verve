@@ -35,4 +35,4 @@ do
     fi
 done
 
-~/bin/rm_mv 'CONTCAR' 'original.json'
+~/bin/rm_mv 'CONTCAR' 'original.trag'
