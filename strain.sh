@@ -24,8 +24,8 @@ do
     i=$(echo ${dir%/} | cut -c 1)
     echo $name$i$ext
     if [[ -s $name$i$ext ]]; then
-        cp $name$i$ext $dir$file
-        echo "cp $name$i$ext $dir$file"
+        cp $name$i$ext $dir$name$ext
+        echo "cp $name$i$ext $dir$name$ext"
     fi
 done
 
