@@ -32,9 +32,9 @@ alias spread='sh ~/bin/verve/spread.sh'
 alias cell-size='python ~/bin/verve/cell-size.py'
 alias strain='sh ~/bin/verve/strain.sh'
 alias debug='sed -i "/#SBATCH -t/c\#SBATCH -t 00:30:00" submit.sh
-sed -i "/#SBATCH -q/c\#SBATCH -t debug" submit.sh'
+sed -i "/#SBATCH -q/c\#SBATCH -q debug" submit.sh'
 alias regular='sed -i "/#SBATCH -t/c\#SBATCH -t 12:00:00" submit.sh
-sed -i "/#SBATCH -q/c\#SBATCH -t regular" submit.sh'
+sed -i "/#SBATCH -q/c\#SBATCH -q regular" submit.sh'
 
 # Analysis
 alias ta='tail */vasp.out'
