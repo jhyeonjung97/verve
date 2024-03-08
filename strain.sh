@@ -17,7 +17,7 @@ python ~/bin/verve/cell-size.py -f 0.3 -o start7.traj
 #     mv start$i.traj $dir$file
     
 name='start'
-ext='.trag'
+ext='.traj'
 
 for dir in */
 do
