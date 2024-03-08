@@ -29,5 +29,5 @@ do
     fi
 done
 
-rm 'restart.json'
+rm 'restart.json' 'original.json'
 ls */
