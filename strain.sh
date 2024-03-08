@@ -11,10 +11,22 @@ python ~/bin/verve/cell-size.py -f 0.1 -o start5.traj
 python ~/bin/verve/cell-size.py -f 0.2 -o start6.traj
 python ~/bin/verve/cell-size.py -f 0.3 -o start7.traj
 
-for i in {1..7}
-    dir="$i*/"
-    file='start.traj'
-    mv start$i.traj $dir$file
+# for i in {1..7}
+#     dir="$i*/"
+#     file='start.traj'
+#     mv start$i.traj $dir$file
     
+name='start'
+ext='.trag'
+
+for dir in */
+do
+    i=$(echo ${dir%/} | cut -c 1)
+    if [[ -s $name$i$ext ]]; then
+        cp $name$i$ext $dir$file
+        echo "cp $name$i$ext $dir$file"
+    fi
+done
+
 rm 'restart.json'
 ls */
