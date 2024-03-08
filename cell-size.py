@@ -14,10 +14,13 @@ def main():
     if path.exists('restart.json'):
         atoms = read('restart.json')
         write('original.json', atoms)
-    else:
+    elif path.exists('CONTCAR'):
+        atoms = read('CONTCAR')
+        write('original.traj', atoms)
+    elif path.exists('start.trag'):
         atoms = read('start.traj')
         write('original.traj', atoms)
-
+        
     factor = args.factor
     if not args.ratio:
         factor = (atoms.cell[0][0] + factor) / atoms.cell[0][0]
