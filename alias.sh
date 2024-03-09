@@ -6,7 +6,7 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 alias grep='grep --color=auto'
 
-alias rm='~/bin/rm_mv'
+alias rm='~/bin/shoulder/rm_mv'
 alias remove='/bin/rm'
 alias lsport='ls ~/port/'
 alias cpport='cp *.vasp ~/port'
