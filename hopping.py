@@ -90,8 +90,8 @@ def main():
     check_with_carbons(name, ext, oxygen_indices)
 
 def check_with_carbons(name, ext, oxygen_indices):
-    for i in range(0, oxygen_indices):
-        file=f'{name}{i}{ext}'
+    for i in range(0, len(oxygen_indices)):
+        file=f'{name}_{i}{ext}'
         new_name = os.path.splitext(file)[0] + '_with_carbon'
         atoms = read(file)
         for atom in atoms:
