@@ -1,17 +1,27 @@
 import os
 import glob
+import argparse
 import numpy as np
 from sys import argv
 from ase.io import read, write
 
 def main():
-    n = int(argv[1])
-    file = argv[2]
+
+    parser = argparse.ArgumentParser(description='Process a water chain.')
+    parser.add_argument('-n', type=int, default=8, help='Length of water chain')
+    parser.add_argument('-z', action='store_false', default=True, help='Turn on "is_within_height"')
+    parser.add_argument('file', type=str, help='Path to the input file')
+    args = parser.parse_args()
+    
+    n = args.n
+    z = args.z
+    file = args.file
     atoms = read(file)
+
     name, ext = os.path.splitext(file)
     write(f'{name}_0{ext}', atoms)
 
-    oxygen_indices = water_chain(atoms, n)
+    oxygen_indices = water_chain(atoms, n, z)
 
     hydrogen = None
     for i in range(len(oxygen_indices) - 1):
@@ -80,7 +90,8 @@ def main():
     check_with_carbons(name, ext, oxygen_indices)
 
 def check_with_carbons(name, ext, oxygen_indices):
-    for file in glob.glob(f'{name}*{ext}'):
+    for i in range(0, oxygen_indices):
+        file=f'{name}{i}{ext}'
         new_name = os.path.splitext(file)[0] + '_with_carbon'
         atoms = read(file)
         for atom in atoms:
@@ -88,7 +99,7 @@ def check_with_carbons(name, ext, oxygen_indices):
                 atom.symbol = 'C'
         write(f'{new_name}{ext}', atoms)
             
-def is_atom_in_cylinder(atom):
+def is_atom_in_cylinder(atom, z):
     cylinder_radius = 5  # Ångstrom
     cylinder_height = 16  # Ångstrom
     box_center_x = 15  # Ångstrom, half of 30 Å
@@ -103,9 +114,12 @@ def is_atom_in_cylinder(atom):
     is_within_radius = distance_from_axis <= cylinder_radius
     is_within_height = z_min <= atom_position[2] <= z_max
     
-    return is_within_radius and is_within_height
+    if z:
+        return is_within_radius and is_within_height
+    else:
+        return is_within_radius
 
-def water_chain(atoms, n):
+def water_chain(atoms, n, z):
     cations = ['Li', 'Na', 'K', 'Rb', 'Cs']
     for atom in atoms:
         if atom.symbol in cations:
@@ -115,7 +129,7 @@ def water_chain(atoms, n):
                               and 1.0 < np.linalg.norm(atom.position - o.position) < 3.0]
 
     if not cation_found:
-        oxygen_indices = [o.index for o in atoms if o.symbol == 'O' and is_atom_in_cylinder(o)]
+        oxygen_indices = [o.index for o in atoms if o.symbol == 'O' and is_atom_in_cylinder(o, z)]
 
     chains = [[i] for i in oxygen_indices]  # Initialize chains with individual oxygen atoms
     new_chains = chains
@@ -129,10 +143,10 @@ def water_chain(atoms, n):
         for chain in chains:
             last_oxygen_index = chain[-1]
             for h in atoms:
-                if h.symbol == 'H' and is_atom_in_cylinder(h):
+                if h.symbol == 'H' and is_atom_in_cylinder(h, z):
                     if 0.8 < np.linalg.norm(atoms[last_oxygen_index].position - h.position) < 1.2:
                         for o in atoms:
-                            if o.symbol == 'O' and is_atom_in_cylinder(o) and o.index not in chain \
+                            if o.symbol == 'O' and is_atom_in_cylinder(o, z) and o.index not in chain \
                             and 1.5 < np.linalg.norm(h.position - o.position) < 2.5:
                                 new_chain = chain + [o.index]
                                 new_chains.append(new_chain)
