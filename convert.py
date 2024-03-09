@@ -30,7 +30,7 @@ for file in os.listdir('./'):
     if file.endswith('.%s' %argv[1]):
         atoms = read(file)
         # del atoms[[atom.symbol == 'Li' for atom in atoms]]
-        atoms = sort(atoms)
+        # atoms = sort(atoms)
         atoms.set_cell([a, b, c])
         # atoms.set_cell([30., 30., 30., 90., 90., 90.])
         atoms.center()
