@@ -106,7 +106,17 @@ def is_atom_in_cylinder(atom):
     return is_within_radius and is_within_height
 
 def water_chain(atoms, n):
-    oxygen_indices = [o.index for o in atoms if o.symbol == 'O' and is_atom_in_cylinder(o)]    
+    cations = ['Li', 'Na', 'K', 'Rb', 'Cs']
+    for atom in atoms:
+        if atom.symbol in cations:
+            cation_found = True
+            print(atom.symbol)
+            oxygen_indices = [o.index for o in atoms if o.symbol == 'O' \
+                              and 1.0 < np.linalg.norm(atom.position - o.position) < 3.0]
+
+    if not cation_found:
+        oxygen_indices = [o.index for o in atoms if o.symbol == 'O' and is_atom_in_cylinder(o)]
+
     chains = [[i] for i in oxygen_indices]  # Initialize chains with individual oxygen atoms
     new_chains = chains
     i = 0
