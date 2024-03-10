@@ -26,5 +26,5 @@ do
     fi
 done
 
-~/bin/rm_mv original.traj
+~/bin/rm_mv start.traj submit.sh original.traj
 echo '\033[0;31mPlease modify a submit script and spread into the directories\033[0m'
