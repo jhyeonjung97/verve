@@ -27,4 +27,4 @@ do
 done
 
 ~/bin/rm_mv original.traj
-echo 'Please modify a submit script and spread into the directories'
+echo '\033[0;31mPlease modify a submit script and spread into the directories\033[0m'
