@@ -215,19 +215,21 @@ def adjust_values(values_dict, ref):
     """Subtract the reference value from each pattern's data set."""
     adjusted_values_dict = {}
     for pattern, values in values_dict.items():
-        if values:
-            if ref == 'min':
-                ref_value = min(values)
-            elif ref == 'max':
-                ref_value = max(values)
-            elif ref == 'mid':
-                ref_value = np.median(values)
-            else:
-                raise ValueError(f"Unknown reference type: {ref}")
-            adjusted_values = [value - ref_value for value in values]
-            adjusted_values_dict[pattern] = adjusted_values
-        else:
+        if not values:
             adjusted_values_dict[pattern] = values  # No adjustment needed
+            continue
+        if ref == 'min':
+            ref_value = min(values)
+        elif ref == 'max':
+            ref_value = max(values)
+        elif ref == 'mid':
+            ref_value = np.median(values)
+        elif isinstance(ref, int) and 0 <= ref < len(values):
+            ref_value = values[ref]
+        else:
+            raise ValueError(f"Unknown reference type: {ref}")
+        adjusted_values = [value - ref_value for value in values]
+        adjusted_values_dict[pattern] = adjusted_values
     return adjusted_values_dict
 
 def selected_values(values_dict, symbols, atoms):
