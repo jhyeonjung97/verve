@@ -1,7 +1,8 @@
 #!/bin/bash
 
-ase convert relaxed/CONTCAR 'start.traj'
-    
+cp relax/submit.sh .
+ase convert relaxed/CONTCAR start.traj
+
 mkdir 1_-0.3  2_-0.2  3_-0.1  4_0.0  5_+0.1  6_+0.2  7_+0.3
 
 python ~/bin/verve/cell-size.py -f -0.3 -o start1.traj
@@ -11,11 +12,6 @@ python ~/bin/verve/cell-size.py -f 0.0 -o start4.traj
 python ~/bin/verve/cell-size.py -f 0.1 -o start5.traj
 python ~/bin/verve/cell-size.py -f 0.2 -o start6.traj
 python ~/bin/verve/cell-size.py -f 0.3 -o start7.traj
-
-# for i in {1..7}
-#     dir="$i*/"
-#     file='start.traj'
-#     mv start$i.traj $dir$file
     
 name='start'
 ext='.traj'
@@ -26,7 +22,9 @@ do
     if [[ -s $name$i$ext ]]; then
         mv $name$i$ext $dir$name$ext
         echo "mv $name$i$ext $dir$name$ext"
+        cp ~/bin/shoulder/lobsterin $dir
     fi
 done
 
-~/bin/rm_mv 'CONTCAR' 'original.traj'
+~/bin/rm_mv original.traj
+echo 'Please modify a submit script and spread into the directories'
