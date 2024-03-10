@@ -68,4 +68,5 @@ do
         m=$(awk "/$pattern_s/{count=0;flag=1;next}/$pattern_e/{if(flag){print count;flag=0}}flag{count++}" $file | tail -n 1)
         awk "/$pattern_s/,/$pattern_e/" $file | tail -n $(($m+2))
         cd $dir_now
+    fi
 done
