@@ -50,14 +50,15 @@ def json_cell_size(input_file, output_file, scaling_factor, is_ratio):
     with open(input_file, 'r') as f:
         atoms = json.load(f)
 
-    cell_array = atoms['1']['cell']['array']['__ndarray__'][1]
+    cell_array = atoms['1']['cell']['array']['__ndarray__'][2]
     cell_matrix = np.reshape(cell_array, (3, 3))
+
     if not is_ratio:
         scaling_factor = (cell_matrix[0][0] + scaling_factor) / cell_matrix[0][0]
     scaled_cell_matrix = cell_matrix * scaling_factor
 
     scaled_cell_array = scaled_cell_matrix.flatten().tolist()
-    atoms['1']['cell']['array']['__ndarray__'][1] = scaled_cell_array
+    atoms['1']['cell']['array']['__ndarray__'][2] = scaled_cell_array
 
     with open(output_file, 'w') as f:
         json.dump(atoms, f, indent=4)
