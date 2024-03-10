@@ -27,15 +27,6 @@ while getopts "mcer:" opt; do
   esac
 done
 
-# Shift the options out, so $1, $2, etc. are the non-option arguments
-shift "$((OPTIND-1))"
-
-if [[ -n $1 ]]; then
-    file=$1
-else
-    file='OUTCAR'
-fi
-
 if [[ $mag_tag == 1 ]]; then
     pattern_s='magnetization \(x\)'
     pattern_e='tot '
@@ -49,6 +40,17 @@ elif [[ $ene_tag == 1 ]]; then
     pattern_e='free energy '
     clr_tag='\e[32m'
 fi
+
+# Shift the options out, so $1, $2, etc. are the non-option arguments
+shift "$((OPTIND-1))"
+
+if [[ -n $1 ]]; then
+    file=$1
+else
+    file='OUTCAR'
+fi
+
+
 
 if [[ $dir_tag == 1 ]]; then
     DIR='*/'
