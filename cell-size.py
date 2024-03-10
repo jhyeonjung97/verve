@@ -39,7 +39,7 @@ def main():
     # Overwrite the original file with the modified atoms object
     if args.output:
         output_file = args.output
-    elif: file_ext == '.json' 
+    elif file_ext == '.json' 
         output_file = 'restart.json'
     else:
         output_file = 'start.traj'
