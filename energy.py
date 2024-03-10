@@ -224,7 +224,7 @@ def adjust_values(values_dict, ref):
             ref_value = max(values)
         elif ref == 'mid':
             ref_value = np.median(values)
-        elif isinstance(ref, int) and 0 <= ref < len(values):
+        elif 0 <= int(ref) < len(values):
             ref_value = values[ref]
         else:
             raise ValueError(f"Unknown reference type: {ref}")
