@@ -120,6 +120,7 @@ def is_atom_in_cylinder(atom, z):
         return is_within_radius
 
 def water_chain(atoms, n, z):
+    cation_found = False
     cations = ['Li', 'Na', 'K', 'Rb', 'Cs']
     for atom in atoms:
         if atom.symbol in cations:
