@@ -90,7 +90,7 @@ def main():
     check_with_carbons(name, ext, oxygen_indices)
 
 def check_with_carbons(name, ext, oxygen_indices):
-    combined_traj = Trajectory('carbon-chain.traj', 'w')
+    combined_traj = Trajectory('water-chain.traj', 'w')
     for i in range(0, len(oxygen_indices)):
         file=f'{name}_{i}{ext}'
         new_name = os.path.splitext(file)[0] + '_with_carbon'
