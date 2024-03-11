@@ -28,7 +28,7 @@ else
     fi
 fi
 
-for i in {0..99}
+for i in {0..29}
 do
     j=$(printf "%02d" $i)
     sed -i "/output/c\output $name$j.xyz" $name.inp
@@ -38,7 +38,7 @@ do
     obabel $name$j.xyz -O $name$j.mol2
 done
 
-for i in {0..99}
+for i in {0..29}
 do
     j=$(printf "%02d" $i)    
     echo "obminimize -n 100000000 -sd -c 1e-8 -ff MMFF94s $name$j.mol2 > $name$j.pdb"
