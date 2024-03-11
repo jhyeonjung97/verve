@@ -41,6 +41,12 @@ elif [[ $ene_tag == 1 ]]; then
     clr_tag='\e[32m'
 fi
 
+if [[ $dir_tag == 1 ]]; then
+    DIR='*/'
+else
+    DIR='./'
+fi
+
 # Shift the options out, so $1, $2, etc. are the non-option arguments
 shift "$((OPTIND-1))"
 
@@ -50,18 +56,10 @@ else
     file='OUTCAR'
 fi
 
-
-
-if [[ $dir_tag == 1 ]]; then
-    DIR='*/'
-else
-    DIR='./'
-fi
-
 dir_now=$PWD
 for dir in $DIR
 do
-    if [[ "$dir" == *_* ]]; then
+    if [[ "$dir" == *_* ]] || [[ "$dir" == './' ]]; then
         cd $dir
         echo -e "$clr_tag$PWD/$file\e[0m"
         n=$(awk "/$pattern_s/{flag=1;next}/$pattern_e/{if(flag){count++;flag=0}}END{print count}" $file)
