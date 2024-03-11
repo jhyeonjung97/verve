@@ -3,7 +3,7 @@ import glob
 import argparse
 import numpy as np
 from sys import argv
-from ase.io import read, write
+from ase.io import read, write, Trajectory
 
 def main():
 
@@ -90,6 +90,7 @@ def main():
     check_with_carbons(name, ext, oxygen_indices)
 
 def check_with_carbons(name, ext, oxygen_indices):
+    combined_traj = Trajectory('carbon-chain.traj', 'w')
     for i in range(0, len(oxygen_indices)):
         file=f'{name}_{i}{ext}'
         new_name = os.path.splitext(file)[0] + '_with_carbon'
@@ -97,7 +98,8 @@ def check_with_carbons(name, ext, oxygen_indices):
         for atom in atoms:
             if atom.index in oxygen_indices:
                 atom.symbol = 'C'
-        write(f'{new_name}{ext}', atoms)
+        combined_traj.write(atoms)
+    combined_traj.close()
             
 def is_atom_in_cylinder(atom, z):
     cylinder_radius = 5  # Ångstrom
