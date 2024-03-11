@@ -51,7 +51,7 @@ alias bader='python ~/bin/verve/bader.py'
 alias dos3='python ~/bin/shoulder/dos3.py'
 alias cohp='python ~/bin/playground/aloha/cohp.py'
 alias cobi='python ~/bin/playground/aloha/cobi.py'
-
+alias hopping='python ~/bin/verve/hopping.py'
 
 #SSH
 alias hi='orange; shoulder; verve
