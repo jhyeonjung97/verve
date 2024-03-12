@@ -30,7 +30,7 @@ def main():
     filename = args.filename
     xlabel = args.xlabel
     save = args.save
-    
+    original_patterns = args.patterns
     if args.all:
         patterns = {'PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
                     'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung', 'Madelung_M', 'Madelung_L',
@@ -48,6 +48,8 @@ def main():
         patterns.add('Madelung_Loewdin')
     if not args.total:
         patterns.discard('TOTEN')
+    print(patterns)
+    print(original_patterns)
 
     directory='./'
     values_dict, dir_names, atoms = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
@@ -339,6 +341,7 @@ def plot_merged(values_dict, dir_names, xlabel, save, filename, atoms):
     plt.show()
     
 def plane_fitting(patterns, values_dict, dir_names, xlabel, save, filename, atoms):
+    print(patterns)
     patterns_order = list(patterns)
     print(patterns_order)
     patterns_order.extend(['mag_'+atom.symbol+str(atom.index) for atom in atoms])
