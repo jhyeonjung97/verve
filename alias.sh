@@ -38,11 +38,12 @@ alias regular='sed -i "/#SBATCH -t/c\#SBATCH -t 12:00:00" submit.sh
 sed -i "/#SBATCH -q/c\#SBATCH -q regular" submit.sh'
 
 # Analysis
+alias dp='display'
 alias ta='tail */vasp.out'
 alias te='grep free_energy */final*json'
 alias me='grep MAGMOM */OUTCAR'
-alias e='grep E0 OSZICAR'
-alias ee='grep E0 OSZICAR | tail -n 3'
+alias e='grep TOTEN OUTCAR'
+alias ee='grep TOTEN OUTCAR | tail -n 3'
 alias freq='grep THz OUTCAR'
 alias fermi='grep E-fermi OUTCAR | tail -n 1'
 alias outcar='sh ~/bin/verve/outcar.sh'
