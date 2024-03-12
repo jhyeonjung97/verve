@@ -6,6 +6,7 @@ import numpy as np
 from ase.io import read
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
+from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 
 def get_parser():
     parser = argparse.ArgumentParser()
@@ -355,8 +356,14 @@ def plane_fitting(patterns, values_dict, dir_names, xlabel, save, filename, atom
     A = np.vstack([X, Y, np.ones(len(X))]).T
     coeffs, residuals, rank, s = np.linalg.lstsq(A, Z, rcond=None)
     a, b, c = coeffs
-    
+    Z_pred = a*X + b*Y + c
+
+    R2 = r2_score(Z, Z_pred)
+    MAE = mean_absolute_error(Z, Z_pred)
+    MSE = mean_squared_error(Z, Z_pred)
+
     print(f"The best fitting plane is Z = {a:.3f}X + {b:.3f}Y + {c:.3f}")
+    print(f"R^2: {R2}, MAE: {MAE}, MSE: {MSE}")
 
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
