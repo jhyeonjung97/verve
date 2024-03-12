@@ -23,7 +23,8 @@ def get_parser():
     parser.add_argument('-i', '--input', dest='outcar', type=str, default='OUTCAR', help='input filename')
     parser.add_argument('-o', '--output', dest='filename', type=str, default='energy.png', help="output filename")
     parser.add_argument('-e', '--element', dest='symbols', nargs='+', default=[], help="elements of mag, chg, Bader")
-    parser.add_argument('-f', '--fit-3d', action='store_true', default=False, help="plot 3d")
+    parser.add_argument('--line', action='store_true', default=False, help="plot 2d")
+    parser.add_argument('--plane', action='store_true', default=False, help="plot 3d")
     return parser
 
 def main():
@@ -64,7 +65,9 @@ def main():
             plot_separately(values_dict, dir_names, xlabel, save, filename)
     else:
         raise ValueError('No values found for the given patterns.')
-    if args.fit_3d:
+    if args.line:
+        line_fitting(original_patterns, values_dict, dir_names, xlabel, save, filename, atoms)
+    elif args.plane:
         plane_fitting(original_patterns, values_dict, dir_names, xlabel, save, filename, atoms)
 
 def extract_values(directory, patterns, dir_range, outcar):
@@ -340,59 +343,53 @@ def plot_merged(values_dict, dir_names, xlabel, save, filename, atoms):
     plt.show()
 
 def line_fitting(patterns, values_dict, dir_names, xlabel, save, filename, atoms):
-    print(patterns)
     patterns_order = list(patterns)
-    print(patterns_order)
     patterns_order.extend(['mag_'+atom.symbol+str(atom.index) for atom in atoms])
     patterns_order.extend(['chg_'+atom.symbol+str(atom.index) for atom in atoms])
     patterns_order.extend(['Bader_'+atom.symbol+str(atom.index) for atom in atoms])
     filtered_patterns_order = [pattern for pattern in patterns_order \
                                if values_dict.get(pattern)]
 
-    if len(filtered_patterns_order) < 3:
+    if len(filtered_patterns_order) < 2:
         raise ValueError("Not enough valid patterns with data for line fitting.")
     
     X = np.array(values_dict[filtered_patterns_order[0]])
     Y = np.array(values_dict[filtered_patterns_order[1]])
-    
-    coeffs, residuals, rank, s = np.linalg.lstsq(X, Y, rcond=None)
-    a, b = coeffs
-    Y_pred = a*X + b
 
+    A = np.vstack([X, np.ones(len(X))]).T
+
+    coeffs, residuals, rank, s = np.linalg.lstsq(A, Y, rcond=None)
+    a, b = coeffs
+    
+    Y_pred = a*X + b
     R2 = r2_score(Y, Y_pred)
     MAE = mean_absolute_error(Y, Y_pred)
     MSE = mean_squared_error(Y, Y_pred)
 
-    print(f"The best fitting plane is Y = {a:.3f}X + {b:.3f}")
-    print(f"R^2: {R2}, MAE: {MAE}, MSE: {MSE}")
+    print(f"The best fitting line is Y = {a:.3f}X + {b:.3f}")
+    print(f"R^2: {R2:.3f}, MAE: {MAE:.3f}, MSE: {MSE:.3f}")
 
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='2d')
-
-    ax.scatter(X, Y, Z, color='r', label='Data Points')
-    xx, yy = np.meshgrid(np.linspace(np.min(X), np.max(X), 10), 
-                         np.linspace(np.min(Y), np.max(Y), 10))
-    zz = a * xx + b * yy + c
+    plt.figure()
+    plt.scatter(X, Y, color='r', label='Data Points')
+    xx = np.linespace(np.linspace(np.min(X), np.max(X), 1000))
+    yy = a * xx + b
     
-    ax.plot_surface(xx, yy, zz, color='b', alpha=0.5, edgecolor='none')
+    plt.plot(xx, yy, color='b', alpha=0.5, label='Fitting Line')
     ax.set_xlabel('X')
     ax.set_ylabel('Y')
-    ax.set_zlabel('Z')
-    plt.title("Best Fitting Plane")
+    plt.title("Best Fitting Line")
     plt.legend()
     
     if save:
-        filename = filename.split(".")[0]
-        plt.gcf().savefig(f"{filename}_{pattern}.png", bbox_inches="tight")
-        print(f"Figure saved as {filename}_3d.png")
+        filename = f"{filename.split('.')[0]}_2d.png"
+        plt.gcf().savefig(filename, bbox_inches="tight")
+        print(f"Figure saved as {filename}")
         plt.close()
     else:
         plt.show()
         
 def plane_fitting(patterns, values_dict, dir_names, xlabel, save, filename, atoms):
-    print(patterns)
     patterns_order = list(patterns)
-    print(patterns_order)
     patterns_order.extend(['mag_'+atom.symbol+str(atom.index) for atom in atoms])
     patterns_order.extend(['chg_'+atom.symbol+str(atom.index) for atom in atoms])
     patterns_order.extend(['Bader_'+atom.symbol+str(atom.index) for atom in atoms])
@@ -415,7 +412,7 @@ def plane_fitting(patterns, values_dict, dir_names, xlabel, save, filename, atom
     MSE = mean_squared_error(Z, Z_pred)
 
     print(f"The best fitting plane is Z = {a:.3f}X + {b:.3f}Y + {c:.3f}")
-    print(f"R^2: {R2}, MAE: {MAE}, MSE: {MSE}")
+    print(f"R^2: {R2:.3f}, MAE: {MAE:.3f}, MSE: {MSE:.3f}")
 
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
@@ -433,10 +430,9 @@ def plane_fitting(patterns, values_dict, dir_names, xlabel, save, filename, atom
     plt.legend()
     
     if save:
-        filename = filename.split(".")[0]
-        plt.gcf().savefig(f"{filename}_{pattern}.png", bbox_inches="tight")
-        print(f"Figure saved as {filename}_3d.png")
-        plt.close()
+        filename = f"{filename.split('.')[0]}_3d.png"
+        plt.gcf().savefig(filename, bbox_inches="tight")
+        print(f"Figure saved as {filename}")
     else:
         plt.show()
     
