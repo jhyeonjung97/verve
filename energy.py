@@ -337,8 +337,9 @@ def plot_merged(values_dict, dir_names, xlabel, save, filename, atoms):
     if save:
         plt.gcf().savefig(filename, bbox_inches="tight")
         print(f"Figure saved as {filename}")
-        
-    plt.show()
+        plt.close()
+    else:
+        plt.show()
 
 def line_fitting(patterns, values_dict, dir_names, xlabel, save, filename, atoms):
     patterns_order = list(patterns)
