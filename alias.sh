@@ -53,6 +53,7 @@ alias dos3lob='python ~/bin/shoulder/dos3lob.py'
 alias cohp='python ~/bin/playground/aloha/cohp.py'
 alias cobi='python ~/bin/playground/aloha/cobi.py'
 alias hopping='python ~/bin/verve/hopping.py'
+alias sumo='sh ~/bin/verve/sumo.sh'
 
 #SSH
 alias hi='orange; shoulder; verve
