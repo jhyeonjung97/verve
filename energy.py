@@ -30,7 +30,6 @@ def main():
     filename = args.filename
     xlabel = args.xlabel
     save = args.save
-    original_patterns = args.patterns
     if args.all:
         patterns = {'PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
                     'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung', 'Madelung_M', 'Madelung_L',
@@ -48,8 +47,7 @@ def main():
         patterns.add('Madelung_Loewdin')
     if not args.total:
         patterns.discard('TOTEN')
-    print(patterns)
-    print(original_patterns)
+    original_patterns = patterns.copy()
 
     directory='./'
     values_dict, dir_names, atoms = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
@@ -66,7 +64,7 @@ def main():
     else:
         raise ValueError('No values found for the given patterns.')
     if args.fit_3d:
-        plane_fitting(patterns, values_dict, dir_names, xlabel, save, filename, atoms)
+        plane_fitting(original_patterns, values_dict, dir_names, xlabel, save, filename, atoms)
 
 def extract_values(directory, patterns, dir_range, outcar):
     """Extract the last values for the given patterns from OUTCAR files in the given directories, sorted numerically."""
