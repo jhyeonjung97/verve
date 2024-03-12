@@ -5,20 +5,18 @@ import subprocess
 import numpy as np
 from ase.io import read
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
 
 def get_parser():
     parser = argparse.ArgumentParser()
     parser.add_argument('-d', '--dir-range', type=str, default=None, help='Range of directories to investigate, e.g., "3,6"')
-    parser.add_argument('-p', '--patterns', nargs='+', default=['TOTEN'], help='Patterns to search and plot: \
-    PSCENC, TEWEN, DENC, EXHF, XCENC, PAW_double_counting, EENTRO, EBANDS, EATOM, \
-    TOTEN, Madelung, Madelung_M, Madelung_L, ICOHP, ICOBI, mag, chg, Bader, GP')
-    parser.add_argument('-a', '--all', action='store_true', default=False, help='Show all components')
-    parser.add_argument('-r', '--ref', type=str, default=None, help='Adjust values by subtracting the minimum')
-    parser.add_argument('-x', '--xlabel', default='Lattice parameter (Å)', type=str, help="x-axis title of the figure")
-    parser.add_argument('--total', action='store_false', default=True, help='No show total energy')
+    parser.add_argument('-p', '--patterns', nargs='+', default=['Madelung' 'ICOHP' 'TOTEN'], 
+                        help='Patterns to search and plot: \
+                        PSCENC, TEWEN, DENC, EXHF, XCENC, PAW_double_counting, EENTRO, EBANDS, EATOM, \
+                        TOTEN, Madelung, ICOHP, ICOBI, mag, chg, Bader, GP')
+    # parser.add_argument('-r', '--ref', type=str, default=None, help='Adjust values by subtracting the minimum')
+    # parser.add_argument('-x', '--xlabel', default='Lattice parameter (Å)', type=str, help="x-axis title of the figure")
     parser.add_argument('--save', action='store_true', default=False, help="save files")
-    parser.add_argument('-s', '--separate', action='store_true', default=False, help="save the plots seperately")
+    # parser.add_argument('-s', '--separate', action='store_true', default=False, help="save the plots seperately")
     parser.add_argument('-i', '--input', dest='outcar', type=str, default='OUTCAR', help='input filename')
     parser.add_argument('-o', '--output', dest='filename', type=str, default='energy.png', help="output filename")
     parser.add_argument('-e', '--element', dest='symbols', nargs='+', default=[], help="elements of mag, chg, Bader")
@@ -26,32 +24,15 @@ def get_parser():
 
 def main():
     args = get_parser().parse_args()
-    if args.all:
-        patterns = {'PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
-                    'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung', 'Madelung_M', 'Madelung_L',
-                    'ICOHP', 'ICOBI', 'mag', 'chg', 'Bader', 'GP'}
-    else:
-        patterns = set(args.patterns)
-    if 'Madelung' in patterns:
-        patterns.discard('Madelung')
-        patterns.update(['Madelung_Mulliken', 'Madelung_Loewdin'])
-    if 'Madelung_M' in patterns:
-        patterns.discard('Madelung_M')
-        patterns.add('Madelung_Mulliken')
-    if 'Madelung_L' in patterns:
-        patterns.discard('Madelung_L')
-        patterns.add('Madelung_Loewdin')
-    if not args.total:
-        patterns.discard('TOTEN')
+    patterns = set(args.patterns)
+    # if len(patterns) != 3:
+    #     raise ValueError('Three patterns are needed')
 
     directory='./'
     values_dict, dir_names, atoms = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
-    # print(values_dict)
     values_dict = selected_values(values_dict, args.symbols, atoms)
     print(len(values_dict))
-        
-    if args.ref is not None:
-        values_dict = adjust_values(values_dict, ref=args.ref)
+
     if any(values_dict.values()):
         plot_merged(values_dict, dir_names, args.xlabel, args.save, args.filename, atoms)
         if args.separate:
@@ -81,7 +62,7 @@ def extract_values(directory, patterns, dir_range, outcar):
     dir_names = []
     
     specific_patterns = set()
-    for pattern in ['Madelung_Mulliken', 'Madelung_Loewdin', 'Bader', 'ICOHP', 'ICOBI', 'GP']:
+    for pattern in ['Madelung', 'Bader', 'ICOHP', 'ICOBI', 'GP']:
         if pattern in patterns:
             patterns.discard(pattern)
             specific_patterns.add(pattern)
@@ -125,7 +106,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                     titels.append(match_titel.group(1))
             zval_dict = dict(zip(titels, zvals))
                         
-        if 'Madelung_Mulliken' in specific_patterns or 'Madelung_Loewdin' in specific_patterns:
+        if 'Madelung' in specific_patterns:
             madelung_path = os.path.join(dir_path, 'MadelungEnergies.lobster')
             if os.path.exists(madelung_path):
                 with open(madelung_path, 'r') as file:
@@ -133,10 +114,8 @@ def extract_values(directory, patterns, dir_range, outcar):
                 for line in reversed(lines):
                     match = re.search(r'\s*\d+\.\d+\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)', line)
                     if match:
-                        if 'Madelung_Mulliken' in specific_patterns:
-                            values.setdefault('Madelung_Mulliken', []).append(float(match.group(1)))
-                        if 'Madelung_Loewdin' in specific_patterns:
-                            values.setdefault('Madelung_Loewdin', []).append(float(match.group(2)))
+                        values.setdefault('Madelung_Mulliken', []).append(float(match.group(1)))
+                        values.setdefault('Madelung_Loewdin', []).append(float(match.group(2)))
                         break
         if 'GP' in specific_patterns:
             i = numb - 1
@@ -224,27 +203,6 @@ def extract_values(directory, patterns, dir_range, outcar):
     
     return values, dir_names, atoms
 
-def adjust_values(values_dict, ref):
-    """Subtract the reference value from each pattern's data set."""
-    adjusted_values_dict = {}
-    for pattern, values in values_dict.items():
-        if not values:
-            adjusted_values_dict[pattern] = values  # No adjustment needed
-            continue
-        if ref == 'min':
-            ref_value = min(values)
-        elif ref == 'max':
-            ref_value = max(values)
-        elif ref == 'mid':
-            ref_value = np.median(values)
-        elif 0 <= int(ref) < len(values):
-            ref_value = values[int(ref)-1]
-        else:
-            raise ValueError(f"Unknown reference type: {ref}")
-        adjusted_values = [value - ref_value for value in values]
-        adjusted_values_dict[pattern] = adjusted_values
-    return adjusted_values_dict
-
 def selected_values(values_dict, symbols, atoms):
     if not symbols:
         symbols = atoms.get_chemical_symbols()
@@ -330,47 +288,7 @@ def plot_merged(values_dict, dir_names, xlabel, save, filename, atoms):
         print(f"Figure saved as {filename}")
         
     plt.show()
-    
-def plane_fitting(patterns, values_dict, dir_names, xlabel, save, filename, atoms):
-    patterns_order = patterns.copy()
-    patterns_order.extend(['mag_'+atom.symbol+str(atom.index) for atom in atoms])
-    patterns_order.extend(['chg_'+atom.symbol+str(atom.index) for atom in atoms])
-    patterns_order.extend(['Bader_'+atom.symbol+str(atom.index) for atom in atoms])
-    filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
 
-    if len(filtered_patterns_order) < 3:
-        raise ValueError("Not enough valid patterns with data for plane fitting.")
-    
-    X, Y, Z = (values_dict[filtered_patterns_order[i]] for i in range(3))
-    
-    A = np.vstack([X, Y, np.ones(len(X))]).T
-    coeffs, residuals, rank, s = np.linalg.lstsq(A, Z, rcond=None)
-    a, b, c = coeffs
-    
-    print(f"The best fitting plane is Z = {a:.3f}X + {b:.3f}Y + {c:.3f}")
-
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
-
-    ax.scatter(X, Y, Z, color='r', label='Data Points')
-    xx, yy = np.meshgrid(np.linspace(np.min(X), np.max(X), 10), np.linspace(np.min(Y), np.max(Y), 10))
-    zz = a * xx + b * yy + c
-    
-    ax.plot_surface(xx, yy, zz, color='b', alpha=0.5, edgecolor='none')
-    ax.set_xlabel('X')
-    ax.set_ylabel('Y')
-    ax.set_zlabel('Z')
-    plt.title("Best Fitting Plane")
-    plt.legend()
-    
-    if save:
-        filename = filename.split(".")[0]
-        plt.gcf().savefig(f"{filename}_{pattern}.png", bbox_inches="tight")
-        print(f"Figure saved as {filename}_3d.png")
-        plt.close()
-    else:
-        plt.show()
-    
 if __name__ == '__main__':
     main()
 
