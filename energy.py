@@ -373,12 +373,12 @@ def line_fitting(patterns, values_dict, dir_names, xlabel, save, filename, atoms
     yy = a * xx + b
     
     plt.plot(xx, yy, color='b', alpha=0.5)
-    plt.set_xlabel('X')
-    plt.set_ylabel('Y')
+    plt.xlabel('X')
+    plt.ylabel('Y')
     
     if save:
         filename = f"{filename.split('.')[0]}_2d.png"
-        plt.gcf().savefig(filename, bbox_inches="tight")
+        plt.savefig(filename, bbox_inches="tight")
         print(f"Figure saved as {filename}")
         plt.close()
     else:
