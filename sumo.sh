@@ -3,7 +3,7 @@
 if [[ -n $1 ]]; then
     prefix=$1
 else
-    prefix=''
+    prefix='sumo'
 fi
 
 sumo-dosplot \
