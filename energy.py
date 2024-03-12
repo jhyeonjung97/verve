@@ -22,10 +22,15 @@ def get_parser():
     parser.add_argument('-i', '--input', dest='outcar', type=str, default='OUTCAR', help='input filename')
     parser.add_argument('-o', '--output', dest='filename', type=str, default='energy.png', help="output filename")
     parser.add_argument('-e', '--element', dest='symbols', nargs='+', default=[], help="elements of mag, chg, Bader")
+    parser.add_argument('-f', '--fit-3d', action='store_true', default=False, help="plot 3d")
     return parser
 
 def main():
     args = get_parser().parse_args()
+    filename = args.filename
+    xlabel = args.xlabel
+    save = args.save
+    
     if args.all:
         patterns = {'PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
                     'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung', 'Madelung_M', 'Madelung_L',
@@ -53,11 +58,13 @@ def main():
     if args.ref is not None:
         values_dict = adjust_values(values_dict, ref=args.ref)
     if any(values_dict.values()):
-        plot_merged(values_dict, dir_names, args.xlabel, args.save, args.filename, atoms)
+        plot_merged(values_dict, dir_names, xlabel, save, filename, atoms)
         if args.separate:
-            plot_separately(values_dict, dir_names, args.xlabel, args.save, args.filename)
+            plot_separately(values_dict, dir_names, xlabel, save, filename)
     else:
-        print('No values found for the given patterns.')
+        raise ValueError('No values found for the given patterns.')
+    if args.fit_3d:
+        plane_fitting(patterns, values_dict, dir_names, xlabel, save, filename, atoms)
 
 def extract_values(directory, patterns, dir_range, outcar):
     """Extract the last values for the given patterns from OUTCAR files in the given directories, sorted numerically."""
