@@ -53,9 +53,7 @@ def main():
 
     directory='./'
     values_dict, dir_names, atoms = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
-    # print(values_dict)
     values_dict = selected_values(values_dict, args.symbols, atoms)
-    print(len(values_dict))
         
     if args.ref is not None:
         values_dict = adjust_values(values_dict, ref=args.ref)
@@ -366,18 +364,18 @@ def line_fitting(patterns, values_dict, dir_names, xlabel, save, filename, atoms
     MAE = mean_absolute_error(Y, Y_pred)
     MSE = mean_squared_error(Y, Y_pred)
 
-    print(f"The best fitting line is Y = {a:.3f}X + {b:.3f}")
+    print(f"Y = {a:.3f}X + {b:.3f}")
     print(f"R^2: {R2:.3f}, MAE: {MAE:.3f}, MSE: {MSE:.3f}")
 
     plt.figure()
-    plt.scatter(X, Y, color='r', label='Data Points')
+    plt.scatter(X, Y, color='r')
     xx = np.linespace(np.linspace(np.min(X), np.max(X), 1000))
     yy = a * xx + b
     
     plt.plot(xx, yy, color='b', alpha=0.5, label='Fitting Line')
     ax.set_xlabel('X')
     ax.set_ylabel('Y')
-    plt.title("Best Fitting Line")
+    # plt.title("Best Fitting Line")
     plt.legend()
     
     if save:
@@ -411,13 +409,13 @@ def plane_fitting(patterns, values_dict, dir_names, xlabel, save, filename, atom
     MAE = mean_absolute_error(Z, Z_pred)
     MSE = mean_squared_error(Z, Z_pred)
 
-    print(f"The best fitting plane is Z = {a:.3f}X + {b:.3f}Y + {c:.3f}")
+    print(f"Z = {a:.3f}X + {b:.3f}Y + {c:.3f}")
     print(f"R^2: {R2:.3f}, MAE: {MAE:.3f}, MSE: {MSE:.3f}")
 
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
 
-    ax.scatter(X, Y, Z, color='r', label='Data Points')
+    ax.scatter(X, Y, Z, color='r')
     xx, yy = np.meshgrid(np.linspace(np.min(X), np.max(X), 10), 
                          np.linspace(np.min(Y), np.max(Y), 10))
     zz = a * xx + b * yy + c
@@ -426,7 +424,7 @@ def plane_fitting(patterns, values_dict, dir_names, xlabel, save, filename, atom
     ax.set_xlabel('X')
     ax.set_ylabel('Y')
     ax.set_zlabel('Z')
-    plt.title("Best Fitting Plane")
+    # plt.title("Best Fitting Plane")
     plt.legend()
     
     if save:
