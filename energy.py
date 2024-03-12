@@ -338,7 +338,57 @@ def plot_merged(values_dict, dir_names, xlabel, save, filename, atoms):
         print(f"Figure saved as {filename}")
         
     plt.show()
+
+def line_fitting(patterns, values_dict, dir_names, xlabel, save, filename, atoms):
+    print(patterns)
+    patterns_order = list(patterns)
+    print(patterns_order)
+    patterns_order.extend(['mag_'+atom.symbol+str(atom.index) for atom in atoms])
+    patterns_order.extend(['chg_'+atom.symbol+str(atom.index) for atom in atoms])
+    patterns_order.extend(['Bader_'+atom.symbol+str(atom.index) for atom in atoms])
+    filtered_patterns_order = [pattern for pattern in patterns_order \
+                               if values_dict.get(pattern)]
+
+    if len(filtered_patterns_order) < 3:
+        raise ValueError("Not enough valid patterns with data for line fitting.")
     
+    X = np.array(values_dict[filtered_patterns_order[0]])
+    Y = np.array(values_dict[filtered_patterns_order[1]])
+    
+    coeffs, residuals, rank, s = np.linalg.lstsq(X, Y, rcond=None)
+    a, b = coeffs
+    Y_pred = a*X + b
+
+    R2 = r2_score(Y, Y_pred)
+    MAE = mean_absolute_error(Y, Y_pred)
+    MSE = mean_squared_error(Y, Y_pred)
+
+    print(f"The best fitting plane is Y = {a:.3f}X + {b:.3f}")
+    print(f"R^2: {R2}, MAE: {MAE}, MSE: {MSE}")
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='2d')
+
+    ax.scatter(X, Y, Z, color='r', label='Data Points')
+    xx, yy = np.meshgrid(np.linspace(np.min(X), np.max(X), 10), 
+                         np.linspace(np.min(Y), np.max(Y), 10))
+    zz = a * xx + b * yy + c
+    
+    ax.plot_surface(xx, yy, zz, color='b', alpha=0.5, edgecolor='none')
+    ax.set_xlabel('X')
+    ax.set_ylabel('Y')
+    ax.set_zlabel('Z')
+    plt.title("Best Fitting Plane")
+    plt.legend()
+    
+    if save:
+        filename = filename.split(".")[0]
+        plt.gcf().savefig(f"{filename}_{pattern}.png", bbox_inches="tight")
+        print(f"Figure saved as {filename}_3d.png")
+        plt.close()
+    else:
+        plt.show()
+        
 def plane_fitting(patterns, values_dict, dir_names, xlabel, save, filename, atoms):
     print(patterns)
     patterns_order = list(patterns)
@@ -351,7 +401,9 @@ def plane_fitting(patterns, values_dict, dir_names, xlabel, save, filename, atom
     if len(filtered_patterns_order) < 3:
         raise ValueError("Not enough valid patterns with data for plane fitting.")
     
-    X, Y, Z = (values_dict[filtered_patterns_order[i]] for i in range(3))
+    X = np.array(values_dict[filtered_patterns_order[0]])
+    Y = np.array(values_dict[filtered_patterns_order[1]])
+    Z = np.array(values_dict[filtered_patterns_order[2]])
     
     A = np.vstack([X, Y, np.ones(len(X))]).T
     coeffs, residuals, rank, s = np.linalg.lstsq(A, Z, rcond=None)
@@ -369,7 +421,8 @@ def plane_fitting(patterns, values_dict, dir_names, xlabel, save, filename, atom
     ax = fig.add_subplot(111, projection='3d')
 
     ax.scatter(X, Y, Z, color='r', label='Data Points')
-    xx, yy = np.meshgrid(np.linspace(np.min(X), np.max(X), 10), np.linspace(np.min(Y), np.max(Y), 10))
+    xx, yy = np.meshgrid(np.linspace(np.min(X), np.max(X), 10), 
+                         np.linspace(np.min(Y), np.max(Y), 10))
     zz = a * xx + b * yy + c
     
     ax.plot_surface(xx, yy, zz, color='b', alpha=0.5, edgecolor='none')
