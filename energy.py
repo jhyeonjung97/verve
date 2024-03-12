@@ -339,7 +339,8 @@ def plot_merged(values_dict, dir_names, xlabel, save, filename, atoms):
     plt.show()
     
 def plane_fitting(patterns, values_dict, dir_names, xlabel, save, filename, atoms):
-    patterns_order = patterns.copy()
+    patterns_order = list(patterns)
+    print(patterns_order)
     patterns_order.extend(['mag_'+atom.symbol+str(atom.index) for atom in atoms])
     patterns_order.extend(['chg_'+atom.symbol+str(atom.index) for atom in atoms])
     patterns_order.extend(['Bader_'+atom.symbol+str(atom.index) for atom in atoms])
