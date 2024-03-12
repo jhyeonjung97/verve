@@ -1,6 +1,11 @@
 #!/bin/bash
 
-# Generate DOS plot with specified options
+if [[ -n $1 ]]; then
+    prefix=$1
+else
+    prefix=''
+fi
+
 sumo-dosplot \
     --legend-frame \
     --config ~/bin/verve/orbital_colours.conf \
@@ -14,14 +19,6 @@ sumo-dosplot \
     --atoms Co.1 \
     --no-total \
     --yscale 2 \
-    --zero-line
+    --zero-line \
+    --prefix $prefix
 
-# Check if a command-line argument is provided
-if [[ -n $1 ]]; then
-    # Rename and display the generated plot
-    mv dos.png "$1.png"
-    display "$1.png"
-else
-    # Display the plot with the default name
-    display dos.png
-fi
