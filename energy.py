@@ -369,7 +369,7 @@ def line_fitting(patterns, values_dict, dir_names, xlabel, save, filename, atoms
 
     plt.figure()
     plt.scatter(X, Y, color='r')
-    xx = np.linespace(np.linspace(np.min(X), np.max(X), 1000))
+    xx = np.linspace(np.linspace(np.min(X), np.max(X), 1000))
     yy = a * xx + b
     
     plt.plot(xx, yy, color='b', alpha=0.5)
