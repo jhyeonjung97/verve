@@ -372,11 +372,9 @@ def line_fitting(patterns, values_dict, dir_names, xlabel, save, filename, atoms
     xx = np.linespace(np.linspace(np.min(X), np.max(X), 1000))
     yy = a * xx + b
     
-    plt.plot(xx, yy, color='b', alpha=0.5, label='Fitting Line')
+    plt.plot(xx, yy, color='b', alpha=0.5)
     ax.set_xlabel('X')
     ax.set_ylabel('Y')
-    # plt.title("Best Fitting Line")
-    plt.legend()
     
     if save:
         filename = f"{filename.split('.')[0]}_2d.png"
@@ -424,8 +422,6 @@ def plane_fitting(patterns, values_dict, dir_names, xlabel, save, filename, atom
     ax.set_xlabel('X')
     ax.set_ylabel('Y')
     ax.set_zlabel('Z')
-    # plt.title("Best Fitting Plane")
-    plt.legend()
     
     if save:
         filename = f"{filename.split('.')[0]}_3d.png"
