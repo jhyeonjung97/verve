@@ -20,8 +20,8 @@ process_metals() {
         local formatted_index=$(printf "%02d" $i)
         local dir="${formatted_index}_${metals[i]}"
         mkdir $dir
-        sed "s/X/${metals[i]}/" ../../$file > $dir/$file
-        echo "sed \"s/X/${metals[i]}/\" ../../$file > $dir/$file"
+        sed "s/X/${metals[i]}/" ../$file > $dir/$file
+        echo "sed \"s/X/${metals[i]}/\" ../$file > $dir/$file"
     done
     cd ..
 }
