@@ -28,5 +28,6 @@ process_metals metals_5d 5d
 rm $file 3d/$file 4d/$file 5d/$file
 
 sed -i -e "/^[^#]/s/^/#/" ~/bin/temp.sh
-echo 'ase convert POSCAR start.traj' >> ~/bin/temp.sh
+echo "ase convert -f $file start.traj" >> ~/bin/temp.sh
+echo "rm $file" >> ~/bin/temp.sh
 sh ~/bin/verve/temp.sh -rr

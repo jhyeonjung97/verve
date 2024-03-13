@@ -59,7 +59,8 @@ alias sumo='sh ~/bin/verve/sumo.sh'
 #SSH
 alias hi='orange; shoulder; verve
 ~/bin/verve/sshproxy.sh -u jiuy97
-ssh -l jiuy97 -i ~/.ssh/nersc perlmutter.nersc.gov'
+ssh -l jiuy97 -i ~/.ssh/nersc perlmutter.nersc.gov
+exit; nersc'
 alias bye='sbash; orange; shoulder; verve'
 alias byebye='sbash; orange; shoulder; verve; rsync'
 alias burning='ssh -X -Y hyeonjung@burning.postech.ac.kr -p 54329'
