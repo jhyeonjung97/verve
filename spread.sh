@@ -1,8 +1,6 @@
 #!/bin/bash
 
 dir_tag=0
-select_dir=""
-range=""
 while getopts ":rs:d:" opt; do
   case $opt in
     r)
@@ -24,32 +22,25 @@ while getopts ":rs:d:" opt; do
       ;;
   esac
 done
-
-# Shift off the options and optional --
 shift "$((OPTIND-1))"
-
-file=$1
-files="$@"
-name=${file%.*}
-ext=${file##*.}
-ext="${ext:+.$ext}"
+files=$@
 
 if [[ -n $select_dir ]]; then
-    DIR=("${select_dir}/")
+    DIR=$select_dir
 elif [[ -n $range ]]; then
     IFS=',' read -r -a range_arr <<< "$range"
-    DIR=($(seq "${range_arr[0]}" "${range_arr[1]}"))
+    DIR=$(seq "${range_arr[0]}" "${range_arr[1]}")
 elif [[ $dir_tag = 1 ]]; then
-    DIR=('*/*/')
+    DIR='*/*/'
 else
-    DIR=('*/')
+    DIR='*/'
 fi
 
-for dir in "${DIR[@]}"
+for dir in $DIR
 do
     if [[ -d $dir ]]; then
-        for f in $files; do
-            cp "$f" "$dir"
+        for file in $files; do
+            cp $file $dir
             echo "cp $f $dir"
         done
     else
