@@ -15,13 +15,13 @@ sh ~/bin/verve/spread.sh -d 3,5 "$file"
 process_metals() {
     local -n metals=$1
     local subdir=$2
-    cd "$subdir"
-    for i in "${!metals[@]}"; do
+    cd $subdir
+    for i in ${!metals[@]}; do
         local formatted_index=$(printf "%02d" $i)
         local dir="${formatted_index}_${metals[i]}"
-        mkdir "$dir"
-        sed "s/X/${metals[i]}/" "../$file" > "$dir/$file"
-        echo "Changed XX in $file to ${metals[i]}"
+        mkdir $dir
+        sed "s/X/${metals[i]}/" ../$file > $dir/$file
+        echo "sed \"s/X/${metals[i]}/\" ../$file > $dir/$file"
     done
     cd ..
 }
