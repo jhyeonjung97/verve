@@ -1,5 +1,13 @@
-for i in {0..7}
+#!/bin/bash
+
+dir_now=$PWD
+for dir in */
 do
-    mkdir $i
-    cp cation*_$i.traj $i/start.traj
+    cd $dir
+    for i in {0..7}
+    do
+        mkdir $i
+        cp cation*_$i.traj $i/start.traj
+    done
+    cd $dir_now
 done
