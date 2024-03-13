@@ -56,7 +56,7 @@ if [[ -n $DIR ]]; then
     for dir in $DIR
     do
         dir=${dir%/}
-        i=$(echo $dir | cut -c "$cut")
+        i=${word:0:$cut}
         sed -i "/#SBATCH -J/c\#SBATCH -J ${name}$i" "$dir/submit.sh"
     done
     grep '#SBATCH -J' */submit.sh
