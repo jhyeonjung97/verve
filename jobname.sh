@@ -6,7 +6,6 @@ function usage_error {
 }
 
 # Initialize variables
-name=""
 cut=1
 rename=false
 startDir=""
@@ -14,7 +13,7 @@ endDir=""
 DIR=""
 
 # Process options
-while getopts ":hrn:c:" opt; do
+while getopts ":hr:c:" opt; do
     case ${opt} in
         h )
             usage_error
@@ -24,9 +23,6 @@ while getopts ":hrn:c:" opt; do
             ;;
         c )
             cut="$OPTARG"
-            ;;
-        n )
-            name="$OPTARG"
             ;;
         \? )
             echo "Invalid Option: -$OPTARG" 1>&2
@@ -39,6 +35,7 @@ while getopts ":hrn:c:" opt; do
     esac
 done
 shift $((OPTIND -1))
+name=$1
 
 # Additional argument handling
 if [[ -z $name ]]; then
