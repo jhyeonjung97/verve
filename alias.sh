@@ -60,6 +60,7 @@ alias hopping='python ~/bin/verve/hopping.py'
 alias sumo='sh ~/bin/verve/sumo.sh'
 alias metals='sh ~/bin/verve/metals.sh'
 alias mfa='sh ~/bin/verve/mmff-result.sh'
+alias err='sh ~/bin/verve/err.sh'
 
 #SSH
 alias hi='sh ~/bin/verve/gits.sh orange shoulder verve tools
