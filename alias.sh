@@ -22,6 +22,8 @@ find . -maxdepth 1 -type f -exec mv {} _trash \;
 ~/bin/rm_mv _trash'
 alias rsync='sh ~/bin/verve/archieve.sh'
 alias spread='~/bin/verve/spread.sh'
+alias conda-hi='conda init; conda activate py3'
+alias conda-bye='conda deactivate; conda init --reverse'
 
 # Preperation
 alias ma='grep MAGMOM */INCAR'
