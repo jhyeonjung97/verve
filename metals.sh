@@ -1,9 +1,9 @@
 #!/bin/bash
 
 file=$1
-if [[ $file != 'POSCAR' ]] && [[ $file != 'CONTCAR' ]]; then
+if [[ "$file" != "POSCAR" ]] && [[ "$file" != "CONTCAR" ]]; then
     echo "Are you sure..? Give me POSCAR or CONTCAR"
-    exit()
+    exit 1
 fi
 
 metals_3d=(Sc Ti V Cr Mn Fe Co Ni Cu Zn Ga Ge)
