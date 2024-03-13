@@ -6,7 +6,7 @@ function usage_error {
 }
 
 cut=1
-while getopts ":hrs:d:c:" opt; do
+while getopts ":hrcs:d:" opt; do
     case ${opt} in
         h )
             usage_error
@@ -14,15 +14,16 @@ while getopts ":hrs:d:c:" opt; do
         r)
           dir_tag=1
           ;;
+        c )
+            cut=2
+            ;;
         s)
           select="$OPTARG"
           ;;
         d)
           set="$OPTARG"
           ;;
-        c )
-            cut="$OPTARG"
-            ;;
+
         \? )
             echo "Invalid Option: -$OPTARG" 1>&2
             usage_error
