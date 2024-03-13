@@ -28,3 +28,9 @@ git stash
 git pull
 chmod 755 *
 cd $dir_now'
+alias tools='dir_now=$PWD
+cd ~/bin/tools
+git stash
+git pull
+chmod 755 *
+cd $dir_now'

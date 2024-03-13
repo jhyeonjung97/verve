@@ -32,3 +32,10 @@ git add *
 git commit -m "."
 git push
 cd $dir_now'
+alias tools='dir_now=$PWD
+cd ~/bin/tools
+git pull
+git add *
+git commit -m "."
+git push
+cd $dir_now'

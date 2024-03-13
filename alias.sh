@@ -57,12 +57,12 @@ alias hopping='python ~/bin/verve/hopping.py'
 alias sumo='sh ~/bin/verve/sumo.sh'
 
 #SSH
-alias hi='orange; shoulder; verve
-~/bin/verve/sshproxy.sh -u jiuy97
+alias gits='sbash; orange; shoulder; verve; tools; sbash'
+alias hi='gits; ~/bin/verve/sshproxy.sh -u jiuy97
 ssh -l jiuy97 -i ~/.ssh/nersc perlmutter.nersc.gov
 exit; nersc'
-alias bye='sbash; orange; shoulder; verve'
-alias byebye='sbash; orange; shoulder; verve; rsync'
+alias bye='gits'
+alias byebye='gits; rsync'
 alias burning='ssh -X -Y hyeonjung@burning.postech.ac.kr -p 54329'
 alias snu='ssh -X -Y hyeonjung@210.117.209.87'
 alias x2658='ssh -X -Y x2658a09@nurion.ksc.re.kr'
