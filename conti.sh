@@ -9,5 +9,5 @@ do
 done
 mkdir $save
 cp * $save
-ase convert CONTCAR start.traj
+ase convert -f CONTCAR start.traj
 sh ~/bin/verve/sub.sh
