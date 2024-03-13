@@ -24,6 +24,7 @@ export VASP_PP_PATH=/global/cfs/cdirs/m2997/vasp-psp/pseudo54
 
 python ~/bin/verve/opt_bulk3_afm_high.py
 python ~/bin/verve/static_bulk.py
+python ~/bin/verve/err.py
 python ~/bin/verve/bader.py
 
 ~/bin/lobster-5.0.0/lobster-5.0.0
