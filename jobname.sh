@@ -56,20 +56,16 @@ if [[ -n $DIR ]]; then
     for dir in "${DIR[@]}"
     do
         if [[ -d $dir ]]; then
-            i=${dir%/}
-            j=$(echo $dir | cut -c "$cut")
-            sed -i "/#SBATCH -J/c\#SBATCH -J ${name}$j" "${dir}submit.sh"
+            dir=${dir%/}
+            i=$(echo $dir | cut -c "$cut")
+            sed -i "/#SBATCH -J/c\#SBATCH -J ${name}$i" "${dir}submit.sh"
         else
             echo "$dir is not a valid directory."
         fi
     done
+    grep '#SBATCH -J' */submit.sh
 else
     sed -i "/#SBATCH -J/c\#SBATCH -J $name" submit.sh
     grep '#SBATCH -J' submit.sh
     exit 0
 fi
-
-
-
-
-grep '#SBATCH -J' */submit.sh
