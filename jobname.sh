@@ -55,13 +55,9 @@ fi
 if [[ -n $DIR ]]; then
     for dir in DIR
     do
-        if [[ -d $dir ]]; then
-            dir=${dir%/}
-            i=$(echo $dir | cut -c "$cut")
-            sed -i "/#SBATCH -J/c\#SBATCH -J ${name}$i" "${dir}submit.sh"
-        else
-            echo "$dir is not a valid directory."
-        fi
+        dir=${dir%/}
+        i=$(echo $dir | cut -c "$cut")
+        sed -i "/#SBATCH -J/c\#SBATCH -J ${name}$i" "${dir}submit.sh"
     done
     grep '#SBATCH -J' */submit.sh
 else
