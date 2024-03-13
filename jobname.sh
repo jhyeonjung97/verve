@@ -6,7 +6,7 @@ function usage_error {
 }
 
 cut=1
-while getopts ":hr:c:" opt; do
+while getopts ":hrs:d:c:" opt; do
     case ${opt} in
         h )
             usage_error
