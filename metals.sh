@@ -29,7 +29,7 @@ process_metals() {
 process_metals metals_3d 3d
 process_metals metals_4d 4d
 process_metals metals_5d 5d
-# rm $file 3d/$file 4d/$file 5d/$file
+rm $file
 
 sed -i -e "/^[^#]/s/^/#/" ~/bin/temp.sh
 echo "ase convert -f $file start.traj" >> ~/bin/temp.sh
