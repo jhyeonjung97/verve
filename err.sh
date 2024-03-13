@@ -4,5 +4,4 @@ if [[ $1 == '-r' ]]; then
 else
     grep '\-\-\-\-\-\-\-\-\-\-\-\-' vasp.out
     tail err.*.log
-
 fi
