@@ -17,10 +17,10 @@ gits_nersc() {
     local repository=$1
     if [[ -d ~/bin/$repository ]]; then
         local dir_now=$PWD
-        cd ~/bin/$repository || return
+        cd ~/bin/$repository
         git stash
         git pull
-        chmod 755 .
+        chmod 755 ./*
         cd $dir_now
     else
         echo "There is no ~/bin/$repository"
