@@ -1,26 +1,25 @@
 #!/bin/bash
 
 function usage_error {
-    echo "Usage: $0 [-h] [-r] [-n jobname] [startDir] [endDir]"
+    echo "Usage: $0 [-h] [-r] [-c cut] -n jobname [startDir] [endDir]"
     exit 1
 }
 
-# Initialize variables
 cut=1
-rename=false
-startDir=""
-endDir=""
-DIR=""
-
-# Process options
 while getopts ":hr:c:" opt; do
     case ${opt} in
         h )
             usage_error
             ;;
-        r )
-            rename=true
-            ;;
+        r)
+          dir_tag=1
+          ;;
+        s)
+          select="$OPTARG"
+          ;;
+        d)
+          set="$OPTARG"
+          ;;
         c )
             cut="$OPTARG"
             ;;
@@ -36,36 +35,41 @@ while getopts ":hr:c:" opt; do
 done
 shift $((OPTIND -1))
 
-if $rename; then
-    if [[ $# -eq 0 ]]; then
-        DIR='*/'
-    elif [[ $# -eq 2 ]]; then
-        startDir=$1
-        endDir=$2
-        DIR=$(seq $startDir $endDir)
-    else
-        echo "Incorrect number of directories specified."
-        usage_error
-    fi
+if [[ -z $1 ]]; then
+    echo "Job name is required."
+    usage_error
+else
+    name=$1
+fi
+
+
+if [[ -n $select_dir ]]; then
+    DIR=("${select_dir}/")
+elif [[ -n $range ]]; then
+    IFS=',' read -r -a range_arr <<< "$range"
+    DIR=($(seq "${range_arr[0]}" "${range_arr[1]}"))
+elif [[ $dir_tag = 1 ]]; then
+    DIR=('*/*/')
+fi
+
+if [[ -n $DIR ]]; then
+    for dir in "${DIR[@]}"
+    do
+        if [[ -d $dir ]]; then
+            i=${dir%/}
+            j=$(echo $dir | cut -c "$cut")
+            sed -i "/#SBATCH -J/c\#SBATCH -J ${name}$j" "${dir}submit.sh"
+        else
+            echo "$dir is not a valid directory."
+        fi
+    done
 else
     sed -i "/#SBATCH -J/c\#SBATCH -J $name" submit.sh
     grep '#SBATCH -J' submit.sh
     exit 0
 fi
 
-name=$1
-# Additional argument handling
-if [[ -z $name ]]; then
-    echo "Job name is required."
-    usage_error
-fi
 
-# Loop through directories and rename
-for i in $DIR
-do
-    i=${i%/} # Remove trailing slash if present
-    j=$(echo $i | cut -c $cut)
-    sed -i "/#SBATCH -J/c\#SBATCH -J ${name}$j" "$i/submit.sh"
-done
+
 
 grep '#SBATCH -J' */submit.sh
