@@ -57,6 +57,7 @@ alias cohp='python ~/bin/playground/aloha/cohp.py'
 alias cobi='python ~/bin/playground/aloha/cobi.py'
 alias hopping='python ~/bin/verve/hopping.py'
 alias sumo='sh ~/bin/verve/sumo.sh'
+alias metals='sh ~/bin/verve/metals.sh'
 
 #SSH
 alias hi='sh ~/bin/verve/gits.sh orange shoulder verve tools
