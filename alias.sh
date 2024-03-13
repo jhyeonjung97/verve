@@ -57,10 +57,10 @@ alias hopping='python ~/bin/verve/hopping.py'
 alias sumo='sh ~/bin/verve/sumo.sh'
 
 #SSH
-alias gits='sbash; orange; shoulder; verve; tools; sbash'
-alias hi='gits; ~/bin/verve/sshproxy.sh -u jiuy97
+alias hi='sh ~/bin/verve/gits.sh orange shoulder verve tools
+~/bin/verve/sshproxy.sh -u jiuy97
 ssh -l jiuy97 -i ~/.ssh/nersc perlmutter.nersc.gov
-exit; nersc'
+exit; ssh -X -Y jiuy97@perlmutter.nersc.gov'
 alias bye='gits'
 alias byebye='gits; rsync'
 alias burning='ssh -X -Y hyeonjung@burning.postech.ac.kr -p 54329'
@@ -78,6 +78,14 @@ alias get='sh ~/bin/orange/get.sh'
 
 alias token='echo jhyeonjung97
 echo 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'
+
+#Git
+alias gits='sh ~/bin/verve/gits.sh'
+alias orange='sh ~/bin/verve/gits.sh orange'
+alias shoulder='sh ~/bin/verve/gits.sh shoulder'
+alias verve='sh ~/bin/verve/gits.sh verve'
+alias tools='sh ~/bin/verve/gits.sh tools'
+alias bye='sh ~/bin/verve/gits.sh orange shoulder verve tools'
 
 #ASE
 alias ag='ase gui'
