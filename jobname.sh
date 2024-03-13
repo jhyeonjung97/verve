@@ -44,16 +44,16 @@ fi
 
 
 if [[ -n $select_dir ]]; then
-    DIR=("${select_dir}/")
+    DIR="$select_dir"
 elif [[ -n $range ]]; then
     IFS=',' read -r -a range_arr <<< "$range"
-    DIR=($(seq "${range_arr[0]}" "${range_arr[1]}"))
+    DIR=$(seq "${range_arr[0]}" "${range_arr[1]}")
 elif [[ $dir_tag = 1 ]]; then
-    DIR=('*/*/')
+    DIR='*/*/'
 fi
 
 if [[ -n $DIR ]]; then
-    for dir in "${DIR[@]}"
+    for dir in DIR
     do
         if [[ -d $dir ]]; then
             dir=${dir%/}
