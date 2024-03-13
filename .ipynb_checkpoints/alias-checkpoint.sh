@@ -64,7 +64,7 @@ alias err='sh ~/bin/verve/err.sh'
 
 #SSH
 alias hi='sh ~/bin/verve/gits.sh orange shoulder verve tools
-~/bin/verve/sshproxy.sh -u jiuy97
+~/bin/sshproxy.sh -u jiuy97
 ssh -X -Y -l jiuy97 -i ~/.ssh/nersc perlmutter.nersc.gov'
 alias bye='sh ~/bin/verve/gits.sh orange shoulder verve tools'
 alias byebye='sh ~/bin/verve/gits.sh orange shoulder verve tools
