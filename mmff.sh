@@ -45,7 +45,27 @@ do
     obminimize -n 100000000 -sd -c 1e-8 -ff MMFF94s $name$j.mol2 > $name$j.pdb
 done
 
-python3 ~/bin/orange/convert.py pdb vasp $a $b $c
-python3 ~/bin/orange/convert.py vasp traj $a $b $c
 sh ~/bin/verve/mmff-result.sh
-rm *.vasp
+python3 ~/bin/orange/convert.py pdb traj $a $b $c
+
+for i in {0..29}
+do
+      if [[ $i -lt 10 ]]; then
+              dirname="0$i"
+      else
+              dirname="$i"
+      fi
+      mkdir "$dirname"
+      mv "cation$dirname."* "$dirname/"
+done
+
+dir_now=$PWD
+for dir in */
+do
+    cd $dir
+    python3 ~/bin/verve/hopping.py -n 8 cation*.traj
+    python3 ~/bin/orange/convert.py traj vasp $a $b $c
+    python3 ~/bin/orange/convert.py vasp traj $a $b $c
+    rm *.vasp
+    cd $dir_now
+done
