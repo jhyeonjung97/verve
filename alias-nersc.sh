@@ -8,29 +8,3 @@ alias vasp6='mv /global/homes/j/jiuy97/bin/vasp_outcar_parsers6.py /global/homes
 alias mystat='squeue -o "%.10i %.9P %.16j %.8u %.8T %.8M %.10l %.6D %R" --me --sort=i'
 
 alias qdel='scancel'
-
-# Git
-alias orange='dir_now=$PWD
-cd ~/bin/orange
-git stash
-git pull
-chmod 755 *
-cd $dir_now'
-alias shoulder='dir_now=$PWD
-cd ~/bin/shoulder
-git stash
-git pull
-chmod 755 *
-cd $dir_now'
-alias verve='dir_now=$PWD
-cd ~/bin/verve
-git stash
-git pull
-chmod 755 *
-cd $dir_now'
-alias tools='dir_now=$PWD
-cd ~/bin/tools
-git stash
-git pull
-chmod 755 *
-cd $dir_now'
