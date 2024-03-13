@@ -40,26 +40,31 @@ alias regular='sed -i "/#SBATCH -t/c\#SBATCH -t 12:00:00" submit.sh
 sed -i "/#SBATCH -q/c\#SBATCH -q regular" submit.sh'
 
 # Analysis
+alias dp='display'
 alias ta='tail */vasp.out'
 alias te='grep free_energy */final*json'
 alias me='grep MAGMOM */OUTCAR'
-alias e='grep E0 OSZICAR'
-alias ee='grep E0 OSZICAR | tail -n 3'
+alias e='grep TOTEN OUTCAR'
+alias ee='grep TOTEN OUTCAR | tail -n 3'
 alias freq='grep THz OUTCAR'
 alias fermi='grep E-fermi OUTCAR | tail -n 1'
 alias outcar='sh ~/bin/verve/outcar.sh'
 alias energy='python ~/bin/verve/energy.py'
 alias bader='python ~/bin/verve/bader.py'
 alias dos3='python ~/bin/shoulder/dos3.py'
+alias dos3lob='python ~/bin/shoulder/dos3lob.py'
 alias cohp='python ~/bin/playground/aloha/cohp.py'
 alias cobi='python ~/bin/playground/aloha/cobi.py'
 alias hopping='python ~/bin/verve/hopping.py'
+alias sumo='sh ~/bin/verve/sumo.sh'
 
 #SSH
-alias hi='orange; shoulder; verve
+alias hi='sh ~/bin/verve/gits.sh orange shoulder verve tools
 ~/bin/verve/sshproxy.sh -u jiuy97
-ssh -l jiuy97 -i ~/.ssh/nersc perlmutter.nersc.gov'
-alias bye='sbash; orange; shoulder; verve; rsync'
+ssh -X -Y -l jiuy97 -i ~/.ssh/nersc perlmutter.nersc.gov'
+alias bye='sh ~/bin/verve/gits.sh orange shoulder verve tools'
+alias byebye='sh ~/bin/verve/gits.sh orange shoulder verve tools
+sh ~/bin/verve/archieve.sh'
 alias burning='ssh -X -Y hyeonjung@burning.postech.ac.kr -p 54329'
 alias snu='ssh -X -Y hyeonjung@210.117.209.87'
 alias x2658='ssh -X -Y x2658a09@nurion.ksc.re.kr'
@@ -75,6 +80,14 @@ alias get='sh ~/bin/orange/get.sh'
 
 alias token='echo jhyeonjung97
 echo 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'
+
+#Git
+alias gits='sh ~/bin/verve/gits.sh orange shoulder verve tools'
+alias orange='sh ~/bin/verve/gits.sh orange'
+alias shoulder='sh ~/bin/verve/gits.sh shoulder'
+alias verve='sh ~/bin/verve/gits.sh verve'
+alias tools='sh ~/bin/verve/gits.sh tools'
+alias bye='sh ~/bin/verve/gits.sh orange shoulder verve tools'
 
 #ASE
 alias ag='ase gui'
