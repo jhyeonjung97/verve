@@ -45,4 +45,7 @@ do
     obminimize -n 100000000 -sd -c 1e-8 -ff MMFF94s $name$j.mol2 > $name$j.pdb
 done
 
-python3 ~/bin/orange/convert.py pdb json $a $b $c
+python3 ~/bin/orange/convert.py pdb vasp $a $b $c
+python3 ~/bin/orange/convert.py vasp traj $a $b $c
+sh ~/bin/verve/mmff-result.sh
+rm *.vasp
