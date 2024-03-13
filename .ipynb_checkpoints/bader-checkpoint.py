@@ -60,20 +60,14 @@ def get_bader_charges(traj):
     name = newarray[:,0]
     
     # Define the dictionary for reference charges of each element
-    chargedict = {
-        'Pt': 10, 'Ce': 12, 'W': 6, 'Sm': 11, 'Ti': 4, 'V': 5, 'Cr': 6, 'Mn': 7,
-        'Fe': 8, 'Co': 9, 'Ni': 10, 'Cu': 11, 'Zn': 12, 'Ga': 3, 'Ge': 4, 'As': 5,
-        'Zr': 12, 'Nb': 11, 'Mo': 14, 'Tc': 7, 'Ru': 8, 'Rh': 9, 'Pd': 10, 'Ag': 11,
-        'Cd': 12, 'In': 3, 'Sn': 4, 'Sb': 5, 'Ir': 9, 'Al': 3, 'Au': 11, 'S': 6,
-        'O': 6, 'N': 5, 'C': 4, 'P': 5, 'B': 3, 'Na': 1, 'K': 7, 'Li': 1, 'Cl': 7,
-        'Y': 11, 'Bi': 5, 'La': 11, 'H': 1}
-    
-    spin_states_plus_4 = {'Sc': 11, 'Ti': 12, 'V': 13, 'Cr': 12, 'Mn': 13, 'Fe': 8, 
-                    'Co': 9, 'Ni': 10, 'Cu': 11, 'Zn': 12, 'Ga': 13, 'Ge': 14,
-                    'Y': 11, 'Zr': 12, 'Nb': 13, 'Mo': 14, 'Tc': 13, 'Ru': 14, 
-                    'Pd': 10, 'Rh': 15, 'Ag': 11, 'Cd': 12, 'In': 13, 'Sn': 14,
-                    'La': 11, 'Hf': 11, 'Ta': 10, 'W': 11, 'Re': 7, 'Os': 8, 'Ir': 9, 
-                    'Pt': 10, 'Au': 11, 'Hg': 12, 'Tl': 13, 'Pb': 14, 'La': 2,
+    chargedict = {'Sc': 11, 'Ti': 12, 'V': 13, 'Cr': 12, 'Mn': 13, 'Fe': 8,
+                  'Co': 9, 'Ni': 10, 'Cu': 11, 'Zn': 12, 'Ga': 13, 'Ge': 14,
+                  'Y': 11, 'Zr': 12, 'Nb': 13, 'Mo': 14, 'Tc': 13, 'Ru': 14,
+                  'Pd': 10, 'Rh': 15, 'Ag': 11, 'Cd': 12, 'In': 13, 'Sn': 14,
+                  'La': 11, 'Hf': 10, 'Ta': 11, 'W': 11, 'Re': 7, 'Os': 8,
+                  'Ir': 9, 'Pt': 10, 'Au': 11, 'Hg': 12, 'Tl': 13, 'Pb': 14,
+                  'S': 6, 'O': 6, 'N': 5, 'C': 4, 'P': 5, 'B': 3, 
+                  'Li': 1, 'Na': 1, 'K': 7, 'Cl': 7, 'Bi': 5, 'H': 1}
                    }
     
     write_charge=[]
