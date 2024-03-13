@@ -1,0 +1,12 @@
+alias jl='cd ~/bin; jupyter-lab'
+alias jn='ssh -N -f -L localhost:7777:localhost:9999 hyeonjung@burning.postech.ac.kr -p 54329; jupyter notebook'
+
+alias cdw='cd ~/Desktop/'
+alias vbash='vi ~/.zshrc'
+alias sbash='source ~/.zshrc'
+alias port='scp -P 54329 hyeonjung@burning.postech.ac.kr:~/port/*.vasp .'
+
+alias vasp2png='python ~/bin/shoulder/vasp2png.py'
+alias style='open /Applications/VESTA/VESTA.app/Contents/Resources/style.ini'
+alias element='open /Applications/VESTA/VESTA.app/Contents/Resources/elements.ini'
+alias carbon='sed -i -e "s/1.89002  0  2/1.89002  0  0/" *.vesta'
