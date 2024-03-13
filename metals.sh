@@ -33,5 +33,5 @@ process_metals metals_5d 5d
 
 sed -i -e "/^[^#]/s/^/#/" ~/bin/temp.sh
 echo "ase convert -f $file start.traj" >> ~/bin/temp.sh
-# echo "rm $file" >> ~/bin/temp.sh
+echo "rm $file" >> ~/bin/temp.sh
 sh ~/bin/verve/temp.sh -rr
