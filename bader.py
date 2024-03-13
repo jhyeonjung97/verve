@@ -68,6 +68,14 @@ def get_bader_charges(traj):
         'O': 6, 'N': 5, 'C': 4, 'P': 5, 'B': 3, 'Na': 1, 'K': 7, 'Li': 1, 'Cl': 7,
         'Y': 11, 'Bi': 5, 'La': 11, 'H': 1}
     
+    spin_states_plus_4 = {'Sc': 11, 'Ti': 12, 'V': 13, 'Cr': 12, 'Mn': 13, 'Fe': 8, 
+                    'Co': 9, 'Ni': 10, 'Cu': 11, 'Zn': 12, 'Ga': 13, 'Ge': 14,
+                    'Y': 11, 'Zr': 12, 'Nb': 13, 'Mo': 14, 'Tc': 13, 'Ru': 14, 
+                    'Pd': 10, 'Rh': 15, 'Ag': 11, 'Cd': 12, 'In': 13, 'Sn': 14,
+                    'La': 11, 'Hf': 10, 'Ta': 11, 'W': 11, 'Re': 7, 'Os': 8, 
+                    'Ir': 9, 'Pt': 10, 'Au': 11, 'Hg': 12, 'Tl': 13, 'Pb': 14,
+                   }
+    
     write_charge=[]
     outfilename = 'bader_charges.tsv'
     with open(outfilename, 'w') as f:
