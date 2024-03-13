@@ -1,6 +1,10 @@
 #!/bin/bash
 
 file=$1
+if [[ ! $file -eq 'POSCAR' ]] & [[ ! $file -eq 'CONTCAR' ]]; then
+    echo "Are you sure..? Give me POSCAR or CONTCAR"
+    exit()
+fi
 metals_3d=(Sc Ti V Cr Mn Fe Co Ni Cu Zn Ga Ge)
 metals_4d=(Y Zr Nb Mo Tc Ru Rh Pd Ag Cd In Sn)
 metals_5d=(La Hf Ta W Re Os Ir Pt Au Hg Tl Pb)

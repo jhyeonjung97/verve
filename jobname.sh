@@ -1,36 +1,74 @@
 #!/bin/bash
 
 function usage_error {
-    echo 'Usage: name_slurm.sh (-r) [jobname] [dir#1] [dir#2]'
+    echo "Usage: $0 [-h] [-r] [-n jobname] [startDir] [endDir]"
     exit 1
 }
 
-if [[ $1 == '-h' ]] || [[ -z $1 ]]; then
+# Initialize variables
+name=""
+cut=1
+rename=false
+startDir=""
+endDir=""
+DIR=""
+
+# Process options
+while getopts ":hrn:c:" opt; do
+    case ${opt} in
+        h )
+            usage_error
+            ;;
+        r )
+            rename=true
+            ;;
+        c )
+            cut="$OPTARG"
+            ;;
+        n )
+            name="$OPTARG"
+            ;;
+        \? )
+            echo "Invalid Option: -$OPTARG" 1>&2
+            usage_error
+            ;;
+        : )
+            echo "Invalid option: $OPTARG requires an argument" 1>&2
+            usage_error
+            ;;
+    esac
+done
+shift $((OPTIND -1))
+
+# Additional argument handling
+if [[ -z $name ]]; then
+    echo "Job name is required."
     usage_error
 fi
 
-if [[ -z $2 ]]; then
-    name=$1
+if $rename; then
+    if [[ $# -eq 0 ]]; then
+        DIR='*/'
+    elif [[ $# -eq 2 ]]; then
+        startDir=$1
+        endDir=$2
+        DIR=$(seq $startDir $endDir)
+    else
+        echo "Incorrect number of directories specified."
+        usage_error
+    fi
+else
     sed -i "/#SBATCH -J/c\#SBATCH -J $name" submit.sh
     grep '#SBATCH -J' submit.sh
     exit 0
-elif [[ $1 == '-r' ]]; then
-    name=$2
-    DIR='*/'
-elif [[ -z $3 ]]; then
-    name=$2
-    DIR=$(seq 1 $1)
-else
-    name=$3
-    DIR=$(seq $1 $2)
 fi
 
-# loop
+# Loop through directories and rename
 for i in $DIR
 do
-    i=${i%/}
-    j=$(echo $i | cut -c 1)
-    sed -i "/#SBATCH -J/c\#SBATCH -J $name$j" $i/submit.sh
+    i=${i%/} # Remove trailing slash if present
+    j=$(echo $i | cut -c $cut)
+    sed -i "/#SBATCH -J/c\#SBATCH -J ${name}$j" "$i/submit.sh"
 done
 
 grep '#SBATCH -J' */submit.sh
