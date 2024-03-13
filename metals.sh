@@ -1,8 +1,7 @@
 #!/bin/bash
 
 file=$1
-
-if [[ ! $file -eq 'POSCAR' ]] & [[ ! $file -eq 'CONTCAR' ]]; then
+if [[ ! $file -eq 'POSCAR' ]] &&[[ ! $file -eq 'CONTCAR' ]]; then
     echo "Are you sure..? Give me POSCAR or CONTCAR"
     exit()
 fi
