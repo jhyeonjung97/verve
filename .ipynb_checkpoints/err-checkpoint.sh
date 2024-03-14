@@ -9,8 +9,11 @@ if [[ $1 == '-r' ]]; then
             fi
         fi
         cd $dir_now
+        if [[ -s err.*.long ]]; then
+            echo -n -e "\e[35m$dir\e[0m" && tail vasp.out | tail -n 1
+        fi
     done
-    tail */err.*.log
+    # tail */err.*.log
 else
     grep '\-\-\-\-\-\-\-\-\-\-\-\-' vasp.out | tail -n 1
     tail err.*.log
