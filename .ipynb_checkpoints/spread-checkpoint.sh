@@ -1,18 +1,16 @@
 #!/bin/bash
 
-set_tag=0
 dir_tag=0
-numb_tag=0
-while getopts ":rnd:" opt; do
+while getopts ":rs:d:" opt; do
   case $opt in
     r)
       dir_tag=1
       ;;
-    n)
-      numb_tag=1
+    s)
+      select_dir="$OPTARG"
       ;;
     d)
-      set="$OPTARG"
+      range="$OPTARG"
       ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
@@ -24,48 +22,28 @@ while getopts ":rnd:" opt; do
       ;;
   esac
 done
-
-# Shift the options out, so $1, $2, etc. are the non-option arguments
-shift "$((OPTIND-1))"   
-
-file=$1
+shift "$((OPTIND-1))"
 files=$@
-name=${file%.*}
-ext=${file##*.}
-if [[ $name == $ext ]]; then
-    ext=''
-else
-    ext='.'$ext
-fi
 
-if [[ -n $set ]]; then
-    a=${set%,*}
-    b=${set##*,}
+if [[ -n $select_dir ]]; then
+    DIR=$select_dir
+elif [[ -n $range ]]; then
+    IFS=',' read -r -a range_arr <<< "$range"
+    DIR=$(seq "${range_arr[0]}" "${range_arr[1]}")
 elif [[ $dir_tag = 1 ]]; then
     DIR='*/*/'
 else
-    DIR='*/'
+    DIR='*_*/'
 fi
 
-if [[ -n $set ]]; then
-    for i in $(seq $a $b)
-    do
-        cp $files $i*
-        echo "cp $files $i*"
-    done
-elif [[ $numb_tag = 0 ]]; then
-    for dir in $DIR
-    do
-        cp $files $dir
-        echo "cp $files $dir"
-    done
-else
-    for dir in $DIR
-    do
-        i=$(echo ${dir%/} | cut -c 1)
-        if [[ -s $name$i$ext ]]; then
-            cp $name$i$ext $dir$file
-            echo "cp $name$i$ext $dir$file"
-        fi
-    done
-fi
+for dir in $DIR
+do
+    if [[ -d $dir ]]; then
+        for file in $files; do
+            cp $file $dir
+            echo "cp $file $dir$file"
+        done
+    else
+        echo "$dir is not a valid directory."
+    fi
+done

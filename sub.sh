@@ -9,7 +9,7 @@ if [[ -z $1 ]]; then
     sbatch submit.sh
     exit 0
 elif [[ $1 == '-r' ]]; then
-    DIR='*/'
+    DIR='*_*/'
 elif [[ $1 == '-s' ]]; then
     DIR=${2:@}
 elif [[ -z $2 ]]; then

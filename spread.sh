@@ -33,7 +33,7 @@ elif [[ -n $range ]]; then
 elif [[ $dir_tag = 1 ]]; then
     DIR='*/*/'
 else
-    DIR='*/'
+    DIR='*_*/'
 fi
 
 for dir in $DIR
