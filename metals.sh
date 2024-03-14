@@ -5,7 +5,7 @@ case "$file" in
     POSCAR|CONTCAR|*.vasp)
         ;;
     *)
-        echo "Are you sure..? Give me POSCAR or CONTCAR"
+        echo 'Are you sure..? Give me POSCAR or CONTCAR or *.vasp'
         exit 1
         ;;
 esac
