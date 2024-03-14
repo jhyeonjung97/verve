@@ -67,4 +67,4 @@ do
         awk "/$pattern_s/,/$pattern_e/" $file | tail -n $(($m+2))
         cd $dir_now
     fi
-done
+done 
