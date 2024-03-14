@@ -22,6 +22,6 @@ else
         fi
     done
     if [[ $err_count == 0 ]]; then
-        echo -e "\e[35mCongrats! There is no error founded in vasp.out files\e[0m"
+        echo -e "\e[35mCongrats! No error founded in vasp.out files\e[0m"
     fi
 fi
