@@ -1,6 +1,10 @@
 if [[ $1 == '-r' ]]; then
-    grep '\-\-\-\-\-\-\-\-\-\-\-\-' */vasp.out | tail -n 1
-    tail */err.*.log
+    dir_now=$PWD
+    for dir in */
+        cd $dir
+        grep '\-\-\-\-\-\-\-\-\-\-\-\-' */vasp.out | tail -n 1
+        tail */err.*.log
+        cd $dir_now
 else
     grep '\-\-\-\-\-\-\-\-\-\-\-\-' vasp.out | tail -n 1
     tail err.*.log
