@@ -4,7 +4,7 @@ if [[ $1 == '-r' ]]; then
     do
         cd $dir
         if grep -q '\-\-\-\-\-\-\-\-\-\-\-\-' vasp.out; then
-            echo $dir && grep '\-\-\-\-\-\-\-\-\-\-\-\-' vasp.out | tail -n 1
+            echo -n $dir && grep '\-\-\-\-\-\-\-\-\-\-\-\-' $dir'vasp.out' | tail -n 1
         fi
         cd $dir_now
     done
