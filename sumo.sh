@@ -12,7 +12,7 @@ sumo-dosplot \
     --format png \
     --dpi 100 \
     --column 1 \
-    --width 8 \
+    --width 12 \
     --height 6 \
     --elements Co.d \
     --orbitals Co.d \
