@@ -11,7 +11,6 @@ if [[ -z $2 ]]; then
 else
     pattern=$2
 fi
-echo "pattern: $(grep --color=auto $pattern $file)"
 
 metals_3d=(Sc Ti V Cr Mn Fe Co Ni Cu Zn Ga Ge)
 metals_4d=(Y Zr Nb Mo Tc Ru Rh Pd Ag Cd In Sn)
@@ -27,7 +26,7 @@ process_metals() {
         local formatted_index=$(printf "%02d" $i)
         local dir="${formatted_index}_${metals[i]}"
         mkdir $dir
-        sed "s/X/${metals[i]}/" ../$file > $dir/$file
+        sed "s/$pattern/${metals[i]}/" ../$file > $dir/$file
         echo "sed \"s/X/${metals[i]}/\" ../$file > $dir/$file"
     done
     cd ..
