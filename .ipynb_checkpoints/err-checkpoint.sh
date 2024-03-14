@@ -9,6 +9,7 @@ else
         cd $dir
         if [[ -s vasp.out ]]; then
             if grep -q 'MAGMOM' vasp.out; then
+                echo 'hello'
                 python ~/bin/verve/err-mag.py
             fi
             if grep -q '\-\-\-\-\-\-\-\-\-\-\-\-' vasp.out; then
