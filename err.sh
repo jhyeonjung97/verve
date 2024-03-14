@@ -8,11 +8,11 @@ else
     do
         cd $dir
         if [[ -s vasp.out ]]; then
+            vasp.out temp.out
             if grep -q 'MAGMOM' vasp.out; then
-                echo 'hello'
-                python ~/bin/verve/err-mag.py
+                sed -i '0,/-----------------------------------------------------------------------------/{/-----------------------------------------------------------------------------/d;}' temp.out
             fi
-            if grep -q '\-\-\-\-\-\-\-\-\-\-\-\-' vasp.out; then
+            if grep -q '\-\-\-\-\-\-\-\-\-\-\-\-' temp.out; then
                 echo -n -e "\e[35m$dir\e[0m"
                 grep '\-\-\-\-\-\-\-\-\-\-\-\-' vasp.out | tail -n 1
                 err_count=1
