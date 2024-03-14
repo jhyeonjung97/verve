@@ -3,7 +3,7 @@ if [[ $1 == '-r' ]]; then
     for dir in */
     do
         cd $dir
-        if grep -q '\-\-\-\-\-\-\-\-\-\-\-\-' vaps.out; then
+        if grep -q '\-\-\-\-\-\-\-\-\-\-\-\-' vasp.out; then
             echo $dir && grep '\-\-\-\-\-\-\-\-\-\-\-\-' vasp.out | tail -n 1
         fi
         cd $dir_now
