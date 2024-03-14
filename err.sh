@@ -3,7 +3,7 @@ if [[ $1 == '-r' ]]; then
     for dir in */
     do
         cd $dir
-        grep '\-\-\-\-\-\-\-\-\-\-\-\-' vasp.out | tail -n 1
+        echo $dir && grep '\-\-\-\-\-\-\-\-\-\-\-\-' vasp.out | tail -n 1
         cd $dir_now
     done
     tail */err.*.log
