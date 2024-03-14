@@ -21,7 +21,7 @@ sumo-dosplot \
     --yscale 2 \
     --zero-line \
     --prefix $prefix \
-    --xmin -30 \
-    --xmax 30
+    --xmin -10 \
+    --xmax 10
     
 
