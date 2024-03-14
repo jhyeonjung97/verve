@@ -27,7 +27,7 @@ process_metals() {
         local dir="${formatted_index}_${metals[i]}"
         mkdir $dir
         sed "s/$pattern/${metals[i]}/" ../$file > $dir/$file
-        echo "sed \"s/X/${metals[i]}/\" ../$file > $dir/$file"
+        echo "sed \"s/$pattern/${metals[i]}/\" ../$file > $dir/$file"
     done
     cd ..
 }
