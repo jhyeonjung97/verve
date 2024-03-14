@@ -10,6 +10,7 @@ else
         if [[ -s vasp.out ]]; then
             if grep -q 'MAGMOM' vasp.out; then
                 python ~/bin/verve/err-mag.py
+            fi
             if grep -q '\-\-\-\-\-\-\-\-\-\-\-\-' vasp.out; then
                 echo -n -e "\e[35m$dir\e[0m"
                 grep '\-\-\-\-\-\-\-\-\-\-\-\-' vasp.out | tail -n 1
