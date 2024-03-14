@@ -5,7 +5,7 @@ if [[ $1 == '-r' ]]; then
         cd $dir
         if [[ -s vasp.out ]]; then
             if grep -q '\-\-\-\-\-\-\-\-\-\-\-\-' vasp.out; then
-                echo -n $dir && grep "\e[32m\-\-\-\-\-\-\-\-\-\-\-\-\e[0m" $dir'vasp.out' | tail -n 1
+                echo -n $dir && grep '\-\-\-\-\-\-\-\-\-\-\-\-' $dir'vasp.out' | tail -n 1
             fi
         fi
         cd $dir_now
