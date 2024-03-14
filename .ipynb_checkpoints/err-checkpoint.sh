@@ -4,9 +4,9 @@ if [[ $1 == '-r' ]]; then
     do
         cd $dir
         grep '\-\-\-\-\-\-\-\-\-\-\-\-' vasp.out | tail -n 1
-        tail err.*.log
         cd $dir_now
     done
+    tail */err.*.log
 else
     grep '\-\-\-\-\-\-\-\-\-\-\-\-' vasp.out | tail -n 1
     tail err.*.log
