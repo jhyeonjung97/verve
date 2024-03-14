@@ -1,10 +1,14 @@
 #!/bin/bash
 
 file=$1
-if [[ "$file" != "POSCAR" ]] && [[ "$file" != "CONTCAR" ]]; then
-    echo "Are you sure..? Give me POSCAR or CONTCAR"
-    exit 1
-fi
+case "$file" in
+    POSCAR|CONTCAR|*.vasp)
+        ;;
+    *)
+        echo "Are you sure..? Give me POSCAR or CONTCAR"
+        exit 1
+        ;;
+esac
 
 if [[ -z $2 ]]; then
     pattern='X'
