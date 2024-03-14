@@ -10,6 +10,7 @@ if [[ -z $2 ]]; then
     pattern='X'
 else
     pattern=$2
+fi
 echo "pattern: $(grep --color=auto $pattern $file)"
 
 metals_3d=(Sc Ti V Cr Mn Fe Co Ni Cu Zn Ga Ge)
