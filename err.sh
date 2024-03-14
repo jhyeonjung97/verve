@@ -7,8 +7,10 @@ else
     do
         cd $dir
         if [[ -s vasp.out ]]; then
+            python ~/bin/verve/err-mag.py
             if grep -q '\-\-\-\-\-\-\-\-\-\-\-\-' vasp.out; then
-                echo -n -e "\e[35m$dir\e[0m" && grep '\-\-\-\-\-\-\-\-\-\-\-\-' $dir'vasp.out' | tail -n 1
+                echo -n -e "\e[35m$dir\e[0m"
+                grep '\-\-\-\-\-\-\-\-\-\-\-\-' $dir'vasp.out' | tail -n 1
             fi
         fi
         cd $dir_now
