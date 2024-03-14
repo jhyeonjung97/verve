@@ -8,15 +8,17 @@ else
     do
         cd $dir
         if [[ -s vasp.out ]]; then
-            vasp.out temp.out
+            cp vasp.out temp.out
             if grep -q 'MAGMOM' vasp.out; then
+                sed -i '0,/-----------------------------------------------------------------------------/{/-----------------------------------------------------------------------------/d;}' temp.out
                 sed -i '0,/-----------------------------------------------------------------------------/{/-----------------------------------------------------------------------------/d;}' temp.out
             fi
             if grep -q '\-\-\-\-\-\-\-\-\-\-\-\-' temp.out; then
                 echo -n -e "\e[35m$dir\e[0m"
-                grep '\-\-\-\-\-\-\-\-\-\-\-\-' vasp.out | tail -n 1
+                grep '\-\-\-\-\-\-\-\-\-\-\-\-' temp.out | tail -n 1
                 err_count=1
             fi
+            rm temp.out
         fi
         cd $dir_now
         if [[ -s err.*.long ]]; then
