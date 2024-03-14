@@ -1,19 +1,17 @@
-def remove_lines_before_pattern(file_path, pattern):
-    with open(file_path, 'r') as file:
+def remove_lines(filename, num_lines=2, pattern='-'*80):
+    with open(filename, 'r') as file:
         lines = file.readlines()
 
-    pattern_found = False
+    count = 0
     new_lines = []
     for line in lines:
-        if pattern_found:
+        if line.strip() == pattern and count < num_lines:
+            count += 1
+        else:
             new_lines.append(line)
-        elif pattern in line:
-            pattern_found = True
 
-    with open(file_path, 'w') as file:
+    with open(filename, 'w') as file:
         file.writelines(new_lines)
 
-# Example usage:
-file_path = 'vasp.out'
-pattern = 'MAGMOM'
-remove_lines_before_pattern(file_path, pattern)
+# Replace 'filename.txt' with the path to your file
+remove_lines('vasp.out')
