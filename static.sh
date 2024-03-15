@@ -8,7 +8,7 @@ do
     else
         mkdir opt
         cp * opt/
-        if [[ -d conti* ]]; then
+        if [[ -d "conti*" ]]; then
             mv conti*/ opt/
         fi
         rm *.log
