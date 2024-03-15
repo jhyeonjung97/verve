@@ -6,7 +6,9 @@ function usage_error {
 }
 
 if [[ -z $1 ]]; then
-    sbatch submit.sh
+    if [[ -s submit.sh ]]; then
+        sbatch submit.sh
+    fi
     exit 0
 elif [[ $1 == '-r' ]]; then
     DIR='*_*/'
@@ -22,6 +24,8 @@ for i in $DIR
 do
     i=${i%/}
     cd $i*
-    sbatch submit.sh
+    if [[ -s submit.sh ]]; then
+        sbatch submit.sh
+    fi
     cd ..
 done
