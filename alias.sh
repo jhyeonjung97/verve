@@ -42,6 +42,7 @@ sed -i "/#SBATCH -q/c\#SBATCH -q regular" submit.sh'
 alias hour='sh ~/bin/verve/hour.sh'
 alias minute='sh ~/bin/verve/minute.sh'
 alias static='sh ~/bin/verve/static.sh'
+alias lobin='sh ~/bin/verve/lobin.sh'
 
 # Analysis
 alias dp='display'
