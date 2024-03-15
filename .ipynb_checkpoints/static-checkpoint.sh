@@ -16,3 +16,4 @@ do
     cd $dir_now
 done
 echo -e "\e[32mDon't forget to 1) spread correct submit.sh, 2) name -rc, 3) sub -r\e[0m"
+sh ~/bin/verve/lobin.sh
