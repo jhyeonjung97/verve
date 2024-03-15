@@ -21,7 +21,7 @@ else
             rm temp.out
         fi
         cd $dir_now
-        if [[ -s err.*.log ]]; then
+        if [[ -s "err.*.log" ]]; then
             echo -n -e "\e[35m$dir\e[0m" && tail vasp.out | tail -n 1
             err_count=1
         fi
