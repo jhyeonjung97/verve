@@ -39,6 +39,8 @@ alias debug='sed -i "/#SBATCH -t/c\#SBATCH -t 00:30:00" submit.sh
 sed -i "/#SBATCH -q/c\#SBATCH -q debug" submit.sh'
 alias regular='sed -i "/#SBATCH -t/c\#SBATCH -t 12:00:00" submit.sh
 sed -i "/#SBATCH -q/c\#SBATCH -q regular" submit.sh'
+alias hour='sh ~/bin/verve/hour.sh'
+alias minute='sh ~/bin/verve/minute.sh'
 alias static='sh ~/bin/verve/static.sh'
 
 # Analysis
