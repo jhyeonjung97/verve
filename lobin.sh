@@ -10,3 +10,4 @@ for dir in *_*/; do
     sed -i -e "s/X/$B/g" lobsterin
     cd $dir_now
 done
+rm lobsterin
