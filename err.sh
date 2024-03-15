@@ -2,6 +2,8 @@ err_count=0
 if [[ $1 == '-r' ]]; then
     grep '\-\-\-\-\-\-\-\-\-\-\-\-' vasp.out | tail -n 1
     tail err.*.log
+elif [[ $1 == '-f' ]]; then
+    tail err.*.log; tail vasp.out
 else
     dir_now=$PWD
     for dir in */
