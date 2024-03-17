@@ -30,7 +30,7 @@ else
                 tail $file | tail -n 2
                 err_count=1
             fi
-            if [[ -n $file ]]; then
+            if [[ -z $file ]]; then
                 err_tag=1
             fi
         done
