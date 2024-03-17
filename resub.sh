@@ -6,7 +6,7 @@ function usage_error {
 }
 
 if [[ -z $1 ]]; then
-    rm *.log
+    ~/bin/shoulder/rm_mv *.log
     sbatch submit.sh
     exit 0
 else
@@ -25,7 +25,7 @@ for i in $DIR
 do
     i=${i%/}
     cd $i*
-    rm *.log
+    ~/bin/shoulder/rm_mv *.log
     sbatch submit.sh
     cd ..
 done
