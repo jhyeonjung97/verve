@@ -21,6 +21,10 @@ else
                 err_count=1
             fi
             rm temp.out
+            if ! grep -q "PROFILE" vasp.out; then
+                echo -e "\e[35m$dir\e[0m Calculation is not done.."
+                err_count=1
+            fi
         fi
         files=$(find . -maxdepth 1 -type f -name 'err*')
         if [[ -z $files ]]; then
