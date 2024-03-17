@@ -1,5 +1,4 @@
 err_count=0
-err_tag=0
 if [[ $1 == '-r' ]]; then
     grep '\-\-\-\-\-\-\-\-\-\-\-\-' vasp.out | tail -n 1
     tail err.*.log
@@ -24,20 +23,15 @@ else
             fi
             rm temp.out
         fi
-        for file in err*log
-        do
-            if [[ -s $file ]]; then
-                echo -n -e "\e[35m$dir\e[0m"
-                tail $file | tail -n 2
-                err_count=1
-            fi
-            err_tag=1
-        done
-        if [[ $err_tag == 0 ]]; then
-            echo -e "\e[35m$dir\e[0m No err file founded"
+        files=$(find . -maxdepth 1 -type f -name 'err*')
+        if [ -z $files ]; then
+            echo "No 'err' files found."
+            err_count=1
+        elif [[ -s $file ]]; then
+            echo -n -e "\e[35m$dir\e[0m"
+            tail $file | tail -n 2
             err_count=1
         fi
-        err_tag=0
         cd $dir_now
     done
     if [[ $err_count == 0 ]]; then
