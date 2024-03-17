@@ -23,10 +23,14 @@ else
             rm temp.out
         fi
         cd $dir_now
-        if [[ -s "err.*.log" ]]; then
-            echo -n -e "\e[35m$dir\e[0m" && tail vasp.out | tail -n 1
-            err_count=1
-        fi
+        for file in err.*.log
+        do
+            if [[ -s $file ]]; then
+                echo -n -e "\e[35m$dir\e[0m"
+                tail vasp.out | tail -n 1
+                err_count=1
+            fi
+        done
     done
     if [[ $err_count == 0 ]]; then
         echo -e "\e[35mCongrats! No error founded in vasp.out files\e[0m"
