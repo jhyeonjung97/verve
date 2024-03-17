@@ -29,6 +29,8 @@ else
                 echo -n -e "\e[35m$dir\e[0m"
                 tail $file | tail -n 2
                 err_count=1
+            fi
+            if [[ -n $file ]]; then
                 err_tag=1
             fi
         done
