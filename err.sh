@@ -8,7 +8,6 @@ else
     dir_now=$PWD
     for dir in */
     do
-        echo $err_tag
         cd $dir
         if [[ -s vasp.out ]]; then
             cp vasp.out temp.out
