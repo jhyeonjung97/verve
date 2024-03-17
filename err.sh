@@ -31,7 +31,7 @@ else
         fi
         files=$(find . -maxdepth 1 -type f -name 'err*')
         if [[ -z $files ]]; then
-            echo -n -e "\e[35m$dir\e[0m"
+            echo -n -e "\e[35m$dir \e[0m"
             echo "No 'err' files found."
             err_count=1
         else
@@ -47,7 +47,7 @@ else
         if [[ -d opt ]]; then
             files=$(find opt -maxdepth 1 -type f -name 'err*')
             if [[ -z $files ]]; then
-                echo -n -e "\e[35m$dir\e[0m"
+                echo -n -e "\e[35m$dir \e[0m"
                 echo "No 'opt\/err' files found."
                 err_count=1
             else
