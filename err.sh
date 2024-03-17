@@ -37,6 +37,23 @@ else
                 fi
             done
         fi
+        if [[ -d opt ]]; then
+            files=$(find opt -maxdepth 1 -type f -name 'err*')
+            if [[ -z $files ]]; then
+                echo -n -e "\e[35m$dir\e[0m"
+                echo "No 'opt\/err' files found."
+                err_count=1
+            else
+                for file in opt/err.*.log
+                do
+                    if [[ -s $file ]]; then
+                        echo -n -e "\e[35m$dir\e[0m"
+                        tail $file | tail -n 2
+                        err_count=1
+                    fi
+                done
+            fi
+        fi
         cd $dir_now
     done
     if [[ $err_count == 0 ]]; then
