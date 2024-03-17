@@ -25,6 +25,7 @@ else
         fi
         files=$(find . -maxdepth 1 -type f -name 'err*')
         if [ -z $files ]; then
+            echo -n -e "\e[35m$dir\e[0m"
             echo "No 'err' files found."
             err_count=1
         elif [[ -s $file ]]; then
