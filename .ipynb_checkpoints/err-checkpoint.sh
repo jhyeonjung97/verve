@@ -30,6 +30,7 @@ else
                 tail $file | tail -n 2
                 err_count=1
             fi
+            echo 'hello'
             err_tag=1
         done
         if [[ $err_tag == 0 ]]; then
