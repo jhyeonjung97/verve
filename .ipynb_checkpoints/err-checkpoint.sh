@@ -22,17 +22,15 @@ else
             fi
             rm temp.out
         fi
-        cd $dir_now
         for file in err*log
         do
-            echo $file
             if [[ -s $file ]]; then
-                echo 'here'
                 echo -n -e "\e[35m$dir\e[0m"
                 tail vasp.out | tail -n 1
                 err_count=1
             fi
         done
+        cd $dir_now
     done
     if [[ $err_count == 0 ]]; then
         echo -e "\e[35mCongrats! No error founded in vasp.out files\e[0m"
