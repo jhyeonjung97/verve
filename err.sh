@@ -6,7 +6,7 @@ elif [[ $1 == '-f' ]]; then
     tail err.*.log; tail vasp.out
 else
     dir_now=$PWD
-    for dir in */
+    for dir in *_*/
     do
         cd $dir
         if [[ -s vasp.out ]]; then
