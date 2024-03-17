@@ -36,6 +36,7 @@ else
             echo -e "\e[35m$dir\e[0m No err file founded"
             err_count=1
         fi
+        err_tag=0
         cd $dir_now
     done
     if [[ $err_count == 0 ]]; then
