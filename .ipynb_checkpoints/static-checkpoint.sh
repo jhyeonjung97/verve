@@ -8,9 +8,10 @@ do
     else
         mkdir opt
         cp * opt/
-        if [[ -d "conti*" ]]; then
-            mv conti*/ opt/
-        fi
+        for conti in conti*/
+        do
+            mv $conti opt/
+        done
         rm *.log
     fi
     cd $dir_now
