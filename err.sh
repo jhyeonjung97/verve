@@ -26,7 +26,7 @@ else
         do
             if [[ -s $file ]]; then
                 echo -n -e "\e[35m$dir\e[0m"
-                tail vasp.out | tail -n 1
+                tail vasp.out | tail -n 2
                 err_count=1
             fi
         done
