@@ -23,7 +23,7 @@ else
             rm temp.out
         fi
         cd $dir_now
-        for file in err.*.log
+        for file in err*log
         do
             echo $file
             if [[ -s $file ]]; then
