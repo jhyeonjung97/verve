@@ -25,6 +25,9 @@ else
                 echo -e "\e[35m$dir\e[0m Calculation is not done.."
                 err_count=1
             fi
+        else
+            echo -e "\e[35m$dir\e[0m Calculation is not done.."
+            err_count=1
         fi
         files=$(find . -maxdepth 1 -type f -name 'err*')
         if [[ -z $files ]]; then
@@ -56,6 +59,14 @@ else
                         err_count=1
                     fi
                 done
+            fi
+            if ! grep -q "PROFILE" opt/vasp.out; then
+                echo -e "\e[35m$dir\e[0m Opt calculation is not done.."
+                err_count=1
+            fi
+            if [[ -z opt/vasp.out ]]; then
+                echo -e "\e[35m$dir\e[0m Calculation is not done.."
+                err_count=1
             fi
         fi
         cd $dir_now
