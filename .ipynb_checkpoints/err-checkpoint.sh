@@ -23,14 +23,19 @@ else
             rm temp.out
         fi
         files=$(find . -maxdepth 1 -type f -name 'err*')
-        if [ -z $files ]; then
+        if [[ -z $files ]]; then
             echo -n -e "\e[35m$dir\e[0m"
             echo "No 'err' files found."
             err_count=1
-        elif [[ -s $file ]]; then
-            echo -n -e "\e[35m$dir\e[0m"
-            tail $file | tail -n 2
-            err_count=1
+        else
+            for file in files
+            do
+                if [[ -s $file ]]; then
+                    echo -n -e "\e[35m$dir\e[0m"
+                    tail $file | tail -n 2
+                    err_count=1
+                fi
+            done
         fi
         cd $dir_now
     done
