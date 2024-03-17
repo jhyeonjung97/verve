@@ -28,7 +28,7 @@ else
             echo "No 'err' files found."
             err_count=1
         else
-            for file in files
+            for file in err.*.log
             do
                 if [[ -s $file ]]; then
                     echo -n -e "\e[35m$dir\e[0m"
