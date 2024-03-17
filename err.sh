@@ -30,9 +30,9 @@ else
                 tail $file | tail -n 2
                 err_count=1
             fi
-            echo 'hello'
             err_tag=1
         done
+        echo $err_tag
         if [[ $err_tag == 0 ]]; then
             echo -e "\e[35m$dir\e[0m No err file founded"
             err_count=1
