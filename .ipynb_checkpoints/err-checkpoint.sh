@@ -25,7 +25,9 @@ else
         cd $dir_now
         for file in err.*.log
         do
+            echo $file
             if [[ -s $file ]]; then
+                echo 'here'
                 echo -n -e "\e[35m$dir\e[0m"
                 tail vasp.out | tail -n 1
                 err_count=1
