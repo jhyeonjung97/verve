@@ -16,6 +16,7 @@ def get_parser():
     TOTEN, Madelung, Madelung_M, Madelung_L, ICOHP, ICOBI, mag, chg, Bader, GP')
     parser.add_argument('-a', '--all', action='store_true', default=False, help='Show all components')
     parser.add_argument('-r', '--ref', type=str, default=None, help='Adjust values by subtracting the minimum')
+    parser.add_argument('-n', '--norm', type=int, default=1, help='Normalization factor')
     parser.add_argument('-x', '--xlabel', default='Lattice parameter (Å)', type=str, help="x-axis title of the figure")
     parser.add_argument('--total', action='store_false', default=True, help='No show total energy')
     parser.add_argument('--save', action='store_true', default=False, help="save files")
@@ -25,6 +26,9 @@ def get_parser():
     parser.add_argument('-e', '--element', dest='symbols', nargs='+', default=[], help="elements of mag, chg, Bader")
     parser.add_argument('--line', action='store_true', default=False, help="plot 2d")
     parser.add_argument('--plane', action='store_true', default=False, help="plot 3d")
+    parser.add_argument('--xlabel', type=str, default='Element', help="xlabel")
+    parser.add_argument('--ylabel', type=str, default='Energy (eV) or Charge (e)', help="ylabel")
+
     return parser
 
 def main():
@@ -55,8 +59,7 @@ def main():
     values_dict, dir_names, atoms = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
     values_dict = selected_values(values_dict, args.symbols, atoms)
         
-    if args.ref is not None:
-        values_dict = adjust_values(values_dict, ref=args.ref)
+    values_dict = adjust_values(values_dict, ref=args.ref, norm=args.norm)
     if any(values_dict.values()):
         plot_merged(values_dict, dir_names, xlabel, save, filename, atoms)
         if args.separate:
@@ -233,15 +236,12 @@ def extract_values(directory, patterns, dir_range, outcar):
     
     return values, dir_names, atoms
 
-def adjust_values(values_dict, ref, norm=1):
+def adjust_values(values_dict, ref, norm):
     """Subtract the reference value from each pattern's data set."""
     adjusted_values_dict = {}
     qualitative = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting',
                    'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung_Mulliken', 'Madelung_Loewdin',
                    'ICOHP', 'ICOBI']
-    
-    if not isinstance(norm, (int, float)):
-        raise ValueError(f"Normalization factor must be an int or float: {norm}")
         
     for pattern, values in values_dict.items():
         if ref == 'min':
@@ -253,8 +253,7 @@ def adjust_values(values_dict, ref, norm=1):
         elif ref.isdigit() and 0 <= int(ref) < len(values):
             ref_value = values[int(ref)-1]
         else:
-            raise ValueError(f"Unknown reference type: {ref}")
-        
+            ref_value = 0
         adjusted_values = [(value - ref_value) / norm for value in values]
         adjusted_values_dict[pattern] = adjusted_values
     return adjusted_values_dict
