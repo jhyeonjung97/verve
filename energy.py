@@ -108,7 +108,7 @@ def extract_values(directory, patterns, dir_range, outcar):
 
     for dir_name in dirs:
         dir_path = os.path.join(directory, dir_name)
-        trimmed_dir_name = dir_name[2:]  # Remove the first two characters
+        trimmed_dir_name = dir_name.split('_')[1]
         dir_names.append(trimmed_dir_name)
 
         in_charge_section = False
@@ -233,24 +233,29 @@ def extract_values(directory, patterns, dir_range, outcar):
     
     return values, dir_names, atoms
 
-def adjust_values(values_dict, ref):
+def adjust_values(values_dict, ref, norm=1):
     """Subtract the reference value from each pattern's data set."""
     adjusted_values_dict = {}
+    qualitative = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting',
+                   'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung_Mulliken', 'Madelung_Loewdin',
+                   'ICOHP', 'ICOBI']
+    
+    if not isinstance(norm, (int, float)):
+        raise ValueError(f"Normalization factor must be an int or float: {norm}")
+        
     for pattern, values in values_dict.items():
-        if not values:
-            adjusted_values_dict[pattern] = values  # No adjustment needed
-            continue
         if ref == 'min':
             ref_value = min(values)
         elif ref == 'max':
             ref_value = max(values)
         elif ref == 'mid':
             ref_value = np.median(values)
-        elif 0 <= int(ref) < len(values):
+        elif ref.isdigit() and 0 <= int(ref) < len(values):
             ref_value = values[int(ref)-1]
         else:
             raise ValueError(f"Unknown reference type: {ref}")
-        adjusted_values = [value - ref_value for value in values]
+        
+        adjusted_values = [(value - ref_value) / norm for value in values]
         adjusted_values_dict[pattern] = adjusted_values
     return adjusted_values_dict
 

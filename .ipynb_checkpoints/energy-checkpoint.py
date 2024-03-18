@@ -5,13 +5,15 @@ import subprocess
 import numpy as np
 from ase.io import read
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 
 def get_parser():
     parser = argparse.ArgumentParser()
     parser.add_argument('-d', '--dir-range', type=str, default=None, help='Range of directories to investigate, e.g., "3,6"')
     parser.add_argument('-p', '--patterns', nargs='+', default=['TOTEN'], help='Patterns to search and plot: \
     PSCENC, TEWEN, DENC, EXHF, XCENC, PAW_double_counting, EENTRO, EBANDS, EATOM, \
-    TOTEN, Madelung, ICOHP, ICOBI, mag, chg, Bader, GP')
+    TOTEN, Madelung, Madelung_M, Madelung_L, ICOHP, ICOBI, mag, chg, Bader, GP')
     parser.add_argument('-a', '--all', action='store_true', default=False, help='Show all components')
     parser.add_argument('-r', '--ref', type=str, default=None, help='Adjust values by subtracting the minimum')
     parser.add_argument('-x', '--xlabel', default='Lattice parameter (Å)', type=str, help="x-axis title of the figure")
@@ -21,32 +23,50 @@ def get_parser():
     parser.add_argument('-i', '--input', dest='outcar', type=str, default='OUTCAR', help='input filename')
     parser.add_argument('-o', '--output', dest='filename', type=str, default='energy.png', help="output filename")
     parser.add_argument('-e', '--element', dest='symbols', nargs='+', default=[], help="elements of mag, chg, Bader")
+    parser.add_argument('--line', action='store_true', default=False, help="plot 2d")
+    parser.add_argument('--plane', action='store_true', default=False, help="plot 3d")
     return parser
 
 def main():
     args = get_parser().parse_args()
+    filename = args.filename
+    xlabel = args.xlabel
+    save = args.save
     if args.all:
         patterns = {'PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
-                    'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung', 'ICOHP', 'ICOBI', 'mag', 'chg', 'Bader', 'GP'}
+                    'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung', 'Madelung_M', 'Madelung_L',
+                    'ICOHP', 'ICOBI', 'mag', 'chg', 'Bader', 'GP'}
     else:
         patterns = set(args.patterns)
+    if 'Madelung' in patterns:
+        patterns.discard('Madelung')
+        patterns.update(['Madelung_Mulliken', 'Madelung_Loewdin'])
+    if 'Madelung_M' in patterns:
+        patterns.discard('Madelung_M')
+        patterns.add('Madelung_Mulliken')
+    if 'Madelung_L' in patterns:
+        patterns.discard('Madelung_L')
+        patterns.add('Madelung_Loewdin')
     if not args.total:
         patterns.discard('TOTEN')
+    original_patterns = patterns.copy()
 
     directory='./'
     values_dict, dir_names, atoms = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
-    # print(values_dict)
     values_dict = selected_values(values_dict, args.symbols, atoms)
-    # print(values_dict)
         
     if args.ref is not None:
         values_dict = adjust_values(values_dict, ref=args.ref)
     if any(values_dict.values()):
-        plot_merged(values_dict, dir_names, args.xlabel, args.save, args.filename, atoms)
+        plot_merged(values_dict, dir_names, xlabel, save, filename, atoms)
         if args.separate:
-            plot_separately(values_dict, dir_names, args.xlabel, args.save, args.filename)
+            plot_separately(values_dict, dir_names, xlabel, save, filename)
     else:
-        print('No values found for the given patterns.')
+        raise ValueError('No values found for the given patterns.')
+    if args.line:
+        line_fitting(original_patterns, values_dict, dir_names, xlabel, save, filename, atoms)
+    elif args.plane:
+        plane_fitting(original_patterns, values_dict, dir_names, xlabel, save, filename, atoms)
 
 def extract_values(directory, patterns, dir_range, outcar):
     """Extract the last values for the given patterns from OUTCAR files in the given directories, sorted numerically."""
@@ -70,7 +90,7 @@ def extract_values(directory, patterns, dir_range, outcar):
     dir_names = []
     
     specific_patterns = set()
-    for pattern in ['Madelung', 'Bader', 'ICOHP', 'ICOBI', 'GP']:
+    for pattern in ['Madelung_Mulliken', 'Madelung_Loewdin', 'Bader', 'ICOHP', 'ICOBI', 'GP']:
         if pattern in patterns:
             patterns.discard(pattern)
             specific_patterns.add(pattern)
@@ -88,7 +108,7 @@ def extract_values(directory, patterns, dir_range, outcar):
 
     for dir_name in dirs:
         dir_path = os.path.join(directory, dir_name)
-        trimmed_dir_name = dir_name[2:]  # Remove the first two characters
+        trimmed_dir_name = dir_name.split('_')[1]
         dir_names.append(trimmed_dir_name)
 
         in_charge_section = False
@@ -114,7 +134,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                     titels.append(match_titel.group(1))
             zval_dict = dict(zip(titels, zvals))
                         
-        if 'Madelung' in specific_patterns:
+        if 'Madelung_Mulliken' in specific_patterns or 'Madelung_Loewdin' in specific_patterns:
             madelung_path = os.path.join(dir_path, 'MadelungEnergies.lobster')
             if os.path.exists(madelung_path):
                 with open(madelung_path, 'r') as file:
@@ -122,8 +142,10 @@ def extract_values(directory, patterns, dir_range, outcar):
                 for line in reversed(lines):
                     match = re.search(r'\s*\d+\.\d+\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)', line)
                     if match:
-                        values.setdefault('Madelung_Mulliken', []).append(float(match.group(1)))
-                        values.setdefault('Madelung_Loewdin', []).append(float(match.group(2)))
+                        if 'Madelung_Mulliken' in specific_patterns:
+                            values.setdefault('Madelung_Mulliken', []).append(float(match.group(1)))
+                        if 'Madelung_Loewdin' in specific_patterns:
+                            values.setdefault('Madelung_Loewdin', []).append(float(match.group(2)))
                         break
         if 'GP' in specific_patterns:
             i = numb - 1
@@ -211,24 +233,29 @@ def extract_values(directory, patterns, dir_range, outcar):
     
     return values, dir_names, atoms
 
-def adjust_values(values_dict, ref):
+def adjust_values(values_dict, ref, norm=1):
     """Subtract the reference value from each pattern's data set."""
     adjusted_values_dict = {}
+    qualitative = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting',
+                   'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung_Mulliken', 'Madelung_Loewdin',
+                   'ICOHP', 'ICOBI']
+    
+    if not isinstance(norm, (int, float)):
+        raise ValueError(f"Normalization factor must be an int or float: {norm}")
+        
     for pattern, values in values_dict.items():
-        if not values:
-            adjusted_values_dict[pattern] = values  # No adjustment needed
-            continue
         if ref == 'min':
             ref_value = min(values)
         elif ref == 'max':
             ref_value = max(values)
         elif ref == 'mid':
             ref_value = np.median(values)
-        elif 0 <= int(ref) < len(values):
+        elif ref.isdigit() and 0 <= int(ref) < len(values):
             ref_value = values[int(ref)-1]
         else:
             raise ValueError(f"Unknown reference type: {ref}")
-        adjusted_values = [value - ref_value for value in values]
+        
+        adjusted_values = [(value - ref_value) / norm for value in values]
         adjusted_values_dict[pattern] = adjusted_values
     return adjusted_values_dict
 
@@ -315,9 +342,100 @@ def plot_merged(values_dict, dir_names, xlabel, save, filename, atoms):
     if save:
         plt.gcf().savefig(filename, bbox_inches="tight")
         print(f"Figure saved as {filename}")
-        
-    plt.show()
+        plt.close()
+    else:
+        plt.show()
 
+def line_fitting(patterns, values_dict, dir_names, xlabel, save, filename, atoms):
+    patterns_order = list(patterns)
+    patterns_order.extend(['mag_'+atom.symbol+str(atom.index) for atom in atoms])
+    patterns_order.extend(['chg_'+atom.symbol+str(atom.index) for atom in atoms])
+    patterns_order.extend(['Bader_'+atom.symbol+str(atom.index) for atom in atoms])
+    filtered_patterns_order = [pattern for pattern in patterns_order \
+                               if values_dict.get(pattern)]
+
+    if len(filtered_patterns_order) < 2:
+        raise ValueError("Not enough valid patterns with data for line fitting.")
+    
+    X = np.array(values_dict[filtered_patterns_order[0]])
+    Y = np.array(values_dict[filtered_patterns_order[1]])
+
+    A = np.vstack([X, np.ones(len(X))]).T
+
+    coeffs, residuals, rank, s = np.linalg.lstsq(A, Y, rcond=None)
+    a, b = coeffs
+    
+    Y_pred = a*X + b
+    R2 = r2_score(Y, Y_pred)
+    MAE = mean_absolute_error(Y, Y_pred)
+    MSE = mean_squared_error(Y, Y_pred)
+
+    print(f"Y = {a:.3f}X + {b:.3f}")
+    print(f"R^2: {R2:.3f}, MAE: {MAE:.3f}, MSE: {MSE:.3f}")
+
+    plt.figure()
+    plt.scatter(X, Y, color='r')
+    xx = np.linspace(np.min(X), np.max(X), 1000)
+    yy = a * xx + b
+    
+    plt.plot(xx, yy, color='b', alpha=0.5)
+    plt.xlabel('X')
+    plt.ylabel('Y')
+    
+    if save:
+        filename = f"{filename.split('.')[0]}_2d.png"
+        plt.savefig(filename, bbox_inches="tight")
+        print(f"Figure saved as {filename}")
+        plt.close()
+    else:
+        plt.show()
+        
+def plane_fitting(patterns, values_dict, dir_names, xlabel, save, filename, atoms):
+    patterns_order = list(patterns)
+    patterns_order.extend(['mag_'+atom.symbol+str(atom.index) for atom in atoms])
+    patterns_order.extend(['chg_'+atom.symbol+str(atom.index) for atom in atoms])
+    patterns_order.extend(['Bader_'+atom.symbol+str(atom.index) for atom in atoms])
+    filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
+
+    if len(filtered_patterns_order) < 3:
+        raise ValueError("Not enough valid patterns with data for plane fitting.")
+    
+    X = np.array(values_dict[filtered_patterns_order[0]])
+    Y = np.array(values_dict[filtered_patterns_order[1]])
+    Z = np.array(values_dict[filtered_patterns_order[2]])
+    
+    A = np.vstack([X, Y, np.ones(len(X))]).T
+    coeffs, residuals, rank, s = np.linalg.lstsq(A, Z, rcond=None)
+    a, b, c = coeffs
+    Z_pred = a*X + b*Y + c
+
+    R2 = r2_score(Z, Z_pred)
+    MAE = mean_absolute_error(Z, Z_pred)
+    MSE = mean_squared_error(Z, Z_pred)
+
+    print(f"Z = {a:.3f}X + {b:.3f}Y + {c:.3f}")
+    print(f"R^2: {R2:.3f}, MAE: {MAE:.3f}, MSE: {MSE:.3f}")
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+
+    ax.scatter(X, Y, Z, color='r')
+    xx, yy = np.meshgrid(np.linspace(np.min(X), np.max(X), 10), 
+                         np.linspace(np.min(Y), np.max(Y), 10))
+    zz = a * xx + b * yy + c
+    
+    ax.plot_surface(xx, yy, zz, color='b', alpha=0.5, edgecolor='none')
+    ax.set_xlabel('X')
+    ax.set_ylabel('Y')
+    ax.set_zlabel('Z')
+    
+    if save:
+        filename = f"{filename.split('.')[0]}_3d.png"
+        plt.gcf().savefig(filename, bbox_inches="tight")
+        print(f"Figure saved as {filename}")
+    else:
+        plt.show()
+    
 if __name__ == '__main__':
     main()
 
