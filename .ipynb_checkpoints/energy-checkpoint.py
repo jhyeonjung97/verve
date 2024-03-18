@@ -15,7 +15,7 @@ def get_parser():
     PSCENC, TEWEN, DENC, EXHF, XCENC, PAW_double_counting, EENTRO, EBANDS, EATOM, \
     TOTEN, Madelung, Madelung_M, Madelung_L, ICOHP, ICOBI, mag, chg, Bader, GP')
     parser.add_argument('-a', '--all', action='store_true', default=False, help='Show all components')
-    parser.add_argument('-r', '--ref', type=str, default=None, help='Adjust values by subtracting the minimum')
+    parser.add_argument('-r', '--ref', type=str, default='zero', help='Adjust values by subtracting the minimum')
     parser.add_argument('-n', '--norm', type=int, default=1, help='Normalization factor')
     parser.add_argument('--total', action='store_false', default=True, help='No show total energy')
     parser.add_argument('--save', action='store_true', default=False, help="save files")
