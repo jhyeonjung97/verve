@@ -17,7 +17,6 @@ def get_parser():
     parser.add_argument('-a', '--all', action='store_true', default=False, help='Show all components')
     parser.add_argument('-r', '--ref', type=str, default=None, help='Adjust values by subtracting the minimum')
     parser.add_argument('-n', '--norm', type=int, default=1, help='Normalization factor')
-    parser.add_argument('-x', '--xlabel', default='Lattice parameter (Å)', type=str, help="x-axis title of the figure")
     parser.add_argument('--total', action='store_false', default=True, help='No show total energy')
     parser.add_argument('--save', action='store_true', default=False, help="save files")
     parser.add_argument('-s', '--separate', action='store_true', default=False, help="save the plots seperately")
@@ -26,8 +25,8 @@ def get_parser():
     parser.add_argument('-e', '--element', dest='symbols', nargs='+', default=[], help="elements of mag, chg, Bader")
     parser.add_argument('--line', action='store_true', default=False, help="plot 2d")
     parser.add_argument('--plane', action='store_true', default=False, help="plot 3d")
-    parser.add_argument('--xlabel', type=str, default='Element', help="xlabel")
-    parser.add_argument('--ylabel', type=str, default='Energy (eV) or Charge (e)', help="ylabel")
+    parser.add_argument('-x', '--xlabel', type=str, default='Element or Lattice parameter (Å)', help="xlabel")
+    parser.add_argument('-y', '--ylabel', type=str, default='Energy (eV) or Charge (e)', help="ylabel")
 
     return parser
 
