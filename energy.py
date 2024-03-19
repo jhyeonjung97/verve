@@ -220,7 +220,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                     if match_c:
                         c = float(match_c.group(1))
                 values.setdefault('hexa_ratio', []).append(c / a)
-                values.setdefault('hexa_ratio_Wurtzite', []).append(1.63907194282411056808)
+                values.setdefault('hexa_ratio0', []).append(1.633)
                         
         if patterns:
             outcar_path = os.path.join(dir_path, outcar)
