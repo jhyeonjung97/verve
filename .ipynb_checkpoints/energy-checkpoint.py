@@ -135,6 +135,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                 if match_titel:
                     titels.append(match_titel.group(1))
             zval_dict = dict(zip(titels, zvals))
+            print(zval_dict)
                         
         if 'Madelung_Mulliken' in specific_patterns or 'Madelung_Loewdin' in specific_patterns:
             madelung_path = os.path.join(dir_path, 'MadelungEnergies.lobster')
