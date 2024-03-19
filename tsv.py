@@ -10,27 +10,14 @@ def plot_merged_tsv(filenames):
     - filenames: List of filenames of the TSV files.
     """
     plt.figure(figsize=(14, 8))
-
-    # Dictionary to hold data frames for each pattern
     data_frames = {}
-
     for file in filenames:
-        # Extract the identifier (e.g., "1_afm", "2_fm") from the filename for legend
         identifier = file.split('/')[0]
-        
-        # Read the TSV file into a DataFrame
         df = pd.read_csv(file, delimiter='\t', index_col='Pattern')
-        
-        # Transpose the DataFrame to have patterns as columns, elements as rows
-        df_transposed = df.T
-
-        # Plot each pattern with elements as x-axis
-        for pattern in df_transposed.columns:
+        for pattern in df.columns:
             if pattern not in data_frames:
                 data_frames[pattern] = pd.DataFrame()
-            data_frames[pattern][identifier] = df_transposed[pattern]
-
-    # Plotting each pattern in a subplot
+            data_frames[pattern][identifier] = df[pattern]
     num_patterns = len(data_frames)
     cols = 2
     rows = num_patterns // cols + (num_patterns % cols > 0)
@@ -49,8 +36,6 @@ def plot_merged_tsv(filenames):
     plt.show()
 
 if __name__ == "__main__":
-    # Expecting the command-line usage to be:
-    # python script_name.py file1.tsv file2.tsv ...
     if len(sys.argv) > 1:
         plot_merged_tsv(sys.argv[1:])
     else:

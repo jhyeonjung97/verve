@@ -313,19 +313,10 @@ def plot_separately(values_dict, dir_names, xlabel, save, filename):
         plt.legend()
         plt.tight_layout()
         if save:
-            png_filename = f"{filename}_{pattern}.png"
-            tsv_filename = f"{filename}_{pattern}.tsv"
-            
+            png_filename = f"{filename}_{pattern}.png"            
             plt.savefig(png_filename, bbox_inches="tight")
             plt.close()
             print(f"Figure saved as {png_filename}")
-
-            with open(tsv_filename, "w") as f:
-                header = "Dir_Name\tValues\n"
-                f.write(header)
-                for dir_name, value in zip(tsv_filename, values):
-                    f.write(f"{dir_name}\t{value}\n")
-            print(f"Data saved as {tsv_filename}")
         else:
             plt.show()
 
@@ -368,18 +359,11 @@ def plot_merged(values_dict, dir_names, xlabel, save, filename, atoms):
         print(f"Figure saved as {png_filename}")
         plt.close()
         
-        with open(tsv_filename, "w") as f:
-            header = "Pattern\t" + "\t".join(dir_names) + "\n"
-            f.write(header)
-            for pattern in filtered_patterns_order:
-                line = pattern + "\t" + "\t".join(map(str, values_dict[pattern])) + "\n"
-                f.write(line)
-        print(f"Data saved as {tsv_filename}")
-        
         df = pd.DataFrame(values_dict, index=dir_names)
-        df_transposed = df.T  # Transposing the DataFrame
-        df_transposed.to_csv('df_test.tsv', sep='\t')
-        print("Data saved as df_test.tsv")
+        df_transposed = df.T
+        formatted_df = df_transposed.applymap(lambda x: f"{x:.4f}" if isinstance(x, float) else x)
+        formatted_df.to_csv(f"{tsv_filename}", sep='\t')
+        print(f"Data saved as {tsv_filename}")
     else:
         plt.show()
         
