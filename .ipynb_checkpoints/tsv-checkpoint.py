@@ -13,7 +13,7 @@ def plot_merged_tsv(filenames):
     data_frames = {}
     for file in filenames:
         identifier = file.split('/')[0]
-        df = pd.read_csv(file, delimiter='\t', index_col='Pattern')
+        df = pd.read_csv(file, delimiter='\t')
         for pattern in df.columns:
             if pattern not in data_frames:
                 data_frames[pattern] = pd.DataFrame()
