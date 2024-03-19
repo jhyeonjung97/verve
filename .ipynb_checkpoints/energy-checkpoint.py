@@ -129,7 +129,7 @@ def extract_values(directory, patterns, dir_range, outcar):
         if os.path.exists(potcar_path):
             for line in open(potcar_path, 'r'):
                 match_zval = re.search(r'POMASS\s*=\s*([0-9.]+);\s*ZVAL\s*=\s*([0-9.]+)', line)
-                match_titel = re.search(r'TITEL  = PAW_PBE\s+()\s', line)
+                match_titel = re.search(r'TITEL  = PAW_PBE\s+([A-Za-z0-9_]+)\s+\d{2}[A-Za-z]{3}\d{4}', line)
                 if match_zval:
                     zvals.append(float(match_zval.group(2)))
                 if match_titel:
