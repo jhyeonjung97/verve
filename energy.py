@@ -52,6 +52,9 @@ def main():
     if 'Madelung_L' in patterns:
         patterns.discard('Madelung_L')
         patterns.add('Madelung_Loewdin')
+    if 'hexa' in patterns:
+        patterns.discard('hexa')
+        patterns.add('hexa_ratio')
     if not args.total:
         patterns.discard('TOTEN')
     original_patterns = patterns.copy()
