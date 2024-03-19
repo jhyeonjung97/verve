@@ -210,7 +210,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                     if match:
                         values.setdefault('ICOBI', []).append(float(match.group(1)))
                         break
-        if 'hexa' in specific_patterns:
+        if 'hexa_ratio' in specific_patterns:
             cif_path = os.path.join(dir_path, 'lattice.cif')
             if not os.path.exists(cif_path):
                 subprocess.call('ase convert CONTCAR lattice.cif', shell=True, cwd=dir_path)
