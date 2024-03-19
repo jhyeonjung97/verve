@@ -38,5 +38,5 @@ if __name__ == "__main__":
     parser.add_argument('-l', '--labels', nargs='*', help="Custom labels for each file", default=None)
     args = parser.parse_args()
     png_filename = f"merged_{args.filename}.png"    
-    plot_patterns_from_multiple_tsv(args.files, png_filename, args.xlabel, args.ylabel)
+    plot_patterns_from_multiple_tsv(args.files, png_filename, args.xlabel, args.ylabel, args.labels)
 
