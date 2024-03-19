@@ -220,6 +220,8 @@ def extract_values(directory, patterns, dir_range, outcar):
                     if match_c:
                         c = float(match_c.group(1))
                 values.setdefault('hexa_ratio', []).append(c / a)
+                values.setdefault('hexa_ratio_Wurtzite', []).append(1.63907194282411056808)
+                # values.setdefault('hexa_ratio_Zinc_Blende', []).append(1.63907194282411056808)
                         
         if patterns:
             outcar_path = os.path.join(dir_path, outcar)
@@ -268,7 +270,7 @@ def adjust_values(values_dict, ref, norm):
     adjusted_values_dict = {}
     qualitative = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting',
                    'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung_Mulliken', 'Madelung_Loewdin',
-                   'ICOHP', 'ICOBI', 'hexa_ratio']
+                   'ICOHP', 'ICOBI', 'hexa_ratio', 'hexa_ratio_Wurtzite', 'hexa_ratio_Zinc_Blende']
         
     for pattern, values in values_dict.items():
         if ref == 'min':
@@ -339,7 +341,7 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, atoms):
 
     patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
                       'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung_Mulliken', 'Madelung_Loewdin', 
-                      'ICOHP', 'ICOBI', 'GP_Mulliken', 'GP_Loewdin', 'hexa_ratio']
+                      'ICOHP', 'ICOBI', 'GP_Mulliken', 'GP_Loewdin', 'hexa_ratio', 'hexa_ratio_Wurtzite', 'hexa_ratio_Zinc_Blende']
     patterns_order.extend(['mag_M0', 'mag_M1', 'mag_O2', 'mag_O3'])
     patterns_order.extend(['chg_M0', 'chg_M1', 'chg_O2', 'chg_O3'])
     patterns_order.extend(['Bader_M0', 'Bader_M1', 'Bader_O2', 'Bader_O3'])
