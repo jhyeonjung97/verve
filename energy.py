@@ -361,7 +361,8 @@ def plot_merged(values_dict, dir_names, xlabel, save, filename, atoms):
         
         df = pd.DataFrame(values_dict, index=dir_names)
         df_transposed = df.T
-        formatted_df = df_transposed.applymap(lambda x: f"{x:.4f}" if isinstance(x, float) else x)
+        # formatted_df = df_transposed.applymap(lambda x: f"{x:.3f}" if isinstance(x, float) else x)
+        formatted_df = df_transposed.apply(lambda col: col.apply(lambda x: f"{x:.3f}" if isinstance(x, float) else x))
         formatted_df.to_csv(f"{tsv_filename}", sep='\t')
         print(f"Data saved as {tsv_filename}")
     else:
