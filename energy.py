@@ -159,8 +159,12 @@ def extract_values(directory, patterns, dir_range, outcar):
                     if match:
                         symbol = atoms[i].symbol
                         zval = zval_dict[symbol]
-                        values.setdefault('GP_Mulliken_'+symbol+str(i), []).append(zval-float(match.group(1)))
-                        values.setdefault('GP_Loewdin_'+symbol+str(i), []).append(zval-float(match.group(2)))
+                        if symbol == 'O':   
+                            values.setdefault('GP_Mulliken_O'+str(i), []).append(zval-float(match.group(1)))
+                            values.setdefault('GP_Loewdin_O'+str(i), []).append(zval-float(match.group(2)))
+                        else:
+                            values.setdefault('GP_Mulliken_M'+str(i), []).append(zval-float(match.group(1)))
+                            values.setdefault('GP_Loewdin_M'+str(i), []).append(zval-float(match.group(2)))
                         if i != 0: i -= 1
                         else: break
         if 'Bader' in specific_patterns:
