@@ -14,7 +14,7 @@ def get_parser():
     parser.add_argument('-d', '--dir-range', type=str, default=None, help='Range of directories to investigate, e.g., "3,6"')
     parser.add_argument('-p', '--patterns', nargs='+', default=['TOTEN'], help='Patterns to search and plot: \
     PSCENC, TEWEN, DENC, EXHF, XCENC, PAW_double_counting, EENTRO, EBANDS, EATOM, \
-    TOTEN, Madelung, Madelung_M, Madelung_L, ICOHP, ICOBI, mag, chg, Bader, GP')
+    TOTEN, Madelung, Madelung_M, Madelung_L, ICOHP, ICOBI, mag, chg, Bader, GP, hexa')
     parser.add_argument('-a', '--all', action='store_true', default=False, help='Show all components')
     parser.add_argument('-r', '--ref', type=str, default='zero', help='Adjust values by subtracting the minimum')
     parser.add_argument('-n', '--norm', type=int, default=1, help='Normalization factor')
@@ -40,7 +40,7 @@ def main():
     if args.all:
         patterns = {'PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
                     'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung', 'Madelung_M', 'Madelung_L',
-                    'ICOHP', 'ICOBI', 'mag', 'chg', 'Bader', 'GP'}
+                    'ICOHP', 'ICOBI', 'mag', 'chg', 'Bader', 'GP', 'hexa'}
     else:
         patterns = set(args.patterns)
     if 'Madelung' in patterns:
@@ -94,7 +94,7 @@ def extract_values(directory, patterns, dir_range, outcar):
     dir_names = []
     
     specific_patterns = set()
-    for pattern in ['Madelung_Mulliken', 'Madelung_Loewdin', 'Bader', 'ICOHP', 'ICOBI', 'GP']:
+    for pattern in ['Madelung_Mulliken', 'Madelung_Loewdin', 'Bader', 'ICOHP', 'ICOBI', 'GP', 'hexa']:
         if pattern in patterns:
             patterns.discard(pattern)
             specific_patterns.add(pattern)
@@ -207,7 +207,20 @@ def extract_values(directory, patterns, dir_range, outcar):
                     if match:
                         values.setdefault('ICOBI', []).append(float(match.group(1)))
                         break
-
+        if 'hexa' in specific_patterns:
+            cif_path = os.path.join(dir_path, 'lattice.cif')
+            if not os.path.exists(cif_path):
+                subprocess.call('ase convert CONTCAR lattice.cif', shell=True, cwd=dir_path)
+            if os.path.exists(cif_path):
+                for line in open(cif_path, 'r'):
+                    match_a = re.search(r'_cell_length_a\s+([\d.]+)', line)
+                    match_c = re.search(r'_cell_length_c\s+([\d.]+)', line)
+                    if match_a:
+                        a = float(match_a.group(1))
+                    if match_c:
+                        c = float(match_c.group(1))
+                values.setdefault('hexa_ratio', []).append(c / a)
+                        
         if patterns:
             outcar_path = os.path.join(dir_path, outcar)
             if os.path.exists(outcar_path) and patterns:
@@ -255,7 +268,7 @@ def adjust_values(values_dict, ref, norm):
     adjusted_values_dict = {}
     qualitative = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting',
                    'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung_Mulliken', 'Madelung_Loewdin',
-                   'ICOHP', 'ICOBI']
+                   'ICOHP', 'ICOBI', 'hexa_ratio']
         
     for pattern, values in values_dict.items():
         if ref == 'min':
@@ -326,7 +339,7 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, atoms):
 
     patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
                       'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung_Mulliken', 'Madelung_Loewdin', 
-                      'ICOHP', 'ICOBI', 'GP_Mulliken', 'GP_Loewdin']
+                      'ICOHP', 'ICOBI', 'GP_Mulliken', 'GP_Loewdin', 'hexa_ratio']
     patterns_order.extend(['mag_M0', 'mag_M1', 'mag_O2', 'mag_O3'])
     patterns_order.extend(['chg_M0', 'chg_M1', 'chg_O2', 'chg_O3'])
     patterns_order.extend(['Bader_M0', 'Bader_M1', 'Bader_O2', 'Bader_O3'])
