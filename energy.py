@@ -348,7 +348,7 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, atoms):
     filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
 
     colors = plt.cm.rainbow(np.linspace(0, 1, len(filtered_patterns_order))) 
-    # turbo, viridis, magma, plasma, inferno, cividis, mako, rocket, turbo
+    # viridis, magma, plasma, inferno, cividis, mako, rocket, turbo
     
     for pattern, color in zip(filtered_patterns_order, colors):
         values = values_dict.get(pattern, [])
