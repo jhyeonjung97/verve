@@ -35,6 +35,7 @@ def main():
     args = get_parser().parse_args()
     filename = args.filename.rsplit('.', 1)[0]
     xlabel = args.xlabel
+    ylabel = args.ylabel
     save = args.save
     if args.all:
         patterns = {'PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
@@ -61,15 +62,15 @@ def main():
         
     values_dict = adjust_values(values_dict, ref=args.ref, norm=args.norm)
     if any(values_dict.values()):
-        plot_merged(values_dict, dir_names, xlabel, save, filename, atoms)
+        plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, atoms)
         if args.separate:
-            plot_separately(values_dict, dir_names, xlabel, save, filename)
+            plot_separately(values_dict, dir_names, xlabel, ylabel, save, filename)
     else:
         raise ValueError('No values found for the given patterns.')
     if args.line:
-        line_fitting(original_patterns, values_dict, dir_names, xlabel, save, filename, atoms)
+        line_fitting(original_patterns, values_dict, dir_names, xlabel, ylabel, save, filename, atoms)
     elif args.plane:
-        plane_fitting(original_patterns, values_dict, dir_names, xlabel, save, filename, atoms)
+        plane_fitting(original_patterns, values_dict, dir_names, xlabel, ylabel, save, filename, atoms)
 
 def extract_values(directory, patterns, dir_range, outcar):
     """Extract the last values for the given patterns from OUTCAR files in the given directories, sorted numerically."""
@@ -294,7 +295,7 @@ def selected_values(values_dict, symbols, atoms):
         
     return values_dict
         
-def plot_separately(values_dict, dir_names, xlabel, save, filename):
+def plot_separately(values_dict, dir_names, xlabel, ylabel, save, filename):
     """Plot each pattern on its own graph."""
     x = np.arange(len(dir_names))
     
@@ -307,7 +308,7 @@ def plot_separately(values_dict, dir_names, xlabel, save, filename):
         
         plt.title(f'{pattern} Energy Contribution')
         plt.xlabel(xlabel)
-        plt.ylabel('Energy (eV) or Charge')
+        plt.ylabel(ylabel)
         plt.xticks(x, dir_names, rotation='vertical')
         plt.grid(True)
         plt.legend()
@@ -320,7 +321,7 @@ def plot_separately(values_dict, dir_names, xlabel, save, filename):
         else:
             plt.show()
 
-def plot_merged(values_dict, dir_names, xlabel, save, filename, atoms):
+def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, atoms):
     plt.figure(figsize=(10, 6))
 
     patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
@@ -345,7 +346,7 @@ def plot_merged(values_dict, dir_names, xlabel, save, filename, atoms):
     
     plt.title('Energy Contribution')
     plt.xlabel(xlabel)
-    plt.ylabel('Energy (eV) or Charge')
+    plt.ylabel(ylabel)
     plt.xticks(np.arange(len(dir_names)), dir_names, rotation='vertical')
     plt.grid(True)
     plt.legend()
@@ -367,7 +368,7 @@ def plot_merged(values_dict, dir_names, xlabel, save, filename, atoms):
     else:
         plt.show()
         
-def line_fitting(patterns, values_dict, dir_names, xlabel, save, filename, atoms):
+def line_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filename, atoms):
     patterns_order = list(patterns)
     patterns_order.extend(['mag_M0', 'mag_M1', 'mag_O2', 'mag_O3'])
     patterns_order.extend(['chg_M0', 'chg_M1', 'chg_O2', 'chg_O3'])
@@ -411,7 +412,7 @@ def line_fitting(patterns, values_dict, dir_names, xlabel, save, filename, atoms
     else:
         plt.show()
         
-def plane_fitting(patterns, values_dict, dir_names, xlabel, save, filename, atoms):
+def plane_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filename, atoms):
     patterns_order = list(patterns)
     patterns_order.extend(['mag_M0', 'mag_M1', 'mag_O2', 'mag_O3'])
     patterns_order.extend(['chg_M0', 'chg_M1', 'chg_O2', 'chg_O3'])
