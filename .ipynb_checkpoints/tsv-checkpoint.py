@@ -36,6 +36,6 @@ if __name__ == "__main__":
     parser.add_argument('-x', '--xlabel', type=str, default='Element or Lattice parameter (Å)', help="xlabel")
     parser.add_argument('-y', '--ylabel', type=str, default='Energy (eV) or Charge (e)', help="ylabel")
     args = parser.parse_args()
-    png_filename = f"{args.filename}.png"    
+    png_filename = f"merged_{args.filename}.png"    
     plot_patterns_from_multiple_tsv(args.files, png_filename, args.xlabel, args.ylabel)
 
