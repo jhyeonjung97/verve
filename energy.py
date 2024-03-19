@@ -21,7 +21,7 @@ def get_parser():
     parser.add_argument('--save', action='store_true', default=False, help="save files")
     parser.add_argument('-s', '--separate', action='store_true', default=False, help="save the plots seperately")
     parser.add_argument('-i', '--input', dest='outcar', type=str, default='OUTCAR', help='input filename')
-    parser.add_argument('-o', '--output', dest='filename', type=str, default='energy.png', help="output filename")
+    parser.add_argument('-o', '--output', dest='filename', type=str, default='energy', help="output filename")
     parser.add_argument('-e', '--element', dest='symbols', nargs='+', default=[], help="elements of mag, chg, Bader")
     parser.add_argument('--line', action='store_true', default=False, help="plot 2d")
     parser.add_argument('--plane', action='store_true', default=False, help="plot 3d")
@@ -32,7 +32,7 @@ def get_parser():
 
 def main():
     args = get_parser().parse_args()
-    filename = args.filename
+    filename = args.filename.rssplit('.', 1)[0]
     xlabel = args.xlabel
     save = args.save
     if args.all:
@@ -299,17 +299,19 @@ def plot_separately(values_dict, dir_names, xlabel, save, filename):
         plt.legend()
         plt.tight_layout()
         if save:
-            png_filename = f"{filename.rsplit('.', 1)[0]}_{pattern}.png"
+            png_filename = f"{filename}_{pattern}.png"
+            tsv_filename = f"{filename}_{pattern}.tsv"
+            
             plt.savefig(png_filename, bbox_inches="tight")
             plt.close()
             print(f"Figure saved as {png_filename}")
-            dat_filename = f"{filename.rsplit('.', 1)[0]}_{pattern}.tsv"
-            with open(dat_filename, "w") as f:
+
+            with open(tsv_filename, "w") as f:
                 header = "Dir_Name\tValues\n"
                 f.write(header)
-                for dir_name, value in zip(dir_names, values):
+                for dir_name, value in zip(tsv_filename, values):
                     f.write(f"{dir_name}\t{value}\n")
-            print(f"Data saved as {dat_filename}")
+            print(f"Data saved as {tsv_filename}")
         else:
             plt.show()
 
@@ -345,18 +347,20 @@ def plot_merged(values_dict, dir_names, xlabel, save, filename, atoms):
     plt.tight_layout()
     
     if save:
+        png_filename = f"{filename}_{pattern}.png"
+        tsv_filename = f"{filename}_{pattern}.tsv"
+        
         plt.gcf().savefig(filename, bbox_inches="tight")
-        print(f"Figure saved as {filename}")
+        print(f"Figure saved as {png_filename}")
         plt.close()
-        base_filename = filename.split(".")[0]
-        dat_filename = filename + ".tsv"
-        with open(dat_filename, "w") as f:
+        
+        with open(tsv_filename, "w") as f:
             header = "Pattern\t" + "\t".join(dir_names) + "\n"
             f.write(header)
             for pattern in filtered_patterns_order:
                 line = pattern + "\t" + "\t".join(map(str, values_dict[pattern])) + "\n"
                 f.write(line)
-        print(f"Data saved as {dat_filename}")
+        print(f"Data saved as {tsv_filename}")
     else:
         plt.show()
         
@@ -397,9 +401,9 @@ def line_fitting(patterns, values_dict, dir_names, xlabel, save, filename, atoms
     plt.ylabel('Y')
     
     if save:
-        filename = f"{filename.split('.')[0]}_2d.png"
-        plt.savefig(filename, bbox_inches="tight")
-        print(f"Figure saved as {filename}")
+        png_filename = f"{filename}_2d.png"
+        plt.savefig(png_filename, bbox_inches="tight")
+        print(f"Figure saved as {png_filename}")
         plt.close()
     else:
         plt.show()
@@ -444,9 +448,9 @@ def plane_fitting(patterns, values_dict, dir_names, xlabel, save, filename, atom
     ax.set_zlabel('Z')
     
     if save:
-        filename = f"{filename.split('.')[0]}_3d.png"
-        plt.gcf().savefig(filename, bbox_inches="tight")
-        print(f"Figure saved as {filename}")
+        png_filename = f"{filename}_2d.png"
+        plt.gcf().savefig(png_filename, bbox_inches="tight")
+        print(f"Figure saved as {png_filename}")
     else:
         plt.show()
     
