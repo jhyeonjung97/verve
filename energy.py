@@ -32,7 +32,7 @@ def get_parser():
 
 def main():
     args = get_parser().parse_args()
-    filename = args.filename.rssplit('.', 1)[0]
+    filename = args.filename.rsplit('.', 1)[0]
     xlabel = args.xlabel
     save = args.save
     if args.all:
