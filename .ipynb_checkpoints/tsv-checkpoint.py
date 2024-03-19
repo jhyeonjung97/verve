@@ -11,21 +11,11 @@ def plot_patterns_from_multiple_tsv(filenames):
     - filenames: List of filenames of the TSV files.
     """
     plt.figure(figsize=(14, 8))
-
-    # Process each file
     for file in filenames:
-        # Extract a label for the plot from the file name (e.g., using the file's base name without the extension)
         label = file.split('/')[-1].replace('.tsv', '')
-        
-        # Read the TSV file, setting the first column as the index
-        df = pd.read_csv(file, delimiter='\t', index_col=0)
-        
-        # Transpose the DataFrame to make plotting more straightforward
-        df_transposed = df.T
-
-        # Plot each pattern (now each column in the transposed DataFrame) across elements
-        for pattern in df_transposed.columns:
-            plt.plot(df_transposed.index, df_transposed[pattern], marker='o', linestyle='-', label=f"{label}_{pattern}")
+        df = pd.read_csv(file, delimiter='\t', index_col=0).T
+        for pattern in df.columns:
+            plt.plot(df.index, df[pattern], marker='o', linestyle='-', label=f"{label}")
     
     plt.title('Property Values Across Elements from Multiple Files')
     plt.xlabel('Elements')
