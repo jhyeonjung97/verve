@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import sys
+import argparse
 
 def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel):
     """
