@@ -348,8 +348,8 @@ def plot_merged(values_dict, dir_names, xlabel, save, filename, atoms):
     plt.tight_layout()
     
     if save:
-        png_filename = f"{filename}_{pattern}.png"
-        tsv_filename = f"{filename}_{pattern}.tsv"
+        png_filename = f"{filename}.png"
+        tsv_filename = f"{filename}.tsv"
         
         plt.gcf().savefig(filename, bbox_inches="tight")
         print(f"Figure saved as {png_filename}")
