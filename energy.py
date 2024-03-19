@@ -375,7 +375,6 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, atoms):
         plt.gcf().savefig(filename, bbox_inches="tight")
         print(f"Figure saved as {png_filename}")
         plt.close()
-        print(values_dict)
         df = pd.DataFrame(values_dict, index=dir_names).T
         # formatted_df = df_transposed.apply(lambda col: col.apply(lambda x: f"{x:.2f}" if isinstance(x, float) else x))
         df.to_csv(f"{tsv_filename}", sep='\t')        
