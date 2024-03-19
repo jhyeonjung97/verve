@@ -133,7 +133,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                 if match_zval:
                     zvals.append(float(match_zval.group(2)))
                 if match_titel:
-                    titels.append(match_titel.group(1))
+                    titels.append(match_titel.group(1).rsplit('_', 1)[0])
             zval_dict = dict(zip(titels, zvals))
             print(zval_dict)
                         
