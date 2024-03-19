@@ -299,10 +299,17 @@ def plot_separately(values_dict, dir_names, xlabel, save, filename):
         plt.legend()
         plt.tight_layout()
         if save:
-            filename = filename.split(".")[0]
-            plt.savefig(f"{filename}_{pattern}.png", bbox_inches="tight")
-            print(f"Figure saved as {filename}_{pattern}.png")
+            png_filename = f"{filename.rsplit('.', 1)[0]}_{pattern}.png"
+            plt.savefig(png_filename, bbox_inches="tight")
             plt.close()
+            print(f"Figure saved as {png_filename}")
+            dat_filename = f"{filename.rsplit('.', 1)[0]}_{pattern}.tsv"
+            with open(dat_filename, "w") as f:
+                header = "Dir_Name\tValues\n"
+                f.write(header)
+                for dir_name, value in zip(dir_names, values):
+                    f.write(f"{dir_name}\t{value}\n")
+            print(f"Data saved as {dat_filename}")
         else:
             plt.show()
 
@@ -341,9 +348,18 @@ def plot_merged(values_dict, dir_names, xlabel, save, filename, atoms):
         plt.gcf().savefig(filename, bbox_inches="tight")
         print(f"Figure saved as {filename}")
         plt.close()
+        base_filename = filename.split(".")[0]
+        dat_filename = filename + ".tsv"
+        with open(dat_filename, "w") as f:
+            header = "Pattern\t" + "\t".join(dir_names) + "\n"
+            f.write(header)
+            for pattern in filtered_patterns_order:
+                line = pattern + "\t" + "\t".join(map(str, values_dict[pattern])) + "\n"
+                f.write(line)
+        print(f"Data saved as {dat_filename}")
     else:
         plt.show()
-
+        
 def line_fitting(patterns, values_dict, dir_names, xlabel, save, filename, atoms):
     patterns_order = list(patterns)
     patterns_order.extend(['mag_'+atom.symbol+str(atom.index) for atom in atoms])
