@@ -344,7 +344,6 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, atoms):
             continue
         plt.plot(values, marker='o', linestyle='-', label=pattern, color=color)
     
-    plt.title('Energy Contribution')
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
     plt.xticks(np.arange(len(dir_names)), dir_names, rotation='vertical')
