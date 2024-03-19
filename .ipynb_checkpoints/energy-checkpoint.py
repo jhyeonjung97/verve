@@ -3,6 +3,7 @@ import re
 import argparse
 import subprocess
 import numpy as np
+import pandas as pd
 from ase.io import read
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
@@ -135,7 +136,6 @@ def extract_values(directory, patterns, dir_range, outcar):
                 if match_titel:
                     titels.append(match_titel.group(1).rsplit('_', 1)[0])
             zval_dict = dict(zip(titels, zvals))
-            print(zval_dict)
                         
         if 'Madelung_Mulliken' in specific_patterns or 'Madelung_Loewdin' in specific_patterns:
             madelung_path = os.path.join(dir_path, 'MadelungEnergies.lobster')
@@ -371,6 +371,11 @@ def plot_merged(values_dict, dir_names, xlabel, save, filename, atoms):
                 line = pattern + "\t" + "\t".join(map(str, values_dict[pattern])) + "\n"
                 f.write(line)
         print(f"Data saved as {tsv_filename}")
+        
+        df = pd.DataFrame(values_dict, index=dir_names)
+        df_transposed = df.T  # Transposing the DataFrame
+        df_transposed.to_csv('df_test.tsv', sep='\t')
+        print("Data saved as df_test.tsv")
     else:
         plt.show()
         
