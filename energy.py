@@ -360,10 +360,9 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, atoms):
         print(f"Figure saved as {png_filename}")
         plt.close()
         
-        df = pd.DataFrame(values_dict, index=dir_names)
-        df_transposed = df.T
+        df = pd.DataFrame(values_dict, index=dir_names).T
         # formatted_df = df_transposed.apply(lambda col: col.apply(lambda x: f"{x:.2f}" if isinstance(x, float) else x))
-        df_transposed.to_csv(f"{tsv_filename}", sep='\t')
+        df.to_csv(f"{tsv_filename}", sep='\t')        
         print(f"Data saved as {tsv_filename}")
     else:
         plt.show()
