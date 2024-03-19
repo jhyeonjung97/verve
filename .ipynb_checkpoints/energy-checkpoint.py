@@ -97,7 +97,7 @@ def extract_values(directory, patterns, dir_range, outcar):
     dir_names = []
     
     specific_patterns = set()
-    for pattern in ['Madelung_Mulliken', 'Madelung_Loewdin', 'Bader', 'ICOHP', 'ICOBI', 'GP', 'hexa']:
+    for pattern in ['Madelung_Mulliken', 'Madelung_Loewdin', 'Bader', 'ICOHP', 'ICOBI', 'GP', 'hexa_ratio']:
         if pattern in patterns:
             patterns.discard(pattern)
             specific_patterns.add(pattern)
