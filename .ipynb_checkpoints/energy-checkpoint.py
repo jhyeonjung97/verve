@@ -176,7 +176,10 @@ def extract_values(directory, patterns, dir_range, outcar):
                     if match:
                         symbol = atoms[i].symbol
                         zval = zval_dict[symbol]
-                        values.setdefault('Bader_'+symbol+str(i), []).append(zval-float(match.group(4)))
+                        if symbol == 'O':
+                            values.setdefault('Bader_O'+str(i), []).append(zval-float(match.group(4)))
+                        else:
+                            values.setdefault('Bader_M'+str(i), []).append(zval-float(match.group(4)))
                         if i != 0: i -= 1
                         else: break
         if 'ICOHP' in specific_patterns:
@@ -217,7 +220,10 @@ def extract_values(directory, patterns, dir_range, outcar):
                                 break
                             elif key == 'mag':
                                 symbol = atoms[i].symbol
-                                values.setdefault('mag_'+symbol+str(i), []).append(float(match.group(4)))
+                                if symbol == 'O':
+                                    values.setdefault('mag_O'+str(i), []).append(float(match.group(4)))
+                                else:
+                                    values.setdefault('mag_M'+str(i), []).append(float(match.group(4)))
                                 if i != 0: i -= 1
                                 else: break
                             elif key == 'chg' and not in_charge_section:
@@ -230,7 +236,10 @@ def extract_values(directory, patterns, dir_range, outcar):
                             zval = zval_dict[symbol]
                             match = re.compile(pattern_map['mag']).search(line)
                             if match:
-                                values.setdefault('chg_'+symbol+str(i), []).append(zval-float(match.group(4)))
+                                if symbol == 'O':                                
+                                    values.setdefault('chg_O'+str(i), []).append(zval-float(match.group(4)))
+                                else:                                
+                                    values.setdefault('chg_M'+str(i), []).append(zval-float(match.group(4)))
                                 if i != 0: i -= 1
                                 else: break
     
@@ -322,9 +331,9 @@ def plot_merged(values_dict, dir_names, xlabel, save, filename, atoms):
     patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
                       'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung_Mulliken', 'Madelung_Loewdin', 
                       'ICOHP', 'ICOBI', 'GP_Mulliken', 'GP_Loewdin']
-    patterns_order.extend(['mag_'+atom.symbol+str(atom.index) for atom in atoms])
-    patterns_order.extend(['chg_'+atom.symbol+str(atom.index) for atom in atoms])
-    patterns_order.extend(['Bader_'+atom.symbol+str(atom.index) for atom in atoms])
+    patterns_order.extend(['mag_M0', 'mag_M1', 'mag_O2', 'mag_O3'])
+    patterns_order.extend(['chg_M0', 'chg_M1', 'chg_O2', 'chg_O3'])
+    patterns_order.extend(['Bader_M0', 'Bader_M1', 'Bader_O2', 'Bader_O3'])
     filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
 
     colors = plt.cm.turbo(np.linspace(0, 1, len(filtered_patterns_order))) 
@@ -367,9 +376,9 @@ def plot_merged(values_dict, dir_names, xlabel, save, filename, atoms):
         
 def line_fitting(patterns, values_dict, dir_names, xlabel, save, filename, atoms):
     patterns_order = list(patterns)
-    patterns_order.extend(['mag_'+atom.symbol+str(atom.index) for atom in atoms])
-    patterns_order.extend(['chg_'+atom.symbol+str(atom.index) for atom in atoms])
-    patterns_order.extend(['Bader_'+atom.symbol+str(atom.index) for atom in atoms])
+    patterns_order.extend(['mag_M0', 'mag_M1', 'mag_O2', 'mag_O3'])
+    patterns_order.extend(['chg_M0', 'chg_M1', 'chg_O2', 'chg_O3'])
+    patterns_order.extend(['Bader_M0', 'Bader_M1', 'Bader_O2', 'Bader_O3'])
     filtered_patterns_order = [pattern for pattern in patterns_order \
                                if values_dict.get(pattern)]
 
@@ -411,9 +420,9 @@ def line_fitting(patterns, values_dict, dir_names, xlabel, save, filename, atoms
         
 def plane_fitting(patterns, values_dict, dir_names, xlabel, save, filename, atoms):
     patterns_order = list(patterns)
-    patterns_order.extend(['mag_'+atom.symbol+str(atom.index) for atom in atoms])
-    patterns_order.extend(['chg_'+atom.symbol+str(atom.index) for atom in atoms])
-    patterns_order.extend(['Bader_'+atom.symbol+str(atom.index) for atom in atoms])
+    patterns_order.extend(['mag_M0', 'mag_M1', 'mag_O2', 'mag_O3'])
+    patterns_order.extend(['chg_M0', 'chg_M1', 'chg_O2', 'chg_O3'])
+    patterns_order.extend(['Bader_M0', 'Bader_M1', 'Bader_O2', 'Bader_O3'])
     filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
 
     if len(filtered_patterns_order) < 3:
