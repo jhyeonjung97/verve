@@ -39,6 +39,12 @@ alias debug='sed -i "/#SBATCH -t/c\#SBATCH -t 00:30:00" submit.sh
 sed -i "/#SBATCH -q/c\#SBATCH -q debug" submit.sh'
 alias regular='sed -i "/#SBATCH -t/c\#SBATCH -t 12:00:00" submit.sh
 sed -i "/#SBATCH -q/c\#SBATCH -q regular" submit.sh'
+alias cpu='sed -i "s/gpu/cpu/g" submit.sh
+sed -i "s/-n 4 -c 32/-n 64 -c 4/g" submit.sh
+sed -i "/#SBATCH -G/d" submit.sh'
+alias gpu='sed -i "s/cpu/gpu/g" submit.sh
+sed -i "s/-n 64 -c 4/-n 4 -c 32/g" submit.sh
+sed -e "3a\#SBATCH -G 4" filename'
 alias hour='sh ~/bin/verve/hour.sh'
 alias minute='sh ~/bin/verve/minute.sh'
 alias static='sh ~/bin/verve/static.sh'
