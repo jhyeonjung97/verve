@@ -50,6 +50,7 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
         # for pattern in df.columns:
         #     plt.plot(final_indices, df[pattern], marker='o', linestyle='-', label=f"{label}")
         df_reindexed = df.reindex(merged_index)
+        print(df_reindexed)
         for column in df.columns:
             plt.plot(df_reindexed, df_reindexed[column], marker='o', linestyle='-', label=f"{label}")
     plt.xlabel(xlabel)
