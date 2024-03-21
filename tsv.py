@@ -42,7 +42,7 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
             plt.plot(final_indices, df[pattern], marker='o', linestyle='-', label=f"{label}")
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
-    plt.xticks(merged_index, rotation=45)
+    plt.xticks(final_indices, rotation=45)
     # plt.xticks(np.arange(len(dir_names)), dir_names, rotation='vertical')
     # plt.grid(True)
     plt.legend()
