@@ -13,19 +13,14 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
     """
     plt.figure(figsize=(14, 8))
     all_indices_sets = []
-    all_indexes = set()
-
     longest_length = 0
     for file in filenames:
         df = pd.read_csv(file, delimiter='\t', index_col=0).T
-        all_indexes.update(df.index)
         current_length = len(df.index.tolist())
         if current_length > longest_length:
             longest_length = current_length
         indices_tuple = tuple(df.index)
         all_indices_sets.append(indices_tuple)
-    merged_index = sorted(all_indexes)
-    print(merged_index)
     
     seen = set()
     unique_indices_sets = []
@@ -47,12 +42,8 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
         
         label = labels[i] if labels and i < len(labels) else file.split('/')[-1].replace('.tsv', '')
         df = pd.read_csv(file, delimiter='\t', index_col=0).T
-        # for pattern in df.columns:
-        #     plt.plot(final_indices, df[pattern], marker='o', linestyle='-', label=f"{label}")
-        df_reindexed = df.reindex(merged_index)
-        print(df_reindexed)
-        for column in df.columns:
-            plt.plot(df_reindexed, df_reindexed[column], marker='o', linestyle='-', label=f"{label}")
+        for pattern in df.columns:
+            plt.plot(final_indices, df[pattern], marker='o', linestyle='-', label=f"{label}")
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
     plt.xticks(final_indices, rotation=45)
