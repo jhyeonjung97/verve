@@ -44,10 +44,14 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
     final_indices = pd.Index([index.strip() for index in merged_indices])
 
     for i, file in enumerate(filenames):
+        
         label = labels[i] if labels and i < len(labels) else file.split('/')[-1].replace('.tsv', '')
         df = pd.read_csv(file, delimiter='\t', index_col=0).T
-        for pattern in df.columns:
-            plt.plot(final_indices, df[pattern], marker='o', linestyle='-', label=f"{label}")
+        # for pattern in df.columns:
+        #     plt.plot(final_indices, df[pattern], marker='o', linestyle='-', label=f"{label}")
+        df_reindexed = df.reindex(merged_index)
+        for column in df.columns:
+            plt.plot(df_reindexed, df_reindexed[column], marker='o', linestyle='-', label=f"{label}")
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
     plt.xticks(final_indices, rotation=45)
