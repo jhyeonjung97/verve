@@ -12,17 +12,17 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
     - filenames: List of filenames of the TSV files.
     """
     plt.figure(figsize=(14, 8))
-    all_indexes = []
+    all_indices = []
     for file in filenames:
         df = pd.read_csv(file, delimiter='\t', index_col=0).T
-        all_indexes.extend(df.index.tolist())
-    seen = set()
-    merged_indexes = []
-    for index in all_indexes:
-        if index not in seen:
-            merged_indexes.append(index)
-            seen.add(index)
-    print(merged_indexes)
+        all_indices.extend([df.index])
+    seen = []
+    merged_indices = []
+    for indice in all_indices:
+        if indice not in seen:
+            merged_indices.append(indice)
+            seen.add(indice)
+    print(merged_indices)
     # 
    
     # for i, file in enumerate(filenames):
