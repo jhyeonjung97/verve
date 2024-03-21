@@ -13,6 +13,8 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
     """
     plt.figure(figsize=(14, 8))
     all_indices_sets = []
+    all_indexes = set()
+
     longest_length = 0
     for file in filenames:
         df = pd.read_csv(file, delimiter='\t', index_col=0).T
