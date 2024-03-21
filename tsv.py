@@ -22,7 +22,7 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
     for i, file in enumerate(filenames):
         label = labels[i] if labels and i < len(labels) else file.split('/')[-1].replace('.tsv', '')
         df = pd.read_csv(file, delimiter='\t', index_col=0).T
-        df.index = df.index.astype(float)
+        # df.index = df.index.astype(float)
         df_interpolated = df.reindex(df.index.union(merged_index)).interpolate(method='index').reindex(merged_index)
         for pattern in df.columns:
             plt.plot(merged_index, df_interpolated[pattern], df[pattern], 
