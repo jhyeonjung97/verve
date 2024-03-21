@@ -33,7 +33,7 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
     for i in range(longest_length):
         for indices in unique_indices_sets:
             if i < len(indices):  
-                merged_indices[i] += str(indices[i]) + " "
+                merged_indices[i] += str(indices[i]) + '\t'
             else:
                 merged_indices[i] += "NA "     
     final_indices = pd.Index([index.strip() for index in merged_indices])
