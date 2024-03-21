@@ -15,7 +15,7 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
     all_indexes = []
     for file in filenames:
         df = pd.read_csv(file, delimiter='\t', index_col=0).T
-        all_indexes.extend(df.index)
+        all_indexes.extend([df.index])
     print(all_indexes)
     # merged_index = pd.Index(np.unique(all_indexes)).sort_values()
    
