@@ -12,17 +12,24 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
     - filenames: List of filenames of the TSV files.
     """
     plt.figure(figsize=(14, 8))
+    all_indexes = []
+    for file in filenames:
+        df = pd.read_csv(file, delimiter='\t', index_col=0).T
+        all_indexes.extend(df.index.astype(float))
+        
+    merged_index = pd.Index(np.unique(all_indexes)).sort_values()
+   
     for i, file in enumerate(filenames):
         label = labels[i] if labels and i < len(labels) else file.split('/')[-1].replace('.tsv', '')
         df = pd.read_csv(file, delimiter='\t', index_col=0).T
+        df.index = df.index.astype(float)
+        df_interpolated = df.reindex(df.index.union(merged_index)).interpolate(method='index').reindex(merged_index)
         for pattern in df.columns:
-            print(df.index)
-            print(df[pattern])
-            plt.plot(df.index, df[pattern], marker='o', linestyle='-', label=f"{label}")
-    
+            plt.plot(merged_index, df_interpolated[pattern], df[pattern], 
+                     arker='o', linestyle='-', label=f"{label}")
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
-    plt.xticks(rotation=45)
+    plt.xticks(merged_index, rotation=45)
     # plt.xticks(np.arange(len(dir_names)), dir_names, rotation='vertical')
     # plt.grid(True)
     plt.legend()
