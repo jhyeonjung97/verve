@@ -16,12 +16,15 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
     longest_length = 0
     for file in filenames:
         df = pd.read_csv(file, delimiter='\t', index_col=0).T
+        all_indexes.update(df.index)
         current_length = len(df.index.tolist())
         if current_length > longest_length:
             longest_length = current_length
         indices_tuple = tuple(df.index)
         all_indices_sets.append(indices_tuple)
-        
+    merged_index = sorted(all_indexes)
+    print(merged_index)
+    
     seen = set()
     unique_indices_sets = []
     for indices in all_indices_sets:
@@ -32,7 +35,10 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
     merged_indices = ['' for _ in range(longest_length)]
     for i in range(longest_length):
         for indices in unique_indices_sets:
-            merged_indices[i] += str(indices[i]) + " "  # Concatenate with a space for readability
+            if i < len(indices):  
+                merged_indices[i] += str(indices[i]) + " "
+            else:
+                merged_indices[i] += "NA "     
     final_indices = pd.Index([index.strip() for index in merged_indices])
 
     for i, file in enumerate(filenames):
