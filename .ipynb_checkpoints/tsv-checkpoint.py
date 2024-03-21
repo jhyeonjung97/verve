@@ -33,33 +33,13 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
     for i in range(longest_length):
         for indices in unique_indices_sets:
             merged_indices[i] += str(indices[i]) + " "  # Concatenate with a space for readability
-    print(merged_indices)
     final_indices = pd.Index([index.strip() for index in merged_indices])
-    
-    # for i, indices in enumerate(unique_indices_sets):
-    #     for j in range(1, longest_length):
-    #         merged_indices[j] += str(indices[j])
-    # final_indices = pd.Index(merged_indices)
-    print(final_indices)
 
-    for file in filenames:
-        df = pd.read_csv(file, delimiter='\t', index_col=0).T
-        current_indices = df.index.tolist()  # Convert the current set of indices to a list
-        current_length = len(current_indices)  # Find the length of the current set of indices
-        
-        # If the current set of indices is longer than any we've seen before, update our records
-        if current_length > longest_length:
-            longest_indices = current_indices
-            longest_length = current_length
-        
-    print(unique_indices_sets)
-    # 
-   
     for i, file in enumerate(filenames):
         label = labels[i] if labels and i < len(labels) else file.split('/')[-1].replace('.tsv', '')
         df = pd.read_csv(file, delimiter='\t', index_col=0).T
         for pattern in df.columns:
-            plt.plot(merged_index, df[pattern], marker='o', linestyle='-', label=f"{label}")
+            plt.plot(final_indices, df[pattern], marker='o', linestyle='-', label=f"{label}")
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
     plt.xticks(merged_index, rotation=45)
