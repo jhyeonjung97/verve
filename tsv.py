@@ -33,9 +33,9 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
     for i in range(longest_length):
         for indices in unique_indices_sets:
             if i < len(indices):  
-                merged_indices[i] += str(indices[i]) + '\t'
+                merged_indices[i] += str(indices[i]) + '\n'
             else:
-                merged_indices[i] += "NA "     
+                merged_indices[i] += "NA\n"     
     final_indices = pd.Index([index.strip() for index in merged_indices])
 
     for i, file in enumerate(filenames):
