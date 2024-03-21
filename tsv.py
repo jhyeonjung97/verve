@@ -15,14 +15,15 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
     all_indices = []
     for file in filenames:
         df = pd.read_csv(file, delimiter='\t', index_col=0).T
-        all_indices.extend([df.index])
-    seen = []
-    merged_indices = []
-    for indice in all_indices:
-        if seen.any(indice):
-            merged_indices.append(indice)
-            seen.extend(indice)
-    print(merged_indices)
+        indices_tuple = tuple(df.index)
+        all_indices.append(indices_tuple)
+    seen = set()
+    unique_indices_sets = []
+    for indices in all_indices:
+        if indices not in seen:
+            unique_indices_sets.append(indices)
+            seen.add(indices)
+    print(unique_indices_sets)
     # 
    
     # for i, file in enumerate(filenames):
