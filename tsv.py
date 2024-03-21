@@ -19,7 +19,7 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
     seen = []
     merged_indices = []
     for indice in all_indices:
-        if indice not in seen:
+        if seen.any(indice):
             merged_indices.append(indice)
             seen.extend(indice)
     print(merged_indices)
