@@ -11,7 +11,8 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
     Parameters:
     - filenames: List of filenames of the TSV files.
     """
-    plt.figure(figsize=(4, 3))
+    plt.figure(figsize=(8, 6))
+    # plt.figure(figsize=(4, 3))
     all_indices_sets = []
     longest_length = 0
     for file in filenames:
@@ -49,11 +50,14 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
         df = pd.read_csv(file, delimiter='\t', index_col=0).T
         for pattern in df.columns:
             plt.plot(final_indices, df[pattern], marker=markers[j], color=colors[j], 
-                     linestyle='-', linewidth=1, label=f"{label}")
-    plt.xlabel(xlabel, fontsize=9)
-    plt.ylabel(ylabel, fontsize=9)
-    plt.xticks(fontsize=9)
-    plt.yticks(fontsize=9)
+                     # linewidth=1, 
+                     label=f"{label}")
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    # plt.xlabel(xlabel, fontsize=9)
+    # plt.ylabel(ylabel, fontsize=9)
+    # plt.xticks(fontsize=9)
+    # plt.yticks(fontsize=9)
     # plt.grid(True)
     plt.legend(prop={'size': 7}, ncol=1)
     plt.tight_layout()
