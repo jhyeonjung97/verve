@@ -11,7 +11,7 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
     Parameters:
     - filenames: List of filenames of the TSV files.
     """
-    plt.figure(figsize=(8, 9))
+    plt.figure(figsize=(4, 3))
     all_indices_sets = []
     longest_length = 0
     for file in filenames:
