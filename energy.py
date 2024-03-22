@@ -127,6 +127,7 @@ def extract_values(directory, patterns, dir_range, outcar):
         matching_files_B = glob.glob(pattern_B)
         matching_files_C = glob.glob(pattern_C)
         matching_files = matching_files_A + matching_files_B + matching_files_C
+        print(matching_files)
         for traj_file in matching_files:
             traj_path = os.path.join(dir_path, traj_file)
             if os.path.exists(traj_path):
