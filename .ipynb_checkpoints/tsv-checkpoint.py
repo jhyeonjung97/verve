@@ -48,7 +48,8 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
         label = labels[j] if labels and j < len(labels) else file.split('/')[-1].replace('.tsv', '')
         df = pd.read_csv(file, delimiter='\t', index_col=0).T
         for pattern in df.columns:
-            plt.plot(final_indices, df[pattern], marker=markers[j], color=colors[j], linestyle='-', label=f"{label}")
+            plt.plot(final_indices, df[pattern], marker=markers[j], color=colors[j], 
+                     linestyle='-', linewidth=1, label=f"{label}")
     plt.xlabel(xlabel, fontsize=10)
     plt.ylabel(ylabel, fontsize=10)
     # plt.grid(True)
