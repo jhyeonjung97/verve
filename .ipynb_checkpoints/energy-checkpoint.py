@@ -306,8 +306,8 @@ def adjust_values(values_dict, ref, norm):
     return adjusted_values_dict
 
 def selected_values(values_dict, symbols, atoms):
-    if not symbols:
-        symbols = atoms.get_chemical_symbols()
+    # if not symbols:
+    #     symbols = atoms.get_chemical_symbols()
     keys_to_remove = [
         'mag_' + atom.symbol + str(atom.index) 
         for atom in atoms 
