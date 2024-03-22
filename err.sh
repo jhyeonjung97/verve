@@ -29,7 +29,7 @@ else
             echo -e "\e[35m$dir\e[0m Calculation is not done.."
             err_count=1
         fi
-        files=$(find . -maxdepth 1 -type f -name 'err*')
+        files=$(find . -maxdepth 1 -type f -name 'err*log')
         if [[ -z $files ]]; then
             echo -n -e "\e[35m$dir \e[0m"
             echo "No 'err' files found."
@@ -37,6 +37,7 @@ else
         else
             for file in err.*.log
             do
+                sed -i '/Lmod is automatically replacing/d' $file
                 if [[ -s $file ]]; then
                     echo -n -e "\e[35m$dir\e[0m"
                     tail $file | tail -n 2
