@@ -44,7 +44,7 @@ sed -i "s/-n 4 -c 32/-n 64 -c 4/g" submit.sh
 sed -i "/#SBATCH -G/d" submit.sh'
 alias gpu='sed -i "s/cpu/gpu/g" submit.sh
 sed -i "s/-n 64 -c 4/-n 4 -c 32/g" submit.sh
-sed -e "3a\#SBATCH -G 4" filename'
+sed -e "3a\#SBATCH -G 4" submit.sh'
 alias hour='sh ~/bin/verve/hour.sh'
 alias minute='sh ~/bin/verve/minute.sh'
 alias static='sh ~/bin/verve/static.sh'
