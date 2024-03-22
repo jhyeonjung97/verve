@@ -62,6 +62,7 @@ def main():
 
     directory='./'
     values_dict, dir_names, atoms = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
+    print(values_dict)
     values_dict = selected_values(values_dict, args.symbols, atoms)
         
     values_dict = adjust_values(values_dict, ref=args.ref, norm=args.norm)
@@ -306,8 +307,8 @@ def adjust_values(values_dict, ref, norm):
     return adjusted_values_dict
 
 def selected_values(values_dict, symbols, atoms):
-    # if not symbols:
-    #     symbols = atoms.get_chemical_symbols()
+    if not symbols:
+        symbols = atoms.get_chemical_symbols()
     keys_to_remove = [
         'mag_' + atom.symbol + str(atom.index) 
         for atom in atoms 
