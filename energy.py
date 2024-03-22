@@ -117,7 +117,7 @@ def extract_values(directory, patterns, dir_range, outcar):
         dir_path = os.path.join(directory, dir_name)
         trimmed_dir_name = dir_name.split('_')[1]
         dir_names.append(trimmed_dir_name)
-
+        atom=None
         in_charge_section = False
         pattern_A = 'final*static*traj'
         pattern_B = 'final*opt*traj'
@@ -132,9 +132,8 @@ def extract_values(directory, patterns, dir_range, outcar):
                 atoms = read(traj_path)
                 numb = atoms.get_global_number_of_atoms()
                 break
-        # if not atoms:
-        #     print('No atomic structure data..')
-        #     exit()
+        if not atoms:
+            print('No atomic structure data..')
         zvals =[]
         titels =[]
         potcar_path = os.path.join(dir_path, 'POTCAR')
@@ -273,13 +272,13 @@ def extract_values(directory, patterns, dir_range, outcar):
                                 else: break
             else:
                 for pattern in patterns:
-                    if pattern == 'mag':
+                    if pattern == 'mag' and atoms:
                         for i in range(0, numb-1):
                             if atoms[i].symbol == 'O':
                                 values.setdefault('mag_O'+str(i), []).append(atoms.get_magnetic_moments()[i])
                             else:
                                 values.setdefault('mag_M'+str(i), []).append(atoms.get_magnetic_moments()[i])
-                    elif pattern == 'TOTEN':
+                    elif pattern == 'TOTEN' and atoms:
                         values['TOTEN'].append(atoms.get_total_energy())
     
     return values, dir_names, atoms
