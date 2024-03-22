@@ -128,9 +128,9 @@ def extract_values(directory, patterns, dir_range, outcar):
         matching_files_B = glob.glob(pattern_B)
         matching_files_C = glob.glob(pattern_C)
         matching_files = matching_files_A + matching_files_B + matching_files_C
-        print(matching_files)
         for traj_file in matching_files:
             traj_path = os.path.join(dir_path, traj_file)
+            print(traj_path)
             if os.path.exists(traj_path):
                 atoms = read(traj_path)
                 numb = atoms.get_global_number_of_atoms()
@@ -275,7 +275,6 @@ def extract_values(directory, patterns, dir_range, outcar):
                                 if i != 0: i -= 1
                                 else: break
             else:
-                print(atoms)
                 for pattern in patterns:
                     if pattern == 'mag' and atoms:
                         for i in range(0, numb-1):
