@@ -118,11 +118,12 @@ def extract_values(directory, patterns, dir_range, outcar):
         dir_path = os.path.join(directory, dir_name)
         trimmed_dir_name = dir_name.split('_')[1]
         dir_names.append(trimmed_dir_name)
+        
         atoms=None
         in_charge_section = False
-        pattern_A = 'final*static*traj'
-        pattern_B = 'final*opt*traj'
-        pattern_C = '*json'
+        pattern_A = os.path.join(dir_path, 'final*static*traj')
+        pattern_B = os.path.join(dir_path, 'final*opt*traj')
+        pattern_C = os.path.join(dir_path, '*json')
         matching_files_A = glob.glob(pattern_A)
         matching_files_B = glob.glob(pattern_B)
         matching_files_C = glob.glob(pattern_C)
