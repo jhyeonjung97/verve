@@ -38,8 +38,10 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
                 merged_indices[i] += "NA\n"     
     final_indices = pd.Index([index.strip() for index in merged_indices])
 
+    colors = ['#d62728', '#ff7f0e', '#2ca02c', '#39d439', '#279ff2', '#1f77b4', '#9467bd']
+    markers = ['s', 'd', 'o', 'p', '>', '<', 'D']
+    
     for i, file in enumerate(filenames):
-        
         label = labels[i] if labels and i < len(labels) else file.split('/')[-1].replace('.tsv', '')
         df = pd.read_csv(file, delimiter='\t', index_col=0).T
         for pattern in df.columns:
