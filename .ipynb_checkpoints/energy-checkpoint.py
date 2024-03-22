@@ -282,7 +282,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                             else:
                                 values.setdefault('mag_M'+str(i), []).append(atoms.get_magnetic_moments()[i])
                     elif pattern == 'TOTEN' and atoms:
-                        values['TOTEN'].append(atoms.get_total_energy())
+                        values.setdefault('TOTEN', []).append(atoms.get_total_energy())
     
     return values, dir_names, atoms
 
