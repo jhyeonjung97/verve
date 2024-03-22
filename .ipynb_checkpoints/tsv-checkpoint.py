@@ -50,8 +50,8 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
         for pattern in df.columns:
             plt.plot(final_indices, df[pattern], marker=markers[j], color=colors[j], 
                      linestyle='-', linewidth=1, label=f"{label}")
-    plt.xlabel(xlabel, fontsize=10)
-    plt.ylabel(ylabel, fontsize=10)
+    plt.xlabel(xlabel, fontsize=9)
+    plt.ylabel(ylabel, fontsize=9)
     # plt.grid(True)
     plt.legend(prop={'size': 7}, ncol=1)
     plt.tight_layout()
