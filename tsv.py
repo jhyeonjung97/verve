@@ -39,8 +39,10 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
                 merged_indices[i] += "NA\n"     
     final_indices = pd.Index([index.strip() for index in merged_indices])
 
-    colors = ['#d62728', '#ff7f0e', '#39d439', '#2ca02c', '#279ff2', '#1f77b4', '#9467bd']
-    markers = ['s', 'd', 'p', 'o', '>', '<', 'D']
+    colors = ['#d62728', '#ff7f0e', '#39d439', '#279ff2', '#9467bd']
+    markers = ['s', 'd', 'o', '<', 'D']
+    # colors = ['#d62728', '#ff7f0e', '#39d439', '#2ca02c', '#279ff2', '#1f77b4', '#9467bd']
+    # markers = ['s', 'd', 'p', 'o', '>', '<', 'D']
 
     n = len(filenames)
     filenames.reverse()
@@ -59,7 +61,7 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
     # plt.xticks(fontsize=9)
     # plt.yticks(fontsize=9)
     # plt.grid(True)
-    plt.legend(prop={'size': 7}, ncol=1)
+    # plt.legend(prop={'size': 7}, ncol=1)
     plt.tight_layout()
     plt.gcf().savefig(png_filename, bbox_inches="tight")
     print(f"Figure saved as {png_filename}")
