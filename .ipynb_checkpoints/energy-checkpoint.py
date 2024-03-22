@@ -1,5 +1,6 @@
 import os
 import re
+import glob
 import argparse
 import subprocess
 import numpy as np
@@ -100,8 +101,7 @@ def extract_values(directory, patterns, dir_range, outcar):
     for pattern in ['Madelung_Mulliken', 'Madelung_Loewdin', 'Bader', 'ICOHP', 'ICOBI', 'GP', 'hexa_ratio']:
         if pattern in patterns:
             patterns.discard(pattern)
-            specific_patterns.add(pattern)
-            
+            specific_patterns.add(pattern)            
     dirs = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d)) and '_' in d]
     
     if dir_range is not None:
@@ -119,10 +119,17 @@ def extract_values(directory, patterns, dir_range, outcar):
         dir_names.append(trimmed_dir_name)
 
         in_charge_section = False
-        for poscar in ['POSCAR', 'CONTCAR', 'start.traj', 'restart.json']:
-            poscar_path = os.path.join(dir_path, poscar)
-            if os.path.exists(poscar_path):
-                atoms = read(poscar_path)
+        pattern_A = 'final*static*traj'
+        pattern_B = 'final*opt*traj'
+        pattern_C = '*json'
+        matching_files_A = glob.glob(pattern_A)
+        matching_files_B = glob.glob(pattern_B)
+        matching_files_C = glob.glob(pattern_C)
+        matching_files = matching_files_A + matching_files_B + matching_files_C
+        for traj_file in matching_files:
+            traj_path = os.path.join(dir_path, traj_file)
+            if os.path.exists(traj_path):
+                atoms = read(traj_path)
                 numb = atoms.get_global_number_of_atoms()
                 break
         if not atoms:
@@ -264,6 +271,16 @@ def extract_values(directory, patterns, dir_range, outcar):
                                     values.setdefault('chg_M'+str(i), []).append(zval-float(match.group(4)))
                                 if i != 0: i -= 1
                                 else: break
+            else:
+                for pattern in patterns:
+                    if pattern == 'mag':
+                        for i in range(0, numb-1):
+                            if atoms[i].symbol == 'O':
+                                values.setdefault('mag_O'+str(i), []).append(atoms.get_magnetic_moments()[i])
+                            else:
+                                values.setdefault('mag_M'+str(i), []).append(atoms.get_magnetic_moments()[i])
+                    elif pattern == 'TOTEN':
+                        values['TOTEN'].append(atoms.get_total_energy())
     
     return values, dir_names, atoms
 
@@ -384,6 +401,7 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, atoms):
         
 def line_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filename, atoms):
     patterns_order = list(patterns)
+    for i in 
     patterns_order.extend(['mag_M0', 'mag_M1', 'mag_O2', 'mag_O3'])
     patterns_order.extend(['chg_M0', 'chg_M1', 'chg_O2', 'chg_O3'])
     patterns_order.extend(['Bader_M0', 'Bader_M1', 'Bader_O2', 'Bader_O3'])
