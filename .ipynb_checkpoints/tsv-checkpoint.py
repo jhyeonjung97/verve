@@ -52,7 +52,7 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
     plt.xlabel(xlabel, fontsize=10)
     plt.ylabel(ylabel, fontsize=10)
     # plt.grid(True)
-    plt.legend()
+    plt.legend(prop={'size': 7}, ncol=1)
     plt.tight_layout()
     plt.gcf().savefig(png_filename, bbox_inches="tight")
     print(f"Figure saved as {png_filename}")
