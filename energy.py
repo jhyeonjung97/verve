@@ -273,15 +273,19 @@ def extract_values(directory, patterns, dir_range, outcar):
                                 if i != 0: i -= 1
                                 else: break
             else:
-                for pattern in patterns:
-                    if pattern == 'mag' and atoms:
-                        for i in range(0, numb-1):
-                            if atoms[i].symbol == 'O':
-                                values.setdefault('mag_O'+str(i), []).append(atoms.get_magnetic_moments()[i])
-                            else:
-                                values.setdefault('mag_M'+str(i), []).append(atoms.get_magnetic_moments()[i])
-                    elif pattern == 'TOTEN' and atoms:
-                        values.setdefault('TOTEN', []).append(atoms.get_total_energy())
+                if atoms:
+                    values.setdefault('TOTEN', []).append(atoms.get_total_energy())
+                else:
+                    values.setdefault('TOTEN', []).append(None)
+                # for pattern in patterns:
+                #     if pattern == 'mag' and atoms:
+                #         for i in range(0, numb-1):
+                #             if atoms[i].symbol == 'O':
+                #                 values.setdefault('mag_O'+str(i), []).append(atoms.get_magnetic_moments()[i])
+                #             else:
+                #                 values.setdefault('mag_M'+str(i), []).append(atoms.get_magnetic_moments()[i])
+                #     elif pattern == 'TOTEN' and atoms:
+                #         values.setdefault('TOTEN', []).append(atoms.get_total_energy())
     
     return values, dir_names, atoms
 
