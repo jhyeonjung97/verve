@@ -274,6 +274,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                                 if i != 0: i -= 1
                                 else: break
             else:
+                print(atoms)
                 for pattern in patterns:
                     if pattern == 'mag' and atoms:
                         for i in range(0, numb-1):
