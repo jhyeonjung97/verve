@@ -38,7 +38,6 @@ else
             for file in err.*.log
             do
                 sed -i '/Lmod is automatically replacing/d' $file
-                echo "sed -i '/Lmod is automatically replacing/d' $file"
                 if [[ -s $file ]]; then
                     echo -n -e "\e[35m$dir\e[0m"
                     tail $file | tail -n 2
@@ -55,6 +54,7 @@ else
             else
                 for file in opt/err.*.log
                 do
+                    sed -i '/Lmod is automatically replacing/d' $file
                     if [[ -s $file ]]; then
                         echo -n -e "\e[35m$dir\e[0m"
                         tail $file | tail -n 2
