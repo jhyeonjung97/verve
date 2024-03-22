@@ -132,9 +132,9 @@ def extract_values(directory, patterns, dir_range, outcar):
                 atoms = read(traj_path)
                 numb = atoms.get_global_number_of_atoms()
                 break
-        if not atoms:
-            print('No atomic structure data..')
-            exit()
+        # if not atoms:
+        #     print('No atomic structure data..')
+        #     exit()
         zvals =[]
         titels =[]
         potcar_path = os.path.join(dir_path, 'POTCAR')
