@@ -117,7 +117,7 @@ def extract_values(directory, patterns, dir_range, outcar):
         dir_path = os.path.join(directory, dir_name)
         trimmed_dir_name = dir_name.split('_')[1]
         dir_names.append(trimmed_dir_name)
-        atom=None
+        atoms=None
         in_charge_section = False
         pattern_A = 'final*static*traj'
         pattern_B = 'final*opt*traj'
