@@ -137,6 +137,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                 break
         if not atoms:
             print('No atomic structure data..')
+        print(atoms)
         zvals =[]
         titels =[]
         potcar_path = os.path.join(dir_path, 'POTCAR')
