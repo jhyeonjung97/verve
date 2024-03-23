@@ -51,10 +51,16 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
         label = labels[label_index] if labels and label_index < len(labels) else file.split('/')[-1].replace('.tsv', '')
         df = pd.read_csv(file, delimiter='\t', index_col=0).T
         for pattern in df.columns:
-            # data = df[pattern].dropna()  # Vectorized approach to drop NaN values
-            x = df[pattern].index
-            print(x)
-            plt.plot(x, df[pattern], marker=markers[label_index], color=colors[label_index], label=label)
+            x = []
+            filtered_df = []
+            for i, v in enumerate(df[pattern]):
+                if v is not None: 
+                    x.append(i)
+                    filtered_df.append(v)
+            if not filtered_df:
+                print(f"No values found for pattern: {pattern}")
+                continue
+            plt.plot(x, filtered_df, marker=markers[label_index], color=colors[label_index], label=label)
     plt.xticks(np.arange(len(merged_indices)), merged_indices)
     
     # filenames.reverse()
