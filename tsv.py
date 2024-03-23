@@ -96,7 +96,7 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Plot TSV data.')
     parser.add_argument('files', nargs='+', help='The TSV files to plot.')
-    parser.add_argument('-o', '--output', dest='filename', type=str, default='merged', help="The filename for the output PNG file.")
+    parser.add_argument('-o', '--output', dest='filename', type=str, default='', help="The filename for the output PNG file.")
     parser.add_argument('-x', '--xlabel', type=str, default='Element or Lattice parameter (Å)', help="xlabel")
     parser.add_argument('-y', '--ylabel', type=str, default='Energy (eV) or Charge (e)', help="ylabel")
     parser.add_argument('-l', '--labels', nargs='*', help="Custom labels for each file", default=None)
