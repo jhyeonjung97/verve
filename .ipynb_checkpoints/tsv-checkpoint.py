@@ -38,7 +38,6 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
                 merged_indices[i] += str(indices[i]) + '\n'
             else:
                 merged_indices[i] += "NA\n"     
-    # final_indices = pd.Index([index.strip() for index in merged_indices])
 
     colors = ['#d62728', '#ff7f0e', '#2ca02c', '#279ff2', '#9467bd']
     markers = ['s', 'd', 'o', '<', 'D']
