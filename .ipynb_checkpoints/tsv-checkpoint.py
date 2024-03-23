@@ -54,7 +54,7 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
             x = []
             filtered_df = []
             for i, v in enumerate(df[pattern]):
-                if v is not nan: 
+                if not np.isnan(v): 
                     x.append(i)
                     filtered_df.append(v)
             if not filtered_df:

@@ -298,7 +298,7 @@ def adjust_values(values_dict, ref, norm):
             ref_value = values[int(ref)-1]
         else:
             ref_value = 0
-        adjusted_values = [(value - ref_value) / norm if value is not np.nan else np.nan for value in values]
+        adjusted_values = [(value - ref_value) / norm if not np.isnan(value) else np.nan for value in values]
         adjusted_values_dict[pattern] = adjusted_values
 
     return adjusted_values_dict
@@ -337,7 +337,7 @@ def plot_separately(values_dict, dir_names, xlabel, ylabel, save, filename):
         x = []
         filtered_values = []
         for i, v in enumerate(values):
-            if v is not np.nan: 
+            if not np.isnan(v): 
                 x.append(i)
                 filtered_values.append(v)
         plt.plot(x, values, marker='o', linestyle='-', label=pattern)
@@ -382,7 +382,7 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, picked_a
         x = []
         filtered_values = []
         for i, v in enumerate(values):
-            if v is not np.nan:
+            if not np.isnan(v):
                 x.append(i)
                 filtered_values.append(v)
         if not filtered_values:
