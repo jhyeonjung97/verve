@@ -134,7 +134,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                 numb = atoms.get_global_number_of_atoms()
                 break
         if not atoms:
-            print('No atomic structure data..')
+            print(f'No atomic structure data in {dir_path}')
         else:
             picked_atoms = atoms
         zvals =[]
@@ -278,16 +278,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                     values.setdefault('TOTEN', []).append(atoms.get_total_energy())
                 else:
                     values.setdefault('TOTEN', []).append(None)
-                # for pattern in patterns:
-                #     if pattern == 'mag' and atoms:
-                #         for i in range(0, numb-1):
-                #             if atoms[i].symbol == 'O':
-                #                 values.setdefault('mag_O'+str(i), []).append(atoms.get_magnetic_moments()[i])
-                #             else:
-                #                 values.setdefault('mag_M'+str(i), []).append(atoms.get_magnetic_moments()[i])
-                #     elif pattern == 'TOTEN' and atoms:
-                #         values.setdefault('TOTEN', []).append(atoms.get_total_energy())
-    
+
     return values, dir_names, picked_atoms
 
 def adjust_values(values_dict, ref, norm):
