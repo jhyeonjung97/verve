@@ -276,7 +276,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                 if atoms:
                     values.setdefault('TOTEN', []).append(atoms.get_total_energy())
                 else:
-                    values.setdefault('TOTEN', []).append(NaN)
+                    values.setdefault('TOTEN', []).append(np.nan)
 
     return values, dir_names, picked_atoms
 
@@ -298,7 +298,7 @@ def adjust_values(values_dict, ref, norm):
             ref_value = values[int(ref)-1]
         else:
             ref_value = 0
-        adjusted_values = [(value - ref_value) / norm if value is not NaN else NaN for value in values]
+        adjusted_values = [(value - ref_value) / norm if value is not np.nan else np.nan for value in values]
         adjusted_values_dict[pattern] = adjusted_values
 
     return adjusted_values_dict
