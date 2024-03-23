@@ -308,8 +308,9 @@ def adjust_values(values_dict, ref, norm):
             ref_value = values[int(ref)-1]
         else:
             ref_value = 0
-        adjusted_values = [(value - ref_value) / norm for value in values]
+        adjusted_values = [(value - ref_value) / norm if value is not None else None for value in values]
         adjusted_values_dict[pattern] = adjusted_values
+
     return adjusted_values_dict
 
 def selected_values(values_dict, symbols, picked_atoms):
