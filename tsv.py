@@ -52,7 +52,7 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
         df = pd.read_csv(file, delimiter='\t', index_col=0).T
         for pattern in df.columns:
             # data = df[pattern].dropna()  # Vectorized approach to drop NaN values
-            x = data.index
+            x = df[pattern].index
             print(x)
             plt.plot(x, data, marker=markers[label_index], color=colors[label_index], label=label)
     plt.xticks(np.arange(len(merged_indices)), merged_indices)
