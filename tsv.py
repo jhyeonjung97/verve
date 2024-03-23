@@ -45,15 +45,31 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
     # markers = ['s', 'd', 'p', 'o', '>', '<', 'D']
 
     n = len(filenames)
-    filenames.reverse()
-    for i, file in enumerate(filenames):
-        j = n-i-1
-        label = labels[j] if labels and j < len(labels) else file.split('/')[-1].replace('.tsv', '')
+    for j, file in enumerate(reversed(filenames)):  # Correctly reversed with enumeration
+        label_index = n - j - 1
+        label = labels[label_index] if labels and label_index < len(labels) else file.split('/')[-1].replace('.tsv', '')
         df = pd.read_csv(file, delimiter='\t', index_col=0).T
-        for pattern in df.columns:
-            plt.plot(final_indices, df[pattern], marker=markers[j], color=colors[j], 
-                     # linewidth=1, 
-                     label=f"{label}")
+        
+        if pattern in df.columns:
+            data = df[pattern].dropna()  # Vectorized approach to drop NaN values
+            x = data.index
+            plt.plot(x, data, marker=markers[label_index], color=colors[label_index], label=label)
+
+    # filenames.reverse()
+    # for i, file in enumerate(filenames):
+    #     j = n-i-1
+    #     label = labels[j] if labels and j < len(labels) else file.split('/')[-1].replace('.tsv', '')
+    #     df = pd.read_csv(file, delimiter='\t', index_col=0).T
+    #     x = []
+    #     filtered_df = []
+    #     for i, v in enumerate(df[pattern]):
+    #         if v is not np.nan:
+    #             x.append(i)
+    #             filtered_df.append(v)
+    #     for pattern in df.columns:
+    #         plt.plot(x, filtered_df, marker=markers[j], color=colors[j], 
+    #                  # linewidth=1, 
+    #                  label=f"{label}")
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
     # plt.xlabel(xlabel, fontsize=9)
