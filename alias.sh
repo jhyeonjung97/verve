@@ -74,6 +74,7 @@ alias metals='sh ~/bin/verve/metals.sh'
 alias mfa='sh ~/bin/verve/mmff-result.sh'
 alias err='sh ~/bin/verve/err.sh'
 alias open='display'
+alias tsv='python ~/bin/verve/tsv.py'
 
 #SSH
 alias hi='sh ~/bin/verve/gits.sh orange shoulder verve tools
