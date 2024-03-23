@@ -386,7 +386,7 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, picked_a
         if not filtered_values:
             print(f"No values found for pattern: {pattern}")
             continue
-        plt.plot(x, values, marker='o', linestyle='-', label=pattern, color=color)
+        plt.plot(filtered_x, filtered_values, marker='o', linestyle='-', label=pattern, color=color)
     
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
