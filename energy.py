@@ -328,19 +328,22 @@ def selected_values(values_dict, symbols, picked_atoms):
         
 def plot_separately(values_dict, dir_names, xlabel, ylabel, save, filename):
     """Plot each pattern on its own graph."""
-    x = np.arange(len(dir_names))
     
     for i, (pattern, values) in enumerate(values_dict.items()):
         if not values:
             print(f"No values found for pattern: {pattern}")
             continue
         plt.figure(figsize=(10, 6))
+        filtered_values = []
+        for i, v in enumerate(values):
+            if v is not np.nan:
+                x.append(i)
+                filtered_values.append(v)
         plt.plot(x, values, marker='o', linestyle='-', label=pattern)
-        
         plt.title(f'{pattern} Energy Contribution')
         plt.xlabel(xlabel)
         plt.ylabel(ylabel)
-        plt.xticks(x, dir_names, rotation='vertical')
+        plt.xticks(np.arange(len(dir_names)), dir_names, rotation='vertical')
         plt.grid(True)
         plt.legend()
         plt.tight_layout()
@@ -375,18 +378,15 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, picked_a
         values = values_dict.get(pattern, [])
         if all(isinstance(v, tuple) for v in values):
             values = [v[0] for v in values]
-            
-        x = np.arange(len(dir_names))
-        filtered_x = []
         filtered_values = []
         for i, v in enumerate(values):
             if v is not np.nan:
-                filtered_x.append(i)
+                x.append(i)
                 filtered_values.append(v)
         if not filtered_values:
             print(f"No values found for pattern: {pattern}")
             continue
-        plt.plot(filtered_x, filtered_values, marker='o', linestyle='-', label=pattern, color=color)
+        plt.plot(x, filtered_values, marker='o', linestyle='-', label=pattern, color=color)
 
     plt.xticks(np.arange(len(dir_names)), dir_names, rotation='vertical')
     plt.xlabel(xlabel)
