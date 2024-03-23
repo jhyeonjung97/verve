@@ -60,25 +60,8 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
             if not filtered_df:
                 print(f"No values found for pattern: {pattern}")
                 continue
-            print(x, filtered_df)
             plt.plot(x, filtered_df, marker=markers[label_index], color=colors[label_index], label=label)
     plt.xticks(np.arange(len(merged_indices)), merged_indices)
-    
-    # filenames.reverse()
-    # for i, file in enumerate(filenames):
-    #     j = n-i-1
-    #     label = labels[j] if labels and j < len(labels) else file.split('/')[-1].replace('.tsv', '')
-    #     df = pd.read_csv(file, delimiter='\t', index_col=0).T
-    #     x = []
-    #     filtered_df = []
-    #     for i, v in enumerate(df[pattern]):
-    #         if v is not np.nan:
-    #             x.append(i)
-    #             filtered_df.append(v)
-    #     for pattern in df.columns:
-    #         plt.plot(x, filtered_df, marker=markers[j], color=colors[j], 
-    #                  # linewidth=1, 
-    #                  label=f"{label}")
     
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
