@@ -61,21 +61,21 @@ def main():
     original_patterns = patterns.copy()
 
     directory='./'
-    values_dict, dir_names, atoms = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
+    values_dict, dir_names, picked_atoms = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
     print(values_dict)
-    values_dict = selected_values(values_dict, args.symbols, atoms)
+    values_dict = selected_values(values_dict, args.symbols, picked_atoms)
         
     values_dict = adjust_values(values_dict, ref=args.ref, norm=args.norm)
     if any(values_dict.values()):
-        plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, atoms)
+        plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, picked_atoms)
         if args.separate:
             plot_separately(values_dict, dir_names, xlabel, ylabel, save, filename)
     else:
         raise ValueError('No values found for the given patterns.')
     if args.line:
-        line_fitting(original_patterns, values_dict, dir_names, xlabel, ylabel, save, filename, atoms)
+        line_fitting(original_patterns, values_dict, dir_names, xlabel, ylabel, save, filename, picked_atoms)
     elif args.plane:
-        plane_fitting(original_patterns, values_dict, dir_names, xlabel, ylabel, save, filename, atoms)
+        plane_fitting(original_patterns, values_dict, dir_names, xlabel, ylabel, save, filename, picked_atoms)
 
 def extract_values(directory, patterns, dir_range, outcar):
     """Extract the last values for the given patterns from OUTCAR files in the given directories, sorted numerically."""
@@ -135,7 +135,8 @@ def extract_values(directory, patterns, dir_range, outcar):
                 break
         if not atoms:
             print('No atomic structure data..')
-        print(atoms)
+        else:
+            picked_atoms = atoms
         zvals =[]
         titels =[]
         potcar_path = os.path.join(dir_path, 'POTCAR')
@@ -287,7 +288,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                 #     elif pattern == 'TOTEN' and atoms:
                 #         values.setdefault('TOTEN', []).append(atoms.get_total_energy())
     
-    return values, dir_names, atoms
+    return values, dir_names, picked_atoms
 
 def adjust_values(values_dict, ref, norm):
     """Subtract the reference value from each pattern's data set."""
@@ -311,20 +312,20 @@ def adjust_values(values_dict, ref, norm):
         adjusted_values_dict[pattern] = adjusted_values
     return adjusted_values_dict
 
-def selected_values(values_dict, symbols, atoms):
+def selected_values(values_dict, symbols, picked_atoms):
     if not symbols:
-        symbols = atoms.get_chemical_symbols()
+        symbols = picked_atoms.get_chemical_symbols()
     keys_to_remove = [
         'mag_' + atom.symbol + str(atom.index) 
-        for atom in atoms 
+        for atom in picked_atoms 
         if atom.symbol not in symbols
     ] + [
         'chg_' + atom.symbol + str(atom.index) 
-        for atom in atoms 
+        for atom in picked_atoms 
         if atom.symbol not in symbols
     ] + [
         'Bader_' + atom.symbol + str(atom.index) 
-        for atom in atoms 
+        for atom in picked_atoms 
         if atom.symbol not in symbols
     ] + ['mag', 'chg', 'Bader', 'Madelung', 'GP']
     
@@ -360,15 +361,15 @@ def plot_separately(values_dict, dir_names, xlabel, ylabel, save, filename):
         else:
             plt.show()
 
-def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, atoms):
+def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, picked_atoms):
     plt.figure(figsize=(10, 6))
 
     patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
                       'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung_Mulliken', 'Madelung_Loewdin', 
                       'ICOHP', 'ICOBI', 'GP_Mulliken', 'GP_Loewdin', 'hexa_ratio', 'hexa_ratio0']
-    numb = atoms.get_global_number_of_atoms()
+    numb = picked_atoms.get_global_number_of_atoms()
     for extended_pattern in ['mag', 'chg', 'Bader']:
-        for i, atom in enumerate(atoms):
+        for i, atom in enumerate(picked_atoms):
             if atom.symbol == 'O':
                 patterns_order.extend(f'{extended_pattern}_O{i}')
             else:
@@ -408,11 +409,11 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, atoms):
     else:
         plt.show()
         
-def line_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filename, atoms):
+def line_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filename, picked_atoms):
     patterns_order = list(patterns)
-    numb = atoms.get_global_number_of_atoms()
+    numb = picked_atoms.get_global_number_of_atoms()
     for extended_pattern in ['mag', 'chg', 'Bader']:
-        for i, atom in enumerate(atoms):
+        for i, atom in enumerate(picked_atoms):
             if atom.symbol == 'O':
                 patterns_order.extend(f'{extended_pattern}_O{i}')
             else:
@@ -456,11 +457,11 @@ def line_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filenam
     else:
         plt.show()
         
-def plane_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filename, atoms):
+def plane_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filename, picked_atoms):
     patterns_order = list(patterns)
-    numb = atoms.get_global_number_of_atoms()
+    numb = picked_atoms.get_global_number_of_atoms()
     for extended_pattern in ['mag', 'chg', 'Bader']:
-        for i, atom in enumerate(atoms):
+        for i, atom in enumerate(picked_atoms):
             if atom.symbol == 'O':
                 patterns_order.extend(f'{extended_pattern}_O{i}')
             else:
