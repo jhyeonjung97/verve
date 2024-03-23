@@ -49,7 +49,7 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
         label_index = n - j - 1
         label = labels[label_index] if labels and label_index < len(labels) else file.split('/')[-1].replace('.tsv', '')
         df = pd.read_csv(file, delimiter='\t', index_col=0).T
-        
+        print(df.columns)
         if pattern in df.columns:
             data = df[pattern].dropna()  # Vectorized approach to drop NaN values
             x = data.index
