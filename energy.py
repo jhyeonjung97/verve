@@ -276,7 +276,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                 if atoms:
                     values.setdefault('TOTEN', []).append(atoms.get_total_energy())
                 else:
-                    values.setdefault('TOTEN', []).append(np.nan)
+                    values.setdefault('TOTEN', []).append(None) #nan
 
     return values, dir_names, picked_atoms
 
@@ -298,7 +298,7 @@ def adjust_values(values_dict, ref, norm):
             ref_value = values[int(ref)-1]
         else:
             ref_value = 0
-        adjusted_values = [(value - ref_value) / norm if value is not np.nan else np.nan for value in values]
+        adjusted_values = [(value - ref_value) / norm if value is not None else None for value in values] #nan
         adjusted_values_dict[pattern] = adjusted_values
 
     return adjusted_values_dict
@@ -337,7 +337,7 @@ def plot_separately(values_dict, dir_names, xlabel, ylabel, save, filename):
         x = []
         filtered_values = []
         for i, v in enumerate(values):
-            if v is not np.nan:
+            if v is not None: #nan
                 x.append(i)
                 filtered_values.append(v)
         plt.plot(x, values, marker='o', linestyle='-', label=pattern)
@@ -382,7 +382,7 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, picked_a
         x = []
         filtered_values = []
         for i, v in enumerate(values):
-            if v is not np.nan:
+            if v is not None: #nan
                 x.append(i)
                 filtered_values.append(v)
         if not filtered_values:
