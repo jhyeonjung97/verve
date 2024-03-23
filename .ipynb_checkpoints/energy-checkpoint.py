@@ -379,6 +379,7 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, picked_a
         values = values_dict.get(pattern, [])
         if all(isinstance(v, tuple) for v in values):
             values = [v[0] for v in values]
+        x = []
         filtered_values = []
         for i, v in enumerate(values):
             if v is not np.nan:
