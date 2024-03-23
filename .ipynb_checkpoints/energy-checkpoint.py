@@ -62,7 +62,6 @@ def main():
 
     directory='./'
     values_dict, dir_names, picked_atoms = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
-    print(values_dict)
     values_dict = selected_values(values_dict, args.symbols, picked_atoms)
         
     values_dict = adjust_values(values_dict, ref=args.ref, norm=args.norm)
