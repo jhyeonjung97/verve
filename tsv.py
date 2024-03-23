@@ -56,7 +56,7 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
             data = df[pattern].dropna()  # Vectorized approach to drop NaN values
             x = data.index
             plt.plot(x, data, marker=markers[label_index], color=colors[label_index], label=label)
-    plt.xticks(np.arange(len(merged_indices)), merged_indices, rotation='vertical')
+    plt.xticks(np.arange(len(merged_indices)), merged_indices)
     
     # filenames.reverse()
     # for i, file in enumerate(filenames):
