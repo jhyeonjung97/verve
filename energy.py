@@ -381,7 +381,7 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, picked_a
         filtered_values = []
         for i, v in enumerate(values):
             if v is not np.nan:
-                filtered_x.append(x[i])
+                filtered_x.append(i)
                 filtered_values.append(v)
         if not filtered_values:
             print(f"No values found for pattern: {pattern}")
