@@ -38,7 +38,7 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
                 merged_indices[i] += str(indices[i]) + '\n'
             else:
                 merged_indices[i] += "NA\n"     
-    final_indices = pd.Index([index.strip() for index in merged_indices])
+    # final_indices = pd.Index([index.strip() for index in merged_indices])
     print(merged_indices)
 
     colors = ['#d62728', '#ff7f0e', '#2ca02c', '#279ff2', '#9467bd']
@@ -55,6 +55,7 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
         for pattern in df.columns:
             data = df[pattern].dropna()  # Vectorized approach to drop NaN values
             x = data.index
+            print(x)
             plt.plot(x, data, marker=markers[label_index], color=colors[label_index], label=label)
     plt.xticks(np.arange(len(merged_indices)), merged_indices)
     
