@@ -388,7 +388,6 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, picked_a
         if not filtered_values:
             print(f"No values found for pattern: {pattern}")
             continue
-        print(x, filetered_values)
         plt.plot(x, filtered_values, marker='o', linestyle='-', label=pattern, color=color)
 
     plt.xticks(np.arange(len(dir_names)), dir_names, rotation='vertical')

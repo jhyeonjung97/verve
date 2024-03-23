@@ -60,6 +60,7 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
             if not filtered_df:
                 print(f"No values found for pattern: {pattern}")
                 continue
+            print(x, filetered_values)
             plt.plot(x, filtered_df, marker=markers[label_index], color=colors[label_index], label=label)
     plt.xticks(np.arange(len(merged_indices)), merged_indices)
     
