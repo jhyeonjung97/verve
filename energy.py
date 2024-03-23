@@ -375,7 +375,7 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, picked_a
         if all(isinstance(v, tuple) for v in values):
             values = [v[0] for v in values]
         filtered_values = [v for v in values if v is not None]
-        print(values, filetered_values)
+        print(values, filtered_values)
         if not filtered_values:
             print(f"No values found for pattern: {pattern}")
             continue
