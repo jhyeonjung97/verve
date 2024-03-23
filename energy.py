@@ -370,7 +370,7 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, picked_a
     colors = plt.cm.rainbow(np.linspace(0, 1, len(filtered_patterns_order))) 
     # viridis, magma, plasma, inferno, cividis, mako, rocket, turbo
 
-    plt.xticks(np.arange(len(dir_names)), dir_names, rotation='vertical')
+    # plt.xticks(np.arange(len(dir_names)), dir_names, rotation='vertical')
     for pattern, color in zip(filtered_patterns_order, colors):
         values = values_dict.get(pattern, [])
         if all(isinstance(v, tuple) for v in values):
