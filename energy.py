@@ -375,10 +375,15 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, picked_a
         values = values_dict.get(pattern, [])
         if all(isinstance(v, tuple) for v in values):
             values = [v[0] for v in values]
+            
         x = np.arange(len(dir_names))
-        # filtered_values = [v for v in values if v is not None]
-        print(values)
-        if not values:
+        filtered_x = []
+        filtered_values = []
+        for i, v in enumerate(values):
+            if v is not None:
+                filtered_x.append(x[i])
+                filtered_values.append(v)
+        if not filtered_values:
             print(f"No values found for pattern: {pattern}")
             continue
         plt.plot(x, values, marker='o', linestyle='-', label=pattern, color=color)
