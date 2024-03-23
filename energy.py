@@ -334,6 +334,7 @@ def plot_separately(values_dict, dir_names, xlabel, ylabel, save, filename):
             print(f"No values found for pattern: {pattern}")
             continue
         plt.figure(figsize=(10, 6))
+        x = []
         filtered_values = []
         for i, v in enumerate(values):
             if v is not np.nan:
