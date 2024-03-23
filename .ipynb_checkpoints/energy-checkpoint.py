@@ -369,21 +369,23 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, picked_a
 
     colors = plt.cm.rainbow(np.linspace(0, 1, len(filtered_patterns_order))) 
     # viridis, magma, plasma, inferno, cividis, mako, rocket, turbo
-    
+
+    plt.xticks(np.arange(len(dir_names)), dir_names, rotation='vertical')
     for pattern, color in zip(filtered_patterns_order, colors):
         values = values_dict.get(pattern, [])
         if all(isinstance(v, tuple) for v in values):
             values = [v[0] for v in values]
+        x = np.arange(len(dir_names))
         # filtered_values = [v for v in values if v is not None]
         print(values)
         if not values:
             print(f"No values found for pattern: {pattern}")
             continue
-        plt.plot(values, marker='o', linestyle='-', label=pattern, color=color)
+        plt.plot(x, values, marker='o', linestyle='-', label=pattern, color=color)
     
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
-    plt.xticks(np.arange(len(dir_names)), dir_names, rotation='vertical')
+    
     plt.grid(True)
     plt.legend()
     plt.tight_layout()
