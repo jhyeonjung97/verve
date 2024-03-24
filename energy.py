@@ -363,6 +363,7 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, picked_a
                       'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung_Mulliken', 'Madelung_Loewdin', 
                       'ICOHP', 'ICOBI', 'GP_Mulliken', 'GP_Loewdin', 'hexa_ratio', 'hexa_ratio0']
     numb = picked_atoms.get_global_number_of_atoms()
+    print(patterns_order)
     for extended_pattern in ['mag', 'chg', 'Bader']:
         for i, atom in enumerate(picked_atoms):
             if atom.symbol == 'O':
