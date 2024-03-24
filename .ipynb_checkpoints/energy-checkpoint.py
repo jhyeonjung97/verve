@@ -366,9 +366,9 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, picked_a
     for extended_pattern in ['mag', 'chg', 'Bader']:
         for i, atom in enumerate(picked_atoms):
             if atom.symbol == 'O':
-                patterns_order.extend(f'{extended_pattern}_O{i}')
+                patterns_order.append(f'{extended_pattern}_O{i}')
             else:
-                patterns_order.extend(f'{extended_pattern}_M{i}')
+                patterns_order.append(f'{extended_pattern}_M{i}')
     print(patterns_order)
     filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
     print(patterns_order)
