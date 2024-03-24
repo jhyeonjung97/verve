@@ -220,8 +220,7 @@ def extract_values(directory, patterns, dir_range, outcar):
                         values.setdefault('ICOBI', []).append(float(match.group(1)))
                         break
         if 'bond' in specific_patterns:
-            total_bond_length = 0
-            num_bonds = 0
+            bond_length = 0
             ICOHP_path = os.path.join(dir_path, 'icohp.txt')
             if not os.path.exists(ICOHP_path):
                 subprocess.call('python ~/bin/playground/aloha/cohp.py > icohp.txt', shell=True, cwd=dir_path)
@@ -230,11 +229,8 @@ def extract_values(directory, patterns, dir_range, outcar):
                     for line in file:
                         match = re.search(r'\b\d+\s+\w+\s+\d+\s+\w+\s+\d+\s+\S+\s+[\d.]+\s+([\d.]+)$', line)
                         if match:
-                            total_bond_length += float(match.group(1))
-                            num_bonds += 1
-            if num_bonds > 0:
-                average_bond_length = total_bond_length / num_bonds
-                values.setdefault('bond', []).append(average_bond_length)
+                            bond_length += float(match.group(1))
+                values.setdefault('bond', []).append(bond_length)
         if 'hexa_ratio' in specific_patterns:
             cif_path = os.path.join(dir_path, 'lattice.cif')
             if not os.path.exists(cif_path):
