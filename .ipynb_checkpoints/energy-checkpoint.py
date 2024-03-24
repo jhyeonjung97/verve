@@ -23,7 +23,7 @@ def get_parser():
     parser.add_argument('--save', action='store_true', default=False, help="save files")
     parser.add_argument('-s', '--separate', action='store_true', default=False, help="save the plots seperately")
     parser.add_argument('-i', '--input', dest='outcar', type=str, default='OUTCAR', help='input filename')
-    parser.add_argument('-o', '--output', dest='filename', type=str, default='energy', help="output filename")
+    parser.add_argument('-o', '--output', dest='filename', type=str, default='', help="output filename")
     parser.add_argument('-e', '--element', dest='symbols', nargs='+', default=[], help="elements of mag, chg, Bader")
     parser.add_argument('--line', action='store_true', default=False, help="plot 2d")
     parser.add_argument('--plane', action='store_true', default=False, help="plot 3d")
@@ -60,11 +60,14 @@ def main():
     if not args.total:
         patterns.discard('TOTEN')
     original_patterns = patterns.copy()
-
-    if norm != 1:
-        filename = filename + '_norm'
-    if filename != 'energy':
-        filename = f'energy_{filename}'
+    
+    if len(patterns) == 1:
+        filename = patterns[0]
+    if norm == 1:
+        filename = f'norm_{filename}'
+    if element:
+        filename = f'{filename}_{element[0]}'
+    filename = f'energy_{filename}'
 
     directory='./'
     values_dict, dir_names, picked_atoms = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
