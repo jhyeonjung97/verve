@@ -363,16 +363,16 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, picked_a
                       'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung_Mulliken', 'Madelung_Loewdin', 
                       'ICOHP', 'ICOBI', 'GP_Mulliken', 'GP_Loewdin', 'hexa_ratio', 'hexa_ratio0']
     numb = picked_atoms.get_global_number_of_atoms()
-    print(patterns_order)
     for extended_pattern in ['mag', 'chg', 'Bader']:
         for i, atom in enumerate(picked_atoms):
             if atom.symbol == 'O':
                 patterns_order.extend(f'{extended_pattern}_O{i}')
+                print(f'{extended_pattern}_O{i}')
             else:
                 patterns_order.extend(f'{extended_pattern}_M{i}')
+                print(f'{extended_pattern}_M{i}')
     filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
     print(patterns_order)
-    print(filtered_patterns_order)
 
     colors = plt.cm.rainbow(np.linspace(0, 1, len(filtered_patterns_order))) 
     # viridis, magma, plasma, inferno, cividis, mako, rocket, turbo
