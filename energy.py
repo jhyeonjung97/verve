@@ -37,6 +37,7 @@ def main():
     filename = args.filename.rsplit('.', 1)[0]
     xlabel = args.xlabel
     ylabel = args.ylabel
+    norm = args.norm
     save = args.save
     if args.all:
         patterns = {'PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
@@ -60,11 +61,16 @@ def main():
         patterns.discard('TOTEN')
     original_patterns = patterns.copy()
 
+    if norm != 1:
+        filename = filename + '_norm'
+    if filename != 'energy':
+        filename = f'energy_{filename}'
+
     directory='./'
     values_dict, dir_names, picked_atoms = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
     values_dict = selected_values(values_dict, args.symbols, picked_atoms)
         
-    values_dict = adjust_values(values_dict, ref=args.ref, norm=args.norm)
+    values_dict = adjust_values(values_dict, ref=args.ref, norm=norm)
     if any(values_dict.values()):
         plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, picked_atoms)
         if args.separate:
@@ -418,7 +424,7 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, picked_a
         png_filename = f"{filename}.png"
         tsv_filename = f"{filename}.tsv"
         
-        plt.gcf().savefig(filename, bbox_inches="tight")
+        plt.gcf().savefig(png_filename, bbox_inches="tight")
         print(f"Figure saved as {png_filename}")
         plt.close()
         df = pd.DataFrame(values_dict, index=dir_names).T
