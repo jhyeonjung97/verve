@@ -41,7 +41,7 @@ def main():
     if args.all:
         patterns = {'PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
                     'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung', 'Madelung_M', 'Madelung_L',
-                    'ICOHP', 'ICOBI', 'mag', 'chg', 'Bader', 'GP', 'hexa'}
+                    'ICOHP', 'ICOBI', 'mag', 'chg', 'Bader', 'GP', 'bond', 'hexa', 'volume'}
     else:
         patterns = set(args.patterns)
     if 'Madelung' in patterns:
@@ -98,7 +98,8 @@ def extract_values(directory, patterns, dir_range, outcar):
     dir_names = []
     
     specific_patterns = set()
-    for pattern in ['Madelung_Mulliken', 'Madelung_Loewdin', 'Bader', 'ICOHP', 'ICOBI', 'GP', 'hexa_ratio']:
+    for pattern in ['Madelung_Mulliken', 'Madelung_Loewdin', 'Bader', 'ICOHP', 'ICOBI', 'GP', 
+                    'hexa_ratio', 'volume', 'bond']:
         if pattern in patterns:
             patterns.discard(pattern)
             specific_patterns.add(pattern)            
@@ -218,6 +219,22 @@ def extract_values(directory, patterns, dir_range, outcar):
                     if match:
                         values.setdefault('ICOBI', []).append(float(match.group(1)))
                         break
+        if 'bond' in specific_patterns:
+            total_bond_length = 0
+            num_bonds = 0
+            ICOHP_path = os.path.join(dir_path, 'icohp.txt')
+            if not os.path.exists(ICOHP_path):
+                subprocess.call('python ~/bin/playground/aloha/cohp.py > icohp.txt', shell=True, cwd=dir_path)
+            if os.path.exists(ICOHP_path):
+                with open(ICOHP_path, 'r') as file:
+                    for line in file:
+                        match = re.search(r'\b\d+\s+\w+\s+\d+\s+\w+\s+\d+\s+\S+\s+[\d.]+\s+([\d.]+)$', line)
+                        if match:
+                            total_bond_length += float(match.group(1))
+                            num_bonds += 1
+            if num_bonds > 0:
+                average_bond_length = total_bond_length / num_bonds
+                values.setdefault('bond', []).append(average_bond_length)
         if 'hexa_ratio' in specific_patterns:
             cif_path = os.path.join(dir_path, 'lattice.cif')
             if not os.path.exists(cif_path):
@@ -231,8 +248,9 @@ def extract_values(directory, patterns, dir_range, outcar):
                     if match_c:
                         c = float(match_c.group(1))
                 values.setdefault('hexa_ratio', []).append(c / a)
-                values.setdefault('hexa_ratio0', []).append(1.633)
-                        
+        if 'volume' in specific_patterns:
+            values.setdefault('volume', []).append(atoms.get_volume())
+                
         if patterns:
             outcar_path = os.path.join(dir_path, outcar)
             if os.path.exists(outcar_path) and patterns:
@@ -285,7 +303,7 @@ def adjust_values(values_dict, ref, norm):
     adjusted_values_dict = {}
     qualitative = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting',
                    'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung_Mulliken', 'Madelung_Loewdin',
-                   'ICOHP', 'ICOBI', 'hexa_ratio', 'hexa_ratio0']
+                   'ICOHP', 'ICOBI', 'bond', 'hexa_ratio', 'volume']
         
     for pattern, values in values_dict.items():
         if ref == 'min':
@@ -361,7 +379,7 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, picked_a
 
     patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
                       'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung_Mulliken', 'Madelung_Loewdin', 
-                      'ICOHP', 'ICOBI', 'GP_Mulliken', 'GP_Loewdin', 'hexa_ratio', 'hexa_ratio0']
+                      'ICOHP', 'ICOBI', 'GP_Mulliken', 'GP_Loewdin', 'bond', 'hexa_ratio', 'volume']
     numb = picked_atoms.get_global_number_of_atoms()
     for extended_pattern in ['mag', 'chg', 'Bader']:
         for i, atom in enumerate(picked_atoms):
@@ -369,9 +387,7 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, picked_a
                 patterns_order.append(f'{extended_pattern}_O{i}')
             else:
                 patterns_order.append(f'{extended_pattern}_M{i}')
-    print(patterns_order)
     filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
-    print(patterns_order)
 
     colors = plt.cm.rainbow(np.linspace(0, 1, len(filtered_patterns_order))) 
     # viridis, magma, plasma, inferno, cividis, mako, rocket, turbo
@@ -390,7 +406,9 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, picked_a
         if not filtered_values:
             print(f"No values found for pattern: {pattern}")
             continue
-        plt.plot(x, filtered_values, marker='o', linestyle='-', label=pattern, color=color)
+        plt.plot(x, filtered_values, marker='o', label=pattern, color=color)
+        if pattern == 'hexa_ratio':
+            plt.plot(x, [1.633]*len(x), linestyle=':', label='hexa_ratio0', color=color)
 
     plt.xticks(np.arange(len(dir_names)), dir_names, rotation='vertical')
     plt.xlabel(xlabel)

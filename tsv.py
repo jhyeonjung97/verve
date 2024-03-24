@@ -60,6 +60,8 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
                 print(f"No values found for pattern: {pattern}")
                 continue
             plt.plot(x, filtered_df, marker=markers[label_index], color=colors[label_index], label=label)
+        if 'hexa_ratio' in df.columns:
+            plt.plot(x, [1.633]*len(x), linestyle=':', label='hexa_ratio0', color=color)
     plt.xticks(np.arange(len(merged_indices)), merged_indices)
     
     plt.xlabel(xlabel)
