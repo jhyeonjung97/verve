@@ -365,6 +365,7 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, picked_a
     numb = picked_atoms.get_global_number_of_atoms()
     for extended_pattern in ['mag', 'chg', 'Bader']:
         for i, atom in enumerate(picked_atoms):
+            print(i)
             if atom.symbol == 'O':
                 patterns_order.extend(f'{extended_pattern}_O{i}')
             else:
