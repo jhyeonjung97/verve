@@ -62,12 +62,12 @@ def main():
     original_patterns = patterns.copy()
     
     if len(patterns) == 1:
-        filename = patterns[0]
+        filename = next(iter(patterns))
     if norm == 1:
-        filename = f'norm_{filename}'
-    if element:
-        filename = f'{filename}_{element[0]}'
-    filename = f'energy_{filename}'
+        filename = f'norm_{filename}' if filename else 'norm'
+    if args.symbols:
+        filename = f'{filename}_{args.symbols[0]}' if filename else args.symbols[0]
+    filename = f'energy_{filename}' if filename else 'energy'
 
     directory='./'
     values_dict, dir_names, picked_atoms = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
