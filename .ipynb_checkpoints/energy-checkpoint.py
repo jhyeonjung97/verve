@@ -63,7 +63,7 @@ def main():
     
     if len(patterns) == 1:
         filename = next(iter(patterns))
-    if norm == 1:
+    if norm != 1:
         filename = f'norm_{filename}' if filename else 'norm'
     if args.symbols:
         filename = f'{filename}_{args.symbols[0]}' if filename else args.symbols[0]
