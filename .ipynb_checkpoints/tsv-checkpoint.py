@@ -12,7 +12,7 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, s
     Parameters:
     - filenames: List of filenames of the TSV files.
     """
-    merged_df = pd.DataFrame()
+    merged_df = None
     summed_df = None
     
     png_filename = f"merged_{output}.png"   
@@ -58,13 +58,18 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, s
     for j, file in enumerate(reversed_filenames):  # Correctly reversed with enumeration
         # label_index = n - j - 1
         df = pd.read_csv(file, delimiter='\t', index_col=0)
-        merged_df = pd.concat([merged_df, df], axis=1)
+
+        if merged_df is None:
+            merged_df = df.copy()  # First file, so just copy it
+        else:
+            merged_df = merged_df.add(df, fill_value=0)
+            
         if summed_df is None:
             summed_df = df.copy()  # First file, so just copy it
         else:
-            summed_df = summed_df.add(df, fill_value=0) 
+            summed_df = summed_df + df
+            
         transposed_df = df.T
-        
         if not sumup:
             for pattern in transposed_df.columns:
                 x = []
