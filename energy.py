@@ -256,7 +256,10 @@ def extract_values(directory, patterns, dir_range, outcar):
                         c = float(match_c.group(1))
                 values.setdefault('hexa_ratio', []).append(c / a)
         if 'volume' in specific_patterns:
-            values.setdefault('volume', []).append(atoms.get_volume())
+            if atoms:
+                values.setdefault('volume', []).append(atoms.get_volume())
+            else
+                values.setdefault('volume', []).append(np.nan)
                 
         if patterns:
             outcar_path = os.path.join(dir_path, outcar)
