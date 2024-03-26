@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import sys
 import argparse
 
-def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, labels, n):
+def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, labels):
     """
     Reads multiple TSV files, where the first column of each file indicates patterns and the first row indicates elements.
     Then, plots each pattern across elements from all files.
@@ -91,5 +91,5 @@ if __name__ == "__main__":
                         help='Colors to plot')
     args = parser.parse_args()
     png_filename = f"merged_{args.filename}.png"    
-    plot_patterns_from_multiple_tsv(args.files, png_filename, args.xlabel, args.ylabel, args.labels, args.colors, args.markers)
+    plot_patterns_from_multiple_tsv(args.files, png_filename, args.xlabel, args.ylabel, args.labels)
 
