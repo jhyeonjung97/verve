@@ -66,10 +66,7 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, s
                 summed_values = summed_df.values + df.values
                 summed_df = pd.DataFrame(summed_values, columns=df.columns, index=['Sum'])
         else:
-            if merged_df is None:
-                merged_df = df.copy()
-            else:
-                merged_df = merged_df.add(df, fill_value=0)
+            merged_df = pd.concat([merged_df, df], axis=1)
             
             transposed_df = df.T
             for pattern in transposed_df.columns:
