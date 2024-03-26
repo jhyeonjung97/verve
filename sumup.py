@@ -5,7 +5,7 @@ import sys
 import argparse
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 
-def line_fitting(xfiles, yfiles, xlabel, ylabel, output):
+def line_fitting(xfiles, yfiles, xlabel, ylabel, png_filename):
     summed_x = None
     summed_y = None
     
@@ -50,22 +50,18 @@ def line_fitting(xfiles, yfiles, xlabel, ylabel, output):
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
     
-    if output:  # Assuming you use 'output' as a flag for saving
-        png_filename = f"{output}_2d.png"
-        plt.savefig(png_filename, bbox_inches="tight")
-        print(f"Figure saved as {png_filename}")
-        plt.close()
-    else:
-        plt.show()
+    plt.savefig(png_filename, bbox_inches="tight")
+    print(f"Figure saved as {png_filename}")
+    plt.close()
         
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Plot 2d fitting with sumup data.')
     parser.add_argument('-x', '--xfiles', nargs='+', required=True)
     parser.add_argument('-y', '--yfiles', nargs='+', required=True)
-    parser.add_argument('-o', '--output', type=str, default='summed')
+    parser.add_argument('-o', '--output', type=str, default='')
     parser.add_argument('--xlabel', type=str, default='Element or Lattice parameter (Å)')
     parser.add_argument('--ylabel', type=str, default='Energy (eV) or Charge (e)')
     
     args = parser.parse_args()
-    
-    line_fitting(args.xfiles, args.yfiles, args.xlabel, args.ylabel, args.output)
+    png_filename = f"linear_{args.output}.png"
+    line_fitting(args.xfiles, args.yfiles, args.xlabel, args.ylabel, png_filename)
