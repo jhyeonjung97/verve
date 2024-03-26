@@ -83,7 +83,7 @@ if __name__ == "__main__":
     parser.add_argument('-l', '--labels', nargs='*', help="Custom labels for each file", default=None)
     parser.add_argument('-c', '--colors', nargs='+', default=['#d62728', '#ff7f0e', '#2ca02c', '#279ff2', '#9467bd'],
                         help='Colors to plot')
-    parser.add_argument('-m', '--makers', nargs='+', default=['s', 'd', 'p', 'o', '>', '<', 'D'],
+    parser.add_argument('-m', '--markers', nargs='+', default=['s', 'd', 'p', 'o', '>', '<', 'D'],
                         help='Colors to plot')
     args = parser.parse_args()
     png_filename = f"merged_{args.filename}.png"    
