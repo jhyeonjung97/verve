@@ -47,7 +47,7 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
     reversed_labels = list(reversed(labels))
     reversed_colors = list(reversed(colors))
     reversed_markers = list(reversed(markers))
-    for i, file in enumerate(reversed_filenames):  # Correctly reversed with enumeration
+    for j, file in enumerate(reversed_filenames):  # Correctly reversed with enumeration
         # label_index = n - j - 1
         df = pd.read_csv(file, delimiter='\t', index_col=0).T
         for pattern in df.columns:
@@ -60,8 +60,7 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
             if not filtered_df:
                 print(f"No values found for pattern: {pattern}")
                 continue
-            print(i, reversed_markers)
-            plt.plot(x, filtered_df, marker=reversed_markers[i], color=reversed_colors[i], label = reversed_labels[i])
+            plt.plot(x, filtered_df, marker=reversed_markers[j], color=reversed_colors[j], label = reversed_labels[j])
         if 'hexa_ratio' in df.columns:
             plt.plot(x, [1.633]*len(x), linestyle=':', label='hexa_ratio0', color=color)
     plt.xticks(np.arange(len(merged_indices)), merged_indices)
