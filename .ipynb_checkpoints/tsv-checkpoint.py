@@ -66,14 +66,14 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, s
             
         if summed_df is None:
             print(df)
-            df = df.set_index('index')
+            df = df.reset_index('index')
             summed_df = df.copy()
             print(summed_df)
         else:
             print(df)
             # summed_df = summed_df.add(df, fill_value=0)
             # summed_index = summed_df.index + summed_df.index
-            df = df.set_index('index')
+            df = df.reset_index('index')
             summed_df = summed_df.add(df, fill_value=0).reset_index()
             # summed_df = summed_df.set_index('index').add(df.set_index('index'), fill_value=0).reset_index()
             print(summed_df)
