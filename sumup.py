@@ -58,10 +58,18 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Plot 2d fitting with sumup data.')
     parser.add_argument('-x', '--xfiles', nargs='+', required=True)
     parser.add_argument('-y', '--yfiles', nargs='+', required=True)
-    parser.add_argument('-o', '--output', type=str, default='')
-    parser.add_argument('--xlabel', type=str, default='Element or Lattice parameter (Å)')
-    parser.add_argument('--ylabel', type=str, default='Energy (eV) or Charge (e)')
+    parser.add_argument('-o', '--output', type=str, default=None)
+    parser.add_argument('--xlabel', type=str, default='X')
+    parser.add_argument('--ylabel', type=str, default='Y')
     
     args = parser.parse_args()
-    png_filename = f"linear_{args.output}.png"
-    line_fitting(args.xfiles, args.yfiles, args.xlabel, args.ylabel, png_filename)
+    xfiles = args.xfiles
+    yfiles = args.yfiles
+    xlabel = args.xlabel
+    ylabel = args.ylabel
+    output = args.output
+    if not output:
+        png_filename = f"linear_{xlabel}_vs_{ylabel}.png"
+    else:
+        png_filename = f"linear_{output}.png"
+    line_fitting(xfiles, yfiles, xlabel, ylabel, png_filename)
