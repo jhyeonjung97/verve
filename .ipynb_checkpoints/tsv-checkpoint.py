@@ -58,28 +58,20 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, s
     for j, file in enumerate(reversed_filenames):  # Correctly reversed with enumeration
         # label_index = n - j - 1
         df = pd.read_csv(file, delimiter='\t', index_col=0)
-
-        if merged_df is None:
-            merged_df = df.copy()
+        
+        if sumup:
+            if summed_df is None:
+                summed_df = df.copy()
+            else:
+                summed_values = summed_df.values + df.values
+                summed_df = pd.DataFrame(summed_values, columns=df.columns, index=['Sum'])
         else:
-            merged_df = merged_df.add(df, fill_value=0)
+            if merged_df is None:
+                merged_df = df.copy()
+            else:
+                merged_df = merged_df.add(df, fill_value=0)
             
-        if summed_df is None:
-            print(df)
-            df = df.reset_index('index')
-            summed_df = df.copy()
-            print(summed_df)
-        else:
-            print(df)
-            # summed_df = summed_df.add(df, fill_value=0)
-            # summed_index = summed_df.index + summed_df.index
-            df = df.reset_index('index')
-            summed_df = summed_df.add(df, fill_value=0).reset_index()
-            # summed_df = summed_df.set_index('index').add(df.set_index('index'), fill_value=0).reset_index()
-            print(summed_df)
-            
-        transposed_df = df.T
-        if not sumup:
+            transposed_df = df.T
             for pattern in transposed_df.columns:
                 x = []
                 filtered_df = []
