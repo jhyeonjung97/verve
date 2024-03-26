@@ -14,14 +14,16 @@ def line_fitting(xfiles, yfiles, xlabel, ylabel, output):
         if summed_x is None:
             summed_x = df.copy()
         else:
-            summed_x += df
+            summed_xvalues = summed_x.values + df.values
+            summed_x = pd.DataFrame(summed_xvalues, columns=df.columns, index=['Sum'])
             
     for file in yfiles:
         df = pd.read_csv(file, delimiter='\t', index_col=0)
         if summed_y is None:
             summed_y = df.copy()
         else:
-            summed_y += df
+            summed_yvalues = summed_y.values + df.values
+            summed_y = pd.DataFrame(summed_yvalues, columns=df.columns, index=['Sum'])
     
     print(summed_x, summed_y)
     
