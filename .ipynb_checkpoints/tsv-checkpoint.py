@@ -44,7 +44,7 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
 
     # n = len(filenames)
     n = 5
-    reversed_filenames = reversed(filenames)
+    reversed_filenames = list(reversed(filenames))
     reversed_labels = list(reversed(labels))
     for j, file in enumerate(reversed_filenames):  # Correctly reversed with enumeration
         label_index = n - j - 1
