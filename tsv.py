@@ -103,9 +103,6 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, s
     print(f"Figure saved as {png_filename}")
     plt.close()
     
-    merged_df.to_csv(tsv_filename, sep='\t')
-    print(f"Merged data saved to {tsv_filename}")
-    
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Plot TSV data.')
     parser.add_argument('files', nargs='+', help='The TSV files to plot.')
