@@ -70,9 +70,9 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, s
             print(summed_df)
         else:
             print(df)
-            summed_df = summed_df.add(df, fill_value=0)
+            # summed_df = summed_df.add(df, fill_value=0)
             # summed_index = summed_df.index + summed_df.index
-            # summed_df = summed_df.set_index(summed_index).add(df.set_index(summed_index), fill_value=0).reset_index()
+            summed_df = summed_df.set_index('index').add(df.set_index('index'), fill_value=0).reset_index()
             print(summed_df)
             
         transposed_df = df.T
