@@ -14,6 +14,7 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, s
     """
     merged_df = None
     summed_df = None
+    hexa0 = True
     
     png_filename = f"merged_{output}.png"   
     tsv_filename = f"merged_{output}.tsv"
@@ -80,7 +81,8 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, s
                     print(f"No values found for pattern: {pattern}")
                     continue
                 plt.plot(x, filtered_df, marker=reversed_markers[j], color=reversed_colors[j], label = reversed_labels[j])
-            if 'hexa_ratio' in transposed_df.columns:
+            if 'hexa_ratio' in transposed_df.columns and hexa0:
+                hexa0 = False
                 plt.plot(x, [1.633]*len(x), linestyle=':', label='hexa_ratio0', color='black')
     
     if sumup:
