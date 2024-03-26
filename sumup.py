@@ -44,8 +44,17 @@ def line_fitting(xfiles, yfiles, xlabel, ylabel, png_filename, tsv_filename):
 
     # print(f"Y = {a:.3f}X + {b:.3f}")
     # print(f"R^2: {R2:.3f}, MAE: {MAE:.3f}, MSE: {MSE:.3f}")
-    plt.text(np.min(X), np.max(Y), f"Y = {a:.3f}X + {b:.3f}", fontsize=12)
-    plt.text(np.min(X), np.max(Y) - (np.max(Y) - np.min(Y)) * 0.1, 
+    # plt.text(np.min(X), np.max(Y), f"Y = {a:.3f}X + {b:.3f}", fontsize=12)
+    # plt.text(np.min(X), np.max(Y) - (np.max(Y) - np.min(Y)) * 0.1, 
+    #          f"R^2: {R2:.3f}, MAE: {MAE:.3f}, MSE: {MSE:.3f}", fontsize=12)
+    
+    x_text_margin = np.min(X) + (np.max(X) - np.min(X)) * 0.02
+    y_text_margin_top = np.max(Y) - (np.max(Y) - np.min(Y)) * 0.05
+    y_text_margin_bottom = y_text_margin_top - (np.max(Y) - np.min(Y)) * 0.1
+    print(x_text_margin, y_text_margin_top, y_text_margin_bottom)
+
+    plt.text(x_text_margin, y_text_margin_top, f"Y = {a:.3f}X + {b:.3f}", fontsize=12)
+    plt.text(x_text_margin, y_text_margin_bottom, 
              f"R^2: {R2:.3f}, MAE: {MAE:.3f}, MSE: {MSE:.3f}", fontsize=12)
     
     plt.figure()
