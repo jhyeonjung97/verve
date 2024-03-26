@@ -5,7 +5,7 @@ import sys
 import argparse
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 
-def line_fitting(xfiles, yfiles, xlabel, ylabel, png_filename):
+def line_fitting(xfiles, yfiles, xlabel, ylabel, png_filename, tsv_filename):
     summed_x = None
     summed_y = None
     
@@ -25,8 +25,11 @@ def line_fitting(xfiles, yfiles, xlabel, ylabel, png_filename):
             summed_yvalues = summed_y.values + df.values
             summed_y = pd.DataFrame(summed_yvalues, columns=df.columns, index=['Sum'])
     
-    print(summed_x, summed_y)
-    
+    with open(tsv_filename, 'w') as f:
+        summed_x.to_csv(f, sep='\t')
+        f.write('\n')
+        summed_y.to_csv(f, sep='\t')    
+        
     X = summed_x.iloc[0].values
     Y = summed_y.iloc[0].values
     A = np.vstack([X, np.ones(len(X))]).T
@@ -38,9 +41,11 @@ def line_fitting(xfiles, yfiles, xlabel, ylabel, png_filename):
     MAE = mean_absolute_error(Y, Y_pred)
     MSE = mean_squared_error(Y, Y_pred)
 
-    print(f"Y = {a:.3f}X + {b:.3f}")
-    print(f"R^2: {R2:.3f}, MAE: {MAE:.3f}, MSE: {MSE:.3f}")
-
+    # print(f"Y = {a:.3f}X + {b:.3f}")
+    # print(f"R^2: {R2:.3f}, MAE: {MAE:.3f}, MSE: {MSE:.3f}")
+    plt.text(f"Y = {a:.3f}X + {b:.3f}")
+    plt.text(f"R^2: {R2:.3f}, MAE: {MAE:.3f}, MSE: {MSE:.3f}")
+    
     plt.figure()
     plt.scatter(X, Y, color='r')
     xx = np.linspace(np.min(X), np.max(X), 1000)
@@ -70,6 +75,8 @@ if __name__ == "__main__":
     output = args.output
     if not output:
         png_filename = f"linear_{xlabel}_vs_{ylabel}.png"
+        tsv_filename = f"linear_{xlabel}_vs_{ylabel}.tsv"
     else:
         png_filename = f"linear_{output}.png"
-    line_fitting(xfiles, yfiles, xlabel, ylabel, png_filename)
+        tsv_filename = f"linear_{output}.tsv"
+    line_fitting(xfiles, yfiles, xlabel, ylabel, png_filename, tsv_filename)
