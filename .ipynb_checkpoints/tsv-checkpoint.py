@@ -60,14 +60,16 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, s
         df = pd.read_csv(file, delimiter='\t', index_col=0)
 
         if merged_df is None:
-            merged_df = df.copy()  # First file, so just copy it
+            merged_df = df.copy()
         else:
             merged_df = merged_df.add(df, fill_value=0)
             
         if summed_df is None:
-            summed_df = df.copy()  # First file, so just copy it
+            summed_df = df.copy()
+            print(summed_df)
         else:
             summed_df = summed_df + df
+            print(summed_df)
             
         transposed_df = df.T
         if not sumup:
