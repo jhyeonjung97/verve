@@ -46,8 +46,10 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
     n = 5
     reversed_filenames = list(reversed(filenames))
     reversed_labels = list(reversed(labels))
+    print(reversed_labels)
     for j, file in enumerate(reversed_filenames):  # Correctly reversed with enumeration
         label_index = n - j - 1
+        print(reversed_labels, label_index)
         label = reversed_labels[label_index]
         df = pd.read_csv(file, delimiter='\t', index_col=0).T
         for pattern in df.columns:
