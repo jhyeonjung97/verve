@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import sys
 import argparse
 
-def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, labels, colors, markers):
+def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, labels, n):
     """
     Reads multiple TSV files, where the first column of each file indicates patterns and the first row indicates elements.
     Then, plots each pattern across elements from all files.
@@ -37,13 +37,16 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
             if i < len(indices):  
                 merged_indices[i] += str(indices[i]) + '\n'
             else:
-                merged_indices[i] += "NA\n"     
+                merged_indices[i] += "NA\n"
+
+    colors = ['#d62728', '#ff7f0e', '#2ca02c', '#279ff2', '#9467bd']
+    markers = ['s', 'd', 'p', 'o', '>', '<', 'D']
 
     # n = len(filenames)
     n = 5
     for j, file in enumerate(reversed(filenames)):  # Correctly reversed with enumeration
         label_index = n - j - 1
-        label = labels[label_index] if labels and label_index < len(labels) else file.split('/')[-1].replace('.tsv', '')
+        label = reversed(labels)[j] if labels
         df = pd.read_csv(file, delimiter='\t', index_col=0).T
         for pattern in df.columns:
             x = []
@@ -80,7 +83,8 @@ if __name__ == "__main__":
     parser.add_argument('-o', '--output', dest='filename', type=str, default='', help="The filename for the output PNG file.")
     parser.add_argument('-x', '--xlabel', type=str, default='Element or Lattice parameter (Å)', help="xlabel")
     parser.add_argument('-y', '--ylabel', type=str, default='Energy (eV) or Charge (e)', help="ylabel")
-    parser.add_argument('-l', '--labels', nargs='*', help="Custom labels for each file", default=None)
+    parser.add_argument('-l', '--labels', nargs='*', default='Octahedral Wurtzite Zinc_Blende CuO NbO', 
+                        help="Custom labels for each file", default=None)
     parser.add_argument('-c', '--colors', nargs='+', default=['#d62728', '#ff7f0e', '#2ca02c', '#279ff2', '#9467bd'],
                         help='Colors to plot')
     parser.add_argument('-m', '--markers', nargs='+', default=['s', 'd', 'p', 'o', '>', '<', 'D'],
