@@ -66,6 +66,7 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
     
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
+    plt.legend()
     # plt.xlabel(xlabel, fontsize=9)
     # plt.ylabel(ylabel, fontsize=9)
     # plt.xticks(fontsize=9)
