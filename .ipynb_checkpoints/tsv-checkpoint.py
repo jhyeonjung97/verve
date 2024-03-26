@@ -46,10 +46,8 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
     n = 5
     reversed_filenames = list(reversed(filenames))
     reversed_labels = list(reversed(labels))
-    print(reversed_labels)
     for j, file in enumerate(reversed_filenames):  # Correctly reversed with enumeration
         label_index = n - j - 1
-        print(reversed_labels, label_index)
         label = reversed_labels[label_index]
         df = pd.read_csv(file, delimiter='\t', index_col=0).T
         for pattern in df.columns:
@@ -87,7 +85,7 @@ if __name__ == "__main__":
     parser.add_argument('-o', '--output', dest='filename', type=str, default='', help="The filename for the output PNG file.")
     parser.add_argument('-x', '--xlabel', type=str, default='Element or Lattice parameter (Å)', help="xlabel")
     parser.add_argument('-y', '--ylabel', type=str, default='Energy (eV) or Charge (e)', help="ylabel")
-    parser.add_argument('-l', '--labels', nargs='+', default=['Octahedral' 'Wurtzite' 'Zinc_Blende' 'CuO' 'NbO'], 
+    parser.add_argument('-l', '--labels', nargs='+', default=['Octahedral', 'Wurtzite', 'Zinc_Blende', 'CuO', 'NbO'], 
                         help="Custom labels for each file")
     parser.add_argument('-c', '--colors', nargs='+', default=['#d62728', '#ff7f0e', '#2ca02c', '#279ff2', '#9467bd'],
                         help='Colors to plot')
