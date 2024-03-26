@@ -22,9 +22,11 @@ def line_fitting(xfiles, yfiles, xlabel, ylabel, output):
             summed_y = df.copy()
         else:
             summed_y += df
-            
-    X = summed_x.iloc[0].values  # Assuming the summation row is the first
-    Y = summed_y.iloc[0].values  # Assuming the summation row is the first
+    
+    print(summed_x, summed_y)
+    
+    X = summed_x.iloc[0].values
+    Y = summed_y.iloc[0].values
     A = np.vstack([X, np.ones(len(X))]).T
     coeffs, residuals, rank, s = np.linalg.lstsq(A, Y, rcond=None)
     a, b = coeffs
