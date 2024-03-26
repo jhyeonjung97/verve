@@ -121,6 +121,5 @@ if __name__ == "__main__":
                         help='Colors to plot')
     
     args = parser.parse_args()        
-    ifsum = args.sum
     plot_patterns_from_multiple_tsv(args.files, args.output, args.xlabel, args.ylabel, args.labels, args.sumup)
 
