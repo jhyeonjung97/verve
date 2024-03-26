@@ -18,7 +18,7 @@ def get_parser():
     TOTEN, Madelung, Madelung_M, Madelung_L, ICOHP, ICOBI, mag, chg, Bader, GP, hexa')
     parser.add_argument('-a', '--all', action='store_true', default=False, help='Show all components')
     parser.add_argument('-r', '--ref', type=str, default='zero', help='Adjust values by subtracting the minimum')
-    parser.add_argument('-n', '--norm', type=int, default=1, help='Normalization factor')
+    parser.add_argument('-n', '--norm', type=int, default=0, help='Normalization factor')
     parser.add_argument('--total', action='store_false', default=True, help='No show total energy')
     parser.add_argument('--save', action='store_true', default=False, help="save files")
     parser.add_argument('-s', '--separate', action='store_true', default=False, help="save the plots seperately")
@@ -63,7 +63,9 @@ def main():
     
     if len(patterns) == 1:
         filename = next(iter(patterns))
-    if norm != 1:
+    if norm == 0:
+        norm = 1
+    else:
         filename = f'norm_{filename}' if filename else 'norm'
     if args.symbols:
         filename = f'{filename}_{args.symbols[0]}' if filename else args.symbols[0]
