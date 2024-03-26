@@ -65,9 +65,11 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, s
             merged_df = merged_df.add(df, fill_value=0)
             
         if summed_df is None:
+            print(df)
             summed_df = df.copy()
             print(summed_df)
         else:
+            print(df)
             summed_df = summed_df + df
             print(summed_df)
             
