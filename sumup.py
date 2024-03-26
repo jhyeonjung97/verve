@@ -43,8 +43,9 @@ def line_fitting(xfiles, yfiles, xlabel, ylabel, png_filename, tsv_filename):
 
     # print(f"Y = {a:.3f}X + {b:.3f}")
     # print(f"R^2: {R2:.3f}, MAE: {MAE:.3f}, MSE: {MSE:.3f}")
-    plt.text(f"Y = {a:.3f}X + {b:.3f}")
-    plt.text(f"R^2: {R2:.3f}, MAE: {MAE:.3f}, MSE: {MSE:.3f}")
+    plt.text(np.min(X), np.max(Y), f"Y = {a:.3f}X + {b:.3f}", fontsize=12)
+    plt.text(np.min(X), np.max(Y) - (np.max(Y) - np.min(Y)) * 0.1, 
+             f"R^2: {R2:.3f}, MAE: {MAE:.3f}, MSE: {MSE:.3f}", fontsize=12)
     
     plt.figure()
     plt.scatter(X, Y, color='r')
