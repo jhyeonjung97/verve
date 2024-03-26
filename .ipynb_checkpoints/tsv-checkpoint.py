@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import sys
 import argparse
 
-def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, labels):
+def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, labels, colors, markers):
     """
     Reads multiple TSV files, where the first column of each file indicates patterns and the first row indicates elements.
     Then, plots each pattern across elements from all files.
@@ -39,14 +39,10 @@ def plot_patterns_from_multiple_tsv(filenames, png_filename, xlabel, ylabel, lab
             else:
                 merged_indices[i] += "NA\n"     
 
-    colors = ['#d62728', '#ff7f0e', '#2ca02c', '#279ff2', '#9467bd']
-    markers = ['s', 'd', 'o', '<', 'D']
-    # colors = ['#d62728', '#ff7f0e', '#39d439', '#2ca02c', '#279ff2', '#1f77b4', '#9467bd']
-    # markers = ['s', 'd', 'p', 'o', '>', '<', 'D']
-
-    n = len(filenames)
+    # n = len(filenames)
     for j, file in enumerate(reversed(filenames)):  # Correctly reversed with enumeration
-        label_index = n - j - 1
+        label_index = j
+        # label_index = n - j - 1
         label = labels[label_index] if labels and label_index < len(labels) else file.split('/')[-1].replace('.tsv', '')
         df = pd.read_csv(file, delimiter='\t', index_col=0).T
         for pattern in df.columns:
@@ -85,7 +81,11 @@ if __name__ == "__main__":
     parser.add_argument('-x', '--xlabel', type=str, default='Element or Lattice parameter (Å)', help="xlabel")
     parser.add_argument('-y', '--ylabel', type=str, default='Energy (eV) or Charge (e)', help="ylabel")
     parser.add_argument('-l', '--labels', nargs='*', help="Custom labels for each file", default=None)
+    parser.add_argument('-c', '--colors', nargs='+', default=['#d62728', '#ff7f0e', '#2ca02c', '#279ff2', '#9467bd'],
+                        help='Colors to plot')
+    parser.add_argument('-m', '--makers', nargs='+', default=['s', 'd', 'p', 'o', '>', '<', 'D'],
+                        help='Colors to plot')
     args = parser.parse_args()
     png_filename = f"merged_{args.filename}.png"    
-    plot_patterns_from_multiple_tsv(args.files, png_filename, args.xlabel, args.ylabel, args.labels)
+    plot_patterns_from_multiple_tsv(args.files, png_filename, args.xlabel, args.ylabel, args.labels, args.colors, args.markers)
 
