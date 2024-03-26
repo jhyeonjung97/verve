@@ -61,7 +61,7 @@ def line_fitting(xfiles, yfiles, xlabel, ylabel, png_filename, tsv_filename):
     plt.ylabel(ylabel)
     
     plt.text(x_text_margin, y_text_margin, 
-             f"Y = {a:.3f}X + {b:.3f}\nR^2: {R2:.3f}, MAE: {MAE:.3f}, MSE: {MSE:.3f}", fontsize=12)
+             f"Y = {a:.3f}X + {b:.3f}\nR^2: {R2:.3f}, MAE: {MAE:.3f}, MSE: {MSE:.3f}", fontsize=9)
     
     plt.savefig(png_filename, bbox_inches="tight")
     print(f"Figure saved as {png_filename}")
