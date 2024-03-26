@@ -29,6 +29,7 @@ def line_fitting(xfiles, yfiles, xlabel, ylabel, png_filename, tsv_filename):
         summed_x.to_csv(f, sep='\t')
         f.write('\n')
         summed_y.to_csv(f, sep='\t')    
+    print(f"Figure saved as {tsv_filename}")
         
     X = summed_x.iloc[0].values
     Y = summed_y.iloc[0].values

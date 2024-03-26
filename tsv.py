@@ -81,7 +81,7 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, s
                     continue
                 plt.plot(x, filtered_df, marker=reversed_markers[j], color=reversed_colors[j], label = reversed_labels[j])
             if 'hexa_ratio' in transposed_df.columns:
-                plt.plot(x, [1.633]*len(x), linestyle=':', label='hexa_ratio0', color=color)
+                plt.plot(x, [1.633]*len(x), linestyle=':', label='hexa_ratio0', color='black')
     
     if sumup:
         summed_df.to_csv(sum_filename, sep='\t')
