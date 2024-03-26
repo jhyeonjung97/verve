@@ -258,7 +258,7 @@ def extract_values(directory, patterns, dir_range, outcar):
         if 'volume' in specific_patterns:
             if atoms:
                 values.setdefault('volume', []).append(atoms.get_volume())
-            else
+            else:
                 values.setdefault('volume', []).append(np.nan)
                 
         if patterns:
