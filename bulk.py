@@ -12,9 +12,7 @@ metal_rows = {
 
 def get_zero_hull_energy_materials(api_key):
     with MPRester(api_key) as m:
-        criteria = {'e_above_hull': 0}
-        properties = ['material_id', 'formula', 'structure']
-        materials = m.query(criteria=criteria, properties=properties)        
+        materials = m.summary.search(e_above_hull=0, fields=['material_id', 'formula', 'structure'])
         return materials
 
 def main():
