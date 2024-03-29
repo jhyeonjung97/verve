@@ -16,9 +16,9 @@ else
     pattern=$2
 fi
 
-metals_3d=(Sc Ti V Cr Mn Fe Co Ni Cu Zn Ga Ge)
-metals_4d=(Y Zr Nb Mo Tc Ru Rh Pd Ag Cd In Sn)
-metals_5d=(La Hf Ta W Re Os Ir Pt Au Hg Tl Pb)
+metals_3d=(Ca Sc Ti V Cr Mn Fe Co Ni Cu Zn Ga Ge)
+metals_4d=(Sr Y Zr Nb Mo Tc Ru Rh Pd Ag Cd In Sn)
+metals_5d=(Ba La Hf Ta W Re Os Ir Pt Au Hg Tl Pb)
 
 mkdir -p 3d 4d 5d
 
