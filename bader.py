@@ -60,7 +60,8 @@ def get_bader_charges(traj):
     name = newarray[:,0]
     
     # Define the dictionary for reference charges of each element
-    chargedict = {'Sc': 11, 'Ti': 12, 'V': 13, 'Cr': 12, 'Mn': 13, 'Fe': 8,
+    chargedict = {'Ca': 10, 'Sr': 10, 'Ba': 10,
+                  'Sc': 11, 'Ti': 12, 'V': 13, 'Cr': 12, 'Mn': 13, 'Fe': 8,
                   'Co': 9, 'Ni': 10, 'Cu': 11, 'Zn': 12, 'Ga': 13, 'Ge': 14,
                   'Y': 11, 'Zr': 12, 'Nb': 13, 'Mo': 14, 'Tc': 13, 'Ru': 14,
                   'Pd': 10, 'Rh': 15, 'Ag': 11, 'Cd': 12, 'In': 13, 'Sn': 14,
