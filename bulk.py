@@ -1,7 +1,7 @@
 from mp_api.client import MPRester
 from pymatgen.io.ase import AseAtomsAdaptor
 from ase.io import write
-import subprocess
+import os
 
 def main():
     api_key = '3jSckrUWEJ94DEo93ZOlCwNd2B1BHerV'
