@@ -1,6 +1,7 @@
 from mp_api.client import MPRester
 from pymatgen.io.ase import AseAtomsAdaptor
 from ase.io import write
+import subprocess
 import os
 
 def main():
@@ -24,24 +25,26 @@ def get_zero_hull_energy_materials(api_key, metal_rows):
                 element_dir = os.path.join(row_dir, dir_name)
                 os.makedirs(element_dir, exist_ok=True)
                 
-                search_results = mpr.materials.summary.search(chemsys=element, 
-                                                              theoretical=False,
+                search_results = mpr.materials.summary.search(chemsys=element, theoretical=False,
                                                               fields=['structure', 'energy_above_hull'])
                 search_results = [material for material in search_results if len(material.structure) <= 2]
-                
+
+                min_hull = None
                 for material in search_results:
-                    structure = material.structure
-                    hull = material.energy_above_hull
-                    if hull == 0 and len(structure) <= 2:
-                        atoms = adaptor.get_atoms(structure)
-                        filename = os.path.join(element_dir, f'start.traj')
-                        write(filename, atoms)
-                    else:
-                        for material in search_results:
-                            atoms = adaptor.get_atoms(material.structure)
-                            hull = material.energy_above_hull
-                            filename = os.path.join(element_dir, f'start_{hull}.traj')
-                            write(filename, atoms)
+                    if min_hull is None or material.energy_above_hull < min_hull:
+                        min_structure = material.structure
+                        min_hull = material.energy_above_hull
+                        
+                if min_hull is not None:
+                    atoms = adaptor.get_atoms(min_structure)
+                    filename = os.path.join(element_dir, 'start.traj')
+                    write(filename, atoms)
+                    
+                    hull_filename = os.path.join(element_dir, 'hull_energy.txt')
+                    with open(hull_filename, 'w') as f:
+                        f.write(f"Energy above hull: {min_hull}")
+                else:
+                    print(f"No suitable material found for {element}.")
                 
 if __name__ == "__main__":
     main()
