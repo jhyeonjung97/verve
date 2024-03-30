@@ -24,14 +24,23 @@ def get_zero_hull_energy_materials(api_key, metal_rows):
                 element_dir = os.path.join(row_dir, dir_name)
                 os.makedirs(element_dir, exist_ok=True)
                 
-                search_results = mpr.materials.summary.search(chemsys=element, energy_above_hull=(0, 0), fields=['structure'])
-                if len(search_results) == 1:
-                    atoms = adaptor.get_atoms(search_results[0].structure)
+                search_results = mpr.materials.summary.search(chemsys=element, theoretical=False, fields=['structure', 'energy_above_hull'])
+
+                min_energy_above_hull = None
+                structure = None
+                for material in search_results:
+                    if len(material.structure) <= 4:
+                        if min_energy_above_hull is None or material.energy_above_hull < min_energy_above_hull:
+                            min_energy_above_hull = material.energy_above_hull
+                            structure = material.structure
+
+                if structure:
+                    atoms = adaptor.get_atoms(structure)
                     filename = os.path.join(element_dir, 'start.traj')
                     write(filename, atoms)
                     print(f"Saved {filename}")
                 else:
-                    raise ValueError(f'There are more than one material of {element}')                    
-
+                    raise ValueError(f'No suitable material found for {element} that experimentally exists with <= 4 atoms.')
+                    
 if __name__ == "__main__":
     main()
