@@ -38,7 +38,7 @@ def get_zero_hull_energy_materials(api_key, metal_rows):
                 #             structure = material.structure
 
                 for j, material in enumerate(search_results):
-                    atoms = adaptor.get_atoms(structure)
+                    atoms = adaptor.get_atoms(material.structure)
                     filename = os.path.join(element_dir, f'start_{j}.traj')
                     write(filename, atoms)
                     # print(f"Saved {filename}")
