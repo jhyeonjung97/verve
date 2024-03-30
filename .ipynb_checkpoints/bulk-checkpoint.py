@@ -37,11 +37,15 @@ def get_zero_hull_energy_materials(api_key, metal_rows):
                 #             min_energy_above_hull = material.energy_above_hull
                 #             structure = material.structure
 
-                for j, material in enumerate(search_results):
-                    atoms = adaptor.get_atoms(material.structure)
-                    filename = os.path.join(element_dir, f'start_{j}.traj')
+                if len(search_results) == 1:
+                    atoms = adaptor.get_atoms(material[0].structure)
+                    filename = os.path.join(element_dir, f'start.traj')
                     write(filename, atoms)
-                    # print(f"Saved {filename}")
+                else:
+                    for j, material in enumerate(search_results):
+                        atoms = adaptor.get_atoms(material.structure)
+                        filename = os.path.join(element_dir, f'start_{j}.traj')
+                        write(filename, atoms)
                 
                 # if structure:
                 #     atoms = adaptor.get_atoms(structure)
