@@ -19,8 +19,9 @@ def get_zero_hull_energy_materials(api_key, metal_rows):
         for row in metal_rows:
             row_dir = f"./{row}"
             os.makedirs(row_dir, exist_ok=True)
-            for element in metal_rows[row]:
-                element_dir = os.path.join(row_dir, element)
+            for i, element in enumerate(metal_rows[row]):
+                dir_name = f'{i:02d}_{element}'
+                element_dir = os.path.join(row_dir, dir_name)
                 os.makedirs(element_dir, exist_ok=True)
                 
                 search_results = mpr.materials.summary.search(chemsys=element, energy_above_hull=(0, 0), fields=['structure'])
