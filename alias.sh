@@ -83,7 +83,7 @@ alias hi='sh ~/bin/verve/gits.sh orange shoulder verve tools
 ~/bin/sshproxy.sh -u jiuy97
 ssh -X -Y -l jiuy97 -i ~/.ssh/nersc perlmutter.nersc.gov'
 alias bye='sh ~/bin/verve/gits.sh orange shoulder verve tools'
-alias byebye='sh ~/bin/verve/gits.sh orange shoulder verve tools && sh ~/bin/verve/archive.sh'
+alias byebye='sh ~/bin/verve/gits.sh orange shoulder verve tools && sh ~/bin/verve/archieve.sh'
 alias burning='ssh -X -Y hyeonjung@burning.postech.ac.kr -p 54329'
 alias snu='ssh -X -Y hyeonjung@210.117.209.87'
 alias x2658='ssh -X -Y x2658a09@nurion.ksc.re.kr'
