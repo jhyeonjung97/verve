@@ -16,9 +16,9 @@ adaptor = AseAtomsAdaptor()
 with MPRester(api_key) as mpr:
     for id in args.ids:
         try:
-            search_results = mpr.materials.get_data_by_id(material_id=f'mp-{id}', fields=['structure'])
-            if search_results:
-                atoms = adaptor.get_atoms(search_results.structure)
+            material_data = mpr.get_structure_by_material_id(f'mp-{id}')
+            if material_data:
+                atoms = adaptor.get_atoms(material_data)
                 filename = os.path.join("./", f'mp-{id}.traj')
                 write(filename, atoms)
                 print(f"Saved mp-{id}.traj")
