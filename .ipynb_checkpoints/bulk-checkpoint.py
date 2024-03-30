@@ -42,7 +42,7 @@ def get_zero_hull_energy_materials(api_key, metal_rows):
                     
                     hull_filename = os.path.join(element_dir, 'hull_energy.txt')
                     with open(hull_filename, 'w') as f:
-                        f.write(f"Energy above hull: {min_hull}")
+                        f.write(f"{row} {element} \tEnergy above hull: {min_hull}")
                 else:
                     print(f"No suitable material found for {element}.")
                 
