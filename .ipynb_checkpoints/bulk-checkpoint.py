@@ -27,6 +27,8 @@ def get_zero_hull_energy_materials(api_key, metal_rows):
                 search_results = mpr.materials.summary.search(chemsys=element, 
                                                               theoretical=False,
                                                               fields=['structure', 'energy_above_hull'])
+                search_results = [material for material in search_results if len(material.structure) <= 2]
+                
                 for material in search_results:
                     structure = material.structure
                     hull = material.energy_above_hull
