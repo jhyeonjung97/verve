@@ -25,9 +25,9 @@ def get_zero_hull_energy_materials(api_key, metal_rows):
                 os.makedirs(element_dir, exist_ok=True)
                 
                 search_results = mpr.materials.summary.search(chemsys=element, 
-                                                              energy_above_hull=(0, 0.05), 
+                                                              # energy_above_hull=(0, 0.05), 
                                                               theoretical=False, 
-                                                              fields=['structure'])
+                                                              fields=['structure', 'energy_above_hull'])
 
                 # min_energy_above_hull = None
                 # structure = None
@@ -44,7 +44,8 @@ def get_zero_hull_energy_materials(api_key, metal_rows):
                 else:
                     for j, material in enumerate(search_results):
                         atoms = adaptor.get_atoms(material.structure)
-                        filename = os.path.join(element_dir, f'start_{j}.traj')
+                        hull = adaptor.get_atoms(material.energy_above_hull)
+                        filename = os.path.join(element_dir, f'start_{hull}.traj')
                         write(filename, atoms)
                 
                 # if structure:
