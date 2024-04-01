@@ -11,4 +11,5 @@ squeue -o "%.10i %.9P %.16j %.8u %.8T %.8M %.10l %.6D %.15R" --me --sort=i | gre
 
 alias qdel='scancel'
 
-alias k='python ~/bin/verve/show_kpoints.py'
+alias k='python ~/bin/verve/show_kpoints.py POSCAR
+python ~/bin/verve/show_kpoints.py CONTCAR'
