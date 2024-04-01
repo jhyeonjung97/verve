@@ -74,6 +74,7 @@ def main():
     filename = f'energy_{filename}' if filename else 'energy'
 
     directory='./'
+    print(patterns)
     values_dict, dir_names = extract_values(directory, patterns, norm,
                                                           dir_range=args.dir_range)
     values_dict = selected_values(values_dict, symbols)
