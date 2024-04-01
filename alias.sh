@@ -77,6 +77,7 @@ alias err='sh ~/bin/verve/err.sh'
 alias open='display'
 alias more='sh ~/bin/verve/more.sh'
 alias tsv='python ~/bin/verve/tsv.py'
+alias atoms='python ~/bin/verve/atoms.py'
 
 #SSH
 alias hi='sh ~/bin/verve/gits.sh orange shoulder verve tools
