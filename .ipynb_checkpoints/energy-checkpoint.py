@@ -277,33 +277,33 @@ def extract_values(directory, patterns, norm, dir_range):
                 values.setdefault('energy', []).append(atoms.get_total_energy()/norm_numb)
             else:
                 values.setdefault('energy', []).append(np.nan)
+
         if 'mag' in specific_patterns:
-            if atoms:
+            if atoms:  # Checking if 'atoms' list is not empty
                 M_up, M_down, O_up, O_down = [], [], [], []
                 for atom in atoms:
                     if atom.symbol == 'O':
-                        if atom.magmom > 0:
-                            O_up.append(atom.magmom)
-                        else:
-                            O_down.append(atom.magmom)
+                        (O_up if atom.magmom > 0 else O_down).append(atom.magmom)
                     else:
-                        if atom.magmom > 0:
-                            M_up.append(atom.magmom)
-                        else:
-                            M_down.append(atom.magmom)
-                mag_M_up = sum(M_up) / len(M_up) if values else np.nan
-                mag_M_down = sum(M_down) / len(M_down) if values else np.nan
-                mag_O_up = sum(O_up) / len(O_up) if values else np.nan
-                mag_O_down = sum(O_down) / len(O_down) if values else np.nan
+                        (M_up if atom.magmom > 0 else M_down).append(atom.magmom)
+                
+                # Avoid division by zero by checking if lists are not empty before calculating averages
+                mag_M_up = sum(M_up) / len(M_up) if M_up else np.nan
+                mag_M_down = sum(M_down) / len(M_down) if M_down else np.nan
+                mag_O_up = sum(O_up) / len(O_up) if O_up else np.nan
+                mag_O_down = sum(O_down) / len(O_down) if O_down else np.nan
+                
+                # Storing the calculated averages in the 'values' dictionary
                 values.setdefault('mag_M_up', []).append(mag_M_up)
                 values.setdefault('mag_M_down', []).append(mag_M_down)
                 values.setdefault('mag_O_up', []).append(mag_O_up)
                 values.setdefault('mag_O_down', []).append(mag_O_down)
-            else:
+            else:  # If 'atoms' list is empty, append np.nan for all categories
                 values.setdefault('mag_M_up', []).append(np.nan)
                 values.setdefault('mag_M_down', []).append(np.nan)
                 values.setdefault('mag_O_up', []).append(np.nan)
                 values.setdefault('mag_O_down', []).append(np.nan)
+        
         if 'chg' in specific_patterns:
             chg_path = os.path.join(dir_path, 'atoms_bader_charge.json')
             if not os.path.exists(Bader_path):
