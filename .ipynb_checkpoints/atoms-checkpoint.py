@@ -11,9 +11,10 @@ parser.add_argument('-e', '--energy', action='store_true', default=False, help='
 args = parser.parse_args()
 
 class Colors:
-    CYAN = '\033[96m'
-    GREEN = '\033[92m'
-    YELLOW = '\033[93m'
+    CYAN = '\033[34m'
+    GREEN = '\033[38;5;22m'
+    ORANGE = '\033[38;5;208m'
+    MAGENTA = '\033[35m'
     RED = '\033[91m'
     RESET = '\033[0m'
 
@@ -39,4 +40,4 @@ for dir in dirs:
             if not os.path.exists(chg_path):
                 subprocess.call('python ~/bin/verve/bader.py', shell=True, cwd=dir_path)
             if os.path.exists(chg_path):
-                print(f"{Colors.YELLOW}{dir}{Colors.RESET}", "Bader charges not implemented")
+                print(f"{Colors.ORANGE}{dir}{Colors.RESET}", "Bader charges not implemented")
