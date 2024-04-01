@@ -66,11 +66,11 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, s
                 summed_df = pd.DataFrame(summed_values, columns=df.columns, index=['Sum'])
         else:
             merged_df = pd.concat([merged_df, df], axis=1)
-            transposed_df = df.T
-            for pattern in transposed_df.columns:
+            # transposed_df = df.T
+            for pattern in df.columns:
                 x = []
                 filtered_df = []
-                for i, v in enumerate(transposed_df[pattern]):
+                for i, v in enumerate(df[pattern]):
                     if not np.isnan(v): 
                         x.append(i)
                         filtered_df.append(v)
@@ -78,7 +78,7 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, s
                     print(f"No values found for pattern: {pattern}")
                     continue
                 plt.plot(x, filtered_df, marker=reversed_markers[j], color=reversed_colors[j], label = reversed_labels[j])
-    if 'hexa_ratio' in transposed_df.columns:
+    if 'hexa_ratio' in df.columns:
         plt.plot(x, [1.633]*len(x), linestyle=':', label='hexa_ratio0', color='black')
     if sumup:
         summed_df.to_csv(sum_filename, sep='\t')
