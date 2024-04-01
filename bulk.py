@@ -38,7 +38,7 @@ def get_zero_hull_energy_materials(api_key, metal_rows):
                 if min_hull is not None:
                     atoms = adaptor.get_atoms(min_structure)
                     filename = os.path.join(element_dir, 'start.traj')
-                    write(filename, atoms)
+                    write(filename, atoms, format='traj')
                     
                     hull_filename = os.path.join(element_dir, 'hull_energy.txt')
                     with open(hull_filename, 'w') as f:

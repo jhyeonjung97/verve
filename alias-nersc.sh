@@ -10,3 +10,5 @@ alias idle='squeue -o "%.10i %.9P %.16j %.8u %.8T %.8M %.10l %.6D %.15R" --me --
 squeue -o "%.10i %.9P %.16j %.8u %.8T %.8M %.10l %.6D %.15R" --me --sort=i | grep "30:00" | grep regular'
 
 alias qdel='scancel'
+
+alias k='python ~/bin/verve/show_kpoints.py'
