@@ -287,10 +287,10 @@ def extract_values(directory, patterns, norm, dir_range):
                     else:
                         (M_up if magmom > 0 else M_down).append(magmom)
                         
-                mag_M_up = sum(M_up) / len(M_up) if M_up else np.nan
-                mag_M_down = sum(M_down) / len(M_down) if M_down else np.nan
-                mag_O_up = sum(O_up) / len(O_up) if O_up else np.nan
-                mag_O_down = sum(O_down) / len(O_down) if O_down else np.nan
+                mag_M_up = sum(M_up) / len(M_up) if M_up else 0.0
+                mag_M_down = sum(M_down) / len(M_down) if M_down else 0.0
+                mag_O_up = sum(O_up) / len(O_up) if O_up else 0.0
+                mag_O_down = sum(O_down) / len(O_down) if O_down else 0.0
                 
                 values.setdefault('mag_M_up', []).append(mag_M_up)
                 values.setdefault('mag_M_down', []).append(mag_M_down)
