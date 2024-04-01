@@ -24,7 +24,7 @@ def get_parser():
     parser.add_argument('-s', '--separate', action='store_true', default=False, help="save the plots seperately")
     parser.add_argument('-i', '--input', dest='outcar', type=str, default='OUTCAR', help='input filename')
     parser.add_argument('-o', '--output', dest='filename', type=str, default='', help="output filename")
-    parser.add_argument('-e', '--element', dest='symbols', nargs='+', default=[], help="elements of mag, chg, Bader")
+    parser.add_argument('-e', '--element', dest='symbols', nargs='+', default=[], help="elements of mag, chg")
     parser.add_argument('--line', action='store_true', default=False, help="plot 2d")
     parser.add_argument('--plane', action='store_true', default=False, help="plot 3d")
     parser.add_argument('-x', '--xlabel', type=str, default='Element or Lattice parameter (Å)', help="xlabel")
@@ -42,7 +42,7 @@ def main():
     if args.all:
         patterns = {'PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
                     'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung', 'Madelung_M', 'Madelung_L',
-                    'ICOHP', 'ICOBI', 'mag', 'chg', 'Bader', 'GP', 'bond', 'hexa', 'volume'}
+                    'ICOHP', 'ICOBI', 'magnet', 'charge', 'mag', 'chg', 'GP', 'bond', 'hexa', 'volume'}
     else:
         patterns = set(args.patterns)
     if 'Madelung' in patterns:
@@ -72,7 +72,8 @@ def main():
     filename = f'energy_{filename}' if filename else 'energy'
 
     directory='./'
-    values_dict, dir_names, picked_atoms = extract_values(directory, patterns, dir_range=args.dir_range, outcar=args.outcar)
+    values_dict, dir_names, picked_atoms = extract_values(directory, patterns, 
+                                                          dir_range=args.dir_range, outcar=args.outcar)
     values_dict = selected_values(values_dict, args.symbols, picked_atoms)
         
     values_dict = adjust_values(values_dict, ref=args.ref, norm=norm)
@@ -101,8 +102,8 @@ def extract_values(directory, patterns, dir_range, outcar):
         'EATOM': r'atomic energy  EATOM  =\s+([0-9.-]+)',
         'Ediel_sol': r'Solvation  Ediel_sol  =\s+([0-9.-]+)',
         'TOTEN': r'free energy    TOTEN  =\s+([0-9.-]+)',
-        'mag': r'\s*\d+\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)',
-        'chg': r'magnetization \(x\)',
+        'magnet': r'\s*\d+\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)',
+        'charge': r'magnetization \(x\)',
     }
             
     values = {key: [] for key in patterns}  # Initialize dict to store values for each pattern
@@ -110,7 +111,7 @@ def extract_values(directory, patterns, dir_range, outcar):
     
     specific_patterns = set()
     for pattern in ['Madelung_Mulliken', 'Madelung_Loewdin', 'Bader', 'ICOHP', 'ICOBI', 'GP', 
-                    'hexa_ratio', 'volume', 'bond']:
+                    'hexa_ratio', 'volume', 'bond', 'energy', 'metals', 'mag', 'chg']:
         if pattern in patterns:
             patterns.discard(pattern)
             specific_patterns.add(pattern)            
@@ -191,25 +192,25 @@ def extract_values(directory, patterns, dir_range, outcar):
                             values.setdefault('GP_Loewdin_M'+str(i), []).append(zval-float(match.group(2)))
                         if i != 0: i -= 1
                         else: break
-        if 'Bader' in specific_patterns:
-            i = numb - 1
-            Bader_path = os.path.join(dir_path, 'ACF.dat')
-            if not os.path.exists(Bader_path):
-                subprocess.call('python ~/bin/verve/bader.py', shell=True, cwd=dir_path)
-            if os.path.exists(Bader_path):
-                with open(Bader_path, 'r') as file:
-                    lines = file.readlines()
-                for line in lines:
-                    match = re.search(r'\s*\d+\s+([-]?\d+\.\d+)\s+([-]?\d+\.\d+)\s+([-]?\d+\.\d+)\s+([-]?\d+\.\d+)', line)
-                    if match:
-                        symbol = atoms[i].symbol
-                        zval = zval_dict[symbol]
-                        if symbol == 'O':
-                            values.setdefault('Bader_O'+str(i), []).append(zval-float(match.group(4)))
-                        else:
-                            values.setdefault('Bader_M'+str(i), []).append(zval-float(match.group(4)))
-                        if i != 0: i -= 1
-                        else: break
+        # if 'Bader' in specific_patterns:
+        #     i = numb - 1
+        #     Bader_path = os.path.join(dir_path, 'ACF.dat')
+        #     if not os.path.exists(Bader_path):
+        #         subprocess.call('python ~/bin/verve/bader.py', shell=True, cwd=dir_path)
+        #     if os.path.exists(Bader_path):
+        #         with open(Bader_path, 'r') as file:
+        #             lines = file.readlines()
+        #         for line in lines:
+        #             match = re.search(r'\s*\d+\s+([-]?\d+\.\d+)\s+([-]?\d+\.\d+)\s+([-]?\d+\.\d+)\s+([-]?\d+\.\d+)', line)
+        #             if match:
+        #                 symbol = atoms[i].symbol
+        #                 zval = zval_dict[symbol]
+        #                 if symbol == 'O':
+        #                     values.setdefault('Bader_O'+str(i), []).append(zval-float(match.group(4)))
+        #                 else:
+        #                     values.setdefault('Bader_M'+str(i), []).append(zval-float(match.group(4)))
+        #                 if i != 0: i -= 1
+        #                 else: break
         if 'ICOHP' in specific_patterns:
             ICOHP_path = os.path.join(dir_path, 'icohp.txt')
             if not os.path.exists(ICOHP_path):
@@ -260,6 +261,57 @@ def extract_values(directory, patterns, dir_range, outcar):
                 values.setdefault('volume', []).append(atoms.get_volume())
             else:
                 values.setdefault('volume', []).append(np.nan)
+        if 'energy' in specific_patterns:
+            if atoms:
+                values.setdefault('energy', []).append(atoms.get_total_energy())
+            else:
+                values.setdefault('energy', []).append(np.nan)
+        if 'mag' in specific_patterns:
+            if atoms:
+                M_up, M_down, O_up, O_down = [], [], [], []
+                for atom in atoms:
+                    if atom.symbol == 'O':
+                        if atom.magmom > 0:
+                            O_up.append(atom.magmom)
+                        else:
+                            O_down.append(atom.magmom)
+                    else:
+                        if atom.magmom > 0:
+                            M_up.append(atom.magmom)
+                        else:
+                            M_down.append(atom.magmom)
+                mag_M_up = sum(M_up) / len(M_up) if values else np.nan
+                mag_M_down = sum(M_down) / len(M_down) if values else np.nan
+                mag_O_up = sum(O_up) / len(O_up) if values else np.nan
+                mag_O_down = sum(O_down) / len(O_down) if values else np.nan
+                values.setdefault('mag_M_up', []).append(mag_M_up)
+                values.setdefault('mag_M_down', []).append(mag_M_down)
+                values.setdefault('mag_O_up', []).append(mag_O_up)
+                values.setdefault('mag_O_down', []).append(mag_O_down)
+            else:
+                values.setdefault('mag_M_up', []).append(np.nan)
+                values.setdefault('mag_M_down', []).append(np.nan)
+                values.setdefault('mag_O_up', []).append(np.nan)
+                values.setdefault('mag_O_down', []).append(np.nan)
+        if 'chg' in specific_patterns:
+            chg_path = os.path.join(dir_path, 'atoms_bader_charge.json')
+            if not os.path.exists(Bader_path):
+                subprocess.call('python ~/bin/verve/bader.py', shell=True, cwd=dir_path)
+            if os.path.exists(chg_path):
+                atoms_chg = read(chg_path)
+                M_chg, O_chg = [], []
+                for atom in atoms_chg:
+                    if atom.symbol == 'O':
+                        O_chg.append(atom.charge)
+                    else:
+                        M_chg.append(atom.charge)
+                chg_M = sum(M_chg) / len(M_chg) if values else np.nan
+                chg_O = sum(O_chg) / len(O_chg) if values else np.nan
+                values.setdefault('chg_M', []).append(chg_M)
+                values.setdefault('chg_O', []).append(chg_O)
+            else:
+                values.setdefault('chg_M', []).append(np.nan)
+                values.setdefault('chg_O', []).append(np.nan)
                 
         if patterns:
             outcar_path = os.path.join(dir_path, outcar)
@@ -276,12 +328,12 @@ def extract_values(directory, patterns, dir_range, outcar):
                                 combined_value = sum(map(float, match.groups()))
                                 values[key].append(combined_value)
                                 break
-                            elif key == 'mag':
+                            elif key == 'magnet':
                                 symbol = atoms[i].symbol
                                 if symbol == 'O':
-                                    values.setdefault('mag_O'+str(i), []).append(float(match.group(4)))
+                                    values.setdefault('magnet_O'+str(i), []).append(float(match.group(4)))
                                 else:
-                                    values.setdefault('mag_M'+str(i), []).append(float(match.group(4)))
+                                    values.setdefault('magnet_M'+str(i), []).append(float(match.group(4)))
                                 if i != 0: i -= 1
                                 else: break
                             elif key == 'chg' and not in_charge_section:
@@ -289,22 +341,17 @@ def extract_values(directory, patterns, dir_range, outcar):
                             else:
                                 values[key].append(float(match.group(1)))
                                 break
-                        if key == 'chg' and in_charge_section:
+                        if key == 'charge' and in_charge_section:
                             symbol = atoms[i].symbol
                             zval = zval_dict[symbol]
-                            match = re.compile(pattern_map['mag']).search(line)
+                            match = re.compile(pattern_map['magnet']).search(line)
                             if match:
                                 if symbol == 'O':                                
-                                    values.setdefault('chg_O'+str(i), []).append(zval-float(match.group(4)))
+                                    values.setdefault('charge_O'+str(i), []).append(zval-float(match.group(4)))
                                 else:                                
-                                    values.setdefault('chg_M'+str(i), []).append(zval-float(match.group(4)))
+                                    values.setdefault('charge_M'+str(i), []).append(zval-float(match.group(4)))
                                 if i != 0: i -= 1
                                 else: break
-            else:
-                if atoms:
-                    values.setdefault('TOTEN', []).append(atoms.get_total_energy())
-                else:
-                    values.setdefault('TOTEN', []).append(np.nan)
 
     return values, dir_names, picked_atoms
 
@@ -335,18 +382,30 @@ def selected_values(values_dict, symbols, picked_atoms):
     if not symbols:
         symbols = picked_atoms.get_chemical_symbols()
     keys_to_remove = [
-        'mag_' + atom.symbol + str(atom.index) 
+        'magnet_' + symbol
         for atom in picked_atoms 
-        if atom.symbol not in symbols
+        if symbol not in symbols
     ] + [
-        'chg_' + atom.symbol + str(atom.index) 
+        'charge_' + symbol
         for atom in picked_atoms 
-        if atom.symbol not in symbols
+        if symbol not in symbols
     ] + [
-        'Bader_' + atom.symbol + str(atom.index) 
+        'mag_' + symbol + '_up'
         for atom in picked_atoms 
-        if atom.symbol not in symbols
-    ] + ['mag', 'chg', 'Bader', 'Madelung', 'GP']
+        if symbol not in symbols
+    ] + [
+        'mag_' + symbol + '_down'
+        for atom in picked_atoms 
+        if symbol not in symbols
+    ] + [
+        'chg_' + symbol
+        for atom in picked_atoms 
+        if symbol not in symbols
+    # ] + [
+    #     'Bader_' + symbol
+    #     for atom in picked_atoms 
+    #     if symbol not in symbols
+    ] + ['magnet', 'charge', 'mag', 'chg', 'Bader', 'Madelung', 'GP']
     
     for key in keys_to_remove:
         if key in values_dict:
@@ -391,7 +450,7 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, picked_a
                       'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung_Mulliken', 'Madelung_Loewdin', 
                       'ICOHP', 'ICOBI', 'GP_Mulliken', 'GP_Loewdin', 'bond', 'hexa_ratio', 'volume']
     numb = picked_atoms.get_global_number_of_atoms()
-    for extended_pattern in ['mag', 'chg', 'Bader']:
+    for extended_pattern in ['magnet', 'charge', 'mag', 'chg', 'Bader']:
         for i, atom in enumerate(picked_atoms):
             if atom.symbol == 'O':
                 patterns_order.append(f'{extended_pattern}_O{i}')
@@ -445,7 +504,7 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, picked_a
 def line_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filename, picked_atoms):
     patterns_order = list(patterns)
     numb = picked_atoms.get_global_number_of_atoms()
-    for extended_pattern in ['mag', 'chg', 'Bader']:
+    for extended_pattern in ['magnet', 'charge', 'mag', 'chg', 'Bader']:
         for i, atom in enumerate(picked_atoms):
             if atom.symbol == 'O':
                 patterns_order.extend(f'{extended_pattern}_O{i}')
@@ -493,7 +552,7 @@ def line_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filenam
 def plane_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filename, picked_atoms):
     patterns_order = list(patterns)
     numb = picked_atoms.get_global_number_of_atoms()
-    for extended_pattern in ['mag', 'chg', 'Bader']:
+    for extended_pattern in ['magnet', 'charge', 'mag', 'chg', 'Bader']:
         for i, atom in enumerate(picked_atoms):
             if atom.symbol == 'O':
                 patterns_order.extend(f'{extended_pattern}_O{i}')
