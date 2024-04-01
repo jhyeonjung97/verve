@@ -155,8 +155,8 @@ def extract_values(directory, patterns, norm, dir_range, outcar):
                 break
         if not atoms:
             print(f'No atomic structure data in {dir_path}')
-        else:
-            picked_atoms = atoms
+        # else:
+        #     picked_atoms = atoms
         zvals =[]
         titels =[]
         potcar_path = os.path.join(dir_path, 'POTCAR')
@@ -432,15 +432,10 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename):
     plt.figure(figsize=(10, 6))
 
     patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
-                      'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung_Mulliken', 'Madelung_Loewdin', 
-                      'ICOHP', 'ICOBI', 'GP_Mulliken', 'GP_Loewdin', 'bond', 'hexa_ratio', 'volume']
-    numb = picked_atoms.get_global_number_of_atoms()
-    for extended_pattern in ['magnet', 'charge', 'mag', 'chg', 'Bader']:
-        for i, atom in enumerate(picked_atoms):
-            if atom.symbol == 'O':
-                patterns_order.append(f'{extended_pattern}_O{i}')
-            else:
-                patterns_order.append(f'{extended_pattern}_M{i}')
+                      'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'energy', 'Madelung_Mulliken', 'Madelung_Loewdin', 
+                      'ICOHP', 'ICOBI', 'GP_Mulliken', 'GP_Loewdin', 'bond', 'hexa_ratio', 'volume',
+                      'magnet_M', 'magnet_O', 'charge_M', 'charge_O', 
+                      'mag_M_up', 'mag_M_down', 'mag_O_up', 'mag_O_down', 'chg_M', 'chg_O']
     filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
 
     colors = plt.cm.rainbow(np.linspace(0, 1, len(filtered_patterns_order))) 
@@ -486,17 +481,13 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename):
     else:
         plt.show()
         
-def line_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filename, picked_atoms):
-    patterns_order = list(patterns)
-    numb = picked_atoms.get_global_number_of_atoms()
-    for extended_pattern in ['magnet', 'charge', 'mag', 'chg', 'Bader']:
-        for i, atom in enumerate(picked_atoms):
-            if atom.symbol == 'O':
-                patterns_order.extend(f'{extended_pattern}_O{i}')
-            else:
-                patterns_order.extend(f'{extended_pattern}_M{i}')
-    filtered_patterns_order = [pattern for pattern in patterns_order \
-                               if values_dict.get(pattern)]
+def line_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filename):
+    patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
+                      'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'energy', 'Madelung_Mulliken', 'Madelung_Loewdin', 
+                      'ICOHP', 'ICOBI', 'GP_Mulliken', 'GP_Loewdin', 'bond', 'hexa_ratio', 'volume',
+                      'magnet_M', 'magnet_O', 'charge_M', 'charge_O', 
+                      'mag_M_up', 'mag_M_down', 'mag_O_up', 'mag_O_down', 'chg_M', 'chg_O']
+    filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
 
     if len(filtered_patterns_order) < 2:
         raise ValueError("Not enough valid patterns with data for line fitting.")
@@ -534,15 +525,12 @@ def line_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filenam
     else:
         plt.show()
         
-def plane_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filename, picked_atoms):
-    patterns_order = list(patterns)
-    numb = picked_atoms.get_global_number_of_atoms()
-    for extended_pattern in ['magnet', 'charge', 'mag', 'chg', 'Bader']:
-        for i, atom in enumerate(picked_atoms):
-            if atom.symbol == 'O':
-                patterns_order.extend(f'{extended_pattern}_O{i}')
-            else:
-                patterns_order.extend(f'{extended_pattern}_M{i}')
+def plane_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filename):
+    patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
+                      'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'energy', 'Madelung_Mulliken', 'Madelung_Loewdin', 
+                      'ICOHP', 'ICOBI', 'GP_Mulliken', 'GP_Loewdin', 'bond', 'hexa_ratio', 'volume',
+                      'magnet_M', 'magnet_O', 'charge_M', 'charge_O', 
+                      'mag_M_up', 'mag_M_down', 'mag_O_up', 'mag_O_down', 'chg_M', 'chg_O']
     filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
 
     if len(filtered_patterns_order) < 3:
