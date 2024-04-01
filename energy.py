@@ -279,26 +279,25 @@ def extract_values(directory, patterns, norm, dir_range):
                 values.setdefault('energy', []).append(np.nan)
 
         if 'mag' in specific_patterns:
-            if atoms:  # Checking if 'atoms' list is not empty
+            if atoms:
                 M_up, M_down, O_up, O_down = [], [], [], []
-                for atom in atoms:
+                for i, atom in enumerate(atoms):
+                    magmom = atoms.get_magnetic_moments()[i]
                     if atom.symbol == 'O':
-                        (O_up if atom.magmom > 0 else O_down).append(atom.magmom)
+                        (O_up if magmom > 0 else O_down).append(magmom)
                     else:
-                        (M_up if atom.magmom > 0 else M_down).append(atom.magmom)
+                        (M_up if magmom > 0 else M_down).append(magmom)
                 
-                # Avoid division by zero by checking if lists are not empty before calculating averages
                 mag_M_up = sum(M_up) / len(M_up) if M_up else np.nan
                 mag_M_down = sum(M_down) / len(M_down) if M_down else np.nan
                 mag_O_up = sum(O_up) / len(O_up) if O_up else np.nan
                 mag_O_down = sum(O_down) / len(O_down) if O_down else np.nan
                 
-                # Storing the calculated averages in the 'values' dictionary
                 values.setdefault('mag_M_up', []).append(mag_M_up)
                 values.setdefault('mag_M_down', []).append(mag_M_down)
                 values.setdefault('mag_O_up', []).append(mag_O_up)
                 values.setdefault('mag_O_down', []).append(mag_O_down)
-            else:  # If 'atoms' list is empty, append np.nan for all categories
+            else:
                 values.setdefault('mag_M_up', []).append(np.nan)
                 values.setdefault('mag_M_down', []).append(np.nan)
                 values.setdefault('mag_O_up', []).append(np.nan)
