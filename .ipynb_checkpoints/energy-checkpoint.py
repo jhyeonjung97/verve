@@ -144,8 +144,13 @@ def extract_values(directory, patterns, norm, dir_range, outcar):
         for traj_file in matching_files:
             if os.path.exists(traj_file):
                 atoms = read(traj_file)
-                numb = atoms.get_global_number_of_atoms()
-                numb_m = 0
+                if norm == 'n':
+                    numb = atoms.get_global_number_of_atoms()
+                elif norm == 'm':
+                    numb = 0
+                    for atom in atoms:
+                        if atom.symbol != 'O':
+                            numb += 1
                 break
         if not atoms:
             print(f'No atomic structure data in {dir_path}')
