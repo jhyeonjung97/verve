@@ -38,7 +38,7 @@ for dir in sorted_dirs:
         if args.energy:
             print(f"{Colors.ORANGE}{dir}{Colors.RESET}", atoms.get_total_energy())
         if args.formula:
-            print(f"{Colors.MAGENTA}{dir}{Colors.RESET}", atoms.get_chemical_symbols())
+            print(f"{Colors.MAGENTA}{dir}{Colors.RESET}", atoms.get_chemical_formula())
         if args.charge:
             chg_path = os.path.join(dir_path, 'atoms_bader_charge.json')
             if not os.path.exists(chg_path):
