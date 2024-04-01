@@ -81,7 +81,7 @@ def main():
     
     if any(values_dict.values()):
         plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename)
-        if args.separate:
+        if args.individual:
             plot_separately(values_dict, dir_names, xlabel, ylabel, save, filename)
     else:
         raise ValueError('No values found for the given patterns.')
