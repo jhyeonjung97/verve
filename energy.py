@@ -117,7 +117,7 @@ def extract_values(directory, patterns, norm, dir_range):
             patterns.discard(pattern)
             specific_patterns.add(pattern)            
     dirs = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d)) and '_' in d]
-    print(specific_patterns)
+
     if dir_range is not None:
         if ',' in dir_range:
             start_dir, end_dir = map(int, dir_range.split(','))
@@ -276,7 +276,7 @@ def extract_values(directory, patterns, norm, dir_range):
                 values.setdefault('energy', []).append(atoms.get_total_energy()/norm_numb)
             else:
                 values.setdefault('energy', []).append(np.nan)
-
+        print('hello', specific_patterns)
         if 'mag' in specific_patterns:
             print('hello')
             if atoms:
