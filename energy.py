@@ -13,7 +13,7 @@ from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 def get_parser():
     parser = argparse.ArgumentParser()
     parser.add_argument('-d', '--dir-range', type=str, default=None, help='Range of directories to investigate, e.g., "3,6"')
-    parser.add_argument('-p', '--patterns', nargs='+', default=['TOTEN'], help='Patterns to search and plot: \
+    parser.add_argument('-p', '--patterns', nargs='+', default=['energy'], help='Patterns to search and plot: \
     PSCENC, TEWEN, DENC, EXHF, XCENC, PAW_double_counting, EENTRO, EBANDS, EATOM, \
     TOTEN, Madelung, Madelung_M, Madelung_L, ICOHP, ICOBI, mag, chg, Bader, GP, hexa')
     parser.add_argument('-a', '--all', action='store_true', default=False, help='Show all components')
@@ -147,14 +147,14 @@ def extract_values(directory, patterns, norm, dir_range, outcar):
                 atoms = read(traj_file)
                 numb = atoms.get_global_number_of_atoms()
                 if norm == 'n':
-                    norm = atoms.get_global_number_of_atoms()
+                    norm_numb = atoms.get_global_number_of_atoms()
                 elif norm == 'm':
-                    norm = 0
+                    norm_numb = 0
                     for atom in atoms:
                         if atom.symbol != 'O':
-                            norm += 1
+                            norm_numb += 1
                 else:
-                    norm = 1
+                    norm_numb = 1
                 break
         if not atoms:
             print(f'No atomic structure data in {dir_path}')
@@ -274,7 +274,7 @@ def extract_values(directory, patterns, norm, dir_range, outcar):
                 values.setdefault('volume', []).append(np.nan)
         if 'energy' in specific_patterns:
             if atoms:
-                values.setdefault('energy', []).append(atoms.get_total_energy()/norm)
+                values.setdefault('energy', []).append(atoms.get_total_energy()/norm_numb)
             else:
                 values.setdefault('energy', []).append(np.nan)
         if 'mag' in specific_patterns:
