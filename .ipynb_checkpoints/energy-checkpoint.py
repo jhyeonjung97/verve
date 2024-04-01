@@ -18,7 +18,7 @@ def get_parser():
     TOTEN, Madelung, Madelung_M, Madelung_L, ICOHP, ICOBI, mag, chg, Bader, GP, hexa')
     parser.add_argument('-a', '--all', action='store_true', default=False, help='Show all components')
     parser.add_argument('-r', '--ref', type=str, default='zero', help='Adjust values by subtracting the minimum')
-    parser.add_argument('-n', '--norm', type=int, default=0, help='Normalization factor')
+    parser.add_argument('-n', '--norm', default=0, help='Normalization factor')
     parser.add_argument('--total', action='store_false', default=True, help='No show total energy')
     parser.add_argument('--save', action='store_true', default=False, help="save files")
     parser.add_argument('-s', '--separate', action='store_true', default=False, help="save the plots seperately")
