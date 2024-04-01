@@ -20,7 +20,7 @@ def get_parser():
     parser.add_argument('-r', '--ref', type=str, default='zero', help='Adjust values by subtracting the minimum')
     parser.add_argument('-n', '--norm', default=0, help='Normalization factor')
     parser.add_argument('--total', action='store_false', default=True, help='No show total energy')
-    parser.add_argument('--save', action='store_true', default=False, help="save files")
+    parser.add_argument('-s', '--save', action='store_true', default=False, help="save files")
     parser.add_argument('-i', '--individual', action='store_true', default=False, help="save the plots individually")
     # parser.add_argument('-i', '--input', dest='outcar', type=str, default='OUTCAR', help='input filename')
     parser.add_argument('-o', '--output', dest='filename', type=str, default='', help="output filename")
