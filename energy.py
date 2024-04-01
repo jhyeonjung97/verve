@@ -21,8 +21,8 @@ def get_parser():
     parser.add_argument('-n', '--norm', default=0, help='Normalization factor')
     parser.add_argument('--total', action='store_false', default=True, help='No show total energy')
     parser.add_argument('--save', action='store_true', default=False, help="save files")
-    parser.add_argument('-s', '--separate', action='store_true', default=False, help="save the plots seperately")
-    parser.add_argument('-i', '--input', dest='outcar', type=str, default='OUTCAR', help='input filename')
+    parser.add_argument('-i', '--individual', action='store_true', default=False, help="save the plots individually")
+    # parser.add_argument('-i', '--input', dest='outcar', type=str, default='OUTCAR', help='input filename')
     parser.add_argument('-o', '--output', dest='filename', type=str, default='', help="output filename")
     parser.add_argument('-e', '--element', dest='symbols', nargs='+', default=[], help="elements of mag, chg")
     parser.add_argument('--line', action='store_true', default=False, help="plot 2d")
@@ -75,7 +75,7 @@ def main():
 
     directory='./'
     values_dict, dir_names = extract_values(directory, patterns, norm,
-                                                          dir_range=args.dir_range, outcar=args.outcar)
+                                                          dir_range=args.dir_range)
     values_dict = selected_values(values_dict, symbols)
     values_dict = adjust_values(values_dict, ref, norm)
     
@@ -90,7 +90,7 @@ def main():
     elif args.plane:
         plane_fitting(original_patterns, values_dict, dir_names, xlabel, ylabel, save, filename)
 
-def extract_values(directory, patterns, norm, dir_range, outcar):
+def extract_values(directory, patterns, norm, dir_range):
     """Extract the last values for the given patterns from OUTCAR files in the given directories, sorted numerically."""
     pattern_map = {
         'PSCENC': r'alpha Z        PSCENC =\s+([0-9.-]+)',
@@ -325,7 +325,7 @@ def extract_values(directory, patterns, norm, dir_range, outcar):
                 values.setdefault('chg_O', []).append(np.nan)
                 
         if patterns:
-            outcar_path = os.path.join(dir_path, outcar)
+            outcar_path = os.path.join(dir_path, 'OUTCAR')
             if os.path.exists(outcar_path) and patterns:
                 with open(outcar_path, 'r') as file:
                     lines = file.readlines()
