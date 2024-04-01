@@ -39,6 +39,7 @@ def main():
     ylabel = args.ylabel
     norm = args.norm
     save = args.save
+    ref = args.ref
     if args.all:
         patterns = {'PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
                     'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung', 'Madelung_M', 'Madelung_L',
@@ -72,11 +73,11 @@ def main():
     filename = f'energy_{filename}' if filename else 'energy'
 
     directory='./'
-    values_dict, dir_names, picked_atoms = extract_values(directory, patterns, 
+    values_dict, dir_names, picked_atoms = extract_values(directory, patterns, norm
                                                           dir_range=args.dir_range, outcar=args.outcar)
     values_dict = selected_values(values_dict, args.symbols, picked_atoms)
-        
-    values_dict = adjust_values(values_dict, ref=args.ref, norm=norm)
+    values_dict = adjust_values(values_dict, ref, norm)
+    
     if any(values_dict.values()):
         plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, picked_atoms)
         if args.separate:
@@ -88,7 +89,7 @@ def main():
     elif args.plane:
         plane_fitting(original_patterns, values_dict, dir_names, xlabel, ylabel, save, filename, picked_atoms)
 
-def extract_values(directory, patterns, dir_range, outcar):
+def extract_values(directory, patterns, norm, dir_range, outcar):
     """Extract the last values for the given patterns from OUTCAR files in the given directories, sorted numerically."""
     pattern_map = {
         'PSCENC': r'alpha Z        PSCENC =\s+([0-9.-]+)',
@@ -144,6 +145,7 @@ def extract_values(directory, patterns, dir_range, outcar):
             if os.path.exists(traj_file):
                 atoms = read(traj_file)
                 numb = atoms.get_global_number_of_atoms()
+                numb_m = 0
                 break
         if not atoms:
             print(f'No atomic structure data in {dir_path}')
@@ -361,7 +363,8 @@ def adjust_values(values_dict, ref, norm):
     qualitative = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting',
                    'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung_Mulliken', 'Madelung_Loewdin',
                    'ICOHP', 'ICOBI', 'bond', 'hexa_ratio', 'volume']
-        
+    if norm == 'm' or norm == 'n':
+        norm = 1
     for pattern, values in values_dict.items():
         if ref == 'min':
             ref_value = min(values)
