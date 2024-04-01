@@ -74,9 +74,7 @@ def main():
     filename = f'energy_{filename}' if filename else 'energy'
 
     directory='./'
-    print(patterns)
-    values_dict, dir_names = extract_values(directory, patterns, norm,
-                                                          dir_range=args.dir_range)
+    values_dict, dir_names = extract_values(directory, patterns, norm, dir_range=args.dir_range)
     values_dict = selected_values(values_dict, symbols)
     values_dict = adjust_values(values_dict, ref, norm)
     
@@ -119,7 +117,7 @@ def extract_values(directory, patterns, norm, dir_range):
             patterns.discard(pattern)
             specific_patterns.add(pattern)            
     dirs = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d)) and '_' in d]
-    
+    print(specific_patterns)
     if dir_range is not None:
         if ',' in dir_range:
             start_dir, end_dir = map(int, dir_range.split(','))
