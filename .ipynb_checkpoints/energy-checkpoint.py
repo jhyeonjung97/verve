@@ -391,7 +391,7 @@ def adjust_values(values_dict, ref, norm):
     return adjusted_values_dict
 
 def selected_values(values_dict, symbols):
-    keys_to_remove_base = ['mag_M_up', 'mag_O_down', 'chg_M', 'chg_O',
+    keys_to_remove_base = ['mag_M_up', 'mag_M_down', 'mag_O_up', 'mag_O_down', 'chg_M', 'chg_O',
                            # 'magnet_M', 'magnet_O', 'charge_M', 'charge_O', 
                            # 'magnet', 'charge', 
                            'mag', 'chg', 'Bader', 'Madelung', 'GP']
