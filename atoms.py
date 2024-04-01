@@ -1,3 +1,9 @@
+import os
+import glob
+import argparse
+import subprocess
+from ase.io import read
+
 parser = argparse.ArgumentParser()
 parser.add_argument('-m', action='store_true', default=False)
 parser.add_argument('-c', action='store_true', default=False)
