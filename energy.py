@@ -73,7 +73,7 @@ def main():
     filename = f'energy_{filename}' if filename else 'energy'
 
     directory='./'
-    values_dict, dir_names, picked_atoms = extract_values(directory, patterns, norm
+    values_dict, dir_names, picked_atoms = extract_values(directory, patterns, norm,
                                                           dir_range=args.dir_range, outcar=args.outcar)
     values_dict = selected_values(values_dict, args.symbols, picked_atoms)
     values_dict = adjust_values(values_dict, ref, norm)
