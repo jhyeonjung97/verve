@@ -279,6 +279,7 @@ def extract_values(directory, patterns, norm, dir_range):
                 values.setdefault('energy', []).append(np.nan)
 
         if 'mag' in specific_patterns:
+            print('hello')
             if atoms:
                 M_up, M_down, O_up, O_down = [], [], [], []
                 for i, atom in enumerate(atoms):
