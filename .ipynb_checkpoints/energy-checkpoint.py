@@ -35,6 +35,7 @@ def get_parser():
 def main():
     args = get_parser().parse_args()
     filename = args.filename.rsplit('.', 1)[0]
+    symbols = args.symbols
     xlabel = args.xlabel
     ylabel = args.ylabel
     norm = args.norm
@@ -68,26 +69,26 @@ def main():
         norm = 1
     else:
         filename = f'norm_{filename}' if filename else 'norm'
-    if args.symbols:
-        filename = f'{filename}_{args.symbols[0]}' if filename else args.symbols[0]
+    if symbols:
+        filename = f'{filename}_{symbols[0]}' if filename else symbols[0]
     filename = f'energy_{filename}' if filename else 'energy'
 
     directory='./'
-    values_dict, dir_names, picked_atoms = extract_values(directory, patterns, norm,
+    values_dict, dir_names = extract_values(directory, patterns, norm,
                                                           dir_range=args.dir_range, outcar=args.outcar)
-    values_dict = selected_values(values_dict, args.symbols, picked_atoms)
+    values_dict = selected_values(values_dict, symbols)
     values_dict = adjust_values(values_dict, ref, norm)
     
     if any(values_dict.values()):
-        plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, picked_atoms)
+        plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename)
         if args.separate:
             plot_separately(values_dict, dir_names, xlabel, ylabel, save, filename)
     else:
         raise ValueError('No values found for the given patterns.')
     if args.line:
-        line_fitting(original_patterns, values_dict, dir_names, xlabel, ylabel, save, filename, picked_atoms)
+        line_fitting(original_patterns, values_dict, dir_names, xlabel, ylabel, save, filename)
     elif args.plane:
-        plane_fitting(original_patterns, values_dict, dir_names, xlabel, ylabel, save, filename, picked_atoms)
+        plane_fitting(original_patterns, values_dict, dir_names, xlabel, ylabel, save, filename)
 
 def extract_values(directory, patterns, norm, dir_range, outcar):
     """Extract the last values for the given patterns from OUTCAR files in the given directories, sorted numerically."""
@@ -360,7 +361,7 @@ def extract_values(directory, patterns, norm, dir_range, outcar):
                                 if i != 0: i -= 1
                                 else: break
 
-    return values, dir_names, picked_atoms
+    return values, dir_names
 
 def adjust_values(values_dict, ref, norm):
     """Subtract the reference value from each pattern's data set."""
@@ -386,41 +387,17 @@ def adjust_values(values_dict, ref, norm):
 
     return adjusted_values_dict
 
-def selected_values(values_dict, symbols, picked_atoms):
-    if not symbols:
-        symbols = picked_atoms.get_chemical_symbols()
-    keys_to_remove = [
-        'magnet_' + symbol
-        for atom in picked_atoms 
-        if symbol not in symbols
-    ] + [
-        'charge_' + symbol
-        for atom in picked_atoms 
-        if symbol not in symbols
-    ] + [
-        'mag_' + symbol + '_up'
-        for atom in picked_atoms 
-        if symbol not in symbols
-    ] + [
-        'mag_' + symbol + '_down'
-        for atom in picked_atoms 
-        if symbol not in symbols
-    ] + [
-        'chg_' + symbol
-        for atom in picked_atoms 
-        if symbol not in symbols
-    # ] + [
-    #     'Bader_' + symbol
-    #     for atom in picked_atoms 
-    #     if symbol not in symbols
-    ] + ['magnet', 'charge', 'mag', 'chg', 'Bader', 'Madelung', 'GP']
+def selected_values(values_dict, symbols):
+    keys_to_remove_base = ['magnet_M', 'magnet_O', 'charge_M', 'charge_O',
+        'mag_M_up', 'mag_O_down', 'chg_M', 'chg_O',
+        'magnet', 'charge', 'mag', 'chg', 'Bader', 'Madelung', 'GP']
+    keys_to_remove = [key for key in keys_to_remove_base if not any(sym in key for sym in symbols)]
     
     for key in keys_to_remove:
-        if key in values_dict:
-            del values_dict[key]
+        values_dict.pop(key, None)
         
     return values_dict
-        
+
 def plot_separately(values_dict, dir_names, xlabel, ylabel, save, filename):
     """Plot each pattern on its own graph."""
     
@@ -451,7 +428,7 @@ def plot_separately(values_dict, dir_names, xlabel, ylabel, save, filename):
         else:
             plt.show()
 
-def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, picked_atoms):
+def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename):
     plt.figure(figsize=(10, 6))
 
     patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
