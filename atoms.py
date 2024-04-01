@@ -34,10 +34,10 @@ for dir in dirs:
         if args.magnetic:
             print(f"{Colors.CYAN}{dir}{Colors.RESET}", atoms.get_magnetic_moments())
         if args.energy:
-            print(f"{Colors.GREEN}{dir}{Colors.RESET}", atoms.get_total_energy())
+            print(f"{Colors.ORANGE}{dir}{Colors.RESET}", atoms.get_total_energy())
         if args.charge:
             chg_path = os.path.join(dir_path, 'atoms_bader_charge.json')
             if not os.path.exists(chg_path):
                 subprocess.call('python ~/bin/verve/bader.py', shell=True, cwd=dir_path)
             if os.path.exists(chg_path):
-                print(f"{Colors.ORANGE}{dir}{Colors.RESET}", "Bader charges not implemented")
+                print(f"{Colors.GREEN}{dir}{Colors.RESET}", "Bader charges not implemented")
