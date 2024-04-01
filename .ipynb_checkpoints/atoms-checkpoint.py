@@ -19,7 +19,8 @@ class Colors:
     RESET = '\033[0m'
 
 dirs = [d for d in os.listdir('.') if os.path.isdir(d) and '_' in d]
-for dir in dirs:
+sorted_dirs = sorted(dirs)
+for dir in sorted_dirs:
     dir_path = os.path.join('.', dir)
     patterns = ['final*static*traj', 'final*opt*traj', '*json']
     matching_files = [file for pattern in patterns for file in glob.glob(os.path.join(dir_path, pattern))]
