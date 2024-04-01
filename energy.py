@@ -276,24 +276,22 @@ def extract_values(directory, patterns, norm, dir_range):
                 values.setdefault('energy', []).append(atoms.get_total_energy()/norm_numb)
             else:
                 values.setdefault('energy', []).append(np.nan)
-        print('hello', specific_patterns)
         if 'mag' in specific_patterns:
-            print('hello')
             if atoms:
                 M_up, M_down, O_up, O_down = [], [], [], []
+                
                 for i, atom in enumerate(atoms):
                     magmom = atoms.get_magnetic_moments()[i]
-                    print(magmom, atom.symbol)
                     if atom.symbol == 'O':
                         (O_up if magmom > 0 else O_down).append(magmom)
                     else:
                         (M_up if magmom > 0 else M_down).append(magmom)
-                print(M_up, M_down, O_up, O_down)
+                        
                 mag_M_up = sum(M_up) / len(M_up) if M_up else np.nan
                 mag_M_down = sum(M_down) / len(M_down) if M_down else np.nan
                 mag_O_up = sum(O_up) / len(O_up) if O_up else np.nan
                 mag_O_down = sum(O_down) / len(O_down) if O_down else np.nan
-                print(mag_M_up, mag_M_down, mag_O_up, mag_O_down)
+                
                 values.setdefault('mag_M_up', []).append(mag_M_up)
                 values.setdefault('mag_M_down', []).append(mag_M_down)
                 values.setdefault('mag_O_up', []).append(mag_O_up)
