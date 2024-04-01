@@ -374,6 +374,8 @@ def adjust_values(values_dict, ref, norm):
                    'ICOHP', 'ICOBI', 'bond', 'hexa_ratio', 'volume']
     if norm == 'm' or norm == 'n':
         norm = 1
+    else:
+        norm = int(norm)
     for pattern, values in values_dict.items():
         if ref == 'min':
             ref_value = min(values)
