@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import sys
 import argparse
 
-def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, sumup):
+def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels):
 
     metal_rows = {
         '3d': ['Ca', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn', 'Ga', 'Ge'],
@@ -31,26 +31,19 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, s
     for j, file in enumerate(filenames):
         df = pd.read_csv(file, delimiter='\t').iloc[:, 1:]
         df.columns = labels[j] if isinstance(labels[j], list) else [labels[j]]
-        if sumup:
-            summed_df = df if summed_df is None else summed_df + df
-        else:
-            merged_df = pd.concat([merged_df, df], axis=1)
+        merged_df = pd.concat([merged_df, df], axis=1)
 
-    if not sumup:
-        for j, pattern in enumerate(merged_df.columns):
-            x = range(len(merged_df[pattern]))
-            filtered_df = merged_df[pattern].dropna()
-            if filtered_df.empty:
-                print(f"No values found for pattern: {pattern}")
-                continue
-            plt.plot(x, filtered_df, marker=markers[j % len(markers)], color=colors[j % len(colors)], label=labels[j % len(labels)])
-        if 'hexa_ratio' in df.columns:
-            plt.plot(x, [1.633]*len(x), linestyle=':', label='hexa_ratio0', color='black')
-    else:
-        summed_df.to_csv(sum_filename, sep='\t')
-        print(f"Summed data saved to {sum_filename}")
-        exit()
-    
+
+    for j, pattern in enumerate(merged_df.columns):
+        x = range(len(merged_df[pattern]))
+        filtered_df = merged_df[pattern].dropna()
+        if filtered_df.empty:
+            print(f"No values found for pattern: {pattern}")
+            continue
+        plt.plot(x, filtered_df, marker=markers[j % len(markers)], color=colors[j % len(colors)], label=labels[j % len(labels)])
+    if 'hexa_ratio' in df.columns:
+        plt.plot(x, [1.633]*len(x), linestyle=':', label='hexa_ratio0', color='black')
+
     merged_df.to_csv(tsv_filename, sep='\t')
     print(f"Merged data saved to {tsv_filename}")
 
@@ -75,7 +68,6 @@ if __name__ == "__main__":
     parser.add_argument('-o', '--output', type=str, default='', help="The filename for the output PNG file.")
     parser.add_argument('-x', '--xlabel', type=str, default='Element or Lattice parameter (Å)', help="xlabel")
     parser.add_argument('-y', '--ylabel', type=str, default='Energy (eV) or Charge (e)', help="ylabel")
-    parser.add_argument('--sum', dest='sumup', action='store_true', default=False, help="sum up multiple tsv files")
     parser.add_argument('-l', '--labels', nargs='+', default=['Octahedral', 'Wurtzite', 'Zinc_Blende', 'CuO', 'NbO'], 
                         help="Custom labels for each file")
     parser.add_argument('-c', '--colors', nargs='+', default=['#d62728', '#ff7f0e', '#2ca02c', '#279ff2', '#9467bd'],
@@ -84,5 +76,5 @@ if __name__ == "__main__":
                         help='Colors to plot')
     
     args = parser.parse_args()        
-    plot_patterns_from_multiple_tsv(args.files, args.output, args.xlabel, args.ylabel, args.labels, args.sumup)
+    plot_patterns_from_multiple_tsv(args.files, args.output, args.xlabel, args.ylabel, args.labels)
 
