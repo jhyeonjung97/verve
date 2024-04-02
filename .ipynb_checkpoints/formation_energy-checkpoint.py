@@ -32,7 +32,7 @@ metal_3d = ['Ca', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn', 'Ga
 #     if metal in ['Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu']:
 #         min_values[i] = nist[metal]['metal']
 
-metal_df = metal_df.drop(df.columns[:3], axis=1)
+metal_df = metal_df.drop(metal_df.columns[:3], axis=1)
 metal_df.insert(0, '3d', min_values)
 metal_df.insert(0, '3d_fm', min_values)
 metal_df.insert(0, '3d_afm', min_values)
