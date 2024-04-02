@@ -24,7 +24,7 @@ def line_fitting(xfiles, yfiles, xlabel, ylabel, png_filename, tsv_filename):
         else:
             summed_yvalues = summed_y.values + df.values
             summed_y = pd.DataFrame(summed_yvalues, columns=df.columns, index=['Sum'])
-    
+    print(summed_x)
     with open(tsv_filename, 'w') as f:
         summed_x.to_csv(f, sep='\t')
         f.write('\n')
