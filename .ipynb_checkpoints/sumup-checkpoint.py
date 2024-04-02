@@ -50,8 +50,8 @@ def line_fitting(xfiles, yfiles, xlabel, ylabel, png_filename, tsv_filename):
     MAE = mean_absolute_error(YY_values, YY_pred)
     MSE = mean_squared_error(YY_values, YY_pred)
 
-    x_text_margin = np.min(X_values) + (np.max(X_values) - np.min(X_values)) * 0.02
-    y_text_margin = np.max(Y_values) - (np.max(Y_values) - np.min(Y_values)) * 0.05
+    x_text_margin = np.min(XX_values) + (np.max(XX_values) - np.min(XX_values)) * 0.02
+    y_text_margin = np.max(YY_values) - (np.max(YY_values) - np.min(YY_values)) * 0.05
     plt.text(x_text_margin, y_text_margin, 
              f"Y = {a:.3f}X + {b:.3f}\nR^2: {R2:.3f}, MAE: {MAE:.3f}, MSE: {MSE:.3f}", fontsize=9)
     
