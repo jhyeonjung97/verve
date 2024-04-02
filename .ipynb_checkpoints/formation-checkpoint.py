@@ -1,8 +1,6 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import sys
-import argparse
 
 metal_rows = {
     '3d': ['Ca', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn', 'Ga', 'Ge'],
@@ -26,7 +24,6 @@ for row in metal_rows:
     oxide_path = './energy_norm_energy.tsv'
     oxide_df = pd.read_csv(oxide_path, delimiter='\t', index_col=0)
     if metal_rows[row] == oxide_df.index.tolist():
-        indice = metal_rows[row]
         df = oxide_df.sub(metal_df[row].values, axis=0) - oxygen
 
 plt.figure(figsize=(8, 6))
@@ -46,7 +43,7 @@ for j, column in enumerate(df.columns):
 df.to_csv(tsv_filename, sep='\t')
 print(f"Merged data saved to {tsv_filename}")
 
-plt.xticks(column)
+plt.xticks(range(len(df.columns)), df.columns)
 plt.xlabel('Metal (MO)')
 plt.ylabel('Formation energy (eV/MO)')
 plt.legend()
