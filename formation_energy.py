@@ -39,7 +39,7 @@ metal_df.insert(0, '3d_afm', min_values)
 
 for row in ['3d_afm', '3d_fm', '3d', '4d', '5d']:
     oxide_path = '/pscratch/sd/j/jiuy97/3_V_shape/merged_norm_energy_' + row + '.tsv'
-    oxide_df = pd.read_csv(metal_path, delimiter='\t').iloc[:, 1:]
+    oxide_df = pd.read_csv(oxide_path, delimiter='\t').iloc[:, 1:]
     oxygen_E = -8.7702210 # eV, DFT
     oxygen_TS = 0.635139 # eV, at 298.15 K, 1 atm
     oxygen_ZPE = 0.096279 # eV, at 298.15 K, 1 atm
