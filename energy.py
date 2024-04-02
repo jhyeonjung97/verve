@@ -181,9 +181,9 @@ def extract_values(directory, patterns, norm, dir_range):
                     match = re.search(r'\s*\d+\.\d+\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)', line)
                     if match:
                         if 'Madelung_Mulliken' in specific_patterns:
-                            values.setdefault('Madelung_Mulliken', []).append(float(match.group(1)))
+                            values.setdefault('Madelung_Mulliken', []).append(float(match.group(1))/norm_numb)
                         if 'Madelung_Loewdin' in specific_patterns:
-                            values.setdefault('Madelung_Loewdin', []).append(float(match.group(2)))
+                            values.setdefault('Madelung_Loewdin', []).append(float(match.group(2))/norm_numb)
                         break
         if 'GP' in specific_patterns:
             i = numb - 1
@@ -268,7 +268,7 @@ def extract_values(directory, patterns, norm, dir_range):
                 values.setdefault('hexa_ratio', []).append(c / a)
         if 'volume' in specific_patterns:
             if atoms:
-                values.setdefault('volume', []).append(atoms.get_volume())
+                values.setdefault('volume', []).append(atoms.get_volume()/norm_numb)
             else:
                 values.setdefault('volume', []).append(np.nan)
         if 'energy' in specific_patterns:
