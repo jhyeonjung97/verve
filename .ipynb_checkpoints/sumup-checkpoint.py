@@ -15,17 +15,18 @@ def line_fitting(xfiles, yfiles, xlabel, ylabel, png_filename, tsv_filename):
             summed_x = df.copy()
         else:
             summed_xvalues = summed_x.values + df.values
-            print(summed_xvalues)
-            summed_x = pd.DataFrame(summed_xvalues, columns=df.columns, index=['Sum'])
-            
+            summed_x = pd.DataFrame(summed_xvalues, columns=df.columns)
+    print(summed_x)
+    
     for file in yfiles:
         df = pd.read_csv(file, delimiter='\t').iloc[:, 1:]
         if summed_y is None:
             summed_y = df.copy()
         else:
             summed_yvalues = summed_y.values + df.values
-            summed_y = pd.DataFrame(summed_yvalues, columns=df.columns, index=['Sum'])
-    print(summed_x)
+            summed_y = pd.DataFrame(summed_yvalues, columns=df.columns)
+    print(summed_y)
+    
     with open(tsv_filename, 'w') as f:
         summed_x.to_csv(f, sep='\t')
         f.write('\n')
