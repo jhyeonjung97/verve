@@ -5,6 +5,8 @@ import sys
 import argparse
 
 metal_rows = {
+    '3d_afm': ['Ca', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn', 'Ga', 'Ge'],
+    '3d_fm': ['Ca', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn', 'Ga', 'Ge'],
     '3d': ['Ca', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn', 'Ga', 'Ge'],
     '4d': ['Sr', 'Y', 'Zr', 'Nb', 'Mo', 'Tc', 'Ru', 'Rh', 'Pd', 'Ag', 'Cd', 'In', 'Sn'],
     '5d': ['Ba', 'La', 'Hf', 'Ta', 'W', 'Re', 'Os', 'Ir', 'Pt', 'Au', 'Hg', 'Tl', 'Pb']
@@ -76,7 +78,7 @@ for row in rows:
     df.to_csv(tsv_filename, sep='\t')
     print(f"Merged data saved to {tsv_filename}")
     
-    plt.xticks(np.arange(len(combined_labels)), combined_labels)
+    plt.xticks(np.arange(len(metal_rows[row])), metal_rows[row])
     plt.xlabel('Metal (MO)')
     plt.ylabel('Formation energy (eV/MO)')
     plt.legend()
