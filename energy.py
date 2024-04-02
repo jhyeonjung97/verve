@@ -15,7 +15,7 @@ def get_parser():
     parser.add_argument('-d', '--dir-range', type=str, default=None, help='Range of directories to investigate, e.g., "3,6"')
     parser.add_argument('-p', '--patterns', nargs='+', default=['energy'], help='Patterns to search and plot: \
     PSCENC, TEWEN, DENC, EXHF, XCENC, PAW_double_counting, EENTRO, EBANDS, EATOM, \
-    TOTEN, Madelung, Madelung_M, Madelung_L, ICOHP, ICOBI, mag, chg, Bader, GP, hexa')
+    TOTEN, Madelung, Madelung_M, Madelung_L, ICOHP, ICOBI, mag, chg, GP, hexa')
     parser.add_argument('-a', '--all', action='store_true', default=False, help='Show all components')
     parser.add_argument('-r', '--ref', type=str, default='zero', help='Adjust values by subtracting the minimum')
     parser.add_argument('-n', '--norm', default=0, help='Normalization factor')
@@ -102,16 +102,14 @@ def extract_values(directory, patterns, norm, dir_range):
         'EBANDS': r'eigenvalues    EBANDS =\s+([0-9.-]+)',
         'EATOM': r'atomic energy  EATOM  =\s+([0-9.-]+)',
         'Ediel_sol': r'Solvation  Ediel_sol  =\s+([0-9.-]+)',
-        'TOTEN': r'free energy    TOTEN  =\s+([0-9.-]+)',
-        # 'magnet': r'\s*\d+\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)',
-        # 'charge': r'magnetization \(x\)'
+        'TOTEN': r'free energy    TOTEN  =\s+([0-9.-]+)'
     }
             
     values = {key: [] for key in patterns}  # Initialize dict to store values for each pattern
     dir_names = []
     
     specific_patterns = set()
-    for pattern in ['Madelung_Mulliken', 'Madelung_Loewdin', 'Bader', 'ICOHP', 'ICOBI', 'GP', 
+    for pattern in ['Madelung_Mulliken', 'Madelung_Loewdin', 'ICOHP', 'ICOBI', 'GP', 
                     'hexa_ratio', 'volume', 'bond', 'energy', 'metals', 'mag', 'chg']:
         if pattern in patterns:
             patterns.discard(pattern)
@@ -202,25 +200,6 @@ def extract_values(directory, patterns, norm, dir_range):
                             values.setdefault('GP_Loewdin_M'+str(i), []).append(zval-float(match.group(2)))
                         if i != 0: i -= 1
                         else: break
-        # if 'Bader' in specific_patterns:
-        #     i = numb - 1
-        #     Bader_path = os.path.join(dir_path, 'ACF.dat')
-        #     if not os.path.exists(Bader_path):
-        #         subprocess.call('python ~/bin/verve/bader.py', shell=True, cwd=dir_path)
-        #     if os.path.exists(Bader_path):
-        #         with open(Bader_path, 'r') as file:
-        #             lines = file.readlines()
-        #         for line in lines:
-        #             match = re.search(r'\s*\d+\s+([-]?\d+\.\d+)\s+([-]?\d+\.\d+)\s+([-]?\d+\.\d+)\s+([-]?\d+\.\d+)', line)
-        #             if match:
-        #                 symbol = atoms[i].symbol
-        #                 zval = zval_dict[symbol]
-        #                 if symbol == 'O':
-        #                     values.setdefault('Bader_O'+str(i), []).append(zval-float(match.group(4)))
-        #                 else:
-        #                     values.setdefault('Bader_M'+str(i), []).append(zval-float(match.group(4)))
-        #                 if i != 0: i -= 1
-        #                 else: break
         if 'ICOHP' in specific_patterns:
             ICOHP_path = os.path.join(dir_path, 'icohp.txt')
             if not os.path.exists(ICOHP_path):
@@ -336,31 +315,10 @@ def extract_values(directory, patterns, norm, dir_range):
                             if key == 'PAW_double_counting':
                                 combined_value = sum(map(float, match.groups()))
                                 values[key].append(combined_value)
-                                break
-                            # elif key == 'magnet':
-                            #     symbol = atoms[i].symbol
-                            #     if symbol == 'O':
-                            #         values.setdefault('magnet_O'+str(i), []).append(float(match.group(4)))
-                            #     else:
-                            #         values.setdefault('magnet_M'+str(i), []).append(float(match.group(4)))
-                            #     if i != 0: i -= 1
-                            #     else: break
-                            # elif key == 'chg' and not in_charge_section:
-                            #     in_charge_section = True                                
+                                break                        
                             else:
                                 values[key].append(float(match.group(1)))
                                 break
-                        # if key == 'charge' and in_charge_section:
-                        #     symbol = atoms[i].symbol
-                        #     zval = zval_dict[symbol]
-                        #     match = re.compile(pattern_map['magnet']).search(line)
-                        #     if match:
-                        #         if symbol == 'O':                                
-                        #             values.setdefault('charge_O'+str(i), []).append(zval-float(match.group(4)))
-                        #         else:                                
-                        #             values.setdefault('charge_M'+str(i), []).append(zval-float(match.group(4)))
-                        #         if i != 0: i -= 1
-                        #         else: break
 
     return values, dir_names
 
@@ -392,9 +350,7 @@ def adjust_values(values_dict, ref, norm):
 
 def selected_values(values_dict, symbols):
     keys_to_remove_base = ['mag_M_up', 'mag_M_down', 'mag_O_up', 'mag_O_down', 'chg_M', 'chg_O',
-                           # 'magnet_M', 'magnet_O', 'charge_M', 'charge_O', 
-                           # 'magnet', 'charge', 
-                           'mag', 'chg', 'Bader', 'Madelung', 'GP']
+                           'mag', 'chg', 'Madelung', 'GP']
     keys_to_remove = [key for key in keys_to_remove_base if not any(sym in key for sym in symbols)]
     
     for key in keys_to_remove:
@@ -438,7 +394,6 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename):
     patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
                       'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'energy', 'Madelung_Mulliken', 'Madelung_Loewdin', 
                       'ICOHP', 'ICOBI', 'GP_Mulliken', 'GP_Loewdin', 'bond', 'hexa_ratio', 'volume',
-                      # 'magnet_M', 'magnet_O', 'charge_M', 'charge_O', 
                       'mag_M_up', 'mag_M_down', 'mag_O_up', 'mag_O_down', 'chg_M', 'chg_O']
     filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
 
@@ -489,7 +444,6 @@ def line_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filenam
     patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
                       'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'energy', 'Madelung_Mulliken', 'Madelung_Loewdin', 
                       'ICOHP', 'ICOBI', 'GP_Mulliken', 'GP_Loewdin', 'bond', 'hexa_ratio', 'volume',
-                      # 'magnet_M', 'magnet_O', 'charge_M', 'charge_O', 
                       'mag_M_up', 'mag_M_down', 'mag_O_up', 'mag_O_down', 'chg_M', 'chg_O']
     filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
 
@@ -533,7 +487,6 @@ def plane_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filena
     patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
                       'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'energy', 'Madelung_Mulliken', 'Madelung_Loewdin', 
                       'ICOHP', 'ICOBI', 'GP_Mulliken', 'GP_Loewdin', 'bond', 'hexa_ratio', 'volume',
-                      # 'magnet_M', 'magnet_O', 'charge_M', 'charge_O', 
                       'mag_M_up', 'mag_M_down', 'mag_O_up', 'mag_O_down', 'chg_M', 'chg_O']
     filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
 
