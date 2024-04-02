@@ -15,7 +15,7 @@ min_values = first_three_columns.min(axis=1)
 
 # If you want to replace these three columns with the minimum values column
 df = df.drop(df.columns[:3], axis=1)  # This removes the first three columns
-df.insert(0, 'Min_of_first_three', min_values)  # This inserts the min_values column as the first column
+df.insert(0, '3d', min_values)  # This inserts the min_values column as the first column
 
 print(df)
 # Or, if you want to create a new DataFrame
