@@ -61,19 +61,14 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, s
                 print(f"No values found for pattern: {pattern}")
                 continue
             plt.plot(x, filtered_df, marker=markers[j % len(markers)], color=colors[j % len(colors)], label=labels[j % len(labels)])
+        if 'hexa_ratio' in df.columns:
+            plt.plot(x, [1.633]*len(x), linestyle=':', label='hexa_ratio0', color='black')
         plt.legend()
-        plt.show()
-    
-    if sumup and summed_df is not None:
-        print(summed_df)  # Print or process summed_df as needed
-    
-    if 'hexa_ratio' in df.columns:
-        plt.plot(x, [1.633]*len(x), linestyle=':', label='hexa_ratio0', color='black')
-    if sumup:
+    else:
         summed_df.to_csv(sum_filename, sep='\t')
         print(f"Summed data saved to {sum_filename}")
         exit()
-        
+    
     merged_df.to_csv(tsv_filename, sep='\t')
     print(f"Merged data saved to {tsv_filename}")
     
