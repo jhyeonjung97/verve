@@ -33,7 +33,7 @@ plt.figure(figsize=(8, 6))
 png_filename = f"energy_formation.png"   
 tsv_filename = f"energy_formation.tsv"
 
-colors = plt.cm.rainbow(np.linspace(0, 1, len(filtered_patterns_order))) 
+colors = plt.cm.rainbow(np.linspace(0, 1, len(df.columns))) 
 
 for j, column in enumerate(df.columns):
     x = range(len(df[column]))
