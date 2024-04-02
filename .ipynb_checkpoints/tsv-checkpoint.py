@@ -21,31 +21,6 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, s
     
     plt.figure(figsize=(8, 6))
     # plt.figure(figsize=(4, 3))
-    
-    # all_indices_sets = []
-    # longest_length = 0
-    # for file in filenames:
-    #     df = pd.read_csv(file, delimiter='\t', index_col=0)
-    #     current_length = len(df.index.tolist())
-    #     if current_length > longest_length:
-    #         longest_length = current_length
-    #     indices_tuple = tuple(df.index)
-    #     all_indices_sets.append(indices_tuple)
-    
-    # seen = set()
-    # unique_indices_sets = []
-    # for indices in all_indices_sets:
-    #     if indices not in seen:
-    #         unique_indices_sets.append(indices)
-    #         seen.add(indices)
-
-    # merged_indices = ['' for _ in range(longest_length)]
-    # for i in range(longest_length):
-    #     for indices in unique_indices_sets:
-    #         if i < len(indices):  
-    #             merged_indices[i] += str(indices[i]) + '\n'
-    #         else:
-    #             merged_indices[i] += "NA\n"
 
     colors = ['#d62728', '#ff7f0e', '#2ca02c', '#279ff2', '#9467bd']
     markers = ['s', 'd', 'p', 'o', '>', '<', 'D']
@@ -79,46 +54,11 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, s
         summed_df.to_csv(sum_filename, sep='\t')
         print(f"Summed data saved to {sum_filename}")
         exit()
-
-    # # n = len(filenames)
-    # reversed_filenames = list(reversed(filenames))
-    # reversed_labels = list(reversed(labels))
-    # reversed_colors = list(reversed(colors))
-    # reversed_markers = list(reversed(markers))
-    # for j, file in enumerate(reversed_filenames):  # Correctly reversed with enumeration
-    #     # label_index = n - j - 1
-    #     df = pd.read_csv(file, delimiter='\t', index_col=0)
-    #     if sumup:
-    #         if summed_df is None:
-    #             summed_df = df.copy()
-    #         else:
-    #             summed_values = summed_df.values + df.values
-    #             summed_df = pd.DataFrame(summed_values, columns=df.columns, index=['Sum'])
-    #     else:
-    #         merged_df = pd.concat([merged_df, df], axis=1)
-    #         # transposed_df = df.T
-    #         for pattern in df.columns:
-    #             x = []
-    #             filtered_df = []
-    #             for i, v in enumerate(df[pattern]):
-    #                 if not np.isnan(v): 
-    #                     x.append(i)
-    #                     filtered_df.append(v)
-    #             if not filtered_df:
-    #                 print(f"No values found for pattern: {pattern}")
-    #                 continue
-    #             plt.plot(x, filtered_df, marker=reversed_markers[j], color=reversed_colors[j], label = reversed_labels[j])
-    # if 'hexa_ratio' in df.columns:
-    #     plt.plot(x, [1.633]*len(x), linestyle=':', label='hexa_ratio0', color='black')
-    # if sumup:
-    #     summed_df.to_csv(sum_filename, sep='\t')
-    #     print(f"Summed data saved to {sum_filename}")
-    #     exit()
         
     merged_df.to_csv(tsv_filename, sep='\t')
     print(f"Merged data saved to {tsv_filename}")
     
-    plt.xticks(np.arange(len(merged_indices)), merged_indices)
+    # plt.xticks(np.arange(len(merged_indices)), merged_indices)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
     plt.legend()
