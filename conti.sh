@@ -10,4 +10,5 @@ done
 mkdir $save
 cp * $save
 ase convert -f CONTCAR start.traj
+ase convert -f CONTCAR restart.json
 sh ~/bin/verve/resub.sh
