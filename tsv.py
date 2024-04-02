@@ -34,7 +34,7 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels):
     
     for j, file in enumerate(reversed_filenames):
         df = pd.read_csv(file, delimiter='\t').iloc[:, 1:]
-        df.columns = reversed_labels[j] if isinstance(reversed_labels[j], list) else [reversed_labels[j]]
+        df.columns = reversed_labels[j] # if isinstance(reversed_labels[j], list) else [reversed_labels[j]]
         merged_df = pd.concat([merged_df, df], axis=1)
 
     for j, pattern in enumerate(merged_df.columns):
