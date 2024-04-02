@@ -26,13 +26,16 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels):
 
     colors = ['#d62728', '#ff7f0e', '#2ca02c', '#279ff2', '#9467bd']
     markers = ['s', 'd', 'p', 'o', '>', '<', 'D']
+
+    reversed_filenames = reversed(filenames)
+    reversed_labels = reversed(labels)
+    reversed_colors = reversed(colors)
+    reversed_markers = reversed(markers)
     
-
-    for j, file in enumerate(filenames):
+    for j, file in enumerate(reversed_filenames):
         df = pd.read_csv(file, delimiter='\t').iloc[:, 1:]
-        df.columns = labels[j] if isinstance(labels[j], list) else [labels[j]]
+        df.columns = reversed_labels[j] if isinstance(reversed_labels[j], list) else [reversed_labels[j]]
         merged_df = pd.concat([merged_df, df], axis=1)
-
 
     for j, pattern in enumerate(merged_df.columns):
         x = range(len(merged_df[pattern]))
@@ -40,7 +43,10 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels):
         if filtered_df.empty:
             print(f"No values found for pattern: {pattern}")
             continue
-        plt.plot(x, filtered_df, marker=markers[j % len(markers)], color=colors[j % len(colors)], label=labels[j % len(labels)])
+        plt.plot(x, filtered_df, 
+                 marker=reversed_markers[j % len(reversed_markers)], 
+                 color=reversed_colors[j % len(reversed_colors)], 
+                 label=reversed_labels[j % len(reversed_labels)])
     if 'hexa_ratio' in df.columns:
         plt.plot(x, [1.633]*len(x), linestyle=':', label='hexa_ratio0', color='black')
 
