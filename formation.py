@@ -29,8 +29,7 @@ for row in metal_rows:
     oxide_path = './energy_norm_energy.tsv'
     oxide_df = pd.read_csv(oxide_path, delimiter='\t', index_col=0)
     print(oxide_df.index.tolist())
-    # print(oxide_df.iloc[:,0].tolist)
-    if metal_rows[row] == oxide_df.iloc[:,0].tolist:
+    if metal_rows[row] == oxide_df.index.tolist():
         df = oxide_df.sub(metal_df[row].values, axis=0) - oxygen
 
 png_filename = f"energy_formation.png"   
