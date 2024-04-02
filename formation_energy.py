@@ -25,14 +25,14 @@ oxygen = (oxygen_E - oxygen_TS + oxygen_ZPE) / 2
 
 # metal_3d = ['Ca', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn', 'Ga', 'Ge']
 # nist = {
-#     'Ti': {'M': 1, 'O':2, 'Ef': -889.406, 'E_dft': , 'ZPE': , 'S_vib': }, # 1692 1809 mp2657 Titanium Dioxide (Rutile)
-#     'V': {'M': 2, 'O':5, 'Ef': -1419.359, 'E_dft': , 'ZPE': , 'S_vib': }, # 1780 1892 mp25279 Divanadium Pentaoxide
-#     'Cr': {'M': 2, 'O':3, 'Ef': -1058.067, 'E_dft': , 'ZPE': , 'S_vib': }, # 573 688 mp19399 Dichromium Trioxide
-#     'Mn': {'M': 1, 'O':1, 'Ef': -362.898, 'E_dft': , 'ZPE': , 'S_vib': }, # 1046 1162 mp19006 Manganese Oxide
-#     'Fe': {'M': 2, 'O':3, 'Ef': -742.294, 'E_dft': , 'ZPE': , 'S_vib': }, # 702 817 mp19770 Hematite
-#     'Co': {'M': 3, 'O':4, 'Ef': -794.901, 'E_dft': , 'ZPE': , 'S_vib': }, # 544 659 mp18748 Tricobalt Tetraoxide
-#     'Ni': {'M': 1, 'O':1, 'Ef': -211.539, 'E_dft': , 'ZPE': , 'S_vib': }, # 1213 1330 mp19009 Nickel Oxide
-#     'Cu': {'M': 1, 'O':1, 'Ef': -128.292, 'E_dft': , 'ZPE': , 'S_vib': } # 620 735 mp704645 Copper Monoxide
+#     'Ti': {'M': 1, 'O':2, 'Ef': -889.406, 'E_dft': , 'ZPE': , 'S_vib': }, # 1692 1809 mp-2657 Titanium Dioxide (Rutile)
+#     'V': {'M': 2, 'O':5, 'Ef': -1419.359, 'E_dft': , 'ZPE': , 'S_vib': }, # 1780 1892 mp-25279 Divanadium Pentaoxide
+#     'Cr': {'M': 2, 'O':3, 'Ef': -1058.067, 'E_dft': , 'ZPE': , 'S_vib': }, # 573 688 mp-19399 Dichromium Trioxide
+#     'Mn': {'M': 1, 'O':1, 'Ef': -362.898, 'E_dft': , 'ZPE': , 'S_vib': }, # 1046 1162 mp-19006 Manganese Oxide
+#     'Fe': {'M': 2, 'O':3, 'Ef': -742.294, 'E_dft': , 'ZPE': , 'S_vib': }, # 702 817 mp-19770 Hematite
+#     'Co': {'M': 3, 'O':4, 'Ef': -794.901, 'E_dft': , 'ZPE': , 'S_vib': }, # 544 659 mp-18748 Tricobalt Tetraoxide
+#     'Ni': {'M': 1, 'O':1, 'Ef': -211.539, 'E_dft': , 'ZPE': , 'S_vib': }, # 1213 1330 mp-19009 Nickel Oxide
+#     'Cu': {'M': 1, 'O':1, 'Ef': -128.292, 'E_dft': , 'ZPE': , 'S_vib': } # 620 735 mp-704645 Copper Monoxide
 #     }
 
 # T = 298.15
