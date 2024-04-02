@@ -71,7 +71,7 @@ for row in rows:
         if filtered_df.empty:
             print(f"No values found for pattern: {column}")
             continue
-        plt.plot(x, filtered_df, marker=markers[j % len(markers)], color=colors[j % len(colors)], label=column])
+        plt.plot(x, filtered_df, marker=markers[j % len(markers)], color=colors[j % len(colors)], label=column)
     
     df.to_csv(tsv_filename, sep='\t')
     print(f"Merged data saved to {tsv_filename}")
