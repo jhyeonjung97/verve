@@ -14,7 +14,7 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, s
     
     merged_df = None
     summed_df = None
-    merged_indices = ""
+    merged_indice = ""
     
     png_filename = f"merged_{output}.png"   
     tsv_filename = f"merged_{output}.tsv"
@@ -56,8 +56,9 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, s
     # for row in metal_rows:
     #     merged_indices = metal_rows[row] if merged_indices is None else merged_indices + metal_rows[row]
     for row in metal_rows.values():  # Iterate over the list of metal symbols
-        merged_indices += ' '.join(row) + '\n'
-    plt.xticks(np.arange(len(metal_rows['3d'])), merged_indices)
+        merged_indice += ' '.join(row) + '\n'
+    print(merged_indice)
+    plt.xticks(np.arange(len(metal_rows['3d'])), merged_indice)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
     plt.legend()
