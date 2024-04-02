@@ -10,7 +10,7 @@ def line_fitting(xfiles, yfiles, xlabel, ylabel, png_filename, tsv_filename):
     summed_y = None
     
     for file in xfiles:
-        df = pd.read_csv(file, delimiter='\t')
+        df = pd.read_csv(file, delimiter='\t', index_col=1)
         if summed_x is None:
             summed_x = df.copy()
         else:
@@ -19,7 +19,7 @@ def line_fitting(xfiles, yfiles, xlabel, ylabel, png_filename, tsv_filename):
             summed_x = pd.DataFrame(summed_xvalues, columns=df.columns, index=['Sum'])
             
     for file in yfiles:
-        df = pd.read_csv(file, delimiter='\t')
+        df = pd.read_csv(file, delimiter='\t', index_col=1)
         if summed_y is None:
             summed_y = df.copy()
         else:
