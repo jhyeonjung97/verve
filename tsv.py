@@ -27,14 +27,14 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels):
     colors = ['#d62728', '#ff7f0e', '#2ca02c', '#279ff2', '#9467bd']
     markers = ['s', 'd', 'p', 'o', '>', '<', 'D']
 
-    reversed_filenames = reversed(filenames)
-    reversed_labels = reversed(labels)
-    reversed_colors = reversed(colors)
-    reversed_markers = reversed(markers)
+    reversed_filenames = list(reversed(filenames))
+    reversed_labels = list(reversed(labels))
+    reversed_colors = list(reversed(colors))
+    reversed_markers = list(reversed(markers))
     
     for j, file in enumerate(reversed_filenames):
         df = pd.read_csv(file, delimiter='\t').iloc[:, 1:]
-        df.columns = reversed_labels[j] # if isinstance(reversed_labels[j], list) else [reversed_labels[j]]
+        df.columns = reversed_labels[j] if isinstance(reversed_labels[j], list) else [reversed_labels[j]]
         merged_df = pd.concat([merged_df, df], axis=1)
 
     for j, pattern in enumerate(merged_df.columns):
