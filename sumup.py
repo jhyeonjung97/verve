@@ -50,6 +50,8 @@ def line_fitting(xfiles, yfiles, xlabel, ylabel, png_filename, tsv_filename):
     MAE = mean_absolute_error(YY_values, YY_pred)
     MSE = mean_squared_error(YY_values, YY_pred)
 
+    x_text_margin = np.min(X) + (np.max(X) - np.min(X)) * 0.02
+    y_text_margin = np.max(Y) - (np.max(Y) - np.min(Y)) * 0.05
     plt.text(x_text_margin, y_text_margin, 
              f"Y = {a:.3f}X + {b:.3f}\nR^2: {R2:.3f}, MAE: {MAE:.3f}, MSE: {MSE:.3f}", fontsize=9)
     
@@ -59,17 +61,11 @@ def line_fitting(xfiles, yfiles, xlabel, ylabel, png_filename, tsv_filename):
     # plt.text(np.min(X), np.max(Y) - (np.max(Y) - np.min(Y)) * 0.1, 
     #          f"R^2: {R2:.3f}, MAE: {MAE:.3f}, MSE: {MSE:.3f}", fontsize=12)
     
-    x_text_margin = np.min(X) + (np.max(X) - np.min(X)) * 0.02
-    y_text_margin = np.max(Y) - (np.max(Y) - np.min(Y)) * 0.05
-    
     png_filename = 'scatter_plot.png'
     plt.savefig(png_filename, bbox_inches="tight")
     print(f"Figure saved as {png_filename}")
     plt.close()
     
-
-
-
         
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Plot 2d fitting with sumup data.')
