@@ -26,10 +26,13 @@ def line_fitting(xfiles, yfiles, xlabel, ylabel, png_filename, tsv_filename):
     num_rows, num_cols = summed_x.shape
     print(num_rows, num_cols)
     plt.figure()
-    for i in range(num_rows):
-        for j in range(num_cols):
-            # Plot each pair of corresponding values
-            plt.scatter(summed_x[i][j], summed_y[i][j], color='r')  # Color fixed for simplicity
+    for col_name in summed_x.columns:
+        # Extracting values for the current column from both DataFrames
+        X_values = summed_x[col_name].values
+        Y_values = summed_y[col_name].values
+        
+        # Plotting each pair of X and Y values
+        plt.scatter(X_values, Y_values, label=col_name)
     
     # Assuming linear fitting was done and a, b coefficients are available
     a, b = 1, 0  # Placeholder coefficients for the sake of this example
