@@ -22,24 +22,19 @@ oxygen = (oxygen_E - oxygen_TS + oxygen_ZPE) / 2
 metal_df.drop(metal_df.columns[:3], axis=1, inplace=True)
 metal_df.insert(0, '3d', min_values)
 
-colors = ['#d62728', '#ff7f0e', '#2ca02c', '#279ff2', '#9467bd']
-markers = ['s', 'd', 'p', 'o', '>', '<', 'D']
-
 for row in metal_rows:
     oxide_path = './energy_norm_energy.tsv'
     oxide_df = pd.read_csv(oxide_path, delimiter='\t', index_col=0)
     print(oxide_df.index.tolist())
     if metal_rows[row] == oxide_df.index.tolist():
+        indice = metal_rows[row]
         df = oxide_df.sub(metal_df[row].values, axis=0) - oxygen
 
+plt.figure(figsize=(8, 6))
 png_filename = f"energy_formation.png"   
 tsv_filename = f"energy_formation.tsv"
-    
-plt.figure(figsize=(8, 6))
-# reversed_filenames = reversed(filenames)
-# reversed_labels = reversed(labels)
-# reversed_colors = reversed(colors)
-# reversed_markers = reversed(markers)
+
+colors = plt.cm.rainbow(np.linspace(0, 1, len(filtered_patterns_order))) 
 
 for j, column in enumerate(df.columns):
     x = range(len(df[column]))
@@ -47,12 +42,12 @@ for j, column in enumerate(df.columns):
     if filtered_df.empty:
         print(f"No values found for pattern: {column}")
         continue
-    plt.plot(x, filtered_df, marker=markers[j % len(markers)], color=colors[j % len(colors)], label=column)
+    plt.plot(x, filtered_df, marker='o', color=colors[j % len(colors)], label=column)
 
 df.to_csv(tsv_filename, sep='\t')
 print(f"Merged data saved to {tsv_filename}")
 
-plt.xticks(np.arange(len(metal_rows[row])), metal_rows[row])
+plt.xticks(np.arange(len(indice), indice)
 plt.xlabel('Metal (MO)')
 plt.ylabel('Formation energy (eV/MO)')
 plt.legend()
@@ -60,5 +55,3 @@ plt.tight_layout()
 plt.gcf().savefig(png_filename, bbox_inches="tight")
 print(f"Figure saved as {png_filename}")
 plt.close()
-
-
