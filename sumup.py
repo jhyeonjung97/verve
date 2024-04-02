@@ -24,7 +24,7 @@ def line_fitting(xfiles, yfiles, xlabel, ylabel, png_filename, tsv_filename):
             summed_y += df
 
     num_rows, num_cols = summed_x.shape
-    print(summed_x)
+    print(num_rows, num_cols)
     plt.figure()
     for i in range(num_rows):
         for j in range(num_cols):
