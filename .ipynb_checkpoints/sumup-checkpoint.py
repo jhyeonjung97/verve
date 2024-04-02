@@ -25,18 +25,22 @@ def line_fitting(xfiles, yfiles, xlabel, ylabel, png_filename, tsv_filename):
 
     num_rows, num_cols = summed_x.shape
     plt.figure()
+    XX_values = None
+    YY_values = None
     for col_name in summed_x.columns:
         X_values = summed_x[col_name].values
         Y_values = summed_y[col_name].values
+        XX_values += X_values
+        YY_values += Y_values
         plt.scatter(X_values, Y_values, label=col_name)
         
-        A = np.vstack([X_values, np.ones(len(X_values))]).T
-        coeffs, residuals, rank, s = np.linalg.lstsq(A, Y_values, rcond=None)
-        a, b = coeffs
-        xx = np.linspace(np.min(X_values), np.max(X_values), 1000)
-        yy = a * xx + b
-        plt.plot(xx, yy, color='b', alpha=0.5)
-    
+    A = np.vstack([XX_values, np.ones(len(XX_values))]).T
+    coeffs, residuals, rank, s = np.linalg.lstsq(A, YY_values, rcond=None)
+    a, b = coeffs
+    xx = np.linspace(np.min(XX_values), np.max(XX_values), 1000)
+    yy = a * xx + b
+    plt.plot(xx, yy, color='b', alpha=0.5)
+
     plt.xlabel('summed_x')
     plt.ylabel('summed_y')
     
