@@ -43,6 +43,7 @@ for j, column in enumerate(df.columns):
 df.to_csv(tsv_filename, sep='\t')
 print(f"Merged data saved to {tsv_filename}")
 
+plt.xticks(x, df.index)
 plt.xlabel('Metal (MO)')
 plt.ylabel('Formation energy (eV/MO)')
 plt.legend()
