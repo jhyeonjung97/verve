@@ -24,27 +24,22 @@ def line_fitting(xfiles, yfiles, xlabel, ylabel, png_filename, tsv_filename):
             summed_y += df
 
     num_rows, num_cols = summed_x.shape
-    print(num_rows, num_cols)
     plt.figure()
     for col_name in summed_x.columns:
-        # Extracting values for the current column from both DataFrames
         X_values = summed_x[col_name].values
         Y_values = summed_y[col_name].values
-        
-        # Plotting each pair of X and Y values
         plt.scatter(X_values, Y_values, label=col_name)
+        
+        A = np.vstack([X_values, np.ones(len(X_values))]).T
+        coeffs, residuals, rank, s = np.linalg.lstsq(A, Y_values, rcond=None)
+        a, b = coeffs
+        xx = np.linspace(np.min(X_values), np.max(X_values), 1000)
+        yy = a * xx + b
+        plt.plot(xx, yy, color='b', alpha=0.5)
     
-    # Assuming linear fitting was done and a, b coefficients are available
-    a, b = 1, 0  # Placeholder coefficients for the sake of this example
-    xx = np.linspace(np.min(summed_x), np.max(summed_x), 1000)
-    yy = a * xx + b
-    plt.plot(xx, yy, color='b', alpha=0.5)
-    
-    # Optional: additional plot adjustments, such as labels, titles, etc.
     plt.xlabel('summed_x')
     plt.ylabel('summed_y')
     
-    # Save the plot
     png_filename = 'scatter_plot.png'
     plt.savefig(png_filename, bbox_inches="tight")
     print(f"Figure saved as {png_filename}")
