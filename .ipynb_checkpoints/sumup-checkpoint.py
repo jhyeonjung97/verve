@@ -61,7 +61,6 @@ def line_fitting(xfiles, yfiles, xlabel, ylabel, png_filename, tsv_filename):
     # plt.text(np.min(X), np.max(Y) - (np.max(Y) - np.min(Y)) * 0.1, 
     #          f"R^2: {R2:.3f}, MAE: {MAE:.3f}, MSE: {MSE:.3f}", fontsize=12)
     
-    png_filename = 'scatter_plot.png'
     plt.savefig(png_filename, bbox_inches="tight")
     print(f"Figure saved as {png_filename}")
     plt.close()
