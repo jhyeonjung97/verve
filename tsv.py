@@ -27,6 +27,7 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, s
 
     for j, file in enumerate(filenames):
         df = pd.read_csv(file, delimiter='\t').iloc[:, 1:]
+        df.columns = labels[j]
         if sumup:
             if summed_df is None:
                 summed_df = df.copy()
