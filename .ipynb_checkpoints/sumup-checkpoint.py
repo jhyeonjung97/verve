@@ -44,6 +44,7 @@ def line_fitting(xfiles, yfiles, xlabel, ylabel, png_filename, tsv_filename):
     plt.plot(xx, yy, color='black', alpha=0.5)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
+    plt.legend()
     
     YY_pred = a*XX_values + b
     R2 = r2_score(YY_values, YY_pred)
