@@ -51,7 +51,7 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, s
     markers = ['s', 'd', 'p', 'o', '>', '<', 'D']
 
     for j, file in enumerate(filenames):
-        df = pd.read_csv(file, delimiter='\t', index_col=0)
+        df = pd.read_csv(file, delimiter='\t')
         if sumup:
             if summed_df is None:
                 summed_df = df.copy()
