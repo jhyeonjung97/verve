@@ -25,7 +25,7 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, s
     all_indices_sets = []
     longest_length = 0
     for file in filenames:
-        df = pd.read_csv(file, delimiter='\t', index_col=0).T
+        df = pd.read_csv(file, delimiter='\t', index_col=0)
         print(df)
         current_length = len(df.index.tolist())
         if current_length > longest_length:
