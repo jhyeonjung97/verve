@@ -27,28 +27,46 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, s
 
     for j, file in enumerate(filenames):
         df = pd.read_csv(file, delimiter='\t').iloc[:, 1:]
-        df.columns = labels[j]
+        df.columns = labels[j] if isinstance(labels[j], list) else [labels[j]]
         if sumup:
-            if summed_df is None:
-                summed_df = df.copy()
-            else:
-                summed_values = summed_df.values + df.values
-                summed_df = pd.DataFrame(summed_values, columns=df.columns, index=['Sum'])
-                print(summed_df)
+            summed_df = df if summed_df is None else summed_df + df
         else:
             merged_df = pd.concat([merged_df, df], axis=1)
-            print(merged_df)
-            for pattern in df.columns:
-                x = []
-                filtered_df = []
-                for i, v in enumerate(df[pattern]):
-                    if not np.isnan(v): 
-                        x.append(i)
-                        filtered_df.append(v)
-                if not filtered_df:
-                    print(f"No values found for pattern: {pattern}")
-                    continue
-                plt.plot(x, filtered_df, marker=markers[j], color=colors[j], label = labels[j])
+        # if sumup:
+        #     if summed_df is None:
+        #         summed_df = df.copy()
+        #     else:
+        #         summed_values = summed_df.values + df.values
+        #         summed_df = pd.DataFrame(summed_values, columns=df.columns, index=['Sum'])
+        #         print(summed_df)
+        # else:
+        #     merged_df = pd.concat([merged_df, df], axis=1)
+        #     print(merged_df)
+        #     for pattern in df.columns:
+        #         x = []
+        #         filtered_df = []
+        #         for i, v in enumerate(df[pattern]):
+        #             if not np.isnan(v): 
+        #                 x.append(i)
+        #                 filtered_df.append(v)
+        #         if not filtered_df:
+        #             print(f"No values found for pattern: {pattern}")
+        #             continue
+        #         plt.plot(x, filtered_df, marker=markers[j], color=colors[j], label = labels[j])
+    if not sumup:
+        for j, pattern in enumerate(merged_df.columns):
+            x = range(len(merged_df[pattern]))
+            filtered_df = merged_df[pattern].dropna()
+            if filtered_df.empty:
+                print(f"No values found for pattern: {pattern}")
+                continue
+            plt.plot(x, filtered_df, marker=markers[j % len(markers)], color=colors[j % len(colors)], label=labels[j % len(labels)])
+        plt.legend()
+        plt.show()
+    
+    if sumup and summed_df is not None:
+        print(summed_df)  # Print or process summed_df as needed
+    
     if 'hexa_ratio' in df.columns:
         plt.plot(x, [1.633]*len(x), linestyle=':', label='hexa_ratio0', color='black')
     if sumup:
