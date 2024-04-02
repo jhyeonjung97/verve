@@ -60,7 +60,7 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, s
                 summed_df = pd.DataFrame(summed_values, columns=df.columns, index=['Sum'])
                 print(summed_df)
         else:
-            merged_df = pd.concat([merged_df, df], axis=0)
+            merged_df = pd.concat([merged_df, df], axis=1)
             print(merged_df)
             for pattern in df.columns:
                 x = []
