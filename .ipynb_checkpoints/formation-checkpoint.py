@@ -27,8 +27,8 @@ for row in metal_rows:
         df = oxide_df.sub(metal_df[row].values, axis=0) - oxygen
 
 plt.figure(figsize=(8, 6))
-png_filename = f"energy_formation.png"   
-tsv_filename = f"energy_formation.tsv"
+png_filename = f"energy_norm_formation.png"   
+tsv_filename = f"energy_norm_formation.tsv"
 
 colors = plt.cm.rainbow(np.linspace(0, 1, len(df.columns))) 
 
