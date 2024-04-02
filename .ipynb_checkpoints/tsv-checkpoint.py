@@ -14,7 +14,7 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, s
     
     merged_df = None
     summed_df = None
-    merged_indice = None
+    merged_indice = ""
     
     png_filename = f"merged_{output}.png"   
     tsv_filename = f"merged_{output}.tsv"
