@@ -45,9 +45,9 @@ rows = ['3d_afm', '3d_fm', '3d', '4d', '5d']
 for row in rows:
     oxide_path = f'/pscratch/sd/j/jiuy97/3_V_shape/merged_norm_energy_{row}.tsv'
     oxide_df = pd.read_csv(oxide_path, delimiter='\t').iloc[:, 1:]
-    temp_metal_df = pd.concat([metal_df] * len(oxide_df.columns), axis=1)
-    temp_metal_df.columns = oxide_df.columns     
-    df = oxide_df - temp_metal_df - oxygen
+    # temp_metal_df = pd.concat([metal_df[row]] * len(oxide_df.columns), axis=1)
+    # temp_metal_df.columns = oxide_df.columns     
+    df = oxide_df.sub(metal_df[row].values, axis=0) - oxygen
     print(df)
 
 
