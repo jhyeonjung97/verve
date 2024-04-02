@@ -6,10 +6,9 @@ import argparse
 
 metal_path = '/pscratch/sd/j/jiuy97/3_V_shape/metal/merged_norm_energy.tsv'
 metal_df = pd.read_csv(metal_path, delimiter='\t').iloc[:, 1:]
-first_three_columns = metal_df.iloc[:, :3]
-min_values = first_three_columns.min(axis=1)
+min_values = metal_df.iloc[:, :3].min(axis=1)
 
-metal_3d = ['Ca', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn', 'Ga', 'Ge']
+# metal_3d = ['Ca', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn', 'Ga', 'Ge']
 # nist = {
 #     'Ti': {'M': 1, 'O':2, 'Ef': -889.406, 'E_dft': , 'ZPE': , 'S_vib': }, # 1692 1809 mp2657 Titanium Dioxide (Rutile)
 #     'V': {'M': 2, 'O':5, 'Ef': -1419.359, 'E_dft': , 'ZPE': , 'S_vib': }, # 1780 1892 mp25279 Divanadium Pentaoxide
@@ -32,18 +31,21 @@ metal_3d = ['Ca', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn', 'Ga
 #     if metal in ['Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu']:
 #         min_values[i] = nist[metal]['metal']
 
-metal_df = metal_df.drop(metal_df.columns[:3], axis=1)
+metal_df.drop(metal_df.columns[:3], axis=1, inplace=True)
 metal_df.insert(0, '3d', min_values)
 metal_df.insert(0, '3d_fm', min_values)
 metal_df.insert(0, '3d_afm', min_values)
 
-for row in ['3d_afm', '3d_fm', '3d', '4d', '5d']:
-    oxide_path = '/pscratch/sd/j/jiuy97/3_V_shape/merged_norm_energy_' + row + '.tsv'
+oxygen_E = -8.7702210 # eV, DFT
+oxygen_TS = 0.635139 # eV, at 298.15 K, 1 atm
+oxygen_ZPE = 0.096279 # eV, at 298.15 K, 1 atm
+oxygen = (oxygen_E - oxygen_TS + oxygen_ZPE) / 2
+
+rows = ['3d_afm', '3d_fm', '3d', '4d', '5d']
+for row in rows:
+    oxide_path = f'/pscratch/sd/j/jiuy97/3_V_shape/merged_norm_energy_{row}.tsv'
     oxide_df = pd.read_csv(oxide_path, delimiter='\t').iloc[:, 1:]
-    oxygen_E = -8.7702210 # eV, DFT
-    oxygen_TS = 0.635139 # eV, at 298.15 K, 1 atm
-    oxygen_ZPE = 0.096279 # eV, at 298.15 K, 1 atm
-    oxygen = (oxygen_E - oxygen_TS + oxygen_ZPE) / 2
+
     df = oxide_df - metal_df - oxygen
     print(df)
 
