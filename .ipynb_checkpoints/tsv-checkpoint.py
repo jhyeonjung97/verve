@@ -13,8 +13,8 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels):
         }
     # combined_labels = [f'{a}\n{b}\n{c}' for a, b, c in zip(metal_rows['3d'], metal_rows['4d'], metal_rows['5d'])]
     # combined_labels = metal_rows['3d']
-    combined_labels = metal_rows['4d']
-    # combined_labels = metal_rows['5d']
+    # combined_labels = metal_rows['4d']
+    combined_labels = metal_rows['5d']
 
     merged_df = None
     summed_df = None
