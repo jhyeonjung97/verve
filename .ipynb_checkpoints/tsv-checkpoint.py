@@ -52,10 +52,10 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, c
     merged_df.to_csv(tsv_filename, sep='\t')
     print(f"Merged data saved to {tsv_filename}")
 
-    plt.xticks(np.arange(len(indice)), indice, fontsize=12) #9
-    plt.yticks(fontsize=12) #9
-    plt.xlabel(xlabel, fontsize=12) #9
-    plt.ylabel(ylabel, fontsize=12) #9
+    plt.xticks(np.arange(len(indice)), indice, fontsize=10) #9
+    plt.yticks(fontsize=10) #9
+    plt.xlabel(xlabel, fontsize=10) #9
+    plt.ylabel(ylabel, fontsize=10) #9
     plt.legend(prop={'size': 10}, ncol=1) #7
     # plt.grid(True)
     plt.tight_layout()
