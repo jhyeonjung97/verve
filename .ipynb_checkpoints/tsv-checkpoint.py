@@ -12,7 +12,7 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, c
         '5d': ['Ba', 'La', 'Hf', 'Ta', 'W', 'Re', 'Os', 'Ir', 'Pt', 'Au', 'Hg', 'Tl', 'Pb']
         }
     
-    if rows:
+    if row:
         indice = metal_rows[row]
     else:
         indice = [f'{a}\n{b}\n{c}' for a, b, c in zip(metal_rows['3d'], metal_rows['4d'], metal_rows['5d'])]
