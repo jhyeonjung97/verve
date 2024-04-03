@@ -46,15 +46,15 @@ def line_fitting(xfiles, yfiles, xlabel, ylabel, png_filename, tsv_filename):
     plt.ylabel(ylabel)
     plt.legend()
     
-    # YY_pred = a*XX_values + b
-    # R2 = r2_score(YY_values, YY_pred)
-    # MAE = mean_absolute_error(YY_values, YY_pred)
-    # MSE = mean_squared_error(YY_values, YY_pred)
+    YY_pred = a*XX_values + b
+    R2 = r2_score(YY_values, YY_pred)
+    MAE = mean_absolute_error(YY_values, YY_pred)
+    MSE = mean_squared_error(YY_values, YY_pred)
 
-    # x_text_margin = np.min(XX_values) + (np.max(XX_values) - np.min(XX_values)) * 0.3
-    # y_text_margin = np.max(YY_values) - (np.max(YY_values) - np.min(YY_values)) * 0.95
-    # plt.text(x_text_margin, y_text_margin, 
-    #          f"Y = {a:.3f}X + {b:.3f}\nR^2: {R2:.3f}, MAE: {MAE:.3f}, MSE: {MSE:.3f}", fontsize=9)
+    x_text_margin = np.min(XX_values) + (np.max(XX_values) - np.min(XX_values)) * 0.2
+    y_text_margin = np.max(YY_values) - (np.max(YY_values) - np.min(YY_values)) * 0.95
+    plt.text(x_text_margin, y_text_margin, 
+             f"Y = {a:.3f}X + {b:.3f}\nR^2: {R2:.3f}, MAE: {MAE:.3f}, MSE: {MSE:.3f}", fontsize=9)
     
     # print(f"Y = {a:.3f}X + {b:.3f}")
     # print(f"R^2: {R2:.3f}, MAE: {MAE:.3f}, MSE: {MSE:.3f}")
