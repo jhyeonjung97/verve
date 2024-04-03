@@ -11,10 +11,10 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels):
         '4d': ['Sr', 'Y', 'Zr', 'Nb', 'Mo', 'Tc', 'Ru', 'Rh', 'Pd', 'Ag', 'Cd', 'In', 'Sn'],
         '5d': ['Ba', 'La', 'Hf', 'Ta', 'W', 'Re', 'Os', 'Ir', 'Pt', 'Au', 'Hg', 'Tl', 'Pb']
         }
-    # combined_labels = [f'{a}\n{b}\n{c}' for a, b, c in zip(metal_rows['3d'], metal_rows['4d'], metal_rows['5d'])]
+    combined_labels = [f'{a}\n{b}\n{c}' for a, b, c in zip(metal_rows['3d'], metal_rows['4d'], metal_rows['5d'])]
     # combined_labels = metal_rows['3d']
     # combined_labels = metal_rows['4d']
-    combined_labels = metal_rows['5d']
+    # combined_labels = metal_rows['5d']
 
     merged_df = None
     summed_df = None
