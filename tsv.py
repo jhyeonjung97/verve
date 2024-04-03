@@ -74,5 +74,5 @@ if __name__ == "__main__":
     parser.add_argument('-b', type=float, default=6)
     
     args = parser.parse_args()        
-    plot_patterns_from_multiple_tsv(args.files, args.output, args.xlabel, args.ylabel, args.labels, args.colors, args.markers, args.row)
+    plot_patterns_from_multiple_tsv(args.files, args.output, args.xlabel, args.ylabel, args.labels, args.colors, args.markers, args.a, args.b, args.row)
 
