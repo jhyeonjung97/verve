@@ -74,16 +74,20 @@ if __name__ == "__main__":
     parser.add_argument('-o', '--output', type=str, default=None)
     parser.add_argument('--xlabel', type=str, default='X')
     parser.add_argument('--ylabel', type=str, default='Y')
+    parser.add_argument('--xdata', type=str, default='X')
+    parser.add_argument('--ydata', type=str, default='Y')
     
     args = parser.parse_args()
     xfiles = args.xfiles
     yfiles = args.yfiles
     xlabel = args.xlabel
     ylabel = args.ylabel
+    xdata = args.xdata
+    ydata = args.ydata
     output = args.output
     if not output:
-        png_filename = f"linear_{xlabel}_vs_{ylabel}.png"
-        tsv_filename = f"linear_{xlabel}_vs_{ylabel}.tsv"
+        png_filename = f"linear_{xdata}_vs_{ydata}.png"
+        tsv_filename = f"linear_{xdata}_vs_{ydata}.tsv"
     else:
         png_filename = f"linear_{output}.png"
         tsv_filename = f"linear_{output}.tsv"
