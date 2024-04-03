@@ -35,11 +35,12 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, c
         df.columns = labels[j] if isinstance(labels[j], list) else [labels[j]]
         merged_df = pd.concat([merged_df, df], axis=1)
 
-    for j, pattern in enumerate(merged_df.columns):
-        x = range(len(merged_df[pattern]))
-        filtered_df = merged_df[pattern].dropna()
+    print(merged_df)
+    for j, column in enumerate(merged_df.columns):
+        x = range(len(merged_df[column]))
+        filtered_df = merged_df[column].dropna()
         if filtered_df.empty:
-            print(f"No values found for pattern: {pattern}")
+            print(f"No values found for pattern: {column}")
             continue
         plt.plot(x, filtered_df, 
                  marker=markers[j % len(markers)], 
