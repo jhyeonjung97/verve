@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import sys
 import argparse
 
-def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels):
+def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, colors, markers, a, b):
 
     metal_rows = {
         '3d': ['Ca', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn', 'Ga', 'Ge'],
@@ -24,20 +24,11 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels):
     tsv_filename = f"merged_{output}.tsv"
     sum_filename = f"summed_{output}.tsv"
     
-    plt.figure(figsize=(8, 6))
-    # plt.figure(figsize=(4, 3))
-
-    colors = ['#d62728', '#ff7f0e', '#2ca02c', '#279ff2', '#9467bd']
-    markers = ['s', 'd', 'p', 'o', '>', '<', 'D']
-
-    reversed_filenames = list(reversed(filenames))
-    reversed_labels = list(reversed(labels))
-    reversed_colors = list(reversed(colors))
-    reversed_markers = list(reversed(markers))
+    plt.figure(figsize=(a, b))
     
-    for j, file in enumerate(reversed_filenames):
+    for j, file in enumerate(filenames):
         df = pd.read_csv(file, delimiter='\t').iloc[:, 1:]
-        df.columns = reversed_labels[j] if isinstance(reversed_labels[j], list) else [reversed_labels[j]]
+        df.columns = labels[j] if isinstance(labels[j], list) else [labels[j]]
         merged_df = pd.concat([merged_df, df], axis=1)
 
     for j, pattern in enumerate(merged_df.columns):
@@ -47,25 +38,21 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels):
             print(f"No values found for pattern: {pattern}")
             continue
         plt.plot(x, filtered_df, 
-                 marker=reversed_markers[j % len(reversed_markers)], 
-                 color=reversed_colors[j % len(reversed_colors)], 
-                 label=reversed_labels[j % len(reversed_labels)])
+                 marker=markers[j % len(markers)], 
+                 color=colors[j % len(colors)], 
+                 label=labels[j % len(labels)])
     if 'hexa_ratio' in df.columns:
         plt.plot(x, [1.633]*len(x), linestyle=':', label='hexa_ratio0', color='black')
 
     merged_df.to_csv(tsv_filename, sep='\t')
     print(f"Merged data saved to {tsv_filename}")
 
-    plt.xticks(np.arange(len(combined_labels)), combined_labels)
-    plt.xlabel(xlabel)
-    plt.ylabel(ylabel)
-    plt.legend()
-    # plt.xlabel(xlabel, fontsize=9)
-    # plt.ylabel(ylabel, fontsize=9)
-    # plt.xticks(fontsize=9)
-    # plt.yticks(fontsize=9)
+    plt.xticks(np.arange(len(combined_labels)), combined_labels, fontsize=12) #9
+    plt.yticks(fontsize=12) #9
+    plt.xlabel(xlabel, fontsize=12) #9
+    plt.ylabel(ylabel, fontsize=12) #9
+    plt.legend(prop={'size': 10}, ncol=1) #7
     # plt.grid(True)
-    # plt.legend(prop={'size': 7}, ncol=1)
     plt.tight_layout()
     plt.gcf().savefig(png_filename, bbox_inches="tight")
     print(f"Figure saved as {png_filename}")
@@ -77,13 +64,15 @@ if __name__ == "__main__":
     parser.add_argument('-o', '--output', type=str, default='', help="The filename for the output PNG file.")
     parser.add_argument('-x', '--xlabel', type=str, default='Element or Lattice parameter (Å)', help="xlabel")
     parser.add_argument('-y', '--ylabel', type=str, default='Energy (eV) or Charge (e)', help="ylabel")
-    parser.add_argument('-l', '--labels', nargs='+', default=['Octahedral', 'Wurtzite', 'Zinc_Blende', 'CuO', 'NbO'], 
+    parser.add_argument('-l', '--labels', nargs='+', default=['Tetragonal_WZ', 'Tetragonal_ZB', 'Square_planar_CuO', 'Square_planar_NbO', 'Octahedral_RS'], 
                         help="Custom labels for each file")
     parser.add_argument('-c', '--colors', nargs='+', default=['#d62728', '#ff7f0e', '#2ca02c', '#279ff2', '#9467bd'],
                         help='Colors to plot')
-    parser.add_argument('-m', '--markers', nargs='+', default=['s', 'd', 'p', 'o', '>', '<', 'D'],
+    parser.add_argument('-m', '--markers', nargs='+', default=['v', 'v', 's', 's', 'o'],
                         help='Colors to plot')
+    parser.add_argument('-a', type=float, default=8)
+    parser.add_argument('-b', type=float, default=6)
     
     args = parser.parse_args()        
-    plot_patterns_from_multiple_tsv(args.files, args.output, args.xlabel, args.ylabel, args.labels)
+    plot_patterns_from_multiple_tsv(args.files, args.output, args.xlabel, args.ylabel, args.labels, args.colors, args.markers)
 
