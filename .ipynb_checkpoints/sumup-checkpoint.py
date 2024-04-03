@@ -23,7 +23,7 @@ def line_fitting(xfiles, yfiles, xlabel, ylabel, png_filename, tsv_filename):
         else:
             summed_y += df
 
-    plt.figure()
+    plt.figure(figsize=(8, 6))
     XX_values = np.array([])
     YY_values = np.array([])
     num_rows, num_cols = summed_x.shape
