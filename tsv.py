@@ -25,7 +25,11 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, c
     sum_filename = f"summed_{output}.tsv"
     
     plt.figure(figsize=(a, b))
-    
+
+    if len(filenames) > len(labels):
+        print(f"Warning: More filenames ({len(filenames)}) than labels ({len(labels)}). Excess filenames will be ignored.")
+        filenames = filenames[:len(labels)]
+
     for j, file in enumerate(filenames):
         df = pd.read_csv(file, delimiter='\t').iloc[:, 1:]
         df.columns = labels[j] if isinstance(labels[j], list) else [labels[j]]
