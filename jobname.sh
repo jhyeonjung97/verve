@@ -43,8 +43,8 @@ else
     name=$1
 fi
 
-if [[ -n $select_dir ]]; then
-    DIR="$select_dir"
+if [[ -n $select ]]; then
+    DIR="$select"
 elif [[ -n $range ]]; then
     IFS=',' read -r -a range_arr <<< "$range"
     DIR=$(seq "${range_arr[0]}" "${range_arr[1]}")
