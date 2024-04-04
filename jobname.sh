@@ -36,6 +36,17 @@ while getopts ":hrcs:d:" opt; do
 done
 shift $((OPTIND -1))
 
+if [ "$opt" = "h" ]; then
+    echo "Usage: $0 [-h] [-r] [-c cut] -n jobname [startDir] [endDir]"
+    echo "Options:"
+    echo "  -h          Display this help message."
+    echo "  -r          Use a recursive directory pattern."
+    echo "  -c          Set the cut length for the directory name modification."
+    echo "  -s select   Select specific directories."
+    echo "  -d set      Specify a range of directories."
+    exit 0
+fi
+
 if [[ -z $1 ]]; then
     echo "Job name is required."
     usage_error
@@ -45,7 +56,7 @@ fi
 
 DIR=''
 if [[ -n $select ]]; then
-    DIR="$select"
+    DIR=$(find . -type d -path "$select")
 elif [[ -n $range ]]; then
     IFS=',' read -r -a range_arr <<< "$range"
     DIR=$(seq "${range_arr[0]}" "${range_arr[1]}")
