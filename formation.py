@@ -12,38 +12,45 @@ metal_path = '/pscratch/sd/j/jiuy97/3_V_shape/metal/merged_norm_energy.tsv'
 metal_df = pd.read_csv(metal_path, delimiter='\t').iloc[:, 1:]
 min_values = metal_df.iloc[:, :3].min(axis=1)
 
-oxygen_E = -8.7702210 # eV, DFT
-oxygen_TS = 0.635139 # eV, at 298.15 K, 1 atm
-oxygen_ZPE = 0.096279 # eV, at 298.15 K, 1 atm
-oxygen = (oxygen_E - oxygen_TS + oxygen_ZPE) / 2
+E_O2 = -8.7702210 # eV, DFT
+TS_O2 = 0.635139 # eV, at 298.15 K, 1 atm
+ZPE_O2 = 0.096279 # eV, at 298.15 K, 1 atm
+G_oxygen = (E_O2 - TS_O2 + ZPE_O2) / 2
 
 nist = {
     'Ti': {'M': 4, 'O': 8, 'H_form': -944.747, 'G_form': -889.406, 
-           'E_dft': -99.45192424}, 'ZPE': , 'S_vib': }, # 1692 1809 mp-2657 Titanium Dioxide (Rutile)
+           'E_oxide': -99.45192424}, 'ZPE_oxide': , 'S_oxide': }, 
+          # 1692 1809 mp-2657 Titanium Dioxide (Rutile)
     'V': {'M': 4, 'O': 10, 'H_form': -1550.59, 'G_form': -1419.359, 
-          'E_dft': -104.1937574, 'ZPE': , 'S_vib': }, # 1780 1892 mp-25279 Divanadium Pentaoxide
+          'E_oxide': -104.1937574, 'ZPE_oxide': , 'S_oxide': }, 
+          # 1780 1892 mp-25279 Divanadium Pentaoxide
     'Cr': {'M': 4, 'O': 6, 'H_form': -1139.701, 'G_form': -1058.067, 
-           'E_dft': -79.58654325, 'ZPE': , 'S_vib': }, # 573 688 mp-19399 Dichromium Trioxide
+           'E_oxide': -79.58654325, 'ZPE_oxide': , 'S_oxide': }, 
+          # 573 688 mp-19399 Dichromium Trioxide
     'Mn': {'M': 2, 'O': 2, 'H_form': -385.221, 'G_form': -362.898, 
-           'E_dft': -31.17185317, 'ZPE': , 'S_vib': }, # 1046 1162 mp-19006 Manganese Oxide
+           'E_oxide': -31.17185317, 'ZPE_oxide': , 'S_oxide': }, 
+          # 1046 1162 mp-19006 Manganese Oxide
     'Fe': {'M': 4, 'O': 6, 'H_form': -824.248, 'G_form': -742.294, 
-           'E_dft': -68.25294948, 'ZPE': , 'S_vib': }, # 702 817 mp-19770 Hematite
+           'E_oxide': -68.25294948, 'ZPE_oxide': , 'S_oxide': }, 
+          # 702 817 mp-19770 Hematite
     'Co': {'M': 6, 'O': 8, 'H_form': -910.020, 'G_form': -794.901, 
-           'E_dft': -84.1526723, 'ZPE': , 'S_vib': }, # 544 659 mp-18748 Tricobalt Tetraoxide
+           'E_oxide': -84.1526723, 'ZPE_oxide': , 'S_oxide': }, 
+          # 544 659 mp-18748 Tricobalt Tetraoxide
     'Ni': {'M': 1, 'O': 1, 'H_form': -239.701, 'G_form': -211.539, 
-           'E_dft': -20.40998666, 'ZPE': , 'S_vib': }, # 1213 1330 mp-19009 Nickel Oxide
+           'E_oxide': -20.40998666, 'ZPE_oxide': , 'S_oxide': }, 
+          # 1213 1330 mp-19009 Nickel Oxide
     'Cu': {'M': 2, 'O': 2, 'H_form': -156.063, 'G_form': -128.292, 
-           'E_dft': -17.83506218, 'ZPE': , 'S_vib': } # 620 735 mp-704645 Copper Monoxide
+           'E_oxide': -17.83506218, 'ZPE_oxide': , 'S_oxide': } 
+          # 620 735 mp-704645 Copper Monoxide
     }
 
 T = 298.15
 for element, data in nist.items():
-    # G_oxide = nist[element]['E_dft'] - T * nist[element]['S_vib'] + nist[element]['ZPE']
-    # G_formation = nist[element]['G_form']
-    # nist.add(element['metal']) = G_oxide - G_formation - oxygen
-    nist[element]['H_form'] = nist[element]['H_form'] / 96.48
-    nist[element]['G_form'] = nist[element]['G_form'] / 96.48
-    nist[element]['E_metal'] = (data['E_dft'] - data['G_form'] - (data['O'] * oxygen)) / data['M']
+    data['H_form'] = data['H_form'] / 96.48
+    data['G_form'] = data['G_form'] / 96.48
+    data['G_oxide'] = data['E_oxide'] - T * data['S_oxide'] + data['ZPE_oxide']
+    data['G_metal'] = (data['G_oxide'] - data['G_form'] - (data['O'] * G_oxygen)) / data['M']
+    data['E_metal'] = data['G_metal'] + T * data['S_metal'] - data['ZPE_metal']
     
 print(nist)
     
