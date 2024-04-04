@@ -34,6 +34,7 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, c
         df = pd.read_csv(file, delimiter='\t').iloc[:, 1:]
         df.columns = labels[j] if isinstance(labels[j], list) else [labels[j]]
         merged_df = pd.concat([merged_df, df], axis=1)
+        print(merged_df)
 
     for j, column in enumerate(merged_df.columns):
         x = range(len(merged_df[column]))
