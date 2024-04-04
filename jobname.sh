@@ -48,6 +48,7 @@ if [[ -n $DIR ]]; then
     do
         dir=${dir%/}
         i=${dir:0:$cut}
+        echo -n $PWD
         sed -i "/#SBATCH -J/c\#SBATCH -J ${name}$i" "$dir/submit.sh"
         grep '#SBATCH -J' "$dir/submit.sh"
     done
