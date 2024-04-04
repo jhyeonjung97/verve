@@ -45,8 +45,11 @@ for element, data in nist.items():
     
 print(element)
     
-for i, metal in enumerate(metal_3d):
-    if metal in ['Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu']:
+for i, metal in enumerate(metal_rows['3d']):
+    if metal in nist:
+        min_values[i] = nist[metal]['E_metal']
+
+print(min_values)
 
 for row in metal_rows:
     oxide_path = './energy_norm_energy.tsv'
