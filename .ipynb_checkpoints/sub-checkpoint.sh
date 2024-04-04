@@ -1,31 +1,53 @@
 #!/bin/bash
 
-function usage_error {
-    echo 'Usage: sub.sh [-r | -s dir]'
-    exit 1
-}
+dir_tag=0
+forced_tag=0
+while getopts ":rfs:d:" opt; do
+  case $opt in
+    r)
+      dir_tag=1
+      ;;
+    f)
+      forced_tag=1
+      ;;
+    s)
+      select_dir="$OPTARG"
+      ;;
+    d)
+      range="$OPTARG"
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      exit 1
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument." >&2
+      exit 1
+      ;;
+  esac
+done
+shift "$((OPTIND-1))"
+files=$@
 
-if [[ -z $1 ]]; then
-    if [[ -s submit.sh ]]; then
-        sbatch submit.sh
-    fi
-    exit 0
-elif [[ $1 == '-r' ]]; then
-    DIR='*_*/'
-elif [[ $1 == '-s' ]]; then
-    DIR=${2:@}
-elif [[ -z $2 ]]; then
-    DIR=$(seq 1 $1)
+if [[ -n $select_dir ]]; then
+    DIR=$select_dir
+elif [[ -n $range ]]; then
+    IFS=',' read -r -a range_arr <<< "$range"
+    DIR=$(seq "${range_arr[0]}" "${range_arr[1]}")
+elif [[ $dir_tag == 1 ]]; then
+    DIR='*/*/'
+elif [[ $forced_tag == 1 ]]; then
+    DIR='*/'
 else
-    DIR=$(seq $1 $2)
+    DIR='*_*/'
 fi
 
-for i in $DIR
+dir_now=$PWD
+for dir in $DIR
 do
-    i=${i%/}
-    cd $i*
+    cd $dir
     if [[ -s submit.sh ]]; then
         sbatch submit.sh
     fi
-    cd ..
+    cd $dir_now
 done
