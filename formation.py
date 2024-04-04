@@ -41,6 +41,8 @@ for element, data in nist.items():
     # G_oxide = nist[element]['E_dft'] - T * nist[element]['S_vib'] + nist[element]['ZPE']
     # G_formation = nist[element]['G_form']
     # nist.add(element['metal']) = G_oxide - G_formation - oxygen
+    nist[element]['H_form'] = nist[element]['H_form'] / 96.48
+    nist[element]['G_form'] = nist[element]['G_form'] / 96.48
     nist[element]['E_metal'] = (data['E_dft'] - data['H_form'] - (data['O'] * oxygen_E)) / data['M']
     
 print(nist)
