@@ -43,7 +43,7 @@ for element, data in nist.items():
     # nist.add(element['metal']) = G_oxide - G_formation - oxygen
     nist[element]['E_metal'] = (data['E_dft'] - data['H_form'] - (data['O'] * oxygen_E)) / data['M']
     
-print(element)
+print(nist)
     
 for i, metal in enumerate(metal_rows['3d']):
     if metal in nist:
