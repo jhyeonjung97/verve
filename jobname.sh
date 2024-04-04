@@ -43,6 +43,7 @@ else
     name=$1
 fi
 
+DIR=''
 if [[ -n $select ]]; then
     DIR="$select"
 elif [[ -n $range ]]; then
