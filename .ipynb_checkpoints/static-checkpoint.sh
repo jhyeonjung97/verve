@@ -13,6 +13,8 @@ do
             mv $conti opt/
         done
         rm *.log
+        sed -i 's/opt_bulk3/static_bulk/g' submit.sh
+        sed -i 's/opt_bulk2/static_bulk/g' submit.sh
     fi
     cd $dir_now
 done
