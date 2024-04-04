@@ -59,7 +59,7 @@ if [[ -n $DIR ]]; then
         i=${dir:0:$cut}
         sed -i "/#SBATCH -J/c\#SBATCH -J ${name}$i" "$dir/submit.sh"
     done
-    grep '#SBATCH -J' */submit.sh
+    grep '#SBATCH -J' "$dir/submit.sh"
 else
     sed -i "/#SBATCH -J/c\#SBATCH -J $name" submit.sh
     grep '#SBATCH -J' submit.sh
