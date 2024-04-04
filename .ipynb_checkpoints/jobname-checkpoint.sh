@@ -32,7 +32,7 @@ name=$1
 
 DIR=''
 if [[ -n $select_dir ]]; then
-    readarray -t DIR < <(find . -type d -name "$select_dir")
+    DIR=$select_dir
 elif [[ -n $range ]]; then
     IFS=',' read -r -a range_arr <<< "$range"
     DIR=$(seq "${range_arr[0]}" "${range_arr[1]}")
