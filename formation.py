@@ -18,21 +18,21 @@ oxygen_ZPE = 0.096279 # eV, at 298.15 K, 1 atm
 oxygen = (oxygen_E - oxygen_TS + oxygen_ZPE) / 2
 
 nist = {
-    'Ti': {'M': 1, 'O': 2, 'H_form': -944.747, 'G_form': -889.406, 'E_dft': -99.45192424}, 
+    'Ti': {'M': 4, 'O': 8, 'H_form': -944.747, 'G_form': -889.406, 'E_dft': -99.45192424}, 
     #, 'ZPE': , 'S_vib': }, # 1692 1809 mp-2657 Titanium Dioxide (Rutile)
-    'V': {'M': 2, 'O': 5, 'H_form': -1550.59, 'G_form': -1419.359, 'E_dft': -104.1937574}, 
+    'V': {'M': 4, 'O': 10, 'H_form': -1550.59, 'G_form': -1419.359, 'E_dft': -104.1937574}, 
     #, 'ZPE': , 'S_vib': }, # 1780 1892 mp-25279 Divanadium Pentaoxide
-    'Cr': {'M': 2, 'O': 3, 'H_form': -1139.701, 'G_form': -1058.067, 'E_dft': -79.58654325}, 
+    'Cr': {'M': 4, 'O': 6, 'H_form': -1139.701, 'G_form': -1058.067, 'E_dft': -79.58654325}, 
     #, 'ZPE': , 'S_vib': }, # 573 688 mp-19399 Dichromium Trioxide
-    'Mn': {'M': 1, 'O': 1, 'H_form': -385.221, 'G_form': -362.898, 'E_dft': -31.17185317}, 
+    'Mn': {'M': 2, 'O': 2, 'H_form': -385.221, 'G_form': -362.898, 'E_dft': -31.17185317}, 
     #, 'ZPE': , 'S_vib': }, # 1046 1162 mp-19006 Manganese Oxide
-    'Fe': {'M': 2, 'O': 3, 'H_form': -824.248, 'G_form': -742.294, 'E_dft': -68.25294948}, 
+    'Fe': {'M': 4, 'O': 6, 'H_form': -824.248, 'G_form': -742.294, 'E_dft': -68.25294948}, 
     #, 'ZPE': , 'S_vib': }, # 702 817 mp-19770 Hematite
-    'Co': {'M': 3, 'O': 4, 'H_form': -910.020, 'G_form': -794.901, 'E_dft': -84.1526723}, 
+    'Co': {'M': 6, 'O': 8, 'H_form': -910.020, 'G_form': -794.901, 'E_dft': -84.1526723}, 
     #, 'ZPE': , 'S_vib': }, # 544 659 mp-18748 Tricobalt Tetraoxide
     'Ni': {'M': 1, 'O': 1, 'H_form': -239.701, 'G_form': -211.539, 'E_dft': -20.40998666}, 
     #, 'ZPE': , 'S_vib': }, # 1213 1330 mp-19009 Nickel Oxide
-    'Cu': {'M': 1, 'O': 1, 'H_form': -156.063, 'G_form': -128.292, 'E_dft': -17.83506218} 
+    'Cu': {'M': 2, 'O': 2, 'H_form': -156.063, 'G_form': -128.292, 'E_dft': -17.83506218} 
     #, 'ZPE': , 'S_vib': } # 620 735 mp-704645 Copper Monoxide
     }
 
@@ -43,7 +43,7 @@ for element, data in nist.items():
     # nist.add(element['metal']) = G_oxide - G_formation - oxygen
     nist[element]['H_form'] = nist[element]['H_form'] / 96.48
     nist[element]['G_form'] = nist[element]['G_form'] / 96.48
-    nist[element]['E_metal'] = (data['E_dft'] - data['G_form'] - (data['O'] * oxygen / 2)) / data['M']
+    nist[element]['E_metal'] = (data['E_dft'] - data['G_form'] - (data['O'] * oxygen)) / data['M']
     
 print(nist)
     
