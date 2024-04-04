@@ -50,6 +50,7 @@ sed -i "3a\#SBATCH -G 4" submit.sh'
 alias hour='sh ~/bin/verve/hour.sh'
 alias minute='sh ~/bin/verve/minute.sh'
 alias static='sh ~/bin/verve/static.sh'
+alias phonon='sh ~/bin/verve/phonon.sh'
 alias lobin='sh ~/bin/verve/lobin.sh'
 alias mpi='python ~/bin/verve/mpi.py'
 
