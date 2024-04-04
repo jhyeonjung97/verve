@@ -1,5 +1,6 @@
 #!/bin/bash
 
+cut=1
 dir_tag=0
 forced_tag=0
 while getopts ":rfs:d:" opt; do
@@ -31,7 +32,7 @@ name=$1
 
 DIR=''
 if [[ -n $select_dir ]]; then
-    DIR=$select_dir
+    readarray -t DIR < <(find . -type d -name "$select_dir")
 elif [[ -n $range ]]; then
     IFS=',' read -r -a range_arr <<< "$range"
     DIR=$(seq "${range_arr[0]}" "${range_arr[1]}")
@@ -48,8 +49,7 @@ if [[ -n $DIR ]]; then
     do
         dir=${dir%/}
         i=${dir:0:$cut}
-        echo $i
-        echo -n "$dir "
+        echo -n -e "$dir\t"
         sed -i "/#SBATCH -J/c\#SBATCH -J ${name}$i" "$dir/submit.sh"
         grep '#SBATCH -J' "$dir/submit.sh"
     done
