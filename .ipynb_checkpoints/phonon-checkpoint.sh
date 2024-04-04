@@ -11,6 +11,7 @@ do
         rm ./zpe/*.log
         sed -i 's/opt_bulk3/phonon_bulk/g' ./zpe/submit.sh
         sed -i 's/opt_bulk2/phonon_bulk/g' ./zpe/submit.sh
+        sed -i '/bader/d' ./zpe/submit.sh
     fi
     cd $dir_now
 done
