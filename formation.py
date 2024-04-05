@@ -54,8 +54,8 @@ df.insert(0, '3d', min_values)
 
 energy_path = './energy_norm_energy.tsv'
 energy_df = pd.read_csv(energy_path, delimiter='\t', index_col=0)
-formation = pd.DataFrame(index=energy_df.index, columns=energy_df.columns)
-print(formation)
+formation = pd.DataFrame(index=energy_df.index, columns='formation')
+print(energy_df)
 
 for row in metal_rows:
     for metal in metal_rows[row]:
