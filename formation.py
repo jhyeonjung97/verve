@@ -9,7 +9,9 @@ metal_rows = {
     }
 
 metal_path = '/pscratch/sd/j/jiuy97/3_V_shape/metal/merged_norm_energy.tsv'
+oxide_path = '/pscratch/sd/j/jiuy97/3_V_shape/oxide/0_min/energy.tsv'
 metal_df = pd.read_csv(metal_path, delimiter='\t').iloc[:, 1:]
+oxide_df = pd.read_csv(oxide_path, delimiter='\t').iloc[:, 1:]
 min_values = metal_df.iloc[:, :3].min(axis=1)
 
 E_O2 = -8.7702210 # eV, DFT
@@ -18,30 +20,14 @@ ZPE_O2 = 0.096279 # eV, at 298.15 K, 1 atm
 G_oxygen = (E_O2 - TS_O2 + ZPE_O2) / 2
 
 nist = {
-    'Ti': {'M_oxide': 4, 'O_oxide': 8, 'H_form': -944.747, 'G_form': -889.406, 
-           'E_oxide': -99.45192424}, 'ZPE_oxide': 0.767633, 'TS_oxide': 0.565118}, 
-          # 1692 1809 mp-2657 Titanium Dioxide (Rutile)
-    'V': {'M_oxide': 4, 'O_oxide': 10, 'H_form': -1550.59, 'G_form': -1419.359, 
-          'E_oxide': -104.1937574, 'ZPE_oxide': 1.006188, 'TS_oxide': 0.737889}, 
-          # 1780 1892 mp-25279 Divanadium Pentaoxide
-    'Cr': {'M_oxide': 4, 'O_oxide': 6, 'H_form': -1139.701, 'G_form': -1058.067, 
-           'E_oxide': -79.58654325, 'ZPE_oxide': 0.736283, 'TS_oxide': 0.319027}, 
-          # 573 688 mp-19399 Dichromium Trioxide
-    'Mn': {'M_oxide': 2, 'O_oxide': 2, 'H_form': -385.221, 'G_form': -362.898, 
-           'E_oxide': -31.17185317, 'ZPE_oxide': 0.141579, 'TS_oxide': 0.217217}, 
-          # 1046 1162 mp-19006 Manganese Oxide
-    'Fe': {'M_oxide': 4, 'O_oxide': 6, 'H_form': -824.248, 'G_form': -742.294, 
-           'E_oxide': -68.25294948, 'ZPE_oxide': 0.614555, 'TS_oxide': 0.435567}, 
-          # 702 817 mp-19770 Hematite
-    'Co': {'M_oxide': 6, 'O_oxide': 8, 'H_form': -910.020, 'G_form': -794.901, 
-           'E_oxide': -84.1526723, 'ZPE_oxide': 0.741766, 'TS_oxide': 0.778022}, 
-          # 544 659 mp-18748 Tricobalt Tetraoxide
-    'Ni': {'M_oxide': 1, 'O_oxide': 1, 'H_form': -239.701, 'G_form': -211.539, 
-           'E_oxide': -20.40998666, 'ZPE_oxide': 0.185629, 'TS_oxide': 0.158862}, 
-          # 1213 1330 mp-19009 Nickel Oxide
-    'Cu': {'M_oxide': 2, 'O_oxide': 2, 'H_form': -156.063, 'G_form': -128.292, 
-           'E_oxide': -17.83506218, 'ZPE_oxide': 0.202626, 'TS_oxide': 0.155208} 
-          # 620 735 mp-704645 Copper Monoxide
+    'Ti': {'M': 1, 'O': 2, 'G_form': -889.406}, # 1692 1809 mp-2657 Titanium Dioxide (Rutile)
+    'V': {'M': 2, 'O': 5, 'G_form': -1419.359}, # 1780 1892 mp-25279 Divanadium Pentaoxide
+    'Cr': {'M': 2, 'O': 3, 'G_form': -1058.067}, # 573 688 mp-19399 Dichromium Trioxide
+    'Mn': {'M': 1, 'O': 1, 'G_form': -362.898}, # 1046 1162 mp-19006 Manganese Oxide
+    'Fe': {'M': 2, 'O': 3, 'G_form': -742.294}, # 702 817 mp-19770 Hematite
+    'Co': {'M': 3, 'O': 4, 'G_form': -794.901}, # 544 659 mp-18748 Tricobalt Tetraoxide
+    'Ni': {'M': 1, 'O': 1, 'G_form': -211.539}, # 1213 1330 mp-19009 Nickel Oxide
+    'Cu': {'M': 1, 'O': 1, 'G_form': -128.292}, # 620 735 mp-704645 Copper Monoxide
     }
 
 for element, data in nist.items():

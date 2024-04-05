@@ -245,9 +245,9 @@ def extract_values(directory, patterns, norm, dir_range):
                         match1 = re.search(r'Zero-point energy E_ZPE\s*:\s*\d+\.\d+\s*kcal/mol\s*(\d+\.\d+)\s*eV', line)
                         match2 = re.search(r'Entropy contribution T\*S\s*:\s*\d+\.\d+\s*J/\(mol\)\s*(\d+\.\d+)\s*eV', line)
                         if match1:
-                            values.setdefault('ZPE', []).append(float(match1.group(1)))
+                            values.setdefault('ZPE', []).append(float(match1.group(1))/norm_numb)
                         if match2:
-                            values.setdefault('TS', []).append(float(match2.group(1)))
+                            values.setdefault('TS', []).append(float(match2.group(1))/norm_numb)
             else:
                 values.setdefault('ZPE', []).append(np.nan)
                 values.setdefault('TS', []).append(np.nan)
