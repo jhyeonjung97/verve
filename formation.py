@@ -21,18 +21,18 @@ nist = {
 
 metal_path = '/pscratch/sd/j/jiuy97/3_V_shape/metal/0_min/energy_norm.tsv'
 oxide_path = '/pscratch/sd/j/jiuy97/3_V_shape/oxide/0_min/energy_norm.tsv'
-ref_path = '/pscratch/sd/j/jiuy97/3_V_shape/metal/merged_norm_energy.tsv'
+path = '/pscratch/sd/j/jiuy97/3_V_shape/metal/merged_norm_energy.tsv'
 
 metal_df = pd.read_csv(metal_path, delimiter='\t').iloc[:, 1:]
 oxide_df = pd.read_csv(oxide_path, delimiter='\t').iloc[:, 1:]
-ref_df = pd.read_csv(ref_path, delimiter='\t').iloc[:, 1:]
+df = pd.read_csv(path, delimiter='\t').iloc[:, 1:]
 
 metal_df.index = list(nist.keys())
 oxide_df.index = list(nist.keys())
-ref_df.index = metal_rows['3d']
+df.index = metal_rows['3d']
 
-min_values = ref_df.iloc[:, :3].min(axis=1)
-ref_df = ref_df.iloc[:, 3:]
+min_values = df.iloc[:, :3].min(axis=1)
+df = df.iloc[:, 3:]
 
 E_O2 = -8.7702210 # eV, DFT
 TS_O2 = 0.635139 # eV, at 298.15 K, 1 atm
@@ -50,24 +50,17 @@ for element, data in nist.items():
 for i, metal in enumerate(metal_rows['3d']):
     if metal in nist:
         min_values.loc[metal] = nist[metal]['E_metal']
-ref_df.insert(0, '3d', min_values)
+df.insert(0, '3d', min_values)
 
 energy_path = './energy_norm_energy.tsv'
 energy_df = pd.read_csv(energy_path, delimiter='\t', index_col=0)
-df = pd.DataFrame(index=energy_df.index, columns=energy_df.columns)
-
-# for row in metal_rows:
-#     if metal_rows[row] == energy_df.index.tolist():
-#         df = energy_df.sub(ref_df[row].values, axis=0) - E_oxygen
-# print(df)
+formation = pd.DataFrame(index=energy_df.index, columns=energy_df.columns)
 
 for row in metal_rows:
     for metal in metal_rows[row]:
-        if metal in ref_df.index and metal in energy_df.index:
-            print(energy_df.loc[metal])
-            print(ref_df.loc[metal, row])
-            df.loc[metal] = energy_df.loc[metal] - ref_df.loc[metal, row] - E_oxygen
-print(df)
+        if metal in df.index and metal in energy_df.index:
+            formation.loc[metal] = energy_df.loc[metal] - df.loc[metal, row] - E_oxygen
+print(formation)
 
 # plt.figure(figsize=(8, 6))
 # png_filename = f"energy_norm_formation.png"   
