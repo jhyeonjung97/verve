@@ -56,17 +56,18 @@ energy_path = './energy_norm_energy.tsv'
 energy_df = pd.read_csv(energy_path, delimiter='\t', index_col=0)
 df = pd.DataFrame(index=energy_df.index, columns=energy_df.columns)
 
-for row in metal_rows:
-    if metal_rows[row] == energy_df.index.tolist():
-        df = energy_df.sub(ref_df[row].values, axis=0) - E_oxygen
-print(df)
-
 # for row in metal_rows:
-#     for metal in metal_rows[row]:
-#         if metal in ref_df.index and metal in energy_df.index:
-#             print(
-#             df.loc[metal] = energy_df.loc[metal] - ref_df.loc[metal, row] - E_oxygen
+#     if metal_rows[row] == energy_df.index.tolist():
+#         df = energy_df.sub(ref_df[row].values, axis=0) - E_oxygen
 # print(df)
+
+for row in metal_rows:
+    for metal in metal_rows[row]:
+        if metal in ref_df.index and metal in energy_df.index:
+            print(energy_df.loc[metal])
+            print(ref_df.loc[metal, row])
+            df.loc[metal] = energy_df.loc[metal] - ref_df.loc[metal, row] - E_oxygen
+print(df)
 
 # plt.figure(figsize=(8, 6))
 # png_filename = f"energy_norm_formation.png"   
