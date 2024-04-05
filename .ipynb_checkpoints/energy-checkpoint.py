@@ -238,7 +238,7 @@ def extract_values(directory, patterns, norm, dir_range):
             ZPE_dir = os.path.join(dir_path, 'zpe/')
             ZPE_path = os.path.join(dir_path, 'zpe.txt')
             if not os.path.exists(ZPE_path):
-                subprocess.call('vaspkit -task 501 > ../zpe.txt', shell=True, cwd=zpe_dir)
+                subprocess.call('vaspkit -task 501 > ../zpe.txt', shell=True, cwd=ZPE_dir)
             if os.path.exists(ZPE_path):
                 with open(ZPE_path, 'r') as file:
                     for line in file:
