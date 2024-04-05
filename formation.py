@@ -55,7 +55,7 @@ ref_df.insert(0, '3d', min_values)
 energy_path = './energy_norm_energy.tsv'
 energy_df = pd.read_csv(energy_path, delimiter='\t', index_col=0)
 df = pd.DataFrame(index=energy_df.index, columns=energy_df.columns)
-print(energy_df)
+print(ref_df)
 # for row in metal_rows:
 #     if metal_rows[row] == energy_df.index.tolist():
 #         df = energy_df.sub(ref_df[row].values, axis=0) - E_oxygen
