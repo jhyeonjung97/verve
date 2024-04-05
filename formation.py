@@ -35,57 +35,57 @@ print(metal_df)
 print(oxide_df)
 print(ref_df)
 
-min_values = ref_df.iloc[:, :3].min(axis=1)
+# min_values = ref_df.iloc[:, :3].min(axis=1)
 
-E_O2 = -8.7702210 # eV, DFT
-TS_O2 = 0.635139 # eV, at 298.15 K, 1 atm
-ZPE_O2 = 0.096279 # eV, at 298.15 K, 1 atm
-E_oxygen = E_O2 /2
-G_oxygen = (E_O2 - TS_O2 + ZPE_O2) / 2
+# E_O2 = -8.7702210 # eV, DFT
+# TS_O2 = 0.635139 # eV, at 298.15 K, 1 atm
+# ZPE_O2 = 0.096279 # eV, at 298.15 K, 1 atm
+# E_oxygen = E_O2 /2
+# G_oxygen = (E_O2 - TS_O2 + ZPE_O2) / 2
 
-for i, (element, data) in enumerate(nist.items()):
-    data['G_form'] = data['G_form'] / data['M'] / 96.48
-    data['OtoM'] = data['O'] / data['M']
-    data['G_oxide'] = oxide_df['energy'] - oxide_df['TS'] + oxide_df['ZPE']
-    data['G_metal'] = data['G_oxide'] - data['G_form'] - data['OtoM'] * G_oxygen
-    data['E_metal'] = data['G_metal'] + metal_df['TS'] - metal_df['ZPE']
-print(nist)
+# for i, (element, data) in enumerate(nist.items()):
+#     data['G_form'] = data['G_form'] / data['M'] / 96.48
+#     data['OtoM'] = data['O'] / data['M']
+#     data['G_oxide'] = oxide_df['energy'] - oxide_df['TS'] + oxide_df['ZPE']
+#     data['G_metal'] = data['G_oxide'] - data['G_form'] - data['OtoM'] * G_oxygen
+#     data['E_metal'] = data['G_metal'] + metal_df['TS'] - metal_df['ZPE']
+# print(nist)
 
-for i, metal in enumerate(metal_rows['3d']):
-    if metal in nist:
-        min_values[i] = nist[metal]['E_metal']
-ref_df.insert(0, 'min_values', min_values)
-print(ref_df)
+# for i, metal in enumerate(metal_rows['3d']):
+#     if metal in nist:
+#         min_values[i] = nist[metal]['E_metal']
+# ref_df.insert(0, 'min_values', min_values)
+# print(ref_df)
 
-energy_path = './energy_norm_energy.tsv'
-energy_df = pd.read_csv(energy_path, delimiter='\t', index_col=0)
+# energy_path = './energy_norm_energy.tsv'
+# energy_df = pd.read_csv(energy_path, delimiter='\t', index_col=0)
 
-for row in metal_rows:
-    if metal_rows[row] == energy_df.index.tolist():
-        df = energy_df.sub(ref_df[row].values, axis=0) - E_oxygen
+# for row in metal_rows:
+#     if metal_rows[row] == energy_df.index.tolist():
+#         df = energy_df.sub(ref_df[row].values, axis=0) - E_oxygen
 
-plt.figure(figsize=(8, 6))
-png_filename = f"energy_norm_formation.png"   
-tsv_filename = f"energy_norm_formation.tsv"
+# plt.figure(figsize=(8, 6))
+# png_filename = f"energy_norm_formation.png"   
+# tsv_filename = f"energy_norm_formation.tsv"
 
-colors = plt.cm.rainbow(np.linspace(0, 1, len(df.columns))) 
+# colors = plt.cm.rainbow(np.linspace(0, 1, len(df.columns))) 
 
-for j, column in enumerate(df.columns):
-    x = range(len(df[column]))
-    filtered_df = df[column].dropna()
-    if filtered_df.empty:
-        print(f"No values found for pattern: {column}")
-        continue
-    plt.plot(x, filtered_df, marker='o', color=colors[j % len(colors)], label=column)
+# for j, column in enumerate(df.columns):
+#     x = range(len(df[column]))
+#     filtered_df = df[column].dropna()
+#     if filtered_df.empty:
+#         print(f"No values found for pattern: {column}")
+#         continue
+#     plt.plot(x, filtered_df, marker='o', color=colors[j % len(colors)], label=column)
 
-df.to_csv(tsv_filename, sep='\t')
-print(f"Merged data saved to {tsv_filename}")
+# df.to_csv(tsv_filename, sep='\t')
+# print(f"Merged data saved to {tsv_filename}")
 
-plt.xticks(x, df.index)
-plt.xlabel('Metal (MO)')
-plt.ylabel('Formation energy (eV/MO)')
-plt.legend()
-plt.tight_layout()
-plt.gcf().savefig(png_filename, bbox_inches="tight")
-print(f"Figure saved as {png_filename}")
-plt.close()
+# plt.xticks(x, df.index)
+# plt.xlabel('Metal (MO)')
+# plt.ylabel('Formation energy (eV/MO)')
+# plt.legend()
+# plt.tight_layout()
+# plt.gcf().savefig(png_filename, bbox_inches="tight")
+# print(f"Figure saved as {png_filename}")
+# plt.close()
