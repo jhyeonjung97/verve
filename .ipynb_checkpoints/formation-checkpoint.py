@@ -60,17 +60,16 @@ for row in metal_rows:
     for metal in metal_rows[row]:
         if metal in df.index and metal in energy_df.index:
             formation.loc[metal] = energy_df.loc[metal] - df.loc[metal, row] - E_oxygen
-print(formation)
 
 plt.figure(figsize=(8, 6))
 png_filename = f"energy_norm_formation.png"   
 tsv_filename = f"energy_norm_formation.tsv"
 
-colors = plt.cm.rainbow(np.linspace(0, 1, len(df.columns))) 
+colors = plt.cm.rainbow(np.linspace(0, 1, len(formation.columns))) 
 
-for j, column in enumerate(df.columns):
-    x = range(len(df[column]))
-    filtered_df = df[column].dropna()
+for j, column in enumerate(formation.columns):
+    x = range(len(formation[column]))
+    filtered_df = formation[column].dropna()
     if filtered_df.empty:
         print(f"No values found for pattern: {column}")
         continue
