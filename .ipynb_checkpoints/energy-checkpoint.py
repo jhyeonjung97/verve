@@ -112,7 +112,7 @@ def extract_values(directory, patterns, norm, dir_range):
     
     specific_patterns = set()
     for pattern in ['Madelung_Mulliken', 'Madelung_Loewdin', 'ICOHP', 'ICOBI', 'GP', 
-                    'hexa_ratio', 'volume', 'bond', 'energy', 'metals', 'mag', 'chg', 'ZPE']:
+                    'hexa_ratio', 'volume', 'bond', 'energy', 'metals', 'mag', 'chg', 'ZPE', 'TS']:
         if pattern in patterns:
             patterns.discard(pattern)
             specific_patterns.add(pattern)            
