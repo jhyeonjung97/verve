@@ -1,13 +1,15 @@
 #!/bin/bash
 
 dir_tag=0
+deep_tag=0
 forced_tag=0
 dir_now=$PWD
+r_count=0
 
 while getopts ":rfs:d:" opt; do
   case $opt in
     r)
-      dir_tag=1
+      let r_count+=1
       ;;
     f)
       forced_tag=1
@@ -35,8 +37,14 @@ if [[ -n $select_dir ]]; then
 elif [[ -n $range ]]; then
     IFS=',' read -r -a range_arr <<< "$range"
     DIR=$(seq "${range_arr[0]}" "${range_arr[1]}")
-elif [[ $dir_tag == 1 ]]; then
+    # DIR=$(seq -f "%g/" "${range_arr[0]}" "${range_arr[1]}")
+elif [[ $r_count -eq 1 ]]; then
     DIR='*_*/'
+elif [[ $r_count -gt 1 ]]; then
+    DIR=''
+    for ((i=0; i<r_count; i++)); do
+        DIR+='*/'
+    done
 elif [[ $forced_tag == 1 ]]; then
     DIR='*/'
 fi
