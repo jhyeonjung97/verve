@@ -3,13 +3,16 @@
 cut=1
 dir_tag=0
 forced_tag=0
-while getopts ":rfs:d:" opt; do
+while getopts ":rfcs:d:" opt; do
   case $opt in
     r)
       dir_tag=1
       ;;
     f)
       forced_tag=1
+      ;;
+    c)
+      cut=2
       ;;
     s)
       select_dir="$OPTARG"
@@ -30,18 +33,15 @@ done
 shift "$((OPTIND-1))"
 name=$1
 
-DIR=''
 if [[ -n $select_dir ]]; then
     DIR=$select_dir
 elif [[ -n $range ]]; then
     IFS=',' read -r -a range_arr <<< "$range"
     DIR=$(seq "${range_arr[0]}" "${range_arr[1]}")
 elif [[ $dir_tag == 1 ]]; then
-    DIR='*/*/'
+    DIR='*_*/'
 elif [[ $forced_tag == 1 ]]; then
     DIR='*/'
-else
-    DIR='*_*/'
 fi
 
 if [[ -n $DIR ]]; then

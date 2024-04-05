@@ -35,19 +35,21 @@ elif [[ -n $range ]]; then
     IFS=',' read -r -a range_arr <<< "$range"
     DIR=$(seq "${range_arr[0]}" "${range_arr[1]}")
 elif [[ $dir_tag == 1 ]]; then
-    DIR='*/*/'
+    DIR='*_*/'
 elif [[ $forced_tag == 1 ]]; then
     DIR='*/'
-else
-    DIR='*_*/'
 fi
 
 dir_now=$PWD
-for dir in $DIR
-do
-    cd $dir
-    if [[ -s submit.sh ]]; then
-        sbatch submit.sh
-    fi
-    cd $dir_now
-done
+if [[ -n $DIR ]]; then
+    for dir in $DIR
+    do
+        cd $dir
+        if [[ -s submit.sh ]]; then
+            sbatch submit.sh
+        fi
+        cd $dir_now
+    done
+else
+    sbatch submit.sh
+fi
