@@ -27,23 +27,21 @@ metal_df.index = metal_rows['3d']
 oxide_df.index = list(nist.keys())
 print(metal_df)
 print(oxide_df)
-# min_values = metal_df.iloc[:, :3].min(axis=1)
+min_values = metal_df.iloc[:, :3].min(axis=1)
 
-# E_O2 = -8.7702210 # eV, DFT
-# TS_O2 = 0.635139 # eV, at 298.15 K, 1 atm
-# ZPE_O2 = 0.096279 # eV, at 298.15 K, 1 atm
-# G_oxygen = (E_O2 - TS_O2 + ZPE_O2) / 2
+E_O2 = -8.7702210 # eV, DFT
+TS_O2 = 0.635139 # eV, at 298.15 K, 1 atm
+ZPE_O2 = 0.096279 # eV, at 298.15 K, 1 atm
+G_oxygen = (E_O2 - TS_O2 + ZPE_O2) / 2
 
-
-
-# for i, (element, data) in enumerate(nist.items()):
-#     data['G_form'] = data['G_form'] / data['M'] / 96.48
-#     data['OtoM'] = data['O'] / data['M']
-#     data['G_oxide'] = oxide_df['energy'] - oxide_df['TS'] + oxide_df['ZPE']
-#     data['G_metal'] = data['G_oxide'] - data['G_form'] - data['OtoM'] * G_oxygen
-#     data['E_metal'] = data['G_metal'] + metal_df['TS'] - metal_df['ZPE']
+for i, (element, data) in enumerate(nist.items()):
+    data['G_form'] = data['G_form'] / data['M'] / 96.48
+    data['OtoM'] = data['O'] / data['M']
+    data['G_oxide'] = oxide_df['energy'] - oxide_df['TS'] + oxide_df['ZPE']
+    data['G_metal'] = data['G_oxide'] - data['G_form'] - data['OtoM'] * G_oxygen
+    data['E_metal'] = data['G_metal'] + metal_df['TS'] - metal_df['ZPE']
     
-# print(nist)
+print(nist)
     
 # for i, metal in enumerate(metal_rows['3d']):
 #     if metal in nist:
