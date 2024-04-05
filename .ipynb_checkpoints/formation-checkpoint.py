@@ -51,14 +51,14 @@ for i, metal in enumerate(metal_rows['3d']):
     if metal in nist:
         min_values.loc[metal] = nist[metal]['E_metal']
 ref_df.insert(0, '3d', min_values)
-print(ref_df)
 
-# energy_path = './energy_norm_energy.tsv'
-# energy_df = pd.read_csv(energy_path, delimiter='\t', index_col=0)
+energy_path = './energy_norm_energy.tsv'
+energy_df = pd.read_csv(energy_path, delimiter='\t', index_col=0)
 
-# for row in metal_rows:
-#     if metal_rows[row] == energy_df.index.tolist():
-#         df = energy_df.sub(ref_df[row].values, axis=0) - E_oxygen
+for row in metal_rows:
+    if metal_rows[row] == energy_df.index.tolist():
+        df = energy_df.sub(ref_df[row].values, axis=0) - E_oxygen
+print(df)
 
 # plt.figure(figsize=(8, 6))
 # png_filename = f"energy_norm_formation.png"   
