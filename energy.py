@@ -60,8 +60,7 @@ def main():
         patterns.discard('hexa')
         patterns.add('hexa_ratio')
     if 'ZPE' in patterns:
-        patterns.discard('TS')
-        patterns.add('hexa_ratio')
+        patterns.add('TS')
     if not args.total:
         patterns.discard('TOTEN')
     original_patterns = patterns.copy()
