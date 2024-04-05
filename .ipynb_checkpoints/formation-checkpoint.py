@@ -33,7 +33,7 @@ df.index = metal_rows['3d']
 
 min_values = df.iloc[:, :3].min(axis=1)
 df = df.iloc[:, 3:]
-
+print(df)
 E_O2 = -8.7702210 # eV, DFT
 TS_O2 = 0.635139 # eV, at 298.15 K, 1 atm
 ZPE_O2 = 0.096279 # eV, at 298.15 K, 1 atm
