@@ -44,7 +44,7 @@ def main():
     if args.all:
         patterns = {'PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
                     'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung', 'Madelung_M', 'Madelung_L',
-                    'ICOHP', 'ICOBI', 'mag', 'chg', 'GP', 'bond', 'hexa', 'volume'}
+                    'ICOHP', 'ICOBI', 'mag', 'chg', 'GP', 'bond', 'ZPE', 'TS', 'hexa', 'volume'}
     else:
         patterns = set(args.patterns)
     if 'Madelung' in patterns:
@@ -58,6 +58,9 @@ def main():
         patterns.add('Madelung_Loewdin')
     if 'hexa' in patterns:
         patterns.discard('hexa')
+        patterns.add('hexa_ratio')
+    if 'ZPE' in patterns:
+        patterns.discard('TS')
         patterns.add('hexa_ratio')
     if not args.total:
         patterns.discard('TOTEN')
@@ -341,9 +344,9 @@ def extract_values(directory, patterns, norm, dir_range):
 def adjust_values(values_dict, ref, norm):
     """Subtract the reference value from each pattern's data set."""
     adjusted_values_dict = {}
-    qualitative = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting',
+    quantitives = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting',
                    'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung_Mulliken', 'Madelung_Loewdin',
-                   'ICOHP', 'ICOBI', 'bond', 'hexa_ratio', 'volume']
+                   'ICOHP', 'ICOBI', 'bond', 'ZPE', 'TS', 'hexa_ratio', 'volume']
     if norm == 'm' or norm == 'n':
         norm = 1
     else:
@@ -409,7 +412,7 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename):
 
     patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
                       'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'energy', 'Madelung_Mulliken', 'Madelung_Loewdin', 
-                      'ICOHP', 'ICOBI', 'GP_Mulliken', 'GP_Loewdin', 'bond', 'hexa_ratio', 'volume',
+                      'ICOHP', 'ICOBI', 'GP_Mulliken', 'GP_Loewdin', 'bond', 'ZPE', 'TS', 'hexa_ratio', 'volume',
                       'mag_M_up', 'mag_M_down', 'mag_O_up', 'mag_O_down', 'chg_M', 'chg_O']
     filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
 
@@ -459,7 +462,7 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename):
 def line_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filename):
     patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
                       'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'energy', 'Madelung_Mulliken', 'Madelung_Loewdin', 
-                      'ICOHP', 'ICOBI', 'GP_Mulliken', 'GP_Loewdin', 'bond', 'hexa_ratio', 'volume',
+                      'ICOHP', 'ICOBI', 'GP_Mulliken', 'GP_Loewdin', 'bond', 'ZPE', 'TS', 'hexa_ratio', 'volume',
                       'mag_M_up', 'mag_M_down', 'mag_O_up', 'mag_O_down', 'chg_M', 'chg_O']
     filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
 
@@ -502,7 +505,7 @@ def line_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filenam
 def plane_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filename):
     patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
                       'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'energy', 'Madelung_Mulliken', 'Madelung_Loewdin', 
-                      'ICOHP', 'ICOBI', 'GP_Mulliken', 'GP_Loewdin', 'bond', 'hexa_ratio', 'volume',
+                      'ICOHP', 'ICOBI', 'GP_Mulliken', 'GP_Loewdin', 'bond', 'ZPE', 'TS', 'hexa_ratio', 'volume',
                       'mag_M_up', 'mag_M_down', 'mag_O_up', 'mag_O_down', 'chg_M', 'chg_O']
     filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
 
