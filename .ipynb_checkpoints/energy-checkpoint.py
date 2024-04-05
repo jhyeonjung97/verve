@@ -110,7 +110,7 @@ def extract_values(directory, patterns, norm, dir_range):
     
     specific_patterns = set()
     for pattern in ['Madelung_Mulliken', 'Madelung_Loewdin', 'ICOHP', 'ICOBI', 'GP', 
-                    'hexa_ratio', 'volume', 'bond', 'energy', 'metals', 'mag', 'chg', 'zpe', 'entropy']:
+                    'hexa_ratio', 'volume', 'bond', 'energy', 'metals', 'mag', 'chg', 'ZPE']:
         if pattern in patterns:
             patterns.discard(pattern)
             specific_patterns.add(pattern)            
@@ -232,6 +232,23 @@ def extract_values(directory, patterns, norm, dir_range):
                         if match:
                             bond_length += float(match.group(1))
                 values.setdefault('bond', []).append(bond_length)
+        if 'ZPE' in specific_patterns:
+            ZPE_dir = os.path.join(dir_path, 'zpe/')
+            ZPE_path = os.path.join(dir_path, 'zpe.txt')
+            match1 = re.search(r'Zero-point energy E_ZPE\s*:\s*\d+\.\d+\s*kcal/mol\s*(\d+\.\d+)\s*eV', line)
+            match2 = re.search(r'Entropy contribution T\*S\s*:\s*\d+\.\d+\s*J/\(mol\)\s*(\d+\.\d+)\s*eV', line)
+            if not os.path.exists(ZPE_path):
+                subprocess.call('vaspkit -task 501 > ../zpe.txt', shell=True, cwd=zpe_dir)
+            if os.path.exists(ZPE_path):
+                with open(ZPE_path, 'r') as file:
+                    for line in file:
+                        if match1:
+                            values.setdefault('ZPE', []).append(float(match1.group(1)))
+                        if match2:
+                            values.setdefault('TS', []).append(float(match2.group(1)))
+            else:
+                values.setdefault('ZPE', []).append(np.nan)
+                values.setdefault('TS', []).append(np.nan)
         if 'hexa_ratio' in specific_patterns:
             cif_path = os.path.join(dir_path, 'lattice.cif')
             if not os.path.exists(cif_path):
