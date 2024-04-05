@@ -32,6 +32,7 @@ oxide_df.index = list(nist.keys())
 ref_df.index = metal_rows['3d']
 
 min_values = ref_df.iloc[:, :3].min(axis=1)
+ref_df = ref_df.iloc[:, 3:]
 
 E_O2 = -8.7702210 # eV, DFT
 TS_O2 = 0.635139 # eV, at 298.15 K, 1 atm
@@ -48,8 +49,8 @@ for element, data in nist.items():
 
 for i, metal in enumerate(metal_rows['3d']):
     if metal in nist:
-        min_values[i] = nist[metal]['E_metal']
-ref_df.insert(0, 'min_values', min_values)
+        min_values.loc[metal] = nist[metal]['E_metal']
+ref_df.insert(0, '3d', min_values)
 print(ref_df)
 
 # energy_path = './energy_norm_energy.tsv'
