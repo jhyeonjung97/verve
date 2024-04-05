@@ -39,12 +39,20 @@ ZPE_O2 = 0.096279 # eV, at 298.15 K, 1 atm
 E_oxygen = E_O2 /2
 G_oxygen = (E_O2 - TS_O2 + ZPE_O2) / 2
 
-for i, (element, data) in enumerate(nist.items()):
+# for i, (element, data) in enumerate(nist.items()):
+#     data['G_form'] = data['G_form'] / data['M'] / 96.48
+#     data['OtoM'] = data['O'] / data['M']
+#     data['G_oxide'] = oxide_df['energy'][element] - oxide_df['TS'][element] + oxide_df['ZPE'][element]
+#     data['G_metal'] = data['G_oxide'] - data['G_form'] - data['OtoM'] * G_oxygen
+#     data['E_metal'] = data['G_metal'] + metal_df['TS'][element] - metal_df['ZPE'][element]
+# print(nist)
+
+for element, data in nist.items():
     data['G_form'] = data['G_form'] / data['M'] / 96.48
     data['OtoM'] = data['O'] / data['M']
-    data['G_oxide'] = oxide_df['energy'] - oxide_df['TS'] + oxide_df['ZPE']
+    data['G_oxide'] = oxide_df.loc[element, 'energy'] - oxide_df.loc[element, 'TS'] + oxide_df.loc[element, 'ZPE']
     data['G_metal'] = data['G_oxide'] - data['G_form'] - data['OtoM'] * G_oxygen
-    data['E_metal'] = data['G_metal'] + metal_df['TS'] - metal_df['ZPE']
+    data['E_metal'] = data['G_metal'] + metal_df.loc[element, 'TS'] - metal_df.loc[element, 'ZPE']
 print(nist)
 
 # for i, metal in enumerate(metal_rows['3d']):
