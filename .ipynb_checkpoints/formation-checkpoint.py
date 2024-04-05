@@ -75,7 +75,7 @@ for j, column in enumerate(formation.columns):
         continue
     plt.plot(x, filtered_df, marker='o', color=colors[j % len(colors)], label=column)
 
-df.to_csv(tsv_filename, sep='\t')
+formation.to_csv(tsv_filename, sep='\t')
 print(f"Merged data saved to {tsv_filename}")
 
 plt.xticks(x, df.index)
