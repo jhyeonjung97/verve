@@ -110,7 +110,7 @@ def extract_values(directory, patterns, norm, dir_range):
     
     specific_patterns = set()
     for pattern in ['Madelung_Mulliken', 'Madelung_Loewdin', 'ICOHP', 'ICOBI', 'GP', 
-                    'hexa_ratio', 'volume', 'bond', 'energy', 'metals', 'mag', 'chg']:
+                    'hexa_ratio', 'volume', 'bond', 'energy', 'metals', 'mag', 'chg', 'zpe', 'entropy']:
         if pattern in patterns:
             patterns.discard(pattern)
             specific_patterns.add(pattern)            
@@ -280,7 +280,6 @@ def extract_values(directory, patterns, norm, dir_range):
                 values.setdefault('mag_M_down', []).append(np.nan)
                 values.setdefault('mag_O_up', []).append(np.nan)
                 values.setdefault('mag_O_down', []).append(np.nan)
-        
         if 'chg' in specific_patterns:
             chg_path = os.path.join(dir_path, 'atoms_bader_charge.json')
             if not os.path.exists(Bader_path):
