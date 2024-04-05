@@ -80,6 +80,7 @@ alias more='sh ~/bin/verve/more.sh'
 alias tsv='python ~/bin/verve/tsv.py'
 alias atoms='python ~/bin/verve/atoms.py'
 alias time='grep sec OUTCAR'
+alias formation='python ~/bin/verve/formation.py'
 
 #SSH
 alias hi='sh ~/bin/verve/gits.sh orange shoulder verve tools
