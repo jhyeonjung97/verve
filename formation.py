@@ -62,28 +62,28 @@ for row in metal_rows:
             formation.loc[metal] = energy_df.loc[metal] - df.loc[metal, row] - E_oxygen
 print(formation)
 
-# plt.figure(figsize=(8, 6))
-# png_filename = f"energy_norm_formation.png"   
-# tsv_filename = f"energy_norm_formation.tsv"
+plt.figure(figsize=(8, 6))
+png_filename = f"energy_norm_formation.png"   
+tsv_filename = f"energy_norm_formation.tsv"
 
-# colors = plt.cm.rainbow(np.linspace(0, 1, len(df.columns))) 
+colors = plt.cm.rainbow(np.linspace(0, 1, len(df.columns))) 
 
-# for j, column in enumerate(df.columns):
-#     x = range(len(df[column]))
-#     filtered_df = df[column].dropna()
-#     if filtered_df.empty:
-#         print(f"No values found for pattern: {column}")
-#         continue
-#     plt.plot(x, filtered_df, marker='o', color=colors[j % len(colors)], label=column)
+for j, column in enumerate(df.columns):
+    x = range(len(df[column]))
+    filtered_df = df[column].dropna()
+    if filtered_df.empty:
+        print(f"No values found for pattern: {column}")
+        continue
+    plt.plot(x, filtered_df, marker='o', color=colors[j % len(colors)], label=column)
 
-# df.to_csv(tsv_filename, sep='\t')
-# print(f"Merged data saved to {tsv_filename}")
+df.to_csv(tsv_filename, sep='\t')
+print(f"Merged data saved to {tsv_filename}")
 
-# plt.xticks(x, df.index)
-# plt.xlabel('Metal (MO)')
-# plt.ylabel('Formation energy (eV/MO)')
-# plt.legend()
-# plt.tight_layout()
-# plt.gcf().savefig(png_filename, bbox_inches="tight")
-# print(f"Figure saved as {png_filename}")
-# plt.close()
+plt.xticks(x, df.index)
+plt.xlabel('Metal (MO)')
+plt.ylabel('Formation energy (eV/MO)')
+plt.legend()
+plt.tight_layout()
+plt.gcf().savefig(png_filename, bbox_inches="tight")
+print(f"Figure saved as {png_filename}")
+plt.close()
