@@ -237,13 +237,13 @@ def extract_values(directory, patterns, norm, dir_range):
         if 'ZPE' in specific_patterns:
             ZPE_dir = os.path.join(dir_path, 'zpe/')
             ZPE_path = os.path.join(dir_path, 'zpe.txt')
-            match1 = re.search(r'Zero-point energy E_ZPE\s*:\s*\d+\.\d+\s*kcal/mol\s*(\d+\.\d+)\s*eV', line)
-            match2 = re.search(r'Entropy contribution T\*S\s*:\s*\d+\.\d+\s*J/\(mol\)\s*(\d+\.\d+)\s*eV', line)
             if not os.path.exists(ZPE_path):
                 subprocess.call('vaspkit -task 501 > ../zpe.txt', shell=True, cwd=zpe_dir)
             if os.path.exists(ZPE_path):
                 with open(ZPE_path, 'r') as file:
                     for line in file:
+                        match1 = re.search(r'Zero-point energy E_ZPE\s*:\s*\d+\.\d+\s*kcal/mol\s*(\d+\.\d+)\s*eV', line)
+                        match2 = re.search(r'Entropy contribution T\*S\s*:\s*\d+\.\d+\s*J/\(mol\)\s*(\d+\.\d+)\s*eV', line)
                         if match1:
                             values.setdefault('ZPE', []).append(float(match1.group(1)))
                         if match2:
