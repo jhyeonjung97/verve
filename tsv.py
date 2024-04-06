@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import sys
 import argparse
 
-def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, colors, markers, a, b, row):
+def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, colors, markers, a, b, row, fontsize):
 
     metal_rows = {
         '3d': ['Ca', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn', 'Ga', 'Ge'],
@@ -51,11 +51,11 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, c
     merged_df.to_csv(tsv_filename, sep='\t')
     print(f"Merged data saved to {tsv_filename}")
 
-    plt.xticks(np.arange(len(indice)), indice, fontsize=10) #9
-    plt.yticks(fontsize=10) #9
-    plt.xlabel(xlabel, fontsize=10) #9
-    plt.ylabel(ylabel, fontsize=10) #9
-    plt.legend(prop={'size': 10}, ncol=1) #7
+    plt.xticks(np.arange(len(indice)), indice, fontsize=fontsize)
+    plt.yticks(fontsize=fontsize)
+    plt.xlabel(xlabel, fontsize=fontsize)
+    plt.ylabel(ylabel, fontsize=fontsize)
+    plt.legend(prop={'size': font}, ncol=1)
     # plt.grid(True)
     plt.tight_layout()
     plt.gcf().savefig(png_filename, bbox_inches="tight")
@@ -76,7 +76,9 @@ if __name__ == "__main__":
                         help='Colors to plot')
     parser.add_argument('-a', type=float, default=8)
     parser.add_argument('-b', type=float, default=6)
+    parser.add_argument('--font', type=float, default=10)
     
     args = parser.parse_args()        
-    plot_patterns_from_multiple_tsv(args.files, args.output, args.xlabel, args.ylabel, args.labels, args.colors, args.markers, args.a, args.b, args.row)
+    plot_patterns_from_multiple_tsv(args.files, args.output, args.xlabel, args.ylabel, args.labels, 
+                                    args.colors, args.markers, args.a, args.b, args.row, fontsize=args.font)
 
