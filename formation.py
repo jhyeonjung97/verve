@@ -53,9 +53,12 @@ for i, metal in enumerate(metal_rows['3d']):
 df.insert(0, '3d', min_values)
 
 energy_path = './energy_norm_energy.tsv'
+if not os.path.exists(energy_path):
+    exit(1)
 energy_df = pd.read_csv(energy_path, delimiter='\t', index_col=0)
 formation = pd.DataFrame(index=energy_df.index, columns=energy_df.columns)
 
+if 
 for row in metal_rows:
     if metal_rows[row] == energy_df.index.tolist():
         formation = energy_df.sub(df[row].values, axis=0) - E_oxygen
