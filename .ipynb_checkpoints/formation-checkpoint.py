@@ -58,7 +58,6 @@ if not os.path.exists(energy_path):
 energy_df = pd.read_csv(energy_path, delimiter='\t', index_col=0)
 formation = pd.DataFrame(index=energy_df.index, columns=energy_df.columns)
 
-if 
 for row in metal_rows:
     if metal_rows[row] == energy_df.index.tolist():
         formation = energy_df.sub(df[row].values, axis=0) - E_oxygen
