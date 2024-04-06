@@ -59,6 +59,8 @@ formation = pd.DataFrame(index=energy_df.index, columns=energy_df.columns)
 print(energy_df)
 
 for row in metal_rows:
+    print(metal_rows[row])
+    print(energy_df.index.tolist())
     if metal_rows[row] == energy_df.index.tolist():
         print(row)
         formation = energy_df.sub(df[row].values, axis=0) - E_oxygen
