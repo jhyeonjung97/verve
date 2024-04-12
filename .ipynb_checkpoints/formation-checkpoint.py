@@ -73,9 +73,10 @@ colors = plt.cm.rainbow(np.linspace(0, 1, len(formation.columns)))
 for j, column in enumerate(formation.columns):
     filtered_x = []
     filtered_values = []
-    x = list(range(0, len(formation[column])))
+    # x = list(range(1, len(formation[column])+1))
+    x = formation[column]
     values = formation.get(column, [])
-    for i, v in enumerate(values):
+    for i, v in x, values:
         if not np.isnan(v):
             filtered_x.append(i)
             filtered_values.append(v)
