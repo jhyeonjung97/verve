@@ -203,172 +203,171 @@ def extract_values(directory, patterns, norm, dir_range):
             if patterns:
                 for pattern in patterns:
                     values[pattern].append(np.nan)
-            break
-        
-        if 'Madelung_Mulliken' in specific_patterns or 'Madelung_Loewdin' in specific_patterns:
-            madelung_path = os.path.join(dir_path, 'MadelungEnergies.lobster')
-            if os.path.exists(madelung_path):
-                with open(madelung_path, 'r') as file:
-                    lines = file.readlines()
-                for line in reversed(lines):
-                    match = re.search(r'\s*\d+\.\d+\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)', line)
-                    if match:
-                        if 'Madelung_Mulliken' in specific_patterns:
-                            values.setdefault('Madelung_Mulliken', []).append(float(match.group(1))/norm_numb)
-                        if 'Madelung_Loewdin' in specific_patterns:
-                            values.setdefault('Madelung_Loewdin', []).append(float(match.group(2))/norm_numb)
-                        break
-        if 'GP' in specific_patterns:
-            i = numb - 1
-            gp_path = os.path.join(dir_path, 'GROSSPOP.lobster')
-            if os.path.exists(gp_path):
-                for line in open(gp_path, 'r'):
-                    match = re.search(r'\s*total\s+([0-9.]+)\s+([0-9.]+)', line)
-                    if match:
-                        symbol = atoms[i].symbol
-                        zval = zval_dict[symbol]
-                        if symbol == 'O':   
-                            values.setdefault('GP_Mulliken_O'+str(i), []).append(zval-float(match.group(1)))
-                            values.setdefault('GP_Loewdin_O'+str(i), []).append(zval-float(match.group(2)))
-                        else:
-                            values.setdefault('GP_Mulliken_M'+str(i), []).append(zval-float(match.group(1)))
-                            values.setdefault('GP_Loewdin_M'+str(i), []).append(zval-float(match.group(2)))
-                        if i != 0: i -= 1
-                        else: break
-        if 'ICOHP' in specific_patterns:
-            ICOHP_path = os.path.join(dir_path, 'icohp.txt')
-            if not os.path.exists(ICOHP_path):
-                subprocess.call('python ~/bin/playground/aloha/cohp.py > icohp.txt', shell=True, cwd=dir_path)
-            if os.path.exists(ICOHP_path):
-                for line in open(ICOHP_path, 'r'):
-                    match = re.search(r'-ICOHP sum:(\s*)([0-9.]+)', line)
-                    if match:
-                        values.setdefault('ICOHP', []).append(-float(match.group(2)))
-                        break
-        if 'ICOBI' in specific_patterns:
-            ICOBI_path = os.path.join(dir_path, 'icobi.txt')
-            if not os.path.exists(ICOBI_path):
-                subprocess.call('python ~/bin/playground/aloha/cobi.py > icobi.txt', shell=True, cwd=dir_path)
-            if os.path.exists(ICOBI_path):
-                for line in open(ICOBI_path, 'r'):
-                    match = re.search(r'ICOBI avg:([0-9.]+)', line)
-                    if match:
-                        values.setdefault('ICOBI', []).append(float(match.group(1)))
-                        break
-        if 'bond' in specific_patterns:
-            bond_length = 0
-            ICOHP_path = os.path.join(dir_path, 'icohp.txt')
-            if not os.path.exists(ICOHP_path):
-                subprocess.call('python ~/bin/playground/aloha/cohp.py > icohp.txt', shell=True, cwd=dir_path)
-            if os.path.exists(ICOHP_path):
-                with open(ICOHP_path, 'r') as file:
-                    for line in file:
-                        match = re.search(r'\b\d+\s+\w+\s+\d+\s+\w+\s+\d+\s+\S+\s+[\d.]+\s+([\d.]+)$', line)
-                        if match:
-                            bond_length += float(match.group(1))
-                values.setdefault('bond', []).append(bond_length)
-        if 'ZPE' in specific_patterns:
-            ZPE_dir = os.path.join(dir_path, 'zpe/')
-            ZPE_path = os.path.join(dir_path, 'zpe.txt')
-            subprocess.call('vaspkit -task 501 > ../zpe.txt', shell=True, cwd=ZPE_dir)
-            if os.path.exists(ZPE_path):
-                with open(ZPE_path, 'r') as file:
-                    for line in file:
-                        match1 = re.search(r'Zero-point energy E_ZPE\s*:\s*\d+\.\d+\s*kcal/mol\s*(\d+\.\d+)\s*eV', line)
-                        match2 = re.search(r'Entropy contribution T\*S\s*:\s*\d+\.\d+\s*J/\(mol\)\s*(\d+\.\d+)\s*eV', line)
-                        if match1:
-                            values.setdefault('ZPE', []).append(float(match1.group(1))/norm_numb)
-                        if match2:
-                            values.setdefault('TS', []).append(float(match2.group(1))/norm_numb)
-            else:
-                values.setdefault('ZPE', []).append(np.nan)
-                values.setdefault('TS', []).append(np.nan)
-        if 'hexa_ratio' in specific_patterns:
-            cif_path = os.path.join(dir_path, 'lattice.cif')
-            if not os.path.exists(cif_path):
-                subprocess.call('ase convert CONTCAR lattice.cif', shell=True, cwd=dir_path)
-            if os.path.exists(cif_path):
-                for line in open(cif_path, 'r'):
-                    match_a = re.search(r'_cell_length_a\s+([\d.]+)', line)
-                    match_c = re.search(r'_cell_length_c\s+([\d.]+)', line)
-                    if match_a:
-                        a = float(match_a.group(1))
-                    if match_c:
-                        c = float(match_c.group(1))
-                values.setdefault('hexa_ratio', []).append(c / a)
-        if 'volume' in specific_patterns:
-            if atoms:
-                values.setdefault('volume', []).append(atoms.get_volume()/norm_numb)
-            else:
-                values.setdefault('volume', []).append(np.nan)
-        if 'energy' in specific_patterns:
-            if atoms:
-                values.setdefault('energy', []).append(atoms.get_total_energy()/norm_numb)
-            else:
-                values.setdefault('energy', []).append(np.nan)
-        if 'mag' in specific_patterns:
-            if atoms:
-                M_up, M_down, O_up, O_down = [], [], [], []
-                
-                for i, atom in enumerate(atoms):
-                    magmom = atoms.get_magnetic_moments()[i]
-                    if atom.symbol == 'O':
-                        (O_up if magmom > 0 else O_down).append(magmom)
-                    else:
-                        (M_up if magmom > 0 else M_down).append(magmom)
-                        
-                mag_M_up = sum(M_up) / len(M_up) if M_up else 0.0
-                mag_M_down = sum(M_down) / len(M_down) if M_down else 0.0
-                mag_O_up = sum(O_up) / len(O_up) if O_up else 0.0
-                mag_O_down = sum(O_down) / len(O_down) if O_down else 0.0
-                
-                values.setdefault('mag_M_up', []).append(mag_M_up)
-                values.setdefault('mag_M_down', []).append(mag_M_down)
-                values.setdefault('mag_O_up', []).append(mag_O_up)
-                values.setdefault('mag_O_down', []).append(mag_O_down)
-            else:
-                values.setdefault('mag_M_up', []).append(np.nan)
-                values.setdefault('mag_M_down', []).append(np.nan)
-                values.setdefault('mag_O_up', []).append(np.nan)
-                values.setdefault('mag_O_down', []).append(np.nan)
-        if 'chg' in specific_patterns:
-            chg_path = os.path.join(dir_path, 'atoms_bader_charge.json')
-            if not os.path.exists(Bader_path):
-                subprocess.call('python ~/bin/verve/bader.py', shell=True, cwd=dir_path)
-            if os.path.exists(chg_path):
-                atoms_chg = read(chg_path)
-                M_chg, O_chg = [], []
-                for atom in atoms_chg:
-                    if atom.symbol == 'O':
-                        O_chg.append(atom.charge)
-                    else:
-                        M_chg.append(atom.charge)
-                chg_M = sum(M_chg) / len(M_chg) if values else np.nan
-                chg_O = sum(O_chg) / len(O_chg) if values else np.nan
-                values.setdefault('chg_M', []).append(chg_M)
-                values.setdefault('chg_O', []).append(chg_O)
-            else:
-                values.setdefault('chg_M', []).append(np.nan)
-                values.setdefault('chg_O', []).append(np.nan)
-                
-        if patterns:
-            outcar_path = os.path.join(dir_path, 'OUTCAR')
-            if os.path.exists(outcar_path) and patterns:
-                with open(outcar_path, 'r') as file:
-                    lines = file.readlines()
-                for key in patterns:
-                    i = numb - 1
-                    pattern = re.compile(pattern_map[key])
+        else:
+            if 'Madelung_Mulliken' in specific_patterns or 'Madelung_Loewdin' in specific_patterns:
+                madelung_path = os.path.join(dir_path, 'MadelungEnergies.lobster')
+                if os.path.exists(madelung_path):
+                    with open(madelung_path, 'r') as file:
+                        lines = file.readlines()
                     for line in reversed(lines):
-                        match = pattern.search(line)
+                        match = re.search(r'\s*\d+\.\d+\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)', line)
                         if match:
-                            if key == 'PAW_double_counting':
-                                combined_value = sum(map(float, match.groups()))
-                                values[key].append(combined_value)
-                                break                        
+                            if 'Madelung_Mulliken' in specific_patterns:
+                                values.setdefault('Madelung_Mulliken', []).append(float(match.group(1))/norm_numb)
+                            if 'Madelung_Loewdin' in specific_patterns:
+                                values.setdefault('Madelung_Loewdin', []).append(float(match.group(2))/norm_numb)
+                            break
+            if 'GP' in specific_patterns:
+                i = numb - 1
+                gp_path = os.path.join(dir_path, 'GROSSPOP.lobster')
+                if os.path.exists(gp_path):
+                    for line in open(gp_path, 'r'):
+                        match = re.search(r'\s*total\s+([0-9.]+)\s+([0-9.]+)', line)
+                        if match:
+                            symbol = atoms[i].symbol
+                            zval = zval_dict[symbol]
+                            if symbol == 'O':   
+                                values.setdefault('GP_Mulliken_O'+str(i), []).append(zval-float(match.group(1)))
+                                values.setdefault('GP_Loewdin_O'+str(i), []).append(zval-float(match.group(2)))
                             else:
-                                values[key].append(float(match.group(1)))
-                                break
+                                values.setdefault('GP_Mulliken_M'+str(i), []).append(zval-float(match.group(1)))
+                                values.setdefault('GP_Loewdin_M'+str(i), []).append(zval-float(match.group(2)))
+                            if i != 0: i -= 1
+                            else: break
+            if 'ICOHP' in specific_patterns:
+                ICOHP_path = os.path.join(dir_path, 'icohp.txt')
+                if not os.path.exists(ICOHP_path):
+                    subprocess.call('python ~/bin/playground/aloha/cohp.py > icohp.txt', shell=True, cwd=dir_path)
+                if os.path.exists(ICOHP_path):
+                    for line in open(ICOHP_path, 'r'):
+                        match = re.search(r'-ICOHP sum:(\s*)([0-9.]+)', line)
+                        if match:
+                            values.setdefault('ICOHP', []).append(-float(match.group(2)))
+                            break
+            if 'ICOBI' in specific_patterns:
+                ICOBI_path = os.path.join(dir_path, 'icobi.txt')
+                if not os.path.exists(ICOBI_path):
+                    subprocess.call('python ~/bin/playground/aloha/cobi.py > icobi.txt', shell=True, cwd=dir_path)
+                if os.path.exists(ICOBI_path):
+                    for line in open(ICOBI_path, 'r'):
+                        match = re.search(r'ICOBI avg:([0-9.]+)', line)
+                        if match:
+                            values.setdefault('ICOBI', []).append(float(match.group(1)))
+                            break
+            if 'bond' in specific_patterns:
+                bond_length = 0
+                ICOHP_path = os.path.join(dir_path, 'icohp.txt')
+                if not os.path.exists(ICOHP_path):
+                    subprocess.call('python ~/bin/playground/aloha/cohp.py > icohp.txt', shell=True, cwd=dir_path)
+                if os.path.exists(ICOHP_path):
+                    with open(ICOHP_path, 'r') as file:
+                        for line in file:
+                            match = re.search(r'\b\d+\s+\w+\s+\d+\s+\w+\s+\d+\s+\S+\s+[\d.]+\s+([\d.]+)$', line)
+                            if match:
+                                bond_length += float(match.group(1))
+                    values.setdefault('bond', []).append(bond_length)
+            if 'ZPE' in specific_patterns:
+                ZPE_dir = os.path.join(dir_path, 'zpe/')
+                ZPE_path = os.path.join(dir_path, 'zpe.txt')
+                subprocess.call('vaspkit -task 501 > ../zpe.txt', shell=True, cwd=ZPE_dir)
+                if os.path.exists(ZPE_path):
+                    with open(ZPE_path, 'r') as file:
+                        for line in file:
+                            match1 = re.search(r'Zero-point energy E_ZPE\s*:\s*\d+\.\d+\s*kcal/mol\s*(\d+\.\d+)\s*eV', line)
+                            match2 = re.search(r'Entropy contribution T\*S\s*:\s*\d+\.\d+\s*J/\(mol\)\s*(\d+\.\d+)\s*eV', line)
+                            if match1:
+                                values.setdefault('ZPE', []).append(float(match1.group(1))/norm_numb)
+                            if match2:
+                                values.setdefault('TS', []).append(float(match2.group(1))/norm_numb)
+                else:
+                    values.setdefault('ZPE', []).append(np.nan)
+                    values.setdefault('TS', []).append(np.nan)
+            if 'hexa_ratio' in specific_patterns:
+                cif_path = os.path.join(dir_path, 'lattice.cif')
+                if not os.path.exists(cif_path):
+                    subprocess.call('ase convert CONTCAR lattice.cif', shell=True, cwd=dir_path)
+                if os.path.exists(cif_path):
+                    for line in open(cif_path, 'r'):
+                        match_a = re.search(r'_cell_length_a\s+([\d.]+)', line)
+                        match_c = re.search(r'_cell_length_c\s+([\d.]+)', line)
+                        if match_a:
+                            a = float(match_a.group(1))
+                        if match_c:
+                            c = float(match_c.group(1))
+                    values.setdefault('hexa_ratio', []).append(c / a)
+            if 'volume' in specific_patterns:
+                if atoms:
+                    values.setdefault('volume', []).append(atoms.get_volume()/norm_numb)
+                else:
+                    values.setdefault('volume', []).append(np.nan)
+            if 'energy' in specific_patterns:
+                if atoms:
+                    values.setdefault('energy', []).append(atoms.get_total_energy()/norm_numb)
+                else:
+                    values.setdefault('energy', []).append(np.nan)
+            if 'mag' in specific_patterns:
+                if atoms:
+                    M_up, M_down, O_up, O_down = [], [], [], []
+                    
+                    for i, atom in enumerate(atoms):
+                        magmom = atoms.get_magnetic_moments()[i]
+                        if atom.symbol == 'O':
+                            (O_up if magmom > 0 else O_down).append(magmom)
+                        else:
+                            (M_up if magmom > 0 else M_down).append(magmom)
+                            
+                    mag_M_up = sum(M_up) / len(M_up) if M_up else 0.0
+                    mag_M_down = sum(M_down) / len(M_down) if M_down else 0.0
+                    mag_O_up = sum(O_up) / len(O_up) if O_up else 0.0
+                    mag_O_down = sum(O_down) / len(O_down) if O_down else 0.0
+                    
+                    values.setdefault('mag_M_up', []).append(mag_M_up)
+                    values.setdefault('mag_M_down', []).append(mag_M_down)
+                    values.setdefault('mag_O_up', []).append(mag_O_up)
+                    values.setdefault('mag_O_down', []).append(mag_O_down)
+                else:
+                    values.setdefault('mag_M_up', []).append(np.nan)
+                    values.setdefault('mag_M_down', []).append(np.nan)
+                    values.setdefault('mag_O_up', []).append(np.nan)
+                    values.setdefault('mag_O_down', []).append(np.nan)
+            if 'chg' in specific_patterns:
+                chg_path = os.path.join(dir_path, 'atoms_bader_charge.json')
+                if not os.path.exists(Bader_path):
+                    subprocess.call('python ~/bin/verve/bader.py', shell=True, cwd=dir_path)
+                if os.path.exists(chg_path):
+                    atoms_chg = read(chg_path)
+                    M_chg, O_chg = [], []
+                    for atom in atoms_chg:
+                        if atom.symbol == 'O':
+                            O_chg.append(atom.charge)
+                        else:
+                            M_chg.append(atom.charge)
+                    chg_M = sum(M_chg) / len(M_chg) if values else np.nan
+                    chg_O = sum(O_chg) / len(O_chg) if values else np.nan
+                    values.setdefault('chg_M', []).append(chg_M)
+                    values.setdefault('chg_O', []).append(chg_O)
+                else:
+                    values.setdefault('chg_M', []).append(np.nan)
+                    values.setdefault('chg_O', []).append(np.nan)
+                    
+            if patterns:
+                outcar_path = os.path.join(dir_path, 'OUTCAR')
+                if os.path.exists(outcar_path) and patterns:
+                    with open(outcar_path, 'r') as file:
+                        lines = file.readlines()
+                    for key in patterns:
+                        i = numb - 1
+                        pattern = re.compile(pattern_map[key])
+                        for line in reversed(lines):
+                            match = pattern.search(line)
+                            if match:
+                                if key == 'PAW_double_counting':
+                                    combined_value = sum(map(float, match.groups()))
+                                    values[key].append(combined_value)
+                                    break                        
+                                else:
+                                    values[key].append(float(match.group(1)))
+                                    break
 
     return values, dir_names
 
