@@ -245,6 +245,8 @@ def extract_values(directory, patterns, norm, dir_range):
                     if match:
                         values.setdefault('ICOHP', []).append(-float(match.group(2)))
                         break
+            else:
+                values.setdefault('ICOBI', []).append(np.nan)
         if 'ICOBI' in specific_patterns:
             ICOBI_path = os.path.join(dir_path, 'icobi.txt')
             if not os.path.exists(ICOBI_path):
@@ -255,6 +257,8 @@ def extract_values(directory, patterns, norm, dir_range):
                     if match:
                         values.setdefault('ICOBI', []).append(float(match.group(1)))
                         break
+            else:
+                values.setdefault('ICOBI', []).append(np.nan)
         if 'bond' in specific_patterns:
             bond_length = 0
             ICOHP_path = os.path.join(dir_path, 'icohp.txt')
@@ -267,6 +271,8 @@ def extract_values(directory, patterns, norm, dir_range):
                         if match:
                             bond_length += float(match.group(1))
                 values.setdefault('bond', []).append(bond_length)
+            else:
+                values.setdefault('ICOBI', []).append(np.nan)
         if 'ZPE' in specific_patterns:
             ZPE_dir = os.path.join(dir_path, 'zpe/')
             ZPE_path = os.path.join(dir_path, 'zpe.txt')
@@ -439,6 +445,7 @@ def plot_separately(values_dict, dir_names, xlabel, ylabel, save, filename):
             plt.show()
 
 def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename):
+    print(values_dict)
     plt.figure(figsize=(10, 6))
 
     patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
