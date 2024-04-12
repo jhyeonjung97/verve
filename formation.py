@@ -85,6 +85,7 @@ for j, column in enumerate(formation.columns):
         continue
     print(filtered_x)
     print(filtered_values)
+    plt.xticks(x)
     plt.plot(filtered_x, filtered_values, marker='o', color=colors[j % len(colors)], label=column)
             
 formation.to_csv(tsv_filename, sep='\t')
