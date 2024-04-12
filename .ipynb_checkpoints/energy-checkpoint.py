@@ -131,7 +131,7 @@ def extract_values(directory, patterns, norm, dir_range):
         dir_path = os.path.join(directory, dir_name)
         trimmed_dir_name = dir_name.split('_')[1]
         dir_names.append(trimmed_dir_name)
-        
+            
         atoms=None
         in_charge_section = False
         pattern_A = os.path.join(dir_path, 'final*static*traj')
@@ -159,6 +159,7 @@ def extract_values(directory, patterns, norm, dir_range):
             print(f'No atomic structure data in {dir_path}')
         # else:
         #     picked_atoms = atoms
+            
         zvals =[]
         titels =[]
         potcar_path = os.path.join(dir_path, 'POTCAR')
@@ -171,7 +172,39 @@ def extract_values(directory, patterns, norm, dir_range):
                 if match_titel:
                     titels.append(match_titel.group(1).rsplit('_', 1)[0])
             zval_dict = dict(zip(titels, zvals))
-                        
+
+        if 'x' in dir_name:
+            for specific_pattern in specific_patterns:
+                if specific_pattern not in ['GP', 'mag']
+                values.setdefault(specific_pattern, []).append(np.nan)
+            if 'GP' in specific_patterns:
+                if os.path.exists(gp_path):
+                    for line in open(gp_path, 'r'):
+                        match = re.search(r'\s*total\s+([0-9.]+)\s+([0-9.]+)', line)
+                        if match:
+                            symbol = atoms[i].symbol
+                            zval = zval_dict[symbol]
+                            if symbol == 'O':   
+                                values.setdefault('GP_Mulliken_O'+str(i), []).append(np.nan)
+                                values.setdefault('GP_Loewdin_O'+str(i), []).append(np.nan)
+                            else:
+                                values.setdefault('GP_Mulliken_M'+str(i), []).append(np.nan)
+                                values.setdefault('GP_Loewdin_M'+str(i), []).append(np.nan)
+            if 'ZPE' in specific_patterns:
+                values.setdefault('TS', []).append(np.nan)
+            if 'mag' in specific_patterns:
+                values.setdefault('mag_M_up', []).append(np.nan)
+                values.setdefault('mag_M_down', []).append(np.nan)
+                values.setdefault('mag_O_up', []).append(np.nan)
+                values.setdefault('mag_O_down', []).append(np.nan)
+            if 'chg' in specific_patterns:
+                values.setdefault('chg_M', []).append(np.nan)
+                values.setdefault('chg_O', []).append(np.nan)
+            if patterns:
+                for pattern in patterns:
+                    values[pattern].append(np.nan)
+            break
+        
         if 'Madelung_Mulliken' in specific_patterns or 'Madelung_Loewdin' in specific_patterns:
             madelung_path = os.path.join(dir_path, 'MadelungEnergies.lobster')
             if os.path.exists(madelung_path):
