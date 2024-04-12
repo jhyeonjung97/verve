@@ -75,7 +75,7 @@ for j, column in enumerate(formation.columns):
     filtered_values = []
     # x = list(range(1, len(formation[column])+1))
     x = formation.index
-    values = formation.get(column, [])
+    values = formation[column]
     for i, v in enumerate(values):
         if not np.isnan(v):
             filtered_x.append(x[i])
@@ -88,7 +88,9 @@ for j, column in enumerate(formation.columns):
 formation.to_csv(tsv_filename, sep='\t')
 print(f"Merged data saved to {tsv_filename}")
 
-plt.xticks(len(x), x)
+print(x)
+print(len(x))
+plt.xticks(x)
 plt.xlabel('Metal (MO)')
 plt.ylabel('Formation energy (eV/MO)')
 plt.legend()
