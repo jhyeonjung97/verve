@@ -5,7 +5,7 @@ if $((here)) == slac; then
     	--include="*.png" \
     	--exclude="*" \
      jiuy97@perlmutter.nersc.gov:/pscratch/sd/j/jiuy97/3_V_shape .
-else
+elif $(here) == nersc; then
     dir_now='/pscratch/sd/j/jiuy97/3_V_shape'
     cd $dir_now
     for dir in */*/; do
