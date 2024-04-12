@@ -74,7 +74,7 @@ for j, column in enumerate(formation.columns):
     filtered_x = []
     filtered_values = []
     # x = list(range(1, len(formation[column])+1))
-    x = formation[column]
+    x = formation.index
     values = formation.get(column, [])
     for i, v in enumerate(values):
         if not np.isnan(v):
