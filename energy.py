@@ -475,6 +475,7 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename):
         if pattern == 'hexa_ratio':
             plt.plot(x, [1.633]*len(x), linestyle=':', label='hexa_ratio0', color=color)
 
+    plt.xlim(-0.5, len(dir_names)-0.5)
     plt.xticks(np.arange(len(dir_names)), dir_names, rotation='vertical')
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
