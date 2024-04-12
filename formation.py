@@ -71,19 +71,20 @@ tsv_filename = f"energy_norm_formation.tsv"
 colors = plt.cm.rainbow(np.linspace(0, 1, len(formation.columns))) 
 
 for j, column in enumerate(formation.columns):
-    x = []
+    filtered_x = []
     filtered_values = []
+    x = len(list(formation[column]))
     values = formation.get(column, [])
     for i, v in enumerate(values):
         if not np.isnan(v):
-            x.append(i)
+            filtered_x.append(i)
             filtered_values.append(v)
     if not filtered_values:
         print(f"No values found for pattern: {column}")
         continue
     print(x)
-    print(filtered_values)
-    plt.plot(x, filtered_values, marker='o', color=colors[j % len(colors)], label=column)
+    print(values)
+    plt.plot(filtered_x, filtered_values, marker='o', color=colors[j % len(colors)], label=column)
             
 formation.to_csv(tsv_filename, sep='\t')
 print(f"Merged data saved to {tsv_filename}")
