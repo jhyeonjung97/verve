@@ -10,14 +10,14 @@ metal_rows = {
     }
 
 nist = {
-    'Ti': {'M': 1, 'O': 2, 'G_form': -889.406}, # 1692 1809 mp-2657 Titanium Dioxide (Rutile)
-    'V': {'M': 2, 'O': 5, 'G_form': -1419.359}, # 1780 1892 mp-25279 Divanadium Pentaoxide
-    'Cr': {'M': 2, 'O': 3, 'G_form': -1058.067}, # 573 688 mp-19399 Dichromium Trioxide
-    'Mn': {'M': 1, 'O': 1, 'G_form': -362.898}, # 1046 1162 mp-19006 Manganese Oxide
-    'Fe': {'M': 2, 'O': 3, 'G_form': -742.294}, # 702 817 mp-19770 Hematite
-    'Co': {'M': 3, 'O': 4, 'G_form': -794.901}, # 544 659 mp-18748 Tricobalt Tetraoxide
-    'Ni': {'M': 1, 'O': 1, 'G_form': -211.539}, # 1213 1330 mp-19009 Nickel Oxide
-    'Cu': {'M': 1, 'O': 1, 'G_form': -128.292}, # 620 735 mp-704645 Copper Monoxide
+    'Ti': {'M': 1, 'O': 2, 'H_form': -944.747, 'G_form': -889.406}, # 1692 1809 mp-2657 Titanium Dioxide (Rutile)
+    'V': {'M': 2, 'O': 5, 'H_form': -132.214, 'G_form': -1419.359}, # 1780 1892 mp-25279 Divanadium Pentaoxide
+    'Cr': {'M': 2, 'O': 3, 'H_form': -1139.701, 'G_form': -1058.067}, # 573 688 mp-19399 Dichromium Trioxide
+    'Mn': {'M': 1, 'O': 1, 'H_form': -385.221, 'G_form': -362.898}, # 1046 1162 mp-19006 Manganese Oxide
+    'Fe': {'M': 2, 'O': 3, 'H_form': -824.248, 'G_form': -742.294}, # 702 817 mp-19770 Hematite
+    'Co': {'M': 3, 'O': 4, 'H_form': -910.020, 'G_form': -794.901}, # 544 659 mp-18748 Tricobalt Tetraoxide
+    'Ni': {'M': 1, 'O': 1, 'H_form': -239.701, 'G_form': -211.539}, # 1213 1330 mp-19009 Nickel Oxide
+    'Cu': {'M': 1, 'O': 1, 'H_form': -156.063, 'G_form': -128.292}, # 620 735 mp-704645 Copper Monoxide
     }
 
 metal_path = '/pscratch/sd/j/jiuy97/3_V_shape/metal/0_min/energy_norm.tsv'
@@ -35,6 +35,11 @@ df.index = metal_rows['3d']
 min_values = df.iloc[:, :3].min(axis=1)
 df = df.iloc[:, 3:]
 
+# E_O2 = -8.7702210 # eV, DFT
+# TS_O2 = 0.635139 # eV, at 298.15 K, 1 atm
+# ZPE_O2 = 0.096279 # eV, at 298.15 K, 1 atm
+# E_oxygen = E_O2 /2
+# G_oxygen = (E_O2 - TS_O2 + ZPE_O2) / 2
 E_O2 = -8.7702210 # eV, DFT
 TS_O2 = 0.635139 # eV, at 298.15 K, 1 atm
 ZPE_O2 = 0.096279 # eV, at 298.15 K, 1 atm
@@ -42,12 +47,16 @@ E_oxygen = E_O2 /2
 G_oxygen = (E_O2 - TS_O2 + ZPE_O2) / 2
 
 for element, data in nist.items():
-    data['G_form'] = data['G_form'] / data['M'] / 96.48
+    # data['G_form'] = data['G_form'] / data['M'] / 96.48
+    # data['OtoM'] = data['O'] / data['M']
+    # data['G_oxide'] = oxide_df.loc[element, 'energy'] - oxide_df.loc[element, 'TS'] + oxide_df.loc[element, 'ZPE']
+    # data['G_metal'] = data['G_oxide'] - data['G_form'] - data['OtoM'] * G_oxygen
+    # data['E_metal'] = data['G_metal'] + metal_df.loc[element, 'TS'] - metal_df.loc[element, 'ZPE']
+    data['H_form'] = data['H_form'] / data['M'] / 96.48
     data['OtoM'] = data['O'] / data['M']
-    data['G_oxide'] = oxide_df.loc[element, 'energy'] - oxide_df.loc[element, 'TS'] + oxide_df.loc[element, 'ZPE']
-    data['G_metal'] = data['G_oxide'] - data['G_form'] - data['OtoM'] * G_oxygen
-    data['E_metal'] = data['G_metal'] + metal_df.loc[element, 'TS'] - metal_df.loc[element, 'ZPE']
-
+    data['E_oxide'] = oxide_df.loc[element, 'energy'] - oxide_df.loc[element, 'TS'] + oxide_df.loc[element, 'ZPE']
+    data['E_metal'] = data['E_oxide'] - data['H_form'] - data['OtoM'] * G_oxygen
+    
 for i, metal in enumerate(metal_rows['3d']):
     if metal in nist:
         min_values.loc[metal] = nist[metal]['E_metal']
