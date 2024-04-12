@@ -76,6 +76,8 @@ for j, column in enumerate(formation.columns):
     if filtered_df.empty:
         print(f"No values found for pattern: {column}")
         continue
+    print(x)
+    print(filtered_df)
     plt.plot(x, filtered_df, marker='o', color=colors[j % len(colors)], label=column)
 
 formation.to_csv(tsv_filename, sep='\t')
