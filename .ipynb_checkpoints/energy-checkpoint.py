@@ -163,7 +163,7 @@ def extract_values(directory, patterns, norm, dir_range):
         zvals =[]
         titels =[]
         potcar_path = os.path.join(dir_path, 'POTCAR')
-        if os.path.exists(potcar_path) and not is_file_empty(potcar_path):
+        if os.path.exists(potcar_path) and os.path.getsize(potcar_path) != 0:
             for line in open(potcar_path, 'r'):
                 match_zval = re.search(r'POMASS\s*=\s*([0-9.]+);\s*ZVAL\s*=\s*([0-9.]+)', line)
                 match_titel = re.search(r'TITEL  = PAW_PBE\s+([A-Za-z0-9_]+)\s+\d{2}[A-Za-z]{3}\d{4}', line)
@@ -178,7 +178,7 @@ def extract_values(directory, patterns, norm, dir_range):
                 if specific_pattern not in ['GP', 'mag']:
                     values.setdefault(specific_pattern, []).append(np.nan)
             if 'GP' in specific_patterns:
-                if os.path.exists(gp_path) and not is_file_empty(gp_path):
+                if os.path.exists(gp_path) and os.path.getsize(gp_path) != 0:
                     for line in open(gp_path, 'r'):
                         match = re.search(r'\s*total\s+([0-9.]+)\s+([0-9.]+)', line)
                         if match:
@@ -207,7 +207,7 @@ def extract_values(directory, patterns, norm, dir_range):
         
         if 'Madelung_Mulliken' in specific_patterns or 'Madelung_Loewdin' in specific_patterns:
             madelung_path = os.path.join(dir_path, 'MadelungEnergies.lobster')
-            if os.path.exists(madelung_path) and not is_file_empty(madelung_path):
+            if os.path.exists(madelung_path) and os.path.getsize(madelung_path) != 0:
                 with open(madelung_path, 'r') as file:
                     lines = file.readlines()
                 for line in reversed(lines):
@@ -221,7 +221,7 @@ def extract_values(directory, patterns, norm, dir_range):
         if 'GP' in specific_patterns:
             i = numb - 1
             gp_path = os.path.join(dir_path, 'GROSSPOP.lobster')
-            if os.path.exists(gp_path) and not is_file_empty(gp_path):
+            if os.path.exists(gp_path) and os.path.getsize(gp_path) != 0:
                 for line in open(gp_path, 'r'):
                     match = re.search(r'\s*total\s+([0-9.]+)\s+([0-9.]+)', line)
                     if match:
@@ -239,7 +239,7 @@ def extract_values(directory, patterns, norm, dir_range):
             ICOHP_path = os.path.join(dir_path, 'icohp.txt')
             if not os.path.exists(ICOHP_path):
                 subprocess.call('python ~/bin/playground/aloha/cohp.py > icohp.txt', shell=True, cwd=dir_path)
-            if os.path.exists(ICOHP_path) and not is_file_empty(ICOHP_path):
+            if os.path.exists(ICOHP_path) and os.path.getsize(ICOHP_path) != 0:
                 for line in open(ICOHP_path, 'r'):
                     match = re.search(r'-ICOHP sum:(\s*)([0-9.]+)', line)
                     if match:
@@ -251,7 +251,7 @@ def extract_values(directory, patterns, norm, dir_range):
             ICOBI_path = os.path.join(dir_path, 'icobi.txt')
             if not os.path.exists(ICOBI_path):
                 subprocess.call('python ~/bin/playground/aloha/cobi.py > icobi.txt', shell=True, cwd=dir_path)
-            if os.path.exists(ICOBI_path) and not is_file_empty(ICOBI_path):
+            if os.path.exists(ICOBI_path) and os.path.getsize(ICOBI_path) != 0:
                 for line in open(ICOBI_path, 'r'):
                     match = re.search(r'ICOBI avg:([0-9.]+)', line)
                     if match:
@@ -264,7 +264,7 @@ def extract_values(directory, patterns, norm, dir_range):
             ICOHP_path = os.path.join(dir_path, 'icohp.txt')
             if not os.path.exists(ICOHP_path):
                 subprocess.call('python ~/bin/playground/aloha/cohp.py > icohp.txt', shell=True, cwd=dir_path)
-            if os.path.exists(ICOHP_path) and not is_file_empty(ICOHP_path):
+            if os.path.exists(ICOHP_path) and os.path.getsize(ICOHP_path) != 0:
                 with open(ICOHP_path, 'r') as file:
                     for line in file:
                         match = re.search(r'\b\d+\s+\w+\s+\d+\s+\w+\s+\d+\s+\S+\s+[\d.]+\s+([\d.]+)$', line)
@@ -277,7 +277,7 @@ def extract_values(directory, patterns, norm, dir_range):
             ZPE_dir = os.path.join(dir_path, 'zpe/')
             ZPE_path = os.path.join(dir_path, 'zpe.txt')
             subprocess.call('vaspkit -task 501 > ../zpe.txt', shell=True, cwd=ZPE_dir)
-            if os.path.exists(ZPE_path) and not is_file_empty(ZPE_path):
+            if os.path.exists(ZPE_path) and os.path.getsize(ZPE_path) != 0:
                 with open(ZPE_path, 'r') as file:
                     for line in file:
                         match1 = re.search(r'Zero-point energy E_ZPE\s*:\s*\d+\.\d+\s*kcal/mol\s*(\d+\.\d+)\s*eV', line)
@@ -293,7 +293,7 @@ def extract_values(directory, patterns, norm, dir_range):
             cif_path = os.path.join(dir_path, 'lattice.cif')
             if not os.path.exists(cif_path):
                 subprocess.call('ase convert CONTCAR lattice.cif', shell=True, cwd=dir_path)
-            if os.path.exists(cif_path) and not is_file_empty(cif_path):
+            if os.path.exists(cif_path) and os.path.getsize(cif_path) != 0:
                 for line in open(cif_path, 'r'):
                     match_a = re.search(r'_cell_length_a\s+([\d.]+)', line)
                     match_c = re.search(r'_cell_length_c\s+([\d.]+)', line)
@@ -341,7 +341,7 @@ def extract_values(directory, patterns, norm, dir_range):
             chg_path = os.path.join(dir_path, 'atoms_bader_charge.json')
             if not os.path.exists(chg_path):
                 subprocess.call('python ~/bin/verve/bader.py', shell=True, cwd=dir_path)
-            if os.path.exists(chg_path) and not is_file_empty(chg_path):
+            if os.path.exists(chg_path) and os.path.getsize(chg_path) != 0:
                 atoms_chg = read(chg_path)
                 M_chg, O_chg = [], []
                 for atom in atoms_chg:
