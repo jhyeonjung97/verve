@@ -83,6 +83,8 @@ for j, column in enumerate(formation.columns):
     if not filtered_values:
         print(f"No values found for pattern: {column}")
         continue
+    print(filtered_x)
+    print(filtered_values)
     plt.plot(filtered_x, filtered_values, marker='o', color=colors[j % len(colors)], label=column)
             
 formation.to_csv(tsv_filename, sep='\t')
