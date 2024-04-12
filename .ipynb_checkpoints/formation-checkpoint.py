@@ -79,7 +79,7 @@ else:
 
 for row in metal_rows:
     if metal_rows[row] == energy_df.index.tolist():
-        formation = energy_df.sub(df[row].values, axis=0) - E_oxygen
+        formation = energy_df.sub(df[row].values, axis=0) - Ref_O
 
 plt.figure(figsize=(8, 6))
 png_filename = f"energy_norm_formation.png"   
