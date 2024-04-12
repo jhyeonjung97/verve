@@ -82,13 +82,13 @@ for j, column in enumerate(formation.columns):
     if not filtered_values:
         print(f"No values found for pattern: {column}")
         continue
-    print(x)
-    print(values)
     plt.plot(filtered_x, filtered_values, marker='o', color=colors[j % len(colors)], label=column)
             
 formation.to_csv(tsv_filename, sep='\t')
 print(f"Merged data saved to {tsv_filename}")
 
+print(x)
+print(formation.index)
 plt.xticks(x, formation.index)
 plt.xlabel('Metal (MO)')
 plt.ylabel('Formation energy (eV/MO)')
