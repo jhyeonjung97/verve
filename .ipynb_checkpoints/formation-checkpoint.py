@@ -76,9 +76,9 @@ for j, column in enumerate(formation.columns):
     # x = list(range(1, len(formation[column])+1))
     x = formation[column]
     values = formation.get(column, [])
-    for i, v in x, values:
+    for i, v in enumerate(values):
         if not np.isnan(v):
-            filtered_x.append(i)
+            filtered_x.append(x[i])
             filtered_values.append(v)
     if not filtered_values:
         print(f"No values found for pattern: {column}")
