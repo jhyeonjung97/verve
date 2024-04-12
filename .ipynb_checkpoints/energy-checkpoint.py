@@ -175,7 +175,7 @@ def extract_values(directory, patterns, norm, dir_range):
 
         if 'x' in dir_name:
             for specific_pattern in specific_patterns:
-                if specific_pattern not in ['GP', 'mag']
+                if specific_pattern not in ['GP', 'mag']:
                 values.setdefault(specific_pattern, []).append(np.nan)
             if 'GP' in specific_patterns:
                 if os.path.exists(gp_path):
