@@ -87,7 +87,7 @@ for j, column in enumerate(formation.columns):
 formation.to_csv(tsv_filename, sep='\t')
 print(f"Merged data saved to {tsv_filename}")
 
-plt.xticks(np.arange(len(x)) + 1, x)
+# plt.xticks(np.arange(len(x)) + 1, x)
 plt.xlabel('Metal (MO)')
 plt.ylabel('Formation energy (eV/MO)')
 plt.legend()
