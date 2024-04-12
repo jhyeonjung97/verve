@@ -72,7 +72,8 @@ colors = plt.cm.rainbow(np.linspace(0, 1, len(formation.columns)))
 
 for j, column in enumerate(formation.columns):
     x = range(len(formation[column]))
-    filtered_df = formation[column].dropna()
+    filtered_df = formation[column]
+    # filtered_df = formation[column].dropna()
     if filtered_df.empty:
         print(f"No values found for pattern: {column}")
         continue
