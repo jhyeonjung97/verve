@@ -73,7 +73,6 @@ colors = plt.cm.rainbow(np.linspace(0, 1, len(formation.columns)))
 for j, column in enumerate(formation.columns):
     filtered_x = []
     filtered_values = []
-    # x = list(range(1, len(formation[column])+1))
     x = formation.index
     values = formation[column]
     for i, v in enumerate(values):
@@ -88,7 +87,7 @@ for j, column in enumerate(formation.columns):
 formation.to_csv(tsv_filename, sep='\t')
 print(f"Merged data saved to {tsv_filename}")
 
-plt.xticks(np.arange(len(x)), x)
+plt.xticks(np.arange(len(x)) + 1, x)
 plt.xlabel('Metal (MO)')
 plt.ylabel('Formation energy (eV/MO)')
 plt.legend()
