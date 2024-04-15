@@ -49,9 +49,9 @@ elif [[ ${here} == 'nersc' ]]; then
         python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Gross population (Loewdin)" -o magnetization */energy_magnetization.tsv
         python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Formation energy (eV/MO)" -o norm_formation */energy_norm_formation.tsv
         
-        if [[ 'Tetraheral' in $dir ]]; then
+        if [[ $dir == *'Tetraheral'* ]]; then
             python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Hexagonal ratio [c/a]" -o hexa_ratio */energy_hexa_ratio.tsv
-        elif [[ 'Square_Planar' in $dir ]]; then
+        elif [[ $dir == *'Square_Planar'* ]]; then
             python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Square prism ratio [c/a]" -o hexa_ratio */energy_hexa_ratio.tsv
             
         python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Bond lentgh (A/M-O)" -o norm_bond */energy_norm_bond.tsv
