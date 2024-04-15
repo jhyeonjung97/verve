@@ -11,8 +11,17 @@ from mpl_toolkits.mplot3d import Axes3D
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 
 print(f"\033[92m{os.getcwd()}\033[0m")
-# exp_path = 
-
+if '1_Tetrahedral_WZ' in os.getcwd():
+    marker = 'v'; color = '#d62728'
+elif '2_Tetrahedral_ZB' in os.getcwd():
+    marker = 'v'; color = '#ff7f0e'
+elif '3_Square_Planar_TN' in os.getcwd():
+    marker = 's'; color = '#2ca02c'
+elif '4_Square_Planar_33' in os.getcwd():
+    marker = 's'; color = '#279ff2'
+elif '5_Octahedral_RS' in os.getcwd():
+    marker = 'o'; color = '#9467bd'
+    
 def get_parser():
     parser = argparse.ArgumentParser()
     parser.add_argument('-d', '--dir-range', type=str, default=None, help='Range of directories to investigate, e.g., "3,6"')
@@ -467,7 +476,7 @@ def plot_separately(values_dict, dir_names, xlabel, ylabel, save, filename):
             if not np.isnan(v): 
                 x.append(i)
                 filtered_values.append(v)
-        plt.plot(x, values, marker='o', linestyle='-', label=pattern)
+        plt.plot(x, values, marker=marker, color=color, linestyle='-', label=pattern)
         plt.title(f'{pattern} Energy Contribution')
         plt.xlabel(xlabel)
         plt.ylabel(ylabel)
@@ -485,8 +494,11 @@ def plot_separately(values_dict, dir_names, xlabel, ylabel, save, filename):
 
 def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, filtered_patterns_order):
     plt.figure(figsize=(10, 6))
-    colors = plt.cm.rainbow(np.linspace(0, 1, len(filtered_patterns_order))) 
-    # viridis, magma, plasma, inferno, cividis, mako, rocket, turbo
+    if len(filtered_patterns_order) == 1:
+        colors = [color] * len(filtered_patterns_order)
+    else:
+        colors = plt.cm.rainbow(np.linspace(0, 1, len(filtered_patterns_order))) 
+        # viridis, magma, plasma, inferno, cividis, mako, rocket, turbo
 
     # plt.xticks(np.arange(len(dir_names)), dir_names, rotation='vertical')
     for pattern, color in zip(filtered_patterns_order, colors):
@@ -502,7 +514,7 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, filtered
         if not filtered_values:
             print(f"No values found for pattern: {pattern}")
             continue
-        plt.plot(x, filtered_values, marker='o', label=pattern, color=color)
+        plt.plot(x, filtered_values, marker=marker, color=color, label=pattern)
         if pattern == 'hexa_ratio':
             plt.plot(x, [1.633]*len(x), linestyle=':', label='hexa_ratio0', color=color)
 
