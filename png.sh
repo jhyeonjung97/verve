@@ -37,7 +37,7 @@ elif [[ ${here} == 'nersc' ]]; then
     #         python ~/bin/verve/energy.py --save -p bond -x "Metal (MO)" -y "Bond length (A/M-O)" -n "$n"
     #         python ~/bin/verve/energy.py --save -p ICOHP -x "Metal (MO)" -y "ICOHP (eV/M-O)" -n "$n"
     #         sed -i 's/\x0//g' *.tsv
-    #         cd $dir_now
+            cd $dir_now
         fi
     done
     for dir in *_*/; do
