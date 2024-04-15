@@ -457,7 +457,8 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename):
 
     patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
                       'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'energy', 'Madelung_Mulliken', 'Madelung_Loewdin', 
-                      'ICOHP', 'ICOBI', 'GP_Mulliken', 'GP_Loewdin', 'bond', 'ZPE', 'TS', 'hexa_ratio', 'volume',
+                      'ICOHP', 'ICOBI', 'bond', 'ZPE', 'TS', 'hexa_ratio', 'volume',
+                      'GP_Mulliken_M', 'GP_Mulliken_O', 'GP_Loewdin_M', 'GP_Loewdin_O',
                       'mag_M_up', 'mag_M_down', 'mag_O_up', 'mag_O_down', 'chg_M', 'chg_O']
     filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
 
@@ -508,7 +509,8 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename):
 def line_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filename):
     patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
                       'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'energy', 'Madelung_Mulliken', 'Madelung_Loewdin', 
-                      'ICOHP', 'ICOBI', 'GP_Mulliken', 'GP_Loewdin', 'bond', 'ZPE', 'TS', 'hexa_ratio', 'volume',
+                      'ICOHP', 'ICOBI', 'bond', 'ZPE', 'TS', 'hexa_ratio', 'volume',
+                      'GP_Mulliken_M', 'GP_Mulliken_O', 'GP_Loewdin_M', 'GP_Loewdin_O',
                       'mag_M_up', 'mag_M_down', 'mag_O_up', 'mag_O_down', 'chg_M', 'chg_O']
     filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
 
