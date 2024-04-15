@@ -26,15 +26,17 @@ elif [[ ${here} == 'nersc' ]]; then
         # python ~/bin/verve/energy.py --save -p mag -e M -x "Metal (MO)" -y "Magnetization"
         # python ~/bin/verve/energy.py --save -p GP_L -e M  -x "Metal (MO)" -y "Gross population (Loewdin)"
         # python ~/bin/verve/formation.py
-        if [[ $PWD == *'Tetraheral'* ]]; then
+        echo $dir
+        echo $PWD
+        if [[ $dir =~ 'Tetraheral' ]]; then
             n=4
             echo '1'
             python ~/bin/verve/energy.py --save -p hexa -x "Metal (MO)" -y "Hexagonal ratio [c/a]"
-        elif [[ $PWD == *'Square_Planar'* ]]; then
+        elif [[ $dir =~ 'Square_Planar' ]]; then
             n=4
             echo '2'
             python ~/bin/verve/energy.py --save -p hexa -x "Metal (MO)" -y "Square prism ratio [c/a]"
-        elif [[ $PWD == *'Octahedral'* ]]; then
+        elif [[ $dir =~ 'Octahedral' ]]; then
             n=6
             echo '3'
         fi
