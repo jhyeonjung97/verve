@@ -246,7 +246,7 @@ def extract_values(directory, patterns, norm, dir_range):
         if 'GP_Mulliken' in specific_patterns or 'GP_Loewdin' in specific_patterns:
             gp_path = os.path.join(dir_path, 'GROSSPOP.lobster')
             if os.path.exists(gp_path) and os.path.getsize(gp_path) != 0:
-                GP_Mulliken_O, GP_Loewdin_O, GP_Mulliken_M, GP_Loewdin_M = [], [], [], []
+                O_GP_Mulliken, O_GP_Loewdin, M_GP_Mulliken, M_GP_Loewdin = [], [], [], []
                 for line in open(gp_path, 'r'):
                     match1 = re.search(r"\d+\s+([A-Za-z]+)\s+", line)
                     match2 = re.search(r'\s*total\s+([0-9.]+)\s+([0-9.]+)', line)

@@ -34,8 +34,8 @@ elif [[ ${here} == 'nersc' ]]; then
             elif [[ $dir == *'Octahedral'* ]]; then
                 n=6
             fi
-            python ~/bin/verve/energy.py --save -p bond -x "Metal (MO)" -y "Bond length (A/M-O)" -n "$n"
-            python ~/bin/verve/energy.py --save -p ICOHP -x "Metal (MO)" -y "ICOHP (eV/M-O)" -n "$n"
+            python ~/bin/verve/energy.py --save -p bond -x "Metal (MO)" -y "Bond length (A/M-O)" -n $n
+            python ~/bin/verve/energy.py --save -p ICOHP -x "Metal (MO)" -y "ICOHP (eV/M-O)" -n $n
             sed -i 's/\x0//g' *.tsv
             cd $dir_now
         fi
