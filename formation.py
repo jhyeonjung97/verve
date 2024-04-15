@@ -32,8 +32,6 @@ metal_df.index = list(nist.keys())
 oxide_df.index = list(nist.keys())
 df.index = metal_rows['3d']
 
-print(metal_df, oxide_df, df)
-
 min_values = df.iloc[:, :3].min(axis=1)
 df = df.iloc[:, 3:]
 
@@ -66,7 +64,9 @@ for element, data in nist.items():
     data['OtoM'] = data['O'] / data['M']
     data['E_oxide'] = oxide_df.loc[element, 'energy'] # - oxide_df.loc[element, 'TS'] + oxide_df.loc[element, 'ZPE']
     data['E_metal'] = data['E_oxide'] - data['H_form'] - data['OtoM'] * Ref_O
-    
+
+print(nist)
+
 for i, metal in enumerate(metal_rows['3d']):
     if metal in nist:
         min_values.loc[metal] = nist[metal]['E_metal']
