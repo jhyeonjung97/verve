@@ -32,6 +32,8 @@ metal_df.index = list(nist.keys())
 oxide_df.index = list(nist.keys())
 df.index = metal_rows['3d']
 
+print(metal_df, oxide_df, df)
+
 min_values = df.iloc[:, :3].min(axis=1)
 df = df.iloc[:, 3:]
 
