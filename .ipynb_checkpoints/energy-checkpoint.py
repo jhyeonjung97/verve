@@ -151,12 +151,15 @@ def extract_values(directory, patterns, norm, dir_range):
         atoms=None
         in_charge_section = False
         pattern_A = os.path.join(dir_path, 'final*static*traj')
-        pattern_B = os.path.join(dir_path, 'final*opt*traj')
-        pattern_C = os.path.join(dir_path, '*json')
-        matching_files_A = glob.glob(pattern_A)
-        matching_files_B = glob.glob(pattern_B)
-        matching_files_C = glob.glob(pattern_C)
-        matching_files = matching_files_A + matching_files_B + matching_files_C
+        pattern_B = os.path.join(dir_path, 'final*opt*2*traj')
+        pattern_C = os.path.join(dir_path, 'final*opt*3*traj')
+        pattern_D = os.path.join(dir_path, '*json')
+
+        for pattern in [pattern_A, pattern_B, pattern_C, pattern_D]:
+            matching_files.extend(glob.glob(pattern))
+            if matching_files:
+                break
+
         for traj_file in matching_files:
             if os.path.exists(traj_file):
                 atoms = read(traj_file)
