@@ -70,7 +70,7 @@ if __name__ == "__main__":
     parser.add_argument('-o', '--output', type=str, default='', help="The filename for the output PNG file.")
     parser.add_argument('-x', '--xlabel', type=str, default='Element or Lattice parameter (Å)', help="xlabel")
     parser.add_argument('-y', '--ylabel', type=str, default='Energy (eV) or Charge (e)', help="ylabel")
-    parser.add_argument('-l', '--labels', nargs='+', default=['Tetragonal_WZ', 'Tetragonal_ZB', 'Square_planar_CuO', 'Square_planar_NbO', 'Octahedral_RS'])
+    parser.add_argument('-l', '--labels', nargs='+', default=['Tetragonal_WZ', 'Tetragonal_ZB', 'Square_planar_TN', 'Square_planar_33', 'Octahedral_RS'])
     parser.add_argument('-r', '--row', type=str, default=None)
     parser.add_argument('-c', '--colors', nargs='+', default=['#d62728', '#ff7f0e', '#2ca02c', '#279ff2', '#9467bd'],
                         help='Colors to plot')
