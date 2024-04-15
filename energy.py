@@ -95,8 +95,8 @@ def main():
     patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
                       'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'energy', 'Madelung_Mulliken', 'Madelung_Loewdin', 
                       'ICOHP', 'ICOBI', 'bond', 'ZPE', 'TS', 'hexa_ratio', 'volume',
-                      'GP_M_Mulliken', 'GP_M_Loewdin', 'GP_O_Mulliken', 'GP_O_Loewdin',
-                      'mag_M_up', 'mag_M_down', 'mag_O_up', 'mag_O_down', 'chg_M', 'chg_O']
+                      'GP_Mulliken_M', 'GP_Mulliken_O', 'GP_Loewdin_M', 'GP_Loewdin_O',
+                      'mag_M', 'mag_O', 'chg_M', 'chg_O']
     filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
 
     if any(values_dict.values()):
@@ -202,18 +202,16 @@ def extract_values(directory, patterns, norm, dir_range):
                 if specific_pattern not in ['GP', 'mag']:
                     values.setdefault(specific_pattern, []).append(np.nan)
             if 'GP_Mulliken' in specific_patterns:
-                values.setdefault('GP_M_Mulliken', []).append(np.nan)
-                values.setdefault('GP_O_Mulliken', []).append(np.nan)
+                values.setdefault('GP_Mulliken_M', []).append(np.nan)
+                values.setdefault('GP_Mulliken_O', []).append(np.nan)
             if 'GP_Loewdin' in specific_patterns:
-                values.setdefault('GP_M_Loewdin', []).append(np.nan)
-                values.setdefault('GP_O_Loewdin', []).append(np.nan)
+                values.setdefault('GP_Loewdin_M', []).append(np.nan)
+                values.setdefault('GP_Loewdin_O', []).append(np.nan)
             if 'ZPE' in specific_patterns:
                 values.setdefault('TS', []).append(np.nan)
             if 'mag' in specific_patterns:
-                values.setdefault('mag_M_up', []).append(np.nan)
-                values.setdefault('mag_M_down', []).append(np.nan)
-                values.setdefault('mag_O_up', []).append(np.nan)
-                values.setdefault('mag_O_down', []).append(np.nan)
+                values.setdefault('mag_M', []).append(np.nan)
+                values.setdefault('mag_O', []).append(np.nan)
             if 'chg' in specific_patterns:
                 values.setdefault('chg_M', []).append(np.nan)
                 values.setdefault('chg_O', []).append(np.nan)
@@ -247,28 +245,28 @@ def extract_values(directory, patterns, norm, dir_range):
                     elif match2:
                         zval = zval_dict[symbol]
                         if symbol == 'O':
-                            GP_Mulliken_O.append(zval-float(match2.group(1)))
-                            GP_Loewdin_O.append(zval-float(match2.group(2)))
+                            O_GP_Mulliken.append(zval-float(match2.group(1)))
+                            O_GP_Loewdin.append(zval-float(match2.group(2)))
                         else:
-                            GP_Mulliken_M.append(zval-float(match2.group(1)))
-                            GP_Loewdin_M.append(zval-float(match2.group(2)))
-                GP_O_Mulliken = sum(GP_Mulliken_O) / len(GP_Mulliken_O) if values else np.nan
-                GP_O_Loewdin = sum(GP_Loewdin_O) / len(GP_Loewdin_O) if values else np.nan
-                GP_M_Mulliken = sum(GP_Mulliken_M) / len(GP_Mulliken_M) if values else np.nan
-                GP_M_Loewdin = sum(GP_Loewdin_M) / len(GP_Loewdin_M) if values else np.nan
+                            M_GP_Mulliken.append(zval-float(match2.group(1)))
+                            M_GP_Loewdin.append(zval-float(match2.group(2)))
+                GP_Mulliken_O = sum(O_GP_Mulliken) / len(O_GP_Mulliken) if values else np.nan
+                GP_Loewdin_O = sum(O_GP_Loewdin) / len(O_GP_Loewdin) if values else np.nan
+                GP_Mulliken_M = sum(M_GP_Mulliken) / len(M_GP_Mulliken) if values else np.nan
+                GP_Loewdin_M = sum(M_GP_Loewdin) / len(M_GP_Loewdin) if values else np.nan
                 if 'GP_Mulliken' in specific_patterns:
-                    values.setdefault('GP_O_Mulliken', []).append(GP_O_Mulliken)
-                    values.setdefault('GP_M_Mulliken', []).append(GP_M_Mulliken)
+                    values.setdefault('GP_Mulliken_O', []).append(GP_Mulliken_O)
+                    values.setdefault('GP_Mulliken_M', []).append(GP_Mulliken_M)
                 elif 'GP_Loewdin' in specific_patterns:
-                    values.setdefault('GP_O_Loewdin', []).append(GP_O_Loewdin)
-                    values.setdefault('GP_M_Loewdin', []).append(GP_M_Loewdin)
+                    values.setdefault('GP_Loewdin_O', []).append(GP_Loewdin_O)
+                    values.setdefault('GP_Loewdin_M', []).append(GP_Loewdin_M)
             else:
                 if 'GP_Mulliken' in specific_patterns:
-                    values.setdefault('GP_O_Mulliken', []).append(np.nan)
-                    values.setdefault('GP_M_Mulliken', []).append(np.nan)
+                    values.setdefault('GP_Mulliken_O', []).append(np.nan)
+                    values.setdefault('GP_Mulliken_M', []).append(np.nan)
                 elif 'GP_Loewdin' in specific_patterns:
-                    values.setdefault('GP_O_Loewdin', []).append(np.nan)
-                    values.setdefault('GP_M_Loewdin', []).append(np.nan)
+                    values.setdefault('GP_Loewdin_O', []).append(np.nan)
+                    values.setdefault('GP_Loewdin_M', []).append(np.nan)
         
         if 'ICOHP' in specific_patterns:
             ICOHP_path = os.path.join(dir_path, 'icohp.txt')
@@ -349,32 +347,34 @@ def extract_values(directory, patterns, norm, dir_range):
                 values.setdefault('energy', []).append(np.nan)
         if 'mag' in specific_patterns:
             if atoms:
-                M_up, M_down, O_up, O_down = [], [], [], []
+                O_mag, M_mag = [], []
                 for j, atom in enumerate(atoms):
-                    magmom = atoms.get_magnetic_moments()[j]
-                    print(atom.symbol, magmom)
                     if atom.symbol == 'O':
-                        (O_up if magmom > 0 else O_down).append(magmom)
+                        O_mag.append(abs(atoms.get_magnetic_moments()[j]))
                     else:
-                        (M_up if magmom > 0 else M_down).append(magmom)
-                print(M_up)
-                print(M_down)
-                print(O_up)
-                print(O_down)
-                mag_M_up = sum(M_up) / len(M_up) if M_up else 0.0
-                mag_M_down = sum(M_down) / len(M_down) if M_down else 0.0
-                mag_O_up = sum(O_up) / len(O_up) if O_up else 0.0
-                mag_O_down = sum(O_down) / len(O_down) if O_down else 0.0
-                
-                values.setdefault('mag_M_up', []).append(mag_M_up)
-                values.setdefault('mag_M_down', []).append(mag_M_down)
-                values.setdefault('mag_O_up', []).append(mag_O_up)
-                values.setdefault('mag_O_down', []).append(mag_O_down)
+                        M_mag.append(abs(atoms.get_magnetic_moments()[j]))
+                values.setdefault('mag_M', []).append(np.mean(M_mag) if M_mag else np.nan)
+                values.setdefault('mag_O', []).append(np.mean(O_mag) if O_mag else np.nan)
             else:
-                values.setdefault('mag_M_up', []).append(np.nan)
-                values.setdefault('mag_M_down', []).append(np.nan)
-                values.setdefault('mag_O_up', []).append(np.nan)
-                values.setdefault('mag_O_down', []).append(np.nan)
+                values.setdefault('mag_M', []).append(np.nan)
+                values.setdefault('mag_O', []).append(np.nan)
+            #         if atom.symbol == 'O':
+            #             (O_up if magmom > 0 else O_down).append(magmom)
+            #         else:
+            #             (M_up if magmom > 0 else M_down).append(magmom)
+            #     mag_M_up = sum(M_up) / len(M_up) if M_up else 0.0
+            #     mag_M_down = sum(M_down) / len(M_down) if M_down else 0.0
+            #     mag_O_up = sum(O_up) / len(O_up) if O_up else 0.0
+            #     mag_O_down = sum(O_down) / len(O_down) if O_down else 0.0
+            #     values.setdefault('mag_M_up', []).append(mag_M_up)
+            #     values.setdefault('mag_O_up', []).append(mag_O_up)
+            #     values.setdefault('mag_M_down', []).append(mag_M_down)
+            #     values.setdefault('mag_O_down', []).append(mag_O_down)
+            # else:
+            #     values.setdefault('mag_M_up', []).append(np.nan)
+            #     values.setdefault('mag_M_down', []).append(np.nan)
+            #     values.setdefault('mag_O_up', []).append(np.nan)
+            #     values.setdefault('mag_O_down', []).append(np.nan)
         if 'chg' in specific_patterns:
             chg_path = os.path.join(dir_path, 'atoms_bader_charge.json')
             if not os.path.exists(chg_path):
@@ -443,10 +443,10 @@ def adjust_values(values_dict, ref, norm):
     return adjusted_values_dict
 
 def selected_values(values_dict, symbols):
-    keys_to_remove_base = ['mag_M_up', 'mag_M_down', 'mag_O_up', 'mag_O_down', 'chg_M', 'chg_O',
-                           'GP_M_Mulliken', 'GP_M_Loewdin', 'GP_O_Mulliken', 'GP_O_Loewdin',
-                           'mag', 'chg', 'Madelung', 'GP']
-    keys_to_remove = [key for key in keys_to_remove_base if not any(f"_{sym}_" in key for sym in symbols)]
+    keys_to_remove_base = ['mag_M', 'mag_O', 'chg_M', 'chg_O', 'GP_M', 'GP_O',
+                           'GP_Mulliken_M', 'GP_Loewdin_M', 'GP_Mulliken_O', 'GP_Loewdin_O',
+                           'mag', 'chg', 'GP', 'Madelung']
+    keys_to_remove = [key for key in keys_to_remove_base if not any(f"_{sym}" in key for sym in symbols)]
     
     for key in keys_to_remove:
         values_dict.pop(key, None)
