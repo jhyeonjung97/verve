@@ -77,22 +77,26 @@ def main():
 
     directory='./'
     values_dict, dir_names = extract_values(directory, patterns, norm, dir_range=args.dir_range)
-    print(values_dict)
     values_dict = selected_values(values_dict, symbols)
-    print(values_dict)
     values_dict = adjust_values(values_dict, ref, norm)
-    print(values_dict)
-    
+
+    patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
+                      'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'energy', 'Madelung_Mulliken', 'Madelung_Loewdin', 
+                      'ICOHP', 'ICOBI', 'bond', 'ZPE', 'TS', 'hexa_ratio', 'volume',
+                      'GP_Mulliken_M', 'GP_Loewdin_M', 'GP_Mulliken_O', 'GP_Loewdin_O',
+                      'mag_M_up', 'mag_M_down', 'mag_O_up', 'mag_O_down', 'chg_M', 'chg_O']
+    filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
+
     if any(values_dict.values()):
-        plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename)
+        plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, filtered_patterns_order)
         if args.individual:
             plot_separately(values_dict, dir_names, xlabel, ylabel, save, filename)
     else:
         raise ValueError('No values found for the given patterns.')
     if args.line:
-        line_fitting(original_patterns, values_dict, dir_names, xlabel, ylabel, save, filename)
+        line_fitting(original_patterns, values_dict, dir_names, xlabel, ylabel, save, filename, filtered_patterns_order)
     elif args.plane:
-        plane_fitting(original_patterns, values_dict, dir_names, xlabel, ylabel, save, filename)
+        plane_fitting(original_patterns, values_dict, dir_names, xlabel, ylabel, save, filename, filtered_patterns_order)
 
 def extract_values(directory, patterns, norm, dir_range):
     """Extract the last values for the given patterns from OUTCAR files in the given directories, sorted numerically."""
@@ -455,16 +459,8 @@ def plot_separately(values_dict, dir_names, xlabel, ylabel, save, filename):
         else:
             plt.show()
 
-def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename):
+def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, filtered_patterns_order):
     plt.figure(figsize=(10, 6))
-
-    patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
-                      'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'energy', 'Madelung_Mulliken', 'Madelung_Loewdin', 
-                      'ICOHP', 'ICOBI', 'bond', 'ZPE', 'TS', 'hexa_ratio', 'volume',
-                      'GP_Mulliken_M', 'GP_Mulliken_O', 'GP_Loewdin_M', 'GP_Loewdin_O',
-                      'mag_M_up', 'mag_M_down', 'mag_O_up', 'mag_O_down', 'chg_M', 'chg_O']
-    filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
-
     colors = plt.cm.rainbow(np.linspace(0, 1, len(filtered_patterns_order))) 
     # viridis, magma, plasma, inferno, cividis, mako, rocket, turbo
 
@@ -509,14 +505,7 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename):
     else:
         plt.show()
         
-def line_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filename):
-    patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
-                      'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'energy', 'Madelung_Mulliken', 'Madelung_Loewdin', 
-                      'ICOHP', 'ICOBI', 'bond', 'ZPE', 'TS', 'hexa_ratio', 'volume',
-                      'GP_Mulliken_M', 'GP_Mulliken_O', 'GP_Loewdin_M', 'GP_Loewdin_O',
-                      'mag_M_up', 'mag_M_down', 'mag_O_up', 'mag_O_down', 'chg_M', 'chg_O']
-    filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
-
+def line_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filename, filtered_patterns_order):
     if len(filtered_patterns_order) < 2:
         raise ValueError("Not enough valid patterns with data for line fitting.")
     
@@ -553,13 +542,7 @@ def line_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filenam
     else:
         plt.show()
         
-def plane_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filename):
-    patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
-                      'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'energy', 'Madelung_Mulliken', 'Madelung_Loewdin', 
-                      'ICOHP', 'ICOBI', 'GP_Mulliken', 'GP_Loewdin', 'bond', 'ZPE', 'TS', 'hexa_ratio', 'volume',
-                      'mag_M_up', 'mag_M_down', 'mag_O_up', 'mag_O_down', 'chg_M', 'chg_O']
-    filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
-
+def plane_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filename, filtered_patterns_order):
     if len(filtered_patterns_order) < 3:
         raise ValueError("Not enough valid patterns with data for plane fitting.")
     
