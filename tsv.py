@@ -43,7 +43,6 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, c
         filtered_values = []
         x = merged_df.index
         values = merged_df[column]
-        print(x, values)
         for i, v in enumerate(values):
             if not np.isnan(v):
                 filtered_x.append(i)
@@ -53,16 +52,6 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, c
             continue
         plt.plot(filtered_x, filtered_values, marker='o', color=colors[j % len(colors)], label=column)
     
-    # for j, column in enumerate(merged_df.columns):
-    #     x = range(len(merged_df[column]))
-    #     filtered_df = merged_df[column].dropna()
-    #     if filtered_df.empty:
-    #         print(f"No values found for pattern: {column}")
-    #         continue
-    #     plt.plot(x, filtered_df, 
-    #              marker=markers[j % len(markers)], 
-    #              color=colors[j % len(colors)], 
-    #              label=labels[j % len(labels)])
     if 'hexa_ratio' in df.columns:
         plt.plot(x, [1.633]*len(x), linestyle=':', label='hexa_ratio0', color='black')
 
