@@ -15,9 +15,11 @@ elif [[ ${here} == 'nersc' ]]; then
         cd $dir_now
     done
     cd /pscratch/sd/j/jiuy97/3_V_shape/metal
-    python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Volume (A^3/MO)" \
-    -o norm_energy 0_min/energy_norm_energy.tsv 4d/energy_norm_energy.tsv 5d/energy_norm_energy.tsv
-
+    python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Volume (A^3/MO)" -o norm_energy *fm/energy_norm_energy.tsv *d/energy_norm_energy.tsv
+    cd /pscratch/sd/j/jiuy97/3_V_shape/oxide/0_min
+    python ~/bin/verve/energy.py --save -x "Metal (MxOy)" -y "Total energy (eV/M)" -n m
+    cd $dir_now
+    
     for dir in *_*/*/; do
             cd $dir
             python ~/bin/verve/energy.py --save -p Madelung_L -x "Metal (MO)" -y "Madelugn energy (Loewdin, eV/MO)" -n m

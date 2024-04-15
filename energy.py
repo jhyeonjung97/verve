@@ -10,6 +10,8 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 
+dir_now = os.getcwd()
+
 def get_parser():
     parser = argparse.ArgumentParser()
     parser.add_argument('-d', '--dir-range', type=str, default=None, help='Range of directories to investigate, e.g., "3,6"')
@@ -512,7 +514,7 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, filtered
         tsv_filename = f"{filename}.tsv"
         
         plt.gcf().savefig(png_filename, bbox_inches="tight")
-        print(f"Figure saved as {png_filename}")
+        print(f"Figure saved as {dir_now}/{png_filename}")
         plt.close()
         # df = pd.DataFrame(values_dict, index=dir_names)
         # # formatted_df = df_transposed.apply(lambda col: col.apply(lambda x: f"{x:.2f}" if isinstance(x, float) else x))
@@ -557,7 +559,7 @@ def line_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filenam
     if save:
         png_filename = f"{filename}_2d.png"
         plt.savefig(png_filename, bbox_inches="tight")
-        print(f"Figure saved as {png_filename}")
+        print(f"Figure saved as {dir_now}/{png_filename}")
         plt.close()
     else:
         plt.show()
@@ -598,10 +600,9 @@ def plane_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filena
     if save:
         png_filename = f"{filename}_2d.png"
         plt.gcf().savefig(png_filename, bbox_inches="tight")
-        print(f"Figure saved as {png_filename}")
+        print(f"Figure saved as {dir_now}/{png_filename}")
     else:
         plt.show()
     
 if __name__ == '__main__':
     main()
-
