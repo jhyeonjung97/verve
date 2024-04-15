@@ -20,12 +20,12 @@ elif [[ ${here} == 'nersc' ]]; then
     # cd $dir_now
     for dir in *_*/*/; do
         cd $dir
-        python ~/bin/verve/energy.py --save -p Madelung_L -x "Metal (MO)" -y "Madelugn energy (Loewdin, eV/MO)" -n m
-        python ~/bin/verve/energy.py --save -p energy -x "Metal (MO)" -y "Total energy (eV/MO)" -n m
-        python ~/bin/verve/energy.py --save -p volume -x "Metal (MO)" -y "Volume (A^3/MO)" -n m
-        python ~/bin/verve/energy.py --save -p mag -e M -x "Metal (MO)" -y "Magnetization"
-        python ~/bin/verve/energy.py --save -p GP_L -e M  -x "Metal (MO)" -y "Gross population (Loewdin)"
-        python ~/bin/verve/formation.py
+        # python ~/bin/verve/energy.py --save -p Madelung_L -x "Metal (MO)" -y "Madelugn energy (Loewdin, eV/MO)" -n m
+        # python ~/bin/verve/energy.py --save -p energy -x "Metal (MO)" -y "Total energy (eV/MO)" -n m
+        # python ~/bin/verve/energy.py --save -p volume -x "Metal (MO)" -y "Volume (A^3/MO)" -n m
+        # python ~/bin/verve/energy.py --save -p mag -e M -x "Metal (MO)" -y "Magnetization"
+        # python ~/bin/verve/energy.py --save -p GP_L -e M  -x "Metal (MO)" -y "Gross population (Loewdin)"
+        # python ~/bin/verve/formation.py
         if [[ $PWD == *'Tetraheral'* ]]; then
             n=4
             echo '1'
