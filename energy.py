@@ -11,16 +11,6 @@ from mpl_toolkits.mplot3d import Axes3D
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 
 print(f"\033[92m{os.getcwd()}\033[0m")
-if '1_Tetrahedral_WZ' in os.getcwd():
-    marker = 'v'; color = '#d62728'
-elif '2_Tetrahedral_ZB' in os.getcwd():
-    marker = 'v'; color = '#ff7f0e'
-elif '3_Square_Planar_TN' in os.getcwd():
-    marker = 's'; color = '#2ca02c'
-elif '4_Square_Planar_33' in os.getcwd():
-    marker = 's'; color = '#279ff2'
-elif '5_Octahedral_RS' in os.getcwd():
-    marker = 'o'; color = '#9467bd'
     
 def get_parser():
     parser = argparse.ArgumentParser()
@@ -108,10 +98,21 @@ def main():
                       'mag_M', 'mag_O', 'chg_M', 'chg_O']
     filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
 
+    if '1_Tetrahedral_WZ' in os.getcwd():
+        marker = 'v'; color = '#d62728'
+    elif '2_Tetrahedral_ZB' in os.getcwd():
+        marker = 'v'; color = '#ff7f0e'
+    elif '3_Square_Planar_TN' in os.getcwd():
+        marker = 's'; color = '#2ca02c'
+    elif '4_Square_Planar_33' in os.getcwd():
+        marker = 's'; color = '#279ff2'
+    elif '5_Octahedral_RS' in os.getcwd():
+        marker = 'o'; color = '#9467bd'
+    
     if any(values_dict.values()):
-        plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, filtered_patterns_order)
+        plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, filtered_patterns_order, marker, color)
         if args.individual:
-            plot_separately(values_dict, dir_names, xlabel, ylabel, save, filename)
+            plot_separately(values_dict, dir_names, xlabel, ylabel, save, filename, marker, color)
     else:
         print('No values found for the given patterns.')
         exit(1)
@@ -462,7 +463,7 @@ def selected_values(values_dict, symbols):
         
     return values_dict
 
-def plot_separately(values_dict, dir_names, xlabel, ylabel, save, filename):
+def plot_separately(values_dict, dir_names, xlabel, ylabel, save, filenam, marker, color):
     """Plot each pattern on its own graph."""
     
     for i, (pattern, values) in enumerate(values_dict.items()):
@@ -492,7 +493,7 @@ def plot_separately(values_dict, dir_names, xlabel, ylabel, save, filename):
         else:
             plt.show()
 
-def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, filtered_patterns_order):
+def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, filtered_patterns_order, marker, color):
     plt.figure(figsize=(10, 6))
     if len(filtered_patterns_order) == 1:
         colors = [color] * len(filtered_patterns_order)
@@ -501,7 +502,7 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, filtered
         # viridis, magma, plasma, inferno, cividis, mako, rocket, turbo
 
     # plt.xticks(np.arange(len(dir_names)), dir_names, rotation='vertical')
-    for pattern, color in zip(filtered_patterns_order, colors):
+    for pattern, clr in zip(filtered_patterns_order, colors):
         values = values_dict.get(pattern, [])
         if all(isinstance(v, tuple) for v in values):
             values = [v[0] for v in values]
@@ -514,9 +515,9 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, filtered
         if not filtered_values:
             print(f"No values found for pattern: {pattern}")
             continue
-        plt.plot(x, filtered_values, marker=marker, color=color, label=pattern)
+        plt.plot(x, filtered_values, marker=marker, color=clr, linestyle='-', label=pattern)
         if pattern == 'hexa_ratio':
-            plt.plot(x, [1.633]*len(x), linestyle=':', label='hexa_ratio0', color=color)
+            plt.plot(x, [1.633]*len(x), linestyle=':', label='hexa_ratio0', color=clr)
 
     plt.xlim(-0.5, len(dir_names)-0.5)
     plt.xticks(np.arange(len(dir_names)), dir_names, rotation='vertical')
