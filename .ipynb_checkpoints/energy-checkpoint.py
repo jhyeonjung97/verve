@@ -226,7 +226,6 @@ def extract_values(directory, patterns, norm, dir_range):
                     match2 = re.search(r'\s*total\s+([0-9.]+)\s+([0-9.]+)', line)
                     if match1:
                         symbol = match1.group(1)
-                        print(symbol)
                     elif match2:
                         zval = zval_dict[symbol]
                         if symbol == 'O':
@@ -235,7 +234,6 @@ def extract_values(directory, patterns, norm, dir_range):
                         else:
                             GP_Mulliken_M.append(zval-float(match2.group(1)))
                             GP_Loewdin_M.append(zval-float(match2.group(2)))
-                        print(zval)
                 GP_Mulliken_O_avg = sum(GP_Mulliken_O) / len(GP_Mulliken_O) if values else np.nan
                 GP_Loewdin_O_avg = sum(GP_Loewdin_O) / len(GP_Loewdin_O) if values else np.nan
                 GP_Mulliken_M_avg = sum(GP_Mulliken_M) / len(GP_Mulliken_M) if values else np.nan
