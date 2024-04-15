@@ -214,23 +214,23 @@ def extract_values(directory, patterns, norm, dir_range):
                             values.setdefault('Madelung_Loewdin', []).append(float(match.group(2))/norm_numb)
                         break
         if 'GP' in specific_patterns:
-            i = numb - 1
             gp_path = os.path.join(dir_path, 'GROSSPOP.lobster')
             if os.path.exists(gp_path) and os.path.getsize(gp_path) != 0:
                 GP_Mulliken_O, GP_Loewdin_O, GP_Mulliken_M, GP_Loewdin_M = [], [], [], []
                 for line in open(gp_path, 'r'):
-                    match = re.search(r'\s*total\s+([0-9.]+)\s+([0-9.]+)', line)
-                    if match:
-                        symbol = atoms[i].symbol
+                    match1 = re.search(r"\d+\s+([A-Za-z]+)\s+", line)
+                    match2 = re.search(r'\s*total\s+([0-9.]+)\s+([0-9.]+)', line)
+                    if match1:
+                        symbol = match1.group(1)
+                    elif match2:
                         zval = zval_dict[symbol]
                         if symbol == 'O':
-                            GP_Mulliken_O.append(zval-float(match.group(1)))
-                            GP_Loewdin_O.append(zval-float(match.group(2)))
+                            GP_Mulliken_O.append(zval-float(match2.group(1)))
+                            GP_Loewdin_O.append(zval-float(match2.group(2)))
                         else:
-                            GP_Mulliken_M.append(zval-float(match.group(1)))
-                            GP_Loewdin_M.append(zval-float(match.group(2)))
-                        if i != 0: i -= 1
-                        else: break
+                            GP_Mulliken_M.append(zval-float(match2.group(1)))
+                            GP_Loewdin_M.append(zval-float(match2.group(2)))
+                    print(symbol, zval)
                 GP_Mulliken_O_avg = sum(GP_Mulliken_O) / len(GP_Mulliken_O) if values else np.nan
                 GP_Loewdin_O_avg = sum(GP_Loewdin_O) / len(GP_Loewdin_O) if values else np.nan
                 GP_Mulliken_M_avg = sum(GP_Mulliken_M) / len(GP_Mulliken_M) if values else np.nan
