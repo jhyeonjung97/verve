@@ -496,9 +496,13 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, filtered
         plt.gcf().savefig(png_filename, bbox_inches="tight")
         print(f"Figure saved as {png_filename}")
         plt.close()
-        df = pd.DataFrame(values_dict, index=dir_names)
-        # formatted_df = df_transposed.apply(lambda col: col.apply(lambda x: f"{x:.2f}" if isinstance(x, float) else x))
-        df.to_csv(f"{tsv_filename}", sep='\t')        
+        # df = pd.DataFrame(values_dict, index=dir_names)
+        # # formatted_df = df_transposed.apply(lambda col: col.apply(lambda x: f"{x:.2f}" if isinstance(x, float) else x))
+        # df.to_csv(f"{tsv_filename}", sep='\t')    
+
+        filtered_df = pd.DataFrame({k: values_dict[k] for k in filtered_patterns_order}, index=dir_names)
+        filtered_df.to_csv(tsv_filename, sep='\t')        
+        
         print(f"Data saved as {tsv_filename}")
     else:
         plt.show()
