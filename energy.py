@@ -83,7 +83,7 @@ def main():
     patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
                       'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'energy', 'Madelung_Mulliken', 'Madelung_Loewdin', 
                       'ICOHP', 'ICOBI', 'bond', 'ZPE', 'TS', 'hexa_ratio', 'volume',
-                      'GP_Mulliken_M', 'GP_Loewdin_M', 'GP_Mulliken_O', 'GP_Loewdin_O',
+                      'GP_M_Mulliken', 'GP_M_Loewdin', 'GP_O_Mulliken', 'GP_O_Loewdin',
                       'mag_M_up', 'mag_M_down', 'mag_O_up', 'mag_O_down', 'chg_M', 'chg_O']
     filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
 
@@ -185,10 +185,10 @@ def extract_values(directory, patterns, norm, dir_range):
                 if specific_pattern not in ['GP', 'mag']:
                     values.setdefault(specific_pattern, []).append(np.nan)
             if 'GP' in specific_patterns:
-                values.setdefault('GP_Mulliken_O', []).append(np.nan)
-                values.setdefault('GP_Loewdin_O', []).append(np.nan)
-                values.setdefault('GP_Mulliken_M', []).append(np.nan)
-                values.setdefault('GP_Loewdin_M', []).append(np.nan)
+                values.setdefault('GP_M_Mulliken', []).append(np.nan)
+                values.setdefault('GP_M_Loewdin', []).append(np.nan)
+                values.setdefault('GP_O_Mulliken', []).append(np.nan)
+                values.setdefault('GP_O_Loewdin', []).append(np.nan)
             if 'ZPE' in specific_patterns:
                 values.setdefault('TS', []).append(np.nan)
             if 'mag' in specific_patterns:
@@ -234,19 +234,19 @@ def extract_values(directory, patterns, norm, dir_range):
                         else:
                             GP_Mulliken_M.append(zval-float(match2.group(1)))
                             GP_Loewdin_M.append(zval-float(match2.group(2)))
-                GP_Mulliken_O_avg = sum(GP_Mulliken_O) / len(GP_Mulliken_O) if values else np.nan
-                GP_Loewdin_O_avg = sum(GP_Loewdin_O) / len(GP_Loewdin_O) if values else np.nan
-                GP_Mulliken_M_avg = sum(GP_Mulliken_M) / len(GP_Mulliken_M) if values else np.nan
-                GP_Loewdin_M_avg = sum(GP_Loewdin_M) / len(GP_Loewdin_M) if values else np.nan
-                values.setdefault('GP_Mulliken_O', []).append(GP_Mulliken_O_avg)
-                values.setdefault('GP_Loewdin_O', []).append(GP_Loewdin_O_avg)
-                values.setdefault('GP_Mulliken_M', []).append(GP_Mulliken_M_avg)
-                values.setdefault('GP_Loewdin_M', []).append(GP_Loewdin_M_avg)
+                GP_O_Mulliken = sum(GP_Mulliken_O) / len(GP_Mulliken_O) if values else np.nan
+                GP_O_Loewdin = sum(GP_Loewdin_O) / len(GP_Loewdin_O) if values else np.nan
+                GP_M_Mulliken = sum(GP_Mulliken_M) / len(GP_Mulliken_M) if values else np.nan
+                GP_M_Loewdin = sum(GP_Loewdin_M) / len(GP_Loewdin_M) if values else np.nan
+                values.setdefault('GP_O_Mulliken', []).append(GP_O_Mulliken)
+                values.setdefault('GP_O_Loewdin', []).append(GP_O_Loewdin)
+                values.setdefault('GP_M_Mulliken', []).append(GP_M_Mulliken)
+                values.setdefault('GP_M_Loewdin', []).append(GP_M_Loewdin)
             else:
-                values.setdefault('GP_Mulliken_O', []).append(np.nan)
-                values.setdefault('GP_Loewdin_O', []).append(np.nan)
-                values.setdefault('GP_Mulliken_M', []).append(np.nan)
-                values.setdefault('GP_Loewdin_M', []).append(np.nan)
+                values.setdefault('GP_O_Mulliken', []).append(np.nan)
+                values.setdefault('GP_O_Loewdin', []).append(np.nan)
+                values.setdefault('GP_M_Mulliken', []).append(np.nan)
+                values.setdefault('GP_M_Loewdin', []).append(np.nan)
         
         if 'ICOHP' in specific_patterns:
             ICOHP_path = os.path.join(dir_path, 'icohp.txt')
@@ -419,8 +419,9 @@ def adjust_values(values_dict, ref, norm):
 
 def selected_values(values_dict, symbols):
     keys_to_remove_base = ['mag_M_up', 'mag_M_down', 'mag_O_up', 'mag_O_down', 'chg_M', 'chg_O',
+                           'GP_M_Mulliken', 'GP_M_Loewdin', 'GP_O_Mulliken', 'GP_O_Loewdin',
                            'mag', 'chg', 'Madelung', 'GP']
-    keys_to_remove = [key for key in keys_to_remove_base if not any(sym in key for sym in symbols)]
+    keys_to_remove = [key for key in keys_to_remove_base if not any(f"_{sym}_" in key for sym in symbols)]
     
     for key in keys_to_remove:
         values_dict.pop(key, None)
