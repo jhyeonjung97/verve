@@ -16,6 +16,7 @@ elif [[ ${here} == 'nersc' ]]; then
             python ~/bin/verve/energy.py --save -p volume -x "Metal (MO)" -y "Volume (A^3/MO)" -n m
             python ~/bin/verve/energy.py --save -p hexa -x "Metal (MO)" -y "Hexagonal ratio [c/a]"
             python ~/bin/verve/energy.py --save -p mag -e M -x "Metal (MO)" -y "Magnetization"
+            python ~/bin/verve/energy.py --save -p GP -e M  -x "Metal (MO)" -y "Gross population"
             python ~/bin/verve/formation.py
             if [[ 'Tetraheral' in $dir ]]; then
                 n=4; python ~/bin/verve/energy.py --save -p hexa -x "Metal (MO)" -y "Hexagonal ratio [c/a]"
