@@ -11,6 +11,7 @@ from mpl_toolkits.mplot3d import Axes3D
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 
 print(f"\033[92m{os.getcwd()}\033[0m")
+exp_path = 
 
 def get_parser():
     parser = argparse.ArgumentParser()
@@ -103,7 +104,7 @@ def main():
         if args.individual:
             plot_separately(values_dict, dir_names, xlabel, ylabel, save, filename)
     else:
-        raise ValueError('No values found for the given patterns.')
+        print('No values found for the given patterns.')
         exit(1)
     if args.line:
         line_fitting(original_patterns, values_dict, dir_names, xlabel, ylabel, save, filename, filtered_patterns_order)
@@ -531,7 +532,7 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, filtered
         
 def line_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filename, filtered_patterns_order):
     if len(filtered_patterns_order) < 2:
-        raise ValueError("Not enough valid patterns with data for line fitting.")
+        print('Not enough valid patterns with data for line fitting.')
     
     X = np.array(values_dict[filtered_patterns_order[0]])
     Y = np.array(values_dict[filtered_patterns_order[1]])
@@ -568,7 +569,7 @@ def line_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filenam
         
 def plane_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filename, filtered_patterns_order):
     if len(filtered_patterns_order) < 3:
-        raise ValueError("Not enough valid patterns with data for plane fitting.")
+        print('Not enough valid patterns with data for plane fitting.')
     
     X = np.array(values_dict[filtered_patterns_order[0]])
     Y = np.array(values_dict[filtered_patterns_order[1]])
