@@ -200,11 +200,12 @@ def extract_values(directory, patterns, norm, dir_range):
             for specific_pattern in specific_patterns:
                 if specific_pattern not in ['GP', 'mag']:
                     values.setdefault(specific_pattern, []).append(np.nan)
-            if 'GP' in specific_patterns:
+            if 'GP_Mulliken' in specific_patterns:
                 values.setdefault('GP_M_Mulliken', []).append(np.nan)
-                # values.setdefault('GP_M_Loewdin', []).append(np.nan)
                 values.setdefault('GP_O_Mulliken', []).append(np.nan)
-                # values.setdefault('GP_O_Loewdin', []).append(np.nan)
+            if 'GP_Loewdin' in specific_patterns:
+                values.setdefault('GP_M_Loewdin', []).append(np.nan)
+                values.setdefault('GP_O_Loewdin', []).append(np.nan)
             if 'ZPE' in specific_patterns:
                 values.setdefault('TS', []).append(np.nan)
             if 'mag' in specific_patterns:
