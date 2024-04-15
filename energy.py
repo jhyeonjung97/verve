@@ -350,14 +350,17 @@ def extract_values(directory, patterns, norm, dir_range):
         if 'mag' in specific_patterns:
             if atoms:
                 M_up, M_down, O_up, O_down = [], [], [], []
-                
-                for i, atom in enumerate(atoms):
-                    magmom = atoms.get_magnetic_moments()[i]
+                for j, atom in enumerate(atoms):
+                    magmom = atoms.get_magnetic_moments()[j]
+                    print(atom.symgol, magmom)
                     if atom.symbol == 'O':
                         (O_up if magmom > 0 else O_down).append(magmom)
                     else:
                         (M_up if magmom > 0 else M_down).append(magmom)
-                        
+                print(M_up)
+                print(M_down)
+                print(O_up)
+                print(O_down)
                 mag_M_up = sum(M_up) / len(M_up) if M_up else 0.0
                 mag_M_down = sum(M_down) / len(M_down) if M_down else 0.0
                 mag_O_up = sum(O_up) / len(O_up) if O_up else 0.0
