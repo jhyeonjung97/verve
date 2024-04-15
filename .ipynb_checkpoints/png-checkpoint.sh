@@ -8,7 +8,7 @@ if [[ ${here} == 'slac' ]]; then
 elif [[ ${here} == 'nersc' ]]; then
     dir_now='/pscratch/sd/j/jiuy97/3_V_shape'
     cd $dir_now
-    for dir in */*/; do
+    for dir in *_*/*/; do
             cd $dir
             python ~/bin/verve/energy.py --save -p Madelung_L -x "Metal (MO)" -y "Madelugn energy (Loewdin, eV/MO)" -n m
             python ~/bin/verve/energy.py --save -p energy -x "Metal (MO)" -y "Total energy (eV/MO)" -n m
@@ -28,7 +28,7 @@ elif [[ ${here} == 'nersc' ]]; then
             sed -i 's/\x0//g' *.tsv
             cd $dir_now
     done
-    for dir in */; do
+    for dir in *_*/; do
             cd $dir
             python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Madelung energy (Loewdin, eV/MO)" -o norm_Madelung_L */energy_norm_Madelung_Loewdin.tsv
             python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Total energy (eV/MO)" -o norm_energy */energy_norm_energy.tsv
