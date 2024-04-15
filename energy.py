@@ -178,10 +178,10 @@ def extract_values(directory, patterns, norm, dir_range):
                 if specific_pattern not in ['GP', 'mag']:
                     values.setdefault(specific_pattern, []).append(np.nan)
             if 'GP' in specific_patterns:
-                values.setdefault('GP_Mulliken_O'+str(i), []).append(np.nan)
-                values.setdefault('GP_Loewdin_O'+str(i), []).append(np.nan)
-                values.setdefault('GP_Mulliken_M'+str(i), []).append(np.nan)
-                values.setdefault('GP_Loewdin_M'+str(i), []).append(np.nan)
+                values.setdefault('GP_Mulliken_O', []).append(np.nan)
+                values.setdefault('GP_Loewdin_O', []).append(np.nan)
+                values.setdefault('GP_Mulliken_M', []).append(np.nan)
+                values.setdefault('GP_Loewdin_M', []).append(np.nan)
             if 'ZPE' in specific_patterns:
                 values.setdefault('TS', []).append(np.nan)
             if 'mag' in specific_patterns:
@@ -214,19 +214,34 @@ def extract_values(directory, patterns, norm, dir_range):
             i = numb - 1
             gp_path = os.path.join(dir_path, 'GROSSPOP.lobster')
             if os.path.exists(gp_path) and os.path.getsize(gp_path) != 0:
+                GP_Mulliken_O, GP_Loewdin_O, GP_Mulliken_M, GP_Loewdin_M = [], [], [], []
                 for line in open(gp_path, 'r'):
                     match = re.search(r'\s*total\s+([0-9.]+)\s+([0-9.]+)', line)
                     if match:
                         symbol = atoms[i].symbol
                         zval = zval_dict[symbol]
-                        if symbol == 'O':   
-                            values.setdefault('GP_Mulliken_O'+str(i), []).append(zval-float(match.group(1)))
-                            values.setdefault('GP_Loewdin_O'+str(i), []).append(zval-float(match.group(2)))
+                        if symbol == 'O':
+                            GP_Mulliken_O.append(zval-float(match.group(1)))
+                            GP_Loewdin_O.append(zval-float(match.group(2)))
                         else:
-                            values.setdefault('GP_Mulliken_M'+str(i), []).append(zval-float(match.group(1)))
-                            values.setdefault('GP_Loewdin_M'+str(i), []).append(zval-float(match.group(2)))
+                            GP_Mulliken_M.append(zval-float(match.group(1)))
+                            GP_Loewdin_M.append(zval-float(match.group(2)))
                         if i != 0: i -= 1
                         else: break
+                GP_Mulliken_O_avg = sum(GP_Mulliken_O) / len(GP_Mulliken_O) if values else np.nan
+                GP_Loewdin_O_avg = sum(GP_Loewdin_O) / len(GP_Loewdin_O) if values else np.nan
+                GP_Mulliken_M_avg = sum(GP_Mulliken_M) / len(GP_Mulliken_M) if values else np.nan
+                GP_Loewdin_M_avg = sum(GP_Loewdin_M) / len(GP_Loewdin_M) if values else np.nan
+                values.setdefault('GP_Mulliken_O', []).append(GP_Mulliken_O_avg)
+                values.setdefault('GP_Loewdin_O', []).append(GP_Loewdin_O_avg)
+                values.setdefault('GP_Mulliken_M', []).append(GP_Mulliken_M_avg)
+                values.setdefault('GP_Loewdin_M', []).append(GP_Loewdin_M_avg)
+            else:
+                values.setdefault('GP_Mulliken_O', []).append(np.nan)
+                values.setdefault('GP_Loewdin_O', []).append(np.nan)
+                values.setdefault('GP_Mulliken_M', []).append(np.nan)
+                values.setdefault('GP_Loewdin_M', []).append(np.nan)
+        
         if 'ICOHP' in specific_patterns:
             ICOHP_path = os.path.join(dir_path, 'icohp.txt')
             if not os.path.exists(ICOHP_path):
