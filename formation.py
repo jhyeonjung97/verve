@@ -128,6 +128,7 @@ for j, column in enumerate(formation.columns):
         continue
     plt.plot(filtered_x, filtered_values, marker=marker, color=color, label=column)
 
+print(row)
 for i in exp_df.index:
     if exp_df['row'][i] == row:
         exp_marker = exp_markers.get(exp_df['Coordination'][i], '*')
