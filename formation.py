@@ -46,8 +46,8 @@ nist = {
     }
 
 exp_path = '/pscratch/sd/j/jiuy97/3_V_shape/monoxides.tsv'
-metal_path = '/pscratch/sd/j/jiuy97/3_V_shape/metal/0_min/energy_norm.tsv'
-oxide_path = '/pscratch/sd/j/jiuy97/3_V_shape/oxide/0_min/energy_norm.tsv'
+metal_path = '/pscratch/sd/j/jiuy97/3_V_shape/metal/0_min/energy_norm_energy.tsv'
+oxide_path = '/pscratch/sd/j/jiuy97/3_V_shape/oxide/0_min/energy_norm_energy.tsv'
 path = '/pscratch/sd/j/jiuy97/3_V_shape/metal/merged_norm_energy.tsv'
 
 exp_df = pd.read_csv(exp_path, delimiter='\t')
@@ -128,7 +128,6 @@ for j, column in enumerate(formation.columns):
         continue
     plt.plot(filtered_x, filtered_values, marker=marker, color=color, label=column)
 
-print(row)
 for i in exp_df.index:
     if exp_df['row'][i] == row:
         exp_marker = exp_markers.get(exp_df['Coordination'][i], '*')
