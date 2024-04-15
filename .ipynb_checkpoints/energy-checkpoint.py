@@ -45,8 +45,8 @@ def main():
     ref = args.ref
     if args.all:
         patterns = {'PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
-                    'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung', 'Madelung_M', 'Madelung_L',
-                    'ICOHP', 'ICOBI', 'mag', 'chg', 'GP', 'GP_M', 'GP_L', 'bond', 'ZPE', 'TS', 'hexa', 'volume'}
+                    'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung', 'ICOHP', 'ICOBI', 
+                    'mag', 'chg', 'GP', 'bond', 'ZPE', 'TS', 'hexa', 'volume'}
     else:
         patterns = set(args.patterns)
     if 'Madelung' in patterns:
