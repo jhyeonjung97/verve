@@ -27,14 +27,19 @@ elif [[ ${here} == 'nersc' ]]; then
         python ~/bin/verve/energy.py --save -p GP_L -e M  -x "Metal (MO)" -y "Gross population (Loewdin)"
         python ~/bin/verve/formation.py
         if [[ $PWD == *'Tetraheral'* ]]; then
-            n=4; python ~/bin/verve/energy.py --save -p hexa -x "Metal (MO)" -y "Hexagonal ratio [c/a]"
+            n=4
+            echo '1'
+            python ~/bin/verve/energy.py --save -p hexa -x "Metal (MO)" -y "Hexagonal ratio [c/a]"
         elif [[ $PWD == *'Square_Planar'* ]]; then
-            n=4; python ~/bin/verve/energy.py --save -p hexa -x "Metal (MO)" -y "Square prism ratio [c/a]"
+            n=4
+            echo '2'
+            python ~/bin/verve/energy.py --save -p hexa -x "Metal (MO)" -y "Square prism ratio [c/a]"
         elif [[ $PWD == *'Octahedral'* ]]; then
             n=6
+            echo '3'
         fi
-        python ~/bin/verve/energy.py --save -p bond -x "Metal (MO)" -y "Bond length (A/M-O)" -n $n
-        python ~/bin/verve/energy.py --save -p ICOHP -x "Metal (MO)" -y "ICOHP (eV/M-O)" -n $n
+        python ~/bin/verve/energy.py --save -p bond -x "Metal (MO)" -y "Bond length (A/M-O)" -n "$n"
+        python ~/bin/verve/energy.py --save -p ICOHP -x "Metal (MO)" -y "ICOHP (eV/M-O)" -n "$n"
         sed -i 's/\x0//g' *.tsv
         cd $dir_now
     done
