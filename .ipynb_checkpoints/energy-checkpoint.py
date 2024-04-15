@@ -352,7 +352,7 @@ def extract_values(directory, patterns, norm, dir_range):
                 M_up, M_down, O_up, O_down = [], [], [], []
                 for j, atom in enumerate(atoms):
                     magmom = atoms.get_magnetic_moments()[j]
-                    print(atom.symgol, magmom)
+                    print(atom.symbol, magmom)
                     if atom.symbol == 'O':
                         (O_up if magmom > 0 else O_down).append(magmom)
                     else:
