@@ -22,14 +22,17 @@ nist = {
     'Cu': {'M': 1, 'O': 1, 'H_form': -156.063, 'G_form': -128.292}, # 620 735 mp-704645 Copper Monoxide
     }
 
+# exp_path = '/pscratch/sd/j/jiuy97/3_V_shape/monoxides.tsv'
 metal_path = '/pscratch/sd/j/jiuy97/3_V_shape/metal/0_min/energy_norm_energy.tsv'
 oxide_path = '/pscratch/sd/j/jiuy97/3_V_shape/oxide/0_min/energy_norm_energy.tsv'
 path = '/pscratch/sd/j/jiuy97/3_V_shape/metal/merged_norm_energy.tsv'
 
+# exp_df = pd.read_csv(exp_path, delimiter='\t')
 metal_df = pd.read_csv(metal_path, delimiter='\t').iloc[:, 1:]
 oxide_df = pd.read_csv(oxide_path, delimiter='\t').iloc[:, 1:]
 df = pd.read_csv(path, delimiter='\t').iloc[:, 1:]
 
+# exp_df['dH_form'] = exp_df['dH_form'] / 96.48
 metal_df.index = list(nist.keys())
 oxide_df.index = list(nist.keys())
 df.index = metal_rows['3d']
@@ -82,6 +85,7 @@ else:
 for row in metal_rows:
     if metal_rows[row] == energy_df.index.tolist():
         formation = energy_df.sub(df[row].values, axis=0) - Ref_O
+        break
 
 plt.figure(figsize=(8, 6))
 png_filename = f"energy_norm_formation.png"   
