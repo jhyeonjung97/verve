@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 import sys
 import argparse
 
+print(f"\033[92m{os.getcwd()}\033[0m")
+
 def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, colors, markers, a, b, row, fontsize):
 
     metal_rows = {
