@@ -104,6 +104,7 @@ def main():
             plot_separately(values_dict, dir_names, xlabel, ylabel, save, filename)
     else:
         raise ValueError('No values found for the given patterns.')
+        exit(1)
     if args.line:
         line_fitting(original_patterns, values_dict, dir_names, xlabel, ylabel, save, filename, filtered_patterns_order)
     elif args.plane:
