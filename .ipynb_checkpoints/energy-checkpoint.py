@@ -114,7 +114,7 @@ def extract_values(directory, patterns, norm, dir_range):
     dir_names = []
     
     specific_patterns = set()
-    for pattern in ['Madelung_Mulliken', 'Madelung_Loewdin', 'ICOHP', 'ICOBI', 'GP', 
+    for pattern in ['Madelung_Mulliken', 'Madelung_Loewdin', 'ICOHP', 'ICOBI', 'GP',
                     'hexa_ratio', 'volume', 'bond', 'energy', 'metals', 'mag', 'chg', 'ZPE', 'TS']:
         if pattern in patterns:
             patterns.discard(pattern)
@@ -214,11 +214,8 @@ def extract_values(directory, patterns, norm, dir_range):
                             values.setdefault('Madelung_Loewdin', []).append(float(match.group(2))/norm_numb)
                         break
         if 'GP' in specific_patterns:
-            print(specific_patterns)
             i = numb - 1
-            print(i, numb)
             gp_path = os.path.join(dir_path, 'GROSSPOP.lobster')
-            print(gp_path)
             if os.path.exists(gp_path) and os.path.getsize(gp_path) != 0:
                 GP_Mulliken_O, GP_Loewdin_O, GP_Mulliken_M, GP_Loewdin_M = [], [], [], []
                 for line in open(gp_path, 'r'):
@@ -226,7 +223,6 @@ def extract_values(directory, patterns, norm, dir_range):
                     if match:
                         symbol = atoms[i].symbol
                         zval = zval_dict[symbol]
-                        print(symbol, zval)
                         if symbol == 'O':
                             GP_Mulliken_O.append(zval-float(match.group(1)))
                             GP_Loewdin_O.append(zval-float(match.group(2)))
@@ -459,7 +455,6 @@ def plot_separately(values_dict, dir_names, xlabel, ylabel, save, filename):
             plt.show()
 
 def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename):
-    print(values_dict)
     plt.figure(figsize=(10, 6))
 
     patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
