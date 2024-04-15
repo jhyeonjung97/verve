@@ -178,18 +178,10 @@ def extract_values(directory, patterns, norm, dir_range):
                 if specific_pattern not in ['GP', 'mag']:
                     values.setdefault(specific_pattern, []).append(np.nan)
             if 'GP' in specific_patterns:
-                if os.path.exists(gp_path) and os.path.getsize(gp_path) != 0:
-                    for line in open(gp_path, 'r'):
-                        match = re.search(r'\s*total\s+([0-9.]+)\s+([0-9.]+)', line)
-                        if match:
-                            symbol = atoms[i].symbol
-                            zval = zval_dict[symbol]
-                            if symbol == 'O':   
-                                values.setdefault('GP_Mulliken_O'+str(i), []).append(np.nan)
-                                values.setdefault('GP_Loewdin_O'+str(i), []).append(np.nan)
-                            else:
-                                values.setdefault('GP_Mulliken_M'+str(i), []).append(np.nan)
-                                values.setdefault('GP_Loewdin_M'+str(i), []).append(np.nan)
+                values.setdefault('GP_Mulliken_O'+str(i), []).append(np.nan)
+                values.setdefault('GP_Loewdin_O'+str(i), []).append(np.nan)
+                values.setdefault('GP_Mulliken_M'+str(i), []).append(np.nan)
+                values.setdefault('GP_Loewdin_M'+str(i), []).append(np.nan)
             if 'ZPE' in specific_patterns:
                 values.setdefault('TS', []).append(np.nan)
             if 'mag' in specific_patterns:
