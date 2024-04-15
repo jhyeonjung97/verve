@@ -77,8 +77,11 @@ def main():
 
     directory='./'
     values_dict, dir_names = extract_values(directory, patterns, norm, dir_range=args.dir_range)
+    print(values_dict)
     values_dict = selected_values(values_dict, symbols)
+    print(values_dict)
     values_dict = adjust_values(values_dict, ref, norm)
+    print(values_dict)
     
     if any(values_dict.values()):
         plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename)
