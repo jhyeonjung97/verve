@@ -27,7 +27,7 @@ elif [[ ${here} == 'nersc' ]]; then
         # python ~/bin/verve/energy.py --save -p GP_L -e M  -x "Metal (MO)" -y "Gross population (Loewdin)"
         # python ~/bin/verve/formation.py
         echo $dir
-        if [[ -n $(echo "$dir" | grep 'Tetraheral') ]]; then
+        if [[ -n $(echo "$dir" | grep 'Tetrahedral') ]]; then
             n=4
             echo '1'
             python ~/bin/verve/energy.py --save -p hexa -x "Metal (MO)" -y "Hexagonal ratio [c/a]"
