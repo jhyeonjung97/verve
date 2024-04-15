@@ -70,8 +70,6 @@ for i, metal in enumerate(metal_rows['3d']):
         min_values.loc[metal] = nist[metal]['E_metal']
 df.insert(0, '3d', min_values)
 
-print(min_values)
-
 energy_path = './energy_norm_energy.tsv'
 if not os.path.exists(energy_path):
     exit(1)
