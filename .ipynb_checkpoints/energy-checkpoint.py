@@ -281,7 +281,7 @@ def extract_values(directory, patterns, norm, dir_range):
                         values.setdefault('ICOHP', []).append(-float(match.group(2)))
                         break
             else:
-                values.setdefault('ICOBI', []).append(np.nan)
+                values.setdefault('ICOHP', []).append(np.nan)
         if 'ICOBI' in specific_patterns:
             ICOBI_path = os.path.join(dir_path, 'icobi.txt')
             if not os.path.exists(ICOBI_path):
@@ -307,7 +307,7 @@ def extract_values(directory, patterns, norm, dir_range):
                             bond_length += float(match.group(1))
                 values.setdefault('bond', []).append(bond_length)
             else:
-                values.setdefault('ICOBI', []).append(np.nan)
+                values.setdefault('bond', []).append(np.nan)
         if 'ZPE' in specific_patterns:
             ZPE_dir = os.path.join(dir_path, 'zpe/')
             ZPE_path = os.path.join(dir_path, 'zpe.txt')
