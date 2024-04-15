@@ -186,9 +186,9 @@ def extract_values(directory, patterns, norm, dir_range):
                     values.setdefault(specific_pattern, []).append(np.nan)
             if 'GP' in specific_patterns:
                 values.setdefault('GP_M_Mulliken', []).append(np.nan)
-                values.setdefault('GP_M_Loewdin', []).append(np.nan)
+                # values.setdefault('GP_M_Loewdin', []).append(np.nan)
                 values.setdefault('GP_O_Mulliken', []).append(np.nan)
-                values.setdefault('GP_O_Loewdin', []).append(np.nan)
+                # values.setdefault('GP_O_Loewdin', []).append(np.nan)
             if 'ZPE' in specific_patterns:
                 values.setdefault('TS', []).append(np.nan)
             if 'mag' in specific_patterns:
@@ -239,14 +239,14 @@ def extract_values(directory, patterns, norm, dir_range):
                 GP_M_Mulliken = sum(GP_Mulliken_M) / len(GP_Mulliken_M) if values else np.nan
                 GP_M_Loewdin = sum(GP_Loewdin_M) / len(GP_Loewdin_M) if values else np.nan
                 values.setdefault('GP_O_Mulliken', []).append(GP_O_Mulliken)
-                values.setdefault('GP_O_Loewdin', []).append(GP_O_Loewdin)
+                # values.setdefault('GP_O_Loewdin', []).append(GP_O_Loewdin)
                 values.setdefault('GP_M_Mulliken', []).append(GP_M_Mulliken)
-                values.setdefault('GP_M_Loewdin', []).append(GP_M_Loewdin)
+                # values.setdefault('GP_M_Loewdin', []).append(GP_M_Loewdin)
             else:
                 values.setdefault('GP_O_Mulliken', []).append(np.nan)
-                values.setdefault('GP_O_Loewdin', []).append(np.nan)
+                # values.setdefault('GP_O_Loewdin', []).append(np.nan)
                 values.setdefault('GP_M_Mulliken', []).append(np.nan)
-                values.setdefault('GP_M_Loewdin', []).append(np.nan)
+                # values.setdefault('GP_M_Loewdin', []).append(np.nan)
         
         if 'ICOHP' in specific_patterns:
             ICOHP_path = os.path.join(dir_path, 'icohp.txt')
