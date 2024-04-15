@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 
-dir_now = os.getcwd()
+print(f"\033[92m{os.getcwd()}\033[0m")
 
 def get_parser():
     parser = argparse.ArgumentParser()
