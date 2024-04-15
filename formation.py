@@ -11,7 +11,7 @@ metal_rows = {
 
 nist = {
     'Ti': {'M': 1, 'O': 2, 'H_form': -944.747, 'G_form': -889.406}, # 1692 1809 mp-2657 Titanium Dioxide (Rutile)
-    'V': {'M': 2, 'O': 5, 'H_form': -132.214, 'G_form': -1419.359}, # 1780 1892 mp-25279 Divanadium Pentaoxide
+    'V': {'M': 2, 'O': 5, 'H_form': -1550.590, 'G_form': -1419.359}, # 1780 1897 mp-25279 Divanadium Pentaoxide
     'Cr': {'M': 2, 'O': 3, 'H_form': -1139.701, 'G_form': -1058.067}, # 573 688 mp-19399 Dichromium Trioxide
     'Mn': {'M': 1, 'O': 1, 'H_form': -385.221, 'G_form': -362.898}, # 1046 1162 mp-19006 Manganese Oxide
     'Fe': {'M': 2, 'O': 3, 'H_form': -824.248, 'G_form': -742.294}, # 702 817 mp-19770 Hematite
