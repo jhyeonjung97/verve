@@ -44,7 +44,7 @@ def main():
     if args.all:
         patterns = {'PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
                     'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung', 'Madelung_M', 'Madelung_L',
-                    'ICOHP', 'ICOBI', 'mag', 'chg', 'GP', 'bond', 'ZPE', 'TS', 'hexa', 'volume'}
+                    'ICOHP', 'ICOBI', 'mag', 'chg', 'GP', 'GP_M', 'GP_L', 'bond', 'ZPE', 'TS', 'hexa', 'volume'}
     else:
         patterns = set(args.patterns)
     if 'Madelung' in patterns:
@@ -56,6 +56,15 @@ def main():
     if 'Madelung_L' in patterns:
         patterns.discard('Madelung_L')
         patterns.add('Madelung_Loewdin')
+    if 'GP' in patterns:
+        patterns.discard('GP')
+        patterns.update(['GP_Mulliken', 'GP_Loewdin'])
+    if 'GP_M' in patterns:
+        patterns.discard('GP_M')
+        patterns.add('GP_Mulliken')
+    if 'GP_L' in patterns:
+        patterns.discard('GP_L')
+        patterns.add('GP_Loewdin')
     if 'hexa' in patterns:
         patterns.discard('hexa')
         patterns.add('hexa_ratio')
@@ -118,7 +127,7 @@ def extract_values(directory, patterns, norm, dir_range):
     dir_names = []
     
     specific_patterns = set()
-    for pattern in ['Madelung_Mulliken', 'Madelung_Loewdin', 'ICOHP', 'ICOBI', 'GP',
+    for pattern in ['Madelung_Mulliken', 'Madelung_Loewdin', 'GP_Mulliken', 'GP_Loewdin', 'ICOHP', 'ICOBI', 
                     'hexa_ratio', 'volume', 'bond', 'energy', 'metals', 'mag', 'chg', 'ZPE', 'TS']:
         if pattern in patterns:
             patterns.discard(pattern)
@@ -217,7 +226,7 @@ def extract_values(directory, patterns, norm, dir_range):
                         if 'Madelung_Loewdin' in specific_patterns:
                             values.setdefault('Madelung_Loewdin', []).append(float(match.group(2))/norm_numb)
                         break
-        if 'GP' in specific_patterns:
+        if 'GP_Mulliken' in specific_patterns or 'GP_Loewdin' in specific_patterns:
             gp_path = os.path.join(dir_path, 'GROSSPOP.lobster')
             if os.path.exists(gp_path) and os.path.getsize(gp_path) != 0:
                 GP_Mulliken_O, GP_Loewdin_O, GP_Mulliken_M, GP_Loewdin_M = [], [], [], []
@@ -238,15 +247,19 @@ def extract_values(directory, patterns, norm, dir_range):
                 GP_O_Loewdin = sum(GP_Loewdin_O) / len(GP_Loewdin_O) if values else np.nan
                 GP_M_Mulliken = sum(GP_Mulliken_M) / len(GP_Mulliken_M) if values else np.nan
                 GP_M_Loewdin = sum(GP_Loewdin_M) / len(GP_Loewdin_M) if values else np.nan
-                values.setdefault('GP_O_Mulliken', []).append(GP_O_Mulliken)
-                # values.setdefault('GP_O_Loewdin', []).append(GP_O_Loewdin)
-                values.setdefault('GP_M_Mulliken', []).append(GP_M_Mulliken)
-                # values.setdefault('GP_M_Loewdin', []).append(GP_M_Loewdin)
+                if 'GP_Mulliken' in specific_patterns:
+                    values.setdefault('GP_O_Mulliken', []).append(GP_O_Mulliken)
+                    values.setdefault('GP_M_Mulliken', []).append(GP_M_Mulliken)
+                elif 'GP_Loewdin' in specific_patterns:
+                    values.setdefault('GP_O_Loewdin', []).append(GP_O_Loewdin)
+                    values.setdefault('GP_M_Loewdin', []).append(GP_M_Loewdin)
             else:
-                values.setdefault('GP_O_Mulliken', []).append(np.nan)
-                # values.setdefault('GP_O_Loewdin', []).append(np.nan)
-                values.setdefault('GP_M_Mulliken', []).append(np.nan)
-                # values.setdefault('GP_M_Loewdin', []).append(np.nan)
+                if 'GP_Mulliken' in specific_patterns:
+                    values.setdefault('GP_O_Mulliken', []).append(np.nan)
+                    values.setdefault('GP_M_Mulliken', []).append(np.nan)
+                elif 'GP_Loewdin' in specific_patterns:
+                    values.setdefault('GP_O_Loewdin', []).append(np.nan)
+                    values.setdefault('GP_M_Loewdin', []).append(np.nan)
         
         if 'ICOHP' in specific_patterns:
             ICOHP_path = os.path.join(dir_path, 'icohp.txt')
