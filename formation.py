@@ -4,6 +4,29 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 print(f"\033[92m{os.getcwd()}\033[0m")
+if '1_Tetrahedral_WZ' in os.getcwd():
+    marker = 'v'; color = '#d62728'
+elif '2_Tetrahedral_ZB' in os.getcwd():
+    marker = 'v'; color = '#ff7f0e'
+elif '3_Square_Planar_TN' in os.getcwd():
+    marker = 's'; color = '#2ca02c'
+elif '4_Square_Planar_33' in os.getcwd():
+    marker = 's'; color = '#279ff2'
+elif '5_Octahedral_RS' in os.getcwd():
+    marker = 'o'; color = '#9467bd'
+
+exp_colors = {'WZ': '#d62728',
+              'ZB': '#ff7f0e',
+              'LT': '#ffd70e',
+              'TN': '#2ca02c', 
+              '33': '#279ff2', 
+              'RS': '#9467bd'}
+exp_markers = {'WZ': 'v',
+               'ZB': 'v',
+               'LT': '^',
+               'TN': 's', 
+               '33': 's', 
+               'RS': 'o'}
 
 metal_rows = {
     '3d': ['Ca', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn', 'Ga', 'Ge'],
@@ -91,8 +114,6 @@ plt.figure(figsize=(8, 6))
 png_filename = f"energy_norm_formation.png"   
 tsv_filename = f"energy_norm_formation.tsv"
 
-colors = plt.cm.rainbow(np.linspace(0, 1, len(formation.columns))) 
-
 for j, column in enumerate(formation.columns):
     filtered_x = []
     filtered_values = []
@@ -105,11 +126,14 @@ for j, column in enumerate(formation.columns):
     if not filtered_values:
         print(f"No values found for pattern: {column}")
         continue
-    plt.plot(filtered_x, filtered_values, marker='o', color=colors[j % len(colors)], label=column)
+    plt.plot(filtered_x, filtered_values, marker=marker, color=color, label=column)
 
 for i in exp_df.index:
     if exp_df['row'][i] == row:
-        plt.scatter(exp_df['numb'][i], exp_df['dH_form'][i], marker='*', color='k')
+        exp_marker = exp_markers.get(exp_df['Coordination'][i], '*')
+        exp_color = exp_colors.get(exp_df['Coordination'][i], '#8a8a8a')
+        plt.scatter(exp_df['numb'][i], exp_df['dH_form'][i], marker=marker, color=color, 
+                    fillstyle=full, markeredgecolor=color, markerfacecolor='white')
 
 formation.to_csv(tsv_filename, sep='\t')
 print(f"Merged data saved to {tsv_filename}")
