@@ -19,7 +19,7 @@ elif [[ ${here} == 'nersc' ]]; then
     # python ~/bin/verve/energy.py --save -x "Metal (MxOy)" -y "Total energy (eV/M)" -n m
     # cd $dir_now
     for dir in *_*/*/; do
-        if [[ $dir != *'save' ]] && [[ $dir != *'rhom' ]] && [[ $dir != *'bin' ]]; then
+        if [[ $dir != *'save'* ]] && [[ $dir != *'rhom'* ]] && [[ $dir != *'bin'* ]]; then
             cd $dir
             python ~/bin/verve/energy.py --save -p Madelung_L -x "Metal (MO)" -y "Madelugn energy (Loewdin, eV/MO)" -n m
             python ~/bin/verve/energy.py --save -p energy -x "Metal (MO)" -y "Total energy (eV/MO)" -n m

@@ -22,6 +22,7 @@ nist = {
     'Cu': {'M': 1, 'O': 1, 'H_form': -156.063, 'G_form': -128.292}, # 620 735 mp-704645 Copper Monoxide
     }
 
+ex
 metal_path = '/pscratch/sd/j/jiuy97/3_V_shape/metal/0_min/energy_norm_energy.tsv'
 oxide_path = '/pscratch/sd/j/jiuy97/3_V_shape/oxide/0_min/energy_norm_energy.tsv'
 path = '/pscratch/sd/j/jiuy97/3_V_shape/metal/merged_norm_energy.tsv'
