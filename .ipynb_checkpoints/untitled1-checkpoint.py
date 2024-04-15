@@ -20,7 +20,7 @@ exp_markers = {'WZ': 'v',
                'RS': 'o'}
 
 for i in exp_df.index:
-    if exp_df['row'][i] == '3d':
+    if exp_df['row'][i] == '4d':
         marker = exp_markers.get(exp_df['Coordination'][i], '*')
         color = exp_colors.get(exp_df['Coordination'][i], '#8a8a8a')
         print(exp_df['numb'][i], exp_df['dH_form'][i], marker, color)
