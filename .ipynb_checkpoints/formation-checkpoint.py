@@ -132,8 +132,8 @@ for i in exp_df.index:
     if exp_df['row'][i] == row:
         exp_marker = exp_markers.get(exp_df['Coordination'][i], '*')
         exp_color = exp_colors.get(exp_df['Coordination'][i], '#8a8a8a')
-        plt.scatter(exp_df['numb'][i], exp_df['dH_form'][i], marker=marker, color=color, 
-                    fillstyle='full', markeredgecolor=color, markerfacecolor='white')
+        plt.scatter(exp_df['numb'][i], exp_df['dH_form'][i], 
+                    marker=marker, color=color, edgecolors=color, facecolors='white')
 
 formation.to_csv(tsv_filename, sep='\t')
 print(f"Merged data saved to {tsv_filename}")
