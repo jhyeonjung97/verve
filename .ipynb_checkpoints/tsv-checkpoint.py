@@ -7,8 +7,8 @@ import argparse
 
 print(f"\033[92m{os.getcwd()}\033[0m")
 
-def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, colors, markers, a, b, row, fontsize):
-
+def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, a, b, row, fontsize):
+        
     metal_rows = {
         '3d': ['Ca', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn', 'Ga', 'Ge'],
         '4d': ['Sr', 'Y', 'Zr', 'Nb', 'Mo', 'Tc', 'Ru', 'Rh', 'Pd', 'Ag', 'Cd', 'In', 'Sn'],
@@ -17,8 +17,29 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, c
     
     if row:
         indice = metal_rows[row]
+        markers = ['v', 'v', 's', 's', 'o']
+        colors = ['#d62728', '#ff7f0e', '#2ca02c', '#279ff2', '#9467bd']
     else:
         indice = [f'{a}\n{b}\n{c}' for a, b, c in zip(metal_rows['3d'], metal_rows['4d'], metal_rows['5d'])]
+        if '1_Tetrahedral_WZ' in os.getcwd():
+            markers = ['v']
+            colors = plt.cm.reds(np.linspace(0, 1, len(indice)))
+        elif '2_Tetrahedral_ZB' in os.getcwd():
+            markers = ['v']
+            colors = plt.cm.oranges(np.linspace(0, 1, len(indice)))
+        elif '3_Square_Planar_TN' in os.getcwd():
+            markers = ['s']
+            colors = plt.cm.greens(np.linspace(0, 1, len(indice)))
+        elif '4_Square_Planar_33' in os.getcwd():
+            markers = ['s']
+            colors = plt.cm.blues(np.linspace(0, 1, len(indice)))
+        elif '5_Octahedral_RS' in os.getcwd():
+            markers = ['o']
+            colors = plt.cm.purples(np.linspace(0, 1, len(indice)))
+        else:
+            markers = ['x']
+            colors = ['k']
+        
 
     merged_df = None
     summed_df = None
@@ -50,11 +71,24 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, c
         if not filtered_values:
             print(f"No values found for pattern: {column}")
             continue
-        plt.plot(filtered_x, filtered_values, marker='o', color=colors[j % len(colors)], label=column)
+        plt.plot(filtered_x, filtered_values, marker=markers[j % len(colors)], color=colors[j % len(colors)], label=column)
     
     if 'hexa_ratio' in df.columns:
         plt.plot(x, [1.633]*len(x), linestyle=':', label='hexa_ratio0', color='black')
-
+        
+    if output == 'norm_formation' and row:
+        exp_path = '/pscratch/sd/j/jiuy97/3_V_shape/monoxides.tsv'
+        exp_df = pd.read_csv(exp_path, delimiter='\t')
+        exp_df['dH_form'] = exp_df['dH_form'] / 96.48
+        exp_colors = {'WZ': '#d62728', 'ZB': '#ff7f0e', 'LT': '#ffd70e', 'TN': '#2ca02c', '33': '#279ff2', 'RS': '#9467bd'}
+        exp_markers = {'WZ': 'v', 'ZB': 'v', 'LT': '^', 'TN': 's', '33': 's', 'RS': 'o'}
+        for i in exp_df.index:
+            if exp_df['row'][i] == row:
+                exp_marker = exp_markers.get(exp_df['Coordination'][i], '*')
+                exp_color = exp_colors.get(exp_df['Coordination'][i], '#8a8a8a')
+                plt.scatter(exp_df['numb'][i], exp_df['dH_form'][i], 
+                            marker=exp_marker, color=exp_color, edgecolors=exp_color, facecolors='white')    
+    
     merged_df.to_csv(tsv_filename, sep='\t')
     print(f"Merged data saved to {tsv_filename}")
 
@@ -77,15 +111,11 @@ if __name__ == "__main__":
     parser.add_argument('-y', '--ylabel', type=str, default='Energy (eV) or Charge (e)', help="ylabel")
     parser.add_argument('-l', '--labels', nargs='+', default=['Tetragonal_WZ', 'Tetragonal_ZB', 'Square_planar_TN', 'Square_planar_33', 'Octahedral_RS'])
     parser.add_argument('-r', '--row', type=str, default=None)
-    parser.add_argument('-c', '--colors', nargs='+', default=['#d62728', '#ff7f0e', '#2ca02c', '#279ff2', '#9467bd'],
-                        help='Colors to plot')
-    parser.add_argument('-m', '--markers', nargs='+', default=['v', 'v', 's', 's', 'o'],
-                        help='Colors to plot')
     parser.add_argument('-a', type=float, default=8)
     parser.add_argument('-b', type=float, default=6)
     parser.add_argument('--font', type=float, default=10)
     
     args = parser.parse_args()        
     plot_patterns_from_multiple_tsv(args.files, args.output, args.xlabel, args.ylabel, args.labels, 
-                                    args.colors, args.markers, args.a, args.b, args.row, fontsize=args.font)
+                                    args.a, args.b, args.row, fontsize=args.font)
 
