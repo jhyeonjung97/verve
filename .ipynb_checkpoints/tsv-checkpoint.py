@@ -22,24 +22,25 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, a
     else:
         indice = [f'{a}\n{b}\n{c}' for a, b, c in zip(metal_rows['3d'], metal_rows['4d'], metal_rows['5d'])]
         if '1_Tetrahedral_WZ' in os.getcwd():
+            coordination = 'WZ'
             markers = ['v']
             colors = plt.cm.Reds(np.linspace(0.1, 0.9, len(filenames)))
         elif '2_Tetrahedral_ZB' in os.getcwd():
+            coordination = 'ZB'
             markers = ['v']
             colors = plt.cm.Oranges(np.linspace(0.1, 0.9, len(filenames)))
         elif '3_Square_Planar_TN' in os.getcwd():
+            coordination = 'TN'
             markers = ['s']
             colors = plt.cm.Greens(np.linspace(0.1, 0.9, len(filenames)))
         elif '4_Square_Planar_33' in os.getcwd():
+            coordination = '33'
             markers = ['s']
             colors = plt.cm.Blues(np.linspace(0.1, 0.9, len(filenames)))
         elif '5_Octahedral_RS' in os.getcwd():
+            coordination = 'RS'
             markers = ['o']
-            colors = plt.cm.Purples(np.linspace(0.1, 0.9, len(filenames)))
-        else:
-            markers = ['x']
-            colors = ['k']
-        
+            colors = plt.cm.Purples(np.linspace(0.1, 0.9, len(filenames)))        
 
     merged_df = None
     summed_df = None
@@ -71,23 +72,35 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, a
         if not filtered_values:
             print(f"No values found for pattern: {column}")
             continue
-        plt.plot(filtered_x, filtered_values, marker=markers[j % len(markers)], color=colors[j % len(colors)], label=column)
+        plt.plot(filtered_x, filtered_values, marker=markers[j], color=colors[j], label=column)
     
     if 'hexa_ratio' in df.columns:
         plt.plot(x, [1.633]*len(x), linestyle=':', label='hexa_ratio0', color='black')
         
-    if output == 'norm_formation' and row:
+    if 'norm_formation' in output:
         exp_path = '/pscratch/sd/j/jiuy97/3_V_shape/monoxides.tsv'
         exp_df = pd.read_csv(exp_path, delimiter='\t')
         exp_df['dH_form'] = exp_df['dH_form'] / 96.48
         exp_colors = {'WZ': '#d62728', 'ZB': '#ff7f0e', 'LT': '#ffd70e', 'TN': '#2ca02c', '33': '#279ff2', 'RS': '#9467bd'}
         exp_markers = {'WZ': 'v', 'ZB': 'v', 'LT': '^', 'TN': 's', '33': 's', 'RS': 'o'}
-        for i in exp_df.index:
-            if exp_df['row'][i] == row:
-                exp_marker = exp_markers.get(exp_df['Coordination'][i], '*')
-                exp_color = exp_colors.get(exp_df['Coordination'][i], '#8a8a8a')
-                plt.scatter(exp_df['numb'][i], exp_df['dH_form'][i], 
-                            marker=exp_marker, color=exp_color, edgecolors=exp_color, facecolors='white')    
+        if row:
+            for i in exp_df.index:
+                if exp_df['row'][i] == row:
+                    exp_marker = exp_markers.get(exp_df['Coordination'][i], '*')
+                    exp_color = exp_colors.get(exp_df['Coordination'][i], '#8a8a8a')
+                    plt.scatter(exp_df['numb'][i], exp_df['dH_form'][i], 
+                                marker=exp_marker, color=exp_color, edgecolors=exp_color, facecolors='white')
+        else:
+            for i in exp_df.index:
+                if exp_df['Coordination'][i] == coordination:
+                    if exp_df['d'][i] == '5d':
+                        color = colors[-1]; marker = makers[-1]
+                    elif exp_df['d'][i] == '4d':
+                        color = colors[-2]; marker = makers[-2]
+                    elif exp_df['d'][i] == '3d':
+                        color = colors[-3]; marker = makers[-3]
+                    plt.scatter(exp_df['numb'][i], exp_df['dH_form'][i],
+                                marker=marker, color=color, edgecolors=exp_color, facecolors='white')
     
     merged_df.to_csv(tsv_filename, sep='\t')
     print(f"Merged data saved to {tsv_filename}")
