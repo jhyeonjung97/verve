@@ -93,12 +93,12 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, a
         else:
             for i in exp_df.index:
                 if exp_df['Coordination'][i] == coordination:
-                    if exp_df['row'][i] == '5d':
-                        color = colors[-1]; marker = markers[-1]
+                    if exp_df['row'][i] == '3d':
+                        color = colors[-1]; marker = markers[2]
                     elif exp_df['row'][i] == '4d':
-                        color = colors[-2]; marker = markers[-2]
-                    elif exp_df['row'][i] == '3d':
-                        color = colors[-3]; marker = markers[-3]
+                        color = colors[-2]; marker = markers[3]
+                    elif exp_df['row'][i] == '5d':
+                        color = colors[-3]; marker = markers[4]
                     plt.scatter(exp_df['numb'][i], exp_df['dH_form'][i],
                                 marker=marker, color=color, edgecolors=exp_color, facecolors='white')
     
