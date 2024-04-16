@@ -23,19 +23,19 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, a
         indice = [f'{a}\n{b}\n{c}' for a, b, c in zip(metal_rows['3d'], metal_rows['4d'], metal_rows['5d'])]
         if '1_Tetrahedral_WZ' in os.getcwd():
             markers = ['v']
-            colors = plt.cm.Reds(np.linspace(0, 1, len(indice)))
+            colors = plt.cm.Reds(np.linspace(0, 1, len(filenames)))
         elif '2_Tetrahedral_ZB' in os.getcwd():
             markers = ['v']
-            colors = plt.cm.Oranges(np.linspace(0, 1, len(indice)))
+            colors = plt.cm.Oranges(np.linspace(0, 1, len(filenames)))
         elif '3_Square_Planar_TN' in os.getcwd():
             markers = ['s']
-            colors = plt.cm.Greens(np.linspace(0, 1, len(indice)))
+            colors = plt.cm.Greens(np.linspace(0, 1, len(filenames)))
         elif '4_Square_Planar_33' in os.getcwd():
             markers = ['s']
-            colors = plt.cm.Blues(np.linspace(0, 1, len(indice)))
+            colors = plt.cm.Blues(np.linspace(0, 1, len(filenames)))
         elif '5_Octahedral_RS' in os.getcwd():
             markers = ['o']
-            colors = plt.cm.Purples(np.linspace(0, 1, len(indice)))
+            colors = plt.cm.Purples(np.linspace(0, 1, len(filenames)))
         else:
             markers = ['x']
             colors = ['k']
