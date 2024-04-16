@@ -27,8 +27,29 @@ def line_fitting(xfiles, yfiles, xlabel, ylabel, png_filename, tsv_filename):
     XX_values = np.array([])
     YY_values = np.array([])
     num_rows, num_cols = summed_x.shape
-    
-    for col_name in summed_x.columns:
+
+    if '1_Tetrahedral_WZ' in os.getcwd():
+        coordination = 'WZ'
+        markers = ['v'] * len(summed_x.columns)
+        colors = plt.cm.Reds(np.linspace(0.1, 0.9, len(summed_x.columns)))
+    elif '2_Tetrahedral_ZB' in os.getcwd():
+        coordination = 'ZB'
+        markers = ['v'] * len(summed_x.columns)
+        colors = plt.cm.Oranges(np.linspace(0.1, 0.9, len(summed_x.columns)))
+    elif '3_Square_Planar_TN' in os.getcwd():
+        coordination = 'TN'
+        markers = ['s'] * len(summed_x.columns)
+        colors = plt.cm.Greens(np.linspace(0.1, 0.9, len(summed_x.columns)))
+    elif '4_Square_Planar_33' in os.getcwd():
+        coordination = '33'
+        markers = ['s'] * len(summed_x.columns)
+        colors = plt.cm.Blues(np.linspace(0.1, 0.9, len(summed_x.columns)))
+    elif '5_Octahedral_RS' in os.getcwd():
+        coordination = 'RS'
+        markers = ['o'] * len(summed_x.columns)
+        colors = plt.cm.Purples(np.linspace(0.1, 0.9, len(summed_x.columns)))        
+            
+    for i, col_name in enumerate(summed_x.columns):
         X_values = summed_x[col_name].values
         Y_values = summed_y[col_name].values
         mask = ~np.isnan(X_values) & ~np.isnan(Y_values)
@@ -36,7 +57,7 @@ def line_fitting(xfiles, yfiles, xlabel, ylabel, png_filename, tsv_filename):
         Y_values = Y_values[mask]
         XX_values = np.concatenate((XX_values, X_values))
         YY_values = np.concatenate((YY_values, Y_values))
-        plt.scatter(X_values, Y_values, label=col_name)
+        plt.scatter(X_values, Y_values, color=colors[i], marker=markers[i], label=col_name)
         
     A = np.vstack([XX_values, np.ones(len(XX_values))]).T
     coeffs, residuals, rank, s = np.linalg.lstsq(A, YY_values, rcond=None)
