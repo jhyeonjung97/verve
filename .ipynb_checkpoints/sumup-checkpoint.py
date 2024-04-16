@@ -29,7 +29,6 @@ def line_fitting(xfiles, yfiles, xlabel, ylabel, png_filename, tsv_filename):
     num_rows, num_cols = summed_x.shape
     
     for col_name in summed_x.columns:
-        print(col_name)
         X_values = summed_x[col_name].values
         Y_values = summed_y[col_name].values
         XX_values = np.concatenate((XX_values, X_values))
@@ -92,4 +91,5 @@ if __name__ == "__main__":
     else:
         png_filename = f"linear_{output}.png"
         tsv_filename = f"linear_{output}.tsv"
+    print(xfiles, yfiles, xlabel, ylabel, png_filename, tsv_filename)
     line_fitting(xfiles, yfiles, xlabel, ylabel, png_filename, tsv_filename)
