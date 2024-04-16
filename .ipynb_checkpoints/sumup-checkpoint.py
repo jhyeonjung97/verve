@@ -36,6 +36,8 @@ def line_fitting(xfiles, yfiles, xlabel, ylabel, png_filename, tsv_filename):
         plt.scatter(X_values, Y_values, label=col_name)
         
     A = np.vstack([XX_values, np.ones(len(XX_values))]).T
+    print(A)
+    print(YY_values)
     coeffs, residuals, rank, s = np.linalg.lstsq(A, YY_values, rcond=None)
     a, b = coeffs
     xx = np.linspace(np.min(XX_values), np.max(XX_values), 1000)
@@ -91,5 +93,4 @@ if __name__ == "__main__":
     else:
         png_filename = f"linear_{output}.png"
         tsv_filename = f"linear_{output}.tsv"
-    print(xfiles, yfiles, xlabel, ylabel, png_filename, tsv_filename)
     line_fitting(xfiles, yfiles, xlabel, ylabel, png_filename, tsv_filename)
