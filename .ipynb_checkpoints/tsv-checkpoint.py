@@ -60,6 +60,7 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, a
         df.columns = labels[j] if isinstance(labels[j], list) else [labels[j]]
         merged_df = pd.concat([merged_df, df], axis=1)
 
+    print(merged_df.columns)
     for j, column in enumerate(merged_df.columns):
         filtered_x = []
         filtered_values = []
