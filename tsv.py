@@ -73,7 +73,7 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, a
         if not filtered_values:
             print(f"No values found for pattern: {column}")
             continue
-        print(j)
+        print(j, column)
         plt.plot(filtered_x, filtered_values, marker=markers[j], color=colors[j], label=column)
     
     if 'hexa_ratio' in df.columns:
