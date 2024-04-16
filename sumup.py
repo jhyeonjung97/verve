@@ -31,13 +31,14 @@ def line_fitting(xfiles, yfiles, xlabel, ylabel, png_filename, tsv_filename):
     for col_name in summed_x.columns:
         X_values = summed_x[col_name].values
         Y_values = summed_y[col_name].values
+        mask = ~np.isnan(X_values) & ~np.isnan(Y_values)
+        X_values = X_values[mask]
+        Y_values = Y_values[mask]
         XX_values = np.concatenate((XX_values, X_values))
         YY_values = np.concatenate((YY_values, Y_values))
         plt.scatter(X_values, Y_values, label=col_name)
         
     A = np.vstack([XX_values, np.ones(len(XX_values))]).T
-    print(A)
-    print(YY_values)
     coeffs, residuals, rank, s = np.linalg.lstsq(A, YY_values, rcond=None)
     a, b = coeffs
     xx = np.linspace(np.min(XX_values), np.max(XX_values), 1000)
