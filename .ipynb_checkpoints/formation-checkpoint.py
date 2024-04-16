@@ -35,8 +35,8 @@ nist = {
     }
 
 exp_path = '/pscratch/sd/j/jiuy97/3_V_shape/monoxides.tsv'
-metal_path = '/pscratch/sd/j/jiuy97/3_V_shape/metal/0_min/energy_norm_energy.tsv'
-oxide_path = '/pscratch/sd/j/jiuy97/3_V_shape/oxide/0_min/energy_norm_energy.tsv'
+metal_path = '/pscratch/sd/j/jiuy97/3_V_shape/metal/0_min/energy_norm.tsv'
+oxide_path = '/pscratch/sd/j/jiuy97/3_V_shape/oxide/0_min/energy_norm.tsv'
 path = '/pscratch/sd/j/jiuy97/3_V_shape/metal/merged_norm_energy.tsv'
 
 exp_df = pd.read_csv(exp_path, delimiter='\t')
@@ -52,35 +52,36 @@ df.index = metal_rows['3d']
 min_values = df.iloc[:, :3].min(axis=1)
 df = df.iloc[:, 3:]
 
-# E_O2 = -8.7702210 # eV, DFT
-# TS_O2 = 0.635139 # eV, at 298.15 K, 1 atm
-# ZPE_O2 = 0.096279 # eV, at 298.15 K, 1 atm
-# E_oxygen = E_O2 /2
-# G_oxygen = (E_O2 - TS_O2 + ZPE_O2) / 2
+E_O2 = -8.7702210 # eV, DFT
+TS_O2 = 0.635139 # eV, at 298.15 K, 1 atm
+ZPE_O2 = 0.096279 # eV, at 298.15 K, 1 atm
+E_oxygen = E_O2 /2
+G_oxygen = (E_O2 - TS_O2 + ZPE_O2) / 2
 
-E_H2O = -14.23919983
-E_H2 = -6.77409008
+# E_H2O = -14.23919983
+# E_H2 = -6.77409008
 
-ZPE_H2O = 0.558 #NIST
-ZPE_H2 = 0.273 #NIST
+# ZPE_H2O = 0.558 #NIST
+# ZPE_H2 = 0.273 #NIST
 
-Cp_H2O = 0.10 #NIST
-Cp_H2 = 0.09 #NIST
+# Cp_H2O = 0.10 #NIST
+# Cp_H2 = 0.09 #NIST
 
-Ref_H2 = E_H2 + ZPE_H2 + Cp_H2
-Ref_H2O = E_H2O + ZPE_H2O + Cp_H2O
-Ref_O = Ref_H2O - Ref_H2 + 2.506  #dH fitting relative to -241.81/kjmol
+# Ref_H2 = E_H2 + ZPE_H2 + Cp_H2
+# Ref_H2O = E_H2O + ZPE_H2O + Cp_H2O
+# Ref_O = Ref_H2O - Ref_H2 + 2.506  #dH fitting relative to -241.81/kjmol
 
 for element, data in nist.items():
-    # data['G_form'] = data['G_form'] / data['M'] / 96.48
-    # data['OtoM'] = data['O'] / data['M']
-    # data['G_oxide'] = oxide_df.loc[element, 'energy'] - oxide_df.loc[element, 'TS'] + oxide_df.loc[element, 'ZPE']
-    # data['G_metal'] = data['G_oxide'] - data['G_form'] - data['OtoM'] * G_oxygen
-    # data['E_metal'] = data['G_metal'] + metal_df.loc[element, 'TS'] - metal_df.loc[element, 'ZPE']
-    data['H_form'] = data['H_form'] / data['M'] / 96.48
+    data['G_form'] = data['G_form'] / data['M'] / 96.48
     data['OtoM'] = data['O'] / data['M']
-    data['E_oxide'] = oxide_df.loc[element, 'energy'] # - oxide_df.loc[element, 'TS'] + oxide_df.loc[element, 'ZPE']
-    data['E_metal'] = data['E_oxide'] - data['H_form'] - data['OtoM'] * Ref_O
+    data['G_oxide'] = oxide_df.loc[element, 'energy'] - oxide_df.loc[element, 'TS'] + oxide_df.loc[element, 'ZPE']
+    data['G_metal'] = data['G_oxide'] - data['G_form'] - data['OtoM'] * G_oxygen
+    data['E_metal'] = data['G_metal'] + metal_df.loc[element, 'TS'] - metal_df.loc[element, 'ZPE']
+    
+    # data['H_form'] = data['H_form'] / data['M'] / 96.48
+    # data['OtoM'] = data['O'] / data['M']
+    # data['E_oxide'] = oxide_df.loc[element, 'energy'] # - oxide_df.loc[element, 'TS'] + oxide_df.loc[element, 'ZPE']
+    # data['E_metal'] = data['E_oxide'] - data['H_form'] - data['OtoM'] * Ref_O
 
 for i, metal in enumerate(metal_rows['3d']):
     if metal in nist:
@@ -96,7 +97,7 @@ else:
 
 for row in metal_rows:
     if metal_rows[row] == energy_df.index.tolist():
-        formation = energy_df.sub(df[row].values, axis=0) - Ref_O
+        formation = energy_df.sub(df[row].values, axis=0) - G_oxygen #Ref_O
         break
 
 plt.figure(figsize=(8, 6))
