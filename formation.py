@@ -35,8 +35,8 @@ nist = {
     }
 
 exp_path = '/pscratch/sd/j/jiuy97/3_V_shape/monoxides.tsv'
-metal_path = '/pscratch/sd/j/jiuy97/3_V_shape/metal/0_min/energy_norm_energy.tsv'
-oxide_path = '/pscratch/sd/j/jiuy97/3_V_shape/oxide/0_min/energy_norm_energy.tsv'
+metal_path = '/pscratch/sd/j/jiuy97/3_V_shape/metal/0_min/energy_norm.tsv'
+oxide_path = '/pscratch/sd/j/jiuy97/3_V_shape/oxide/0_min/energy_norm.tsv'
 path = '/pscratch/sd/j/jiuy97/3_V_shape/metal/merged_norm_energy.tsv'
 
 exp_df = pd.read_csv(exp_path, delimiter='\t')
