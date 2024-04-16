@@ -108,6 +108,8 @@ def main():
         marker = 's'; color = '#279ff2'
     elif '5_Octahedral_RS' in os.getcwd():
         marker = 'o'; color = '#9467bd'
+    else:
+        marker = 'x'; color = 'k'
     
     if any(values_dict.values()):
         plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, filtered_patterns_order, marker, color)
