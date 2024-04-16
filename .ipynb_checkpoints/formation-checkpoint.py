@@ -116,7 +116,7 @@ for j, column in enumerate(formation.columns):
     plt.plot(filtered_x, filtered_values, marker=marker, color=color, label=column)
 
 for i in exp_df.index:
-    if exp_df['row'][i] == row && exp_df['Coordination'][i] == coordination:
+    if exp_df['row'][i] == row and exp_df['Coordination'][i] == coordination:
         # exp_marker = exp_markers.get(exp_df['Coordination'][i], '*')
         # exp_color = exp_colors.get(exp_df['Coordination'][i], '#8a8a8a')
         plt.scatter(exp_df['numb'][i], exp_df['dH_form'][i], 
