@@ -29,15 +29,19 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, a
             coordination = 'ZB'
             markers = ['v'] * len(filenames)
             colors = plt.cm.Oranges(np.linspace(0.1, 0.9, len(filenames)))
-        elif '3_Square_Planar_TN' in os.getcwd():
+        elif '3_Tetragonal_LT' in os.getcwd():
             coordination = 'TN'
             markers = ['s'] * len(filenames)
             colors = plt.cm.Greens(np.linspace(0.1, 0.9, len(filenames)))
-        elif '4_Square_Planar_33' in os.getcwd():
+        elif '4_Square_Planar_TN' in os.getcwd():
+            coordination = 'TN'
+            markers = ['s'] * len(filenames)
+            colors = plt.cm.Greens(np.linspace(0.1, 0.9, len(filenames)))
+        elif '5_Square_Planar_33' in os.getcwd():
             coordination = '33'
             markers = ['s'] * len(filenames)
             colors = plt.cm.Blues(np.linspace(0.1, 0.9, len(filenames)))
-        elif '5_Octahedral_RS' in os.getcwd():
+        elif '6_Octahedral_RS' in os.getcwd():
             coordination = 'RS'
             markers = ['o'] * len(filenames)
             colors = plt.cm.Purples(np.linspace(0.1, 0.9, len(filenames)))        
