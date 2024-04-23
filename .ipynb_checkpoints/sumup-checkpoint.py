@@ -37,15 +37,19 @@ def line_fitting(xfiles, yfiles, xlabel, ylabel, png_filename, tsv_filename):
         coordination = 'ZB'
         markers = ['v'] * len(summed_x.columns)
         colors = plt.cm.Oranges(np.linspace(0.1, 0.9, len(summed_x.columns)))
-    elif '3_Square_Planar_TN' in os.getcwd():
+    elif '3_Tetragonal_LT' in os.getcwd():
+        coordination = 'TN'
+        markers = ['^'] * len(summed_x.columns)
+        colors = plt.cm.Wistia(np.linspace(0.1, 0.9, len(summed_x.columns)))
+    elif '4_Square_Planar_TN' in os.getcwd():
         coordination = 'TN'
         markers = ['s'] * len(summed_x.columns)
         colors = plt.cm.Greens(np.linspace(0.1, 0.9, len(summed_x.columns)))
-    elif '4_Square_Planar_33' in os.getcwd():
+    elif '5_Square_Planar_33' in os.getcwd():
         coordination = '33'
         markers = ['s'] * len(summed_x.columns)
         colors = plt.cm.Blues(np.linspace(0.1, 0.9, len(summed_x.columns)))
-    elif '5_Octahedral_RS' in os.getcwd():
+    elif '6_Octahedral_RS' in os.getcwd():
         coordination = 'RS'
         markers = ['o'] * len(summed_x.columns)
         colors = plt.cm.Purples(np.linspace(0.1, 0.9, len(summed_x.columns)))        
