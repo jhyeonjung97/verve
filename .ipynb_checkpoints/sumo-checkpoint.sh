@@ -15,7 +15,7 @@ sumo-dosplot \
     --width 12 \
     --height 6 \
     --elements Zn \
-    --yscale 4 \
+    --yscale 1 \
     --zero-line \
     --prefix $prefix \
     --xmin -6 \
