@@ -13,14 +13,12 @@ sumo-dosplot \
     --dpi 100 \
     --column 1 \
     --width 12 \
-    --height 6 \
-    --elements Zn.d \
-    --orbitals Zn.d \
-    --atoms Zn.1 \
+    --height 12 \
+    --elements Zn \
     --yscale 2 \
     --zero-line \
     --prefix $prefix \
-    --xmin -10 \
-    --xmax 10
+    --xmin -6 \
+    --xmax 3
     
 
