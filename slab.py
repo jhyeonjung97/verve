@@ -8,6 +8,7 @@ from ase.io.vasp import read_vasp_xdatcar, write_vasp_xdatcar
 
 parser = argparse.ArgumentParser(description='Command-line options example')
 parser.add_argument('filename', type=str, default='', help='input filename (e.g., a for a1~a3.vasp, OR you can type POSCAR, CONTCAR, XDATCAR)')
+parser.add_argument('-t', '--type', type=str, default='vasp')
 parser.add_argument('-a', '--add', type=float, default=0)
 parser.add_argument('-z', '--height', type=float, default=None)
 parser.add_argument('-f', '--fix', action='store_true', default=False)
@@ -19,20 +20,22 @@ parser.add_argument('-r', '--repeat', type=str, default='1,1,1')
 
 args = parser.parse_args()
 filename = args.filename
-height = args.height
+type = args.type
+
 add = args.add
+height = args.height
 
 facet = args.facet
 repeat = args.repeat
 x, y, z = map(int, facet.split(','))
 a, b, c = map(int, repeat.split(','))
 
-pattern = os.path.join('./', f'{filename}*.vasp')
+pattern = os.path.join('./', f'{filename}*.{type}')
 matching_files = glob.glob(pattern)
 for file in matching_files:
     atoms = read(f'{file}')
-    # l = atoms.cell.lengths()[2]
-    # atoms.positions += (0, 0, -l/4)
+    l = atoms.cell.lengths()[2]
+    atoms.positions += (0, 0, -l/4)
     if repeat:
         atoms = atoms.repeat((a,b,c))
     if args.wrap:
