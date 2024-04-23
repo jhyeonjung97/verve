@@ -17,8 +17,8 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, a
     
     if row:
         indice = metal_rows[row]
-        markers = ['v', 'v', 's', 's', 'o']
-        colors = ['#d62728', '#ff7f0e', '#2ca02c', '#279ff2', '#9467bd']
+        markers = ['v', 'v', '^', 's', 's', 'o']
+        colors = ['#d62728', '#ff7f0e', '#ffd70e', '#2ca02c', '#279ff2', '#9467bd']
     else:
         indice = [f'{a}\n{b}\n{c}' for a, b, c in zip(metal_rows['3d'], metal_rows['4d'], metal_rows['5d'])]
         if '1_Tetrahedral_WZ' in os.getcwd():
