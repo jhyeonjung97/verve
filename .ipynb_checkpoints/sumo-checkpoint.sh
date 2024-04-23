@@ -14,10 +14,9 @@ sumo-dosplot \
     --column 1 \
     --width 12 \
     --height 6 \
-    --elements Co.d \
-    --orbitals Co.d \
-    --atoms Co.1 \
-    --no-total \
+    --elements Zn.d \
+    --orbitals Zn.d \
+    --atoms Zn.1 \
     --yscale 2 \
     --zero-line \
     --prefix $prefix \
