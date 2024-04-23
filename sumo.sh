@@ -13,9 +13,9 @@ sumo-dosplot \
     --dpi 100 \
     --column 1 \
     --width 12 \
-    --height 12 \
+    --height 6 \
     --elements Zn \
-    --yscale 2 \
+    --yscale 4 \
     --zero-line \
     --prefix $prefix \
     --xmin -6 \
