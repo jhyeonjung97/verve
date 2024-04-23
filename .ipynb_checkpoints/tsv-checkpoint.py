@@ -32,7 +32,7 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, a
         elif '3_Tetragonal_LT' in os.getcwd():
             coordination = 'LT'
             markers = ['^'] * len(filenames)
-            colors = plt.cm.Greens(np.linspace(0.1, 0.9, len(filenames)))
+            colors = plt.cm.Yellows(np.linspace(0.1, 0.9, len(filenames)))
         elif '4_Square_Planar_TN' in os.getcwd():
             coordination = 'TN'
             markers = ['s'] * len(filenames)
