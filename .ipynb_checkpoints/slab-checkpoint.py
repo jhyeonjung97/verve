@@ -40,10 +40,6 @@ for file in matching_files:
         atoms = atoms.repeat((a,b,c))
     if args.wrap:
         atoms.wrap()
-    if args.center:
-        atoms.center()
-    if args.sort:
-        atoms = sort(atoms)
     if add:
         l1 = atoms.cell.lengths()[0]
         l2 = atoms.cell.lengths()[1]
@@ -66,4 +62,8 @@ for file in matching_files:
         mid_z = (min_z + max_z) / 2
         fixed = FixAtoms(indices=[atom.index for atom in atoms if atom.position[2] < mid_z])
         atoms.set_constraint(fixed)
+    if args.center:
+        atoms.center()
+    if args.sort:
+        atoms = sort(atoms)
     write(f'{file}',atoms)
