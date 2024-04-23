@@ -53,6 +53,9 @@ alias static='sh ~/bin/verve/static.sh'
 alias phonon='sh ~/bin/verve/phonon.sh'
 alias lobin='sh ~/bin/verve/lobin.sh'
 alias mpi='python ~/bin/verve/mpi.py'
+alias gather='sh ~/bin/verve/gather.sh'
+alias rename='sh ~/bin/verve/rename.sh'
+alias slab='python ~/bin/verve/slab.py'
 
 # Analysis
 alias dp='display'
