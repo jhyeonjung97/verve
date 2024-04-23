@@ -14,14 +14,18 @@ mv c*.json 3d
 mv d*.json 4d
 mv e*.json 5d
 
-numbs=['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+numbs=('00' '01' '02' '03' '04' '05' '06' '07' '08' '09' '10' '11' '12')
 
 for dir in */
 do
     cd $dir
-        for numb in numbs
+    echo $dir
+    for numb in ${numbs[@]}
+    do
+        for sub_dir in $numb*/
         do
-            mv *"$numb".json "$numb"*/restart.json
+            mv *$numb.json "$sub_dir"restart.json
         done
+    done
     cd $dir_now
 done
