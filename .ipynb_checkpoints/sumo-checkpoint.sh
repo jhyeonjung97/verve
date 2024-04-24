@@ -18,6 +18,7 @@ sumo-dosplot \
     --zero-line \
     --prefix $prefix \
     --xmin -6 \
-    --xmax 3
+    --xmax 3 \
+    --gaussian 0.2
     
 
