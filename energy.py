@@ -10,6 +10,8 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 
+print(f"\033[92m{os.getcwd()}\033[0m")
+    
 def get_parser():
     parser = argparse.ArgumentParser()
     parser.add_argument('-d', '--dir-range', type=str, default=None, help='Range of directories to investigate, e.g., "3,6"')
@@ -43,8 +45,8 @@ def main():
     ref = args.ref
     if args.all:
         patterns = {'PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
-                    'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung', 'Madelung_M', 'Madelung_L',
-                    'ICOHP', 'ICOBI', 'mag', 'chg', 'GP', 'bond', 'hexa', 'volume'}
+                    'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung', 'ICOHP', 'ICOBI', 
+                    'mag', 'chg', 'GP', 'bond', 'ZPE', 'TS', 'hexa', 'volume'}
     else:
         patterns = set(args.patterns)
     if 'Madelung' in patterns:
@@ -56,9 +58,20 @@ def main():
     if 'Madelung_L' in patterns:
         patterns.discard('Madelung_L')
         patterns.add('Madelung_Loewdin')
+    if 'GP' in patterns:
+        patterns.discard('GP')
+        patterns.update(['GP_Mulliken', 'GP_Loewdin'])
+    if 'GP_M' in patterns:
+        patterns.discard('GP_M')
+        patterns.add('GP_Mulliken')
+    if 'GP_L' in patterns:
+        patterns.discard('GP_L')
+        patterns.add('GP_Loewdin')
     if 'hexa' in patterns:
         patterns.discard('hexa')
         patterns.add('hexa_ratio')
+    if 'ZPE' in patterns:
+        patterns.add('TS')
     if not args.total:
         patterns.discard('TOTEN')
     original_patterns = patterns.copy()
@@ -77,17 +90,38 @@ def main():
     values_dict, dir_names = extract_values(directory, patterns, norm, dir_range=args.dir_range)
     values_dict = selected_values(values_dict, symbols)
     values_dict = adjust_values(values_dict, ref, norm)
+
+    patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
+                      'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'energy', 'Madelung_Mulliken', 'Madelung_Loewdin', 
+                      'ICOHP', 'ICOBI', 'bond', 'ZPE', 'TS', 'hexa_ratio', 'volume',
+                      'GP_Mulliken_M', 'GP_Mulliken_O', 'GP_Loewdin_M', 'GP_Loewdin_O',
+                      'mag_M', 'mag_O', 'chg_M', 'chg_O']
+    filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
+
+    if '1_Tetrahedral_WZ' in os.getcwd():
+        marker = 'v'; color = '#d62728'
+    elif '2_Tetrahedral_ZB' in os.getcwd():
+        marker = 'v'; color = '#ff7f0e'
+    elif '3_Square_Planar_TN' in os.getcwd():
+        marker = 's'; color = '#2ca02c'
+    elif '4_Square_Planar_33' in os.getcwd():
+        marker = 's'; color = '#279ff2'
+    elif '5_Octahedral_RS' in os.getcwd():
+        marker = 'o'; color = '#9467bd'
+    else:
+        marker = 'x'; color = 'k'
     
     if any(values_dict.values()):
-        plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename)
+        plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, filtered_patterns_order, marker, color)
         if args.individual:
-            plot_separately(values_dict, dir_names, xlabel, ylabel, save, filename)
+            plot_separately(values_dict, dir_names, xlabel, ylabel, save, filename, marker, color)
     else:
-        raise ValueError('No values found for the given patterns.')
+        print('No values found for the given patterns.')
+        exit(1)
     if args.line:
-        line_fitting(original_patterns, values_dict, dir_names, xlabel, ylabel, save, filename)
+        line_fitting(original_patterns, values_dict, dir_names, xlabel, ylabel, save, filename, filtered_patterns_order)
     elif args.plane:
-        plane_fitting(original_patterns, values_dict, dir_names, xlabel, ylabel, save, filename)
+        plane_fitting(original_patterns, values_dict, dir_names, xlabel, ylabel, save, filename, filtered_patterns_order)
 
 def extract_values(directory, patterns, norm, dir_range):
     """Extract the last values for the given patterns from OUTCAR files in the given directories, sorted numerically."""
@@ -109,8 +143,8 @@ def extract_values(directory, patterns, norm, dir_range):
     dir_names = []
     
     specific_patterns = set()
-    for pattern in ['Madelung_Mulliken', 'Madelung_Loewdin', 'ICOHP', 'ICOBI', 'GP', 
-                    'hexa_ratio', 'volume', 'bond', 'energy', 'metals', 'mag', 'chg']:
+    for pattern in ['Madelung_Mulliken', 'Madelung_Loewdin', 'GP_Mulliken', 'GP_Loewdin', 'ICOHP', 'ICOBI', 
+                    'hexa_ratio', 'volume', 'bond', 'energy', 'metals', 'mag', 'chg', 'ZPE', 'TS']:
         if pattern in patterns:
             patterns.discard(pattern)
             specific_patterns.add(pattern)            
@@ -129,16 +163,20 @@ def extract_values(directory, patterns, norm, dir_range):
         dir_path = os.path.join(directory, dir_name)
         trimmed_dir_name = dir_name.split('_')[1]
         dir_names.append(trimmed_dir_name)
-        
+            
         atoms=None
         in_charge_section = False
         pattern_A = os.path.join(dir_path, 'final*static*traj')
-        pattern_B = os.path.join(dir_path, 'final*opt*traj')
-        pattern_C = os.path.join(dir_path, '*json')
-        matching_files_A = glob.glob(pattern_A)
-        matching_files_B = glob.glob(pattern_B)
-        matching_files_C = glob.glob(pattern_C)
-        matching_files = matching_files_A + matching_files_B + matching_files_C
+        pattern_B = os.path.join(dir_path, 'final*opt*2*traj')
+        pattern_C = os.path.join(dir_path, 'final*opt*3*traj')
+        pattern_D = os.path.join(dir_path, '*json')
+
+        matching_files = []
+        for pattern in [pattern_A, pattern_B, pattern_C, pattern_D]:
+            matching_files.extend(glob.glob(pattern))
+            if matching_files:
+                break
+
         for traj_file in matching_files:
             if os.path.exists(traj_file):
                 atoms = read(traj_file)
@@ -157,10 +195,11 @@ def extract_values(directory, patterns, norm, dir_range):
             print(f'No atomic structure data in {dir_path}')
         # else:
         #     picked_atoms = atoms
+            
         zvals =[]
         titels =[]
         potcar_path = os.path.join(dir_path, 'POTCAR')
-        if os.path.exists(potcar_path):
+        if os.path.exists(potcar_path) and os.path.getsize(potcar_path) != 0:
             for line in open(potcar_path, 'r'):
                 match_zval = re.search(r'POMASS\s*=\s*([0-9.]+);\s*ZVAL\s*=\s*([0-9.]+)', line)
                 match_titel = re.search(r'TITEL  = PAW_PBE\s+([A-Za-z0-9_]+)\s+\d{2}[A-Za-z]{3}\d{4}', line)
@@ -169,10 +208,33 @@ def extract_values(directory, patterns, norm, dir_range):
                 if match_titel:
                     titels.append(match_titel.group(1).rsplit('_', 1)[0])
             zval_dict = dict(zip(titels, zvals))
-                        
+
+        if 'x' in dir_name:
+            for specific_pattern in specific_patterns:
+                if specific_pattern not in ['GP', 'mag']:
+                    values.setdefault(specific_pattern, []).append(np.nan)
+            if 'GP_Mulliken' in specific_patterns:
+                values.setdefault('GP_Mulliken_M', []).append(np.nan)
+                values.setdefault('GP_Mulliken_O', []).append(np.nan)
+            if 'GP_Loewdin' in specific_patterns:
+                values.setdefault('GP_Loewdin_M', []).append(np.nan)
+                values.setdefault('GP_Loewdin_O', []).append(np.nan)
+            if 'ZPE' in specific_patterns:
+                values.setdefault('TS', []).append(np.nan)
+            if 'mag' in specific_patterns:
+                values.setdefault('mag_M', []).append(np.nan)
+                values.setdefault('mag_O', []).append(np.nan)
+            if 'chg' in specific_patterns:
+                values.setdefault('chg_M', []).append(np.nan)
+                values.setdefault('chg_O', []).append(np.nan)
+            if patterns:
+                for pattern in patterns:
+                    values[pattern].append(np.nan)
+            continue
+        
         if 'Madelung_Mulliken' in specific_patterns or 'Madelung_Loewdin' in specific_patterns:
             madelung_path = os.path.join(dir_path, 'MadelungEnergies.lobster')
-            if os.path.exists(madelung_path):
+            if os.path.exists(madelung_path) and os.path.getsize(madelung_path) != 0:
                 with open(madelung_path, 'r') as file:
                     lines = file.readlines()
                 for line in reversed(lines):
@@ -183,60 +245,100 @@ def extract_values(directory, patterns, norm, dir_range):
                         if 'Madelung_Loewdin' in specific_patterns:
                             values.setdefault('Madelung_Loewdin', []).append(float(match.group(2))/norm_numb)
                         break
-        if 'GP' in specific_patterns:
-            i = numb - 1
+        if 'GP_Mulliken' in specific_patterns or 'GP_Loewdin' in specific_patterns:
             gp_path = os.path.join(dir_path, 'GROSSPOP.lobster')
-            if os.path.exists(gp_path):
+            if os.path.exists(gp_path) and os.path.getsize(gp_path) != 0:
+                O_GP_Mulliken, O_GP_Loewdin, M_GP_Mulliken, M_GP_Loewdin = [], [], [], []
                 for line in open(gp_path, 'r'):
-                    match = re.search(r'\s*total\s+([0-9.]+)\s+([0-9.]+)', line)
-                    if match:
-                        symbol = atoms[i].symbol
+                    match1 = re.search(r"\d+\s+([A-Za-z]+)\s+", line)
+                    match2 = re.search(r'\s*total\s+([0-9.]+)\s+([0-9.]+)', line)
+                    if match1:
+                        symbol = match1.group(1)
+                    elif match2:
                         zval = zval_dict[symbol]
-                        if symbol == 'O':   
-                            values.setdefault('GP_Mulliken_O'+str(i), []).append(zval-float(match.group(1)))
-                            values.setdefault('GP_Loewdin_O'+str(i), []).append(zval-float(match.group(2)))
+                        if symbol == 'O':
+                            O_GP_Mulliken.append(zval-float(match2.group(1)))
+                            O_GP_Loewdin.append(zval-float(match2.group(2)))
                         else:
-                            values.setdefault('GP_Mulliken_M'+str(i), []).append(zval-float(match.group(1)))
-                            values.setdefault('GP_Loewdin_M'+str(i), []).append(zval-float(match.group(2)))
-                        if i != 0: i -= 1
-                        else: break
+                            M_GP_Mulliken.append(zval-float(match2.group(1)))
+                            M_GP_Loewdin.append(zval-float(match2.group(2)))
+                GP_Mulliken_O = sum(O_GP_Mulliken) / len(O_GP_Mulliken) if values else np.nan
+                GP_Loewdin_O = sum(O_GP_Loewdin) / len(O_GP_Loewdin) if values else np.nan
+                GP_Mulliken_M = sum(M_GP_Mulliken) / len(M_GP_Mulliken) if values else np.nan
+                GP_Loewdin_M = sum(M_GP_Loewdin) / len(M_GP_Loewdin) if values else np.nan
+                if 'GP_Mulliken' in specific_patterns:
+                    values.setdefault('GP_Mulliken_O', []).append(GP_Mulliken_O)
+                    values.setdefault('GP_Mulliken_M', []).append(GP_Mulliken_M)
+                elif 'GP_Loewdin' in specific_patterns:
+                    values.setdefault('GP_Loewdin_O', []).append(GP_Loewdin_O)
+                    values.setdefault('GP_Loewdin_M', []).append(GP_Loewdin_M)
+            else:
+                if 'GP_Mulliken' in specific_patterns:
+                    values.setdefault('GP_Mulliken_O', []).append(np.nan)
+                    values.setdefault('GP_Mulliken_M', []).append(np.nan)
+                elif 'GP_Loewdin' in specific_patterns:
+                    values.setdefault('GP_Loewdin_O', []).append(np.nan)
+                    values.setdefault('GP_Loewdin_M', []).append(np.nan)
+        
         if 'ICOHP' in specific_patterns:
             ICOHP_path = os.path.join(dir_path, 'icohp.txt')
             if not os.path.exists(ICOHP_path):
                 subprocess.call('python ~/bin/playground/aloha/cohp.py > icohp.txt', shell=True, cwd=dir_path)
-            if os.path.exists(ICOHP_path):
+            if os.path.exists(ICOHP_path) and os.path.getsize(ICOHP_path) != 0:
                 for line in open(ICOHP_path, 'r'):
                     match = re.search(r'-ICOHP sum:(\s*)([0-9.]+)', line)
                     if match:
                         values.setdefault('ICOHP', []).append(-float(match.group(2)))
                         break
+            else:
+                values.setdefault('ICOHP', []).append(np.nan)
         if 'ICOBI' in specific_patterns:
             ICOBI_path = os.path.join(dir_path, 'icobi.txt')
             if not os.path.exists(ICOBI_path):
                 subprocess.call('python ~/bin/playground/aloha/cobi.py > icobi.txt', shell=True, cwd=dir_path)
-            if os.path.exists(ICOBI_path):
+            if os.path.exists(ICOBI_path) and os.path.getsize(ICOBI_path) != 0:
                 for line in open(ICOBI_path, 'r'):
                     match = re.search(r'ICOBI avg:([0-9.]+)', line)
                     if match:
                         values.setdefault('ICOBI', []).append(float(match.group(1)))
                         break
+            else:
+                values.setdefault('ICOBI', []).append(np.nan)
         if 'bond' in specific_patterns:
             bond_length = 0
             ICOHP_path = os.path.join(dir_path, 'icohp.txt')
             if not os.path.exists(ICOHP_path):
                 subprocess.call('python ~/bin/playground/aloha/cohp.py > icohp.txt', shell=True, cwd=dir_path)
-            if os.path.exists(ICOHP_path):
+            if os.path.exists(ICOHP_path) and os.path.getsize(ICOHP_path) != 0:
                 with open(ICOHP_path, 'r') as file:
                     for line in file:
                         match = re.search(r'\b\d+\s+\w+\s+\d+\s+\w+\s+\d+\s+\S+\s+[\d.]+\s+([\d.]+)$', line)
                         if match:
                             bond_length += float(match.group(1))
                 values.setdefault('bond', []).append(bond_length)
+            else:
+                values.setdefault('bond', []).append(np.nan)
+        if 'ZPE' in specific_patterns:
+            ZPE_dir = os.path.join(dir_path, 'zpe/')
+            ZPE_path = os.path.join(dir_path, 'zpe.txt')
+            subprocess.call('vaspkit -task 501 > ../zpe.txt', shell=True, cwd=ZPE_dir)
+            if os.path.exists(ZPE_path) and os.path.getsize(ZPE_path) != 0:
+                with open(ZPE_path, 'r') as file:
+                    for line in file:
+                        match1 = re.search(r'Zero-point energy E_ZPE\s*:\s*\d+\.\d+\s*kcal/mol\s*(\d+\.\d+)\s*eV', line)
+                        match2 = re.search(r'Entropy contribution T\*S\s*:\s*\d+\.\d+\s*J/\(mol\)\s*(\d+\.\d+)\s*eV', line)
+                        if match1:
+                            values.setdefault('ZPE', []).append(float(match1.group(1))/norm_numb)
+                        if match2:
+                            values.setdefault('TS', []).append(float(match2.group(1))/norm_numb)
+            else:
+                values.setdefault('ZPE', []).append(np.nan)
+                values.setdefault('TS', []).append(np.nan)
         if 'hexa_ratio' in specific_patterns:
             cif_path = os.path.join(dir_path, 'lattice.cif')
             if not os.path.exists(cif_path):
                 subprocess.call('ase convert CONTCAR lattice.cif', shell=True, cwd=dir_path)
-            if os.path.exists(cif_path):
+            if os.path.exists(cif_path) and os.path.getsize(cif_path) != 0:
                 for line in open(cif_path, 'r'):
                     match_a = re.search(r'_cell_length_a\s+([\d.]+)', line)
                     match_c = re.search(r'_cell_length_c\s+([\d.]+)', line)
@@ -257,35 +359,39 @@ def extract_values(directory, patterns, norm, dir_range):
                 values.setdefault('energy', []).append(np.nan)
         if 'mag' in specific_patterns:
             if atoms:
-                M_up, M_down, O_up, O_down = [], [], [], []
-                
-                for i, atom in enumerate(atoms):
-                    magmom = atoms.get_magnetic_moments()[i]
+                O_mag, M_mag = [], []
+                for j, atom in enumerate(atoms):
                     if atom.symbol == 'O':
-                        (O_up if magmom > 0 else O_down).append(magmom)
+                        O_mag.append(abs(atoms.get_magnetic_moments()[j]))
                     else:
-                        (M_up if magmom > 0 else M_down).append(magmom)
-                        
-                mag_M_up = sum(M_up) / len(M_up) if M_up else 0.0
-                mag_M_down = sum(M_down) / len(M_down) if M_down else 0.0
-                mag_O_up = sum(O_up) / len(O_up) if O_up else 0.0
-                mag_O_down = sum(O_down) / len(O_down) if O_down else 0.0
-                
-                values.setdefault('mag_M_up', []).append(mag_M_up)
-                values.setdefault('mag_M_down', []).append(mag_M_down)
-                values.setdefault('mag_O_up', []).append(mag_O_up)
-                values.setdefault('mag_O_down', []).append(mag_O_down)
+                        M_mag.append(abs(atoms.get_magnetic_moments()[j]))
+                values.setdefault('mag_M', []).append(np.mean(M_mag) if M_mag else np.nan)
+                values.setdefault('mag_O', []).append(np.mean(O_mag) if O_mag else np.nan)
             else:
-                values.setdefault('mag_M_up', []).append(np.nan)
-                values.setdefault('mag_M_down', []).append(np.nan)
-                values.setdefault('mag_O_up', []).append(np.nan)
-                values.setdefault('mag_O_down', []).append(np.nan)
-        
+                values.setdefault('mag_M', []).append(np.nan)
+                values.setdefault('mag_O', []).append(np.nan)
+            #         if atom.symbol == 'O':
+            #             (O_up if magmom > 0 else O_down).append(magmom)
+            #         else:
+            #             (M_up if magmom > 0 else M_down).append(magmom)
+            #     mag_M_up = sum(M_up) / len(M_up) if M_up else 0.0
+            #     mag_M_down = sum(M_down) / len(M_down) if M_down else 0.0
+            #     mag_O_up = sum(O_up) / len(O_up) if O_up else 0.0
+            #     mag_O_down = sum(O_down) / len(O_down) if O_down else 0.0
+            #     values.setdefault('mag_M_up', []).append(mag_M_up)
+            #     values.setdefault('mag_O_up', []).append(mag_O_up)
+            #     values.setdefault('mag_M_down', []).append(mag_M_down)
+            #     values.setdefault('mag_O_down', []).append(mag_O_down)
+            # else:
+            #     values.setdefault('mag_M_up', []).append(np.nan)
+            #     values.setdefault('mag_M_down', []).append(np.nan)
+            #     values.setdefault('mag_O_up', []).append(np.nan)
+            #     values.setdefault('mag_O_down', []).append(np.nan)
         if 'chg' in specific_patterns:
             chg_path = os.path.join(dir_path, 'atoms_bader_charge.json')
-            if not os.path.exists(Bader_path):
+            if not os.path.exists(chg_path):
                 subprocess.call('python ~/bin/verve/bader.py', shell=True, cwd=dir_path)
-            if os.path.exists(chg_path):
+            if os.path.exists(chg_path) and os.path.getsize(chg_path) != 0:
                 atoms_chg = read(chg_path)
                 M_chg, O_chg = [], []
                 for atom in atoms_chg:
@@ -325,9 +431,9 @@ def extract_values(directory, patterns, norm, dir_range):
 def adjust_values(values_dict, ref, norm):
     """Subtract the reference value from each pattern's data set."""
     adjusted_values_dict = {}
-    qualitative = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting',
+    quantitives = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting',
                    'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung_Mulliken', 'Madelung_Loewdin',
-                   'ICOHP', 'ICOBI', 'bond', 'hexa_ratio', 'volume']
+                   'ICOHP', 'ICOBI', 'bond', 'ZPE', 'TS', 'hexa_ratio', 'volume']
     if norm == 'm' or norm == 'n':
         norm = 1
     else:
@@ -349,16 +455,17 @@ def adjust_values(values_dict, ref, norm):
     return adjusted_values_dict
 
 def selected_values(values_dict, symbols):
-    keys_to_remove_base = ['mag_M_up', 'mag_M_down', 'mag_O_up', 'mag_O_down', 'chg_M', 'chg_O',
-                           'mag', 'chg', 'Madelung', 'GP']
-    keys_to_remove = [key for key in keys_to_remove_base if not any(sym in key for sym in symbols)]
+    keys_to_remove_base = ['mag_M', 'mag_O', 'chg_M', 'chg_O', 'GP_M', 'GP_O',
+                           'GP_Mulliken_M', 'GP_Loewdin_M', 'GP_Mulliken_O', 'GP_Loewdin_O',
+                           'mag', 'chg', 'GP', 'Madelung']
+    keys_to_remove = [key for key in keys_to_remove_base if not any(f"_{sym}" in key for sym in symbols)]
     
     for key in keys_to_remove:
         values_dict.pop(key, None)
         
     return values_dict
 
-def plot_separately(values_dict, dir_names, xlabel, ylabel, save, filename):
+def plot_separately(values_dict, dir_names, xlabel, ylabel, save, filenam, marker, color):
     """Plot each pattern on its own graph."""
     
     for i, (pattern, values) in enumerate(values_dict.items()):
@@ -372,7 +479,7 @@ def plot_separately(values_dict, dir_names, xlabel, ylabel, save, filename):
             if not np.isnan(v): 
                 x.append(i)
                 filtered_values.append(v)
-        plt.plot(x, values, marker='o', linestyle='-', label=pattern)
+        plt.plot(x, values, marker=marker, color=color, linestyle='-', label=pattern)
         plt.title(f'{pattern} Energy Contribution')
         plt.xlabel(xlabel)
         plt.ylabel(ylabel)
@@ -388,20 +495,16 @@ def plot_separately(values_dict, dir_names, xlabel, ylabel, save, filename):
         else:
             plt.show()
 
-def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename):
+def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, filtered_patterns_order, marker, color):
     plt.figure(figsize=(10, 6))
-
-    patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
-                      'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'energy', 'Madelung_Mulliken', 'Madelung_Loewdin', 
-                      'ICOHP', 'ICOBI', 'GP_Mulliken', 'GP_Loewdin', 'bond', 'hexa_ratio', 'volume',
-                      'mag_M_up', 'mag_M_down', 'mag_O_up', 'mag_O_down', 'chg_M', 'chg_O']
-    filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
-
-    colors = plt.cm.rainbow(np.linspace(0, 1, len(filtered_patterns_order))) 
-    # viridis, magma, plasma, inferno, cividis, mako, rocket, turbo
+    if len(filtered_patterns_order) == 1:
+        colors = [color] * len(filtered_patterns_order)
+    else:
+        colors = plt.cm.rainbow(np.linspace(0, 1, len(filtered_patterns_order))) 
+        # viridis, magma, plasma, inferno, cividis, mako, rocket, turbo
 
     # plt.xticks(np.arange(len(dir_names)), dir_names, rotation='vertical')
-    for pattern, color in zip(filtered_patterns_order, colors):
+    for pattern, clr in zip(filtered_patterns_order, colors):
         values = values_dict.get(pattern, [])
         if all(isinstance(v, tuple) for v in values):
             values = [v[0] for v in values]
@@ -414,10 +517,11 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename):
         if not filtered_values:
             print(f"No values found for pattern: {pattern}")
             continue
-        plt.plot(x, filtered_values, marker='o', label=pattern, color=color)
+        plt.plot(x, filtered_values, marker=marker, color=clr, linestyle='-', label=pattern)
         if pattern == 'hexa_ratio':
-            plt.plot(x, [1.633]*len(x), linestyle=':', label='hexa_ratio0', color=color)
+            plt.plot(x, [1.633]*len(x), linestyle=':', label='hexa_ratio0', color=clr)
 
+    plt.xlim(-0.5, len(dir_names)-0.5)
     plt.xticks(np.arange(len(dir_names)), dir_names, rotation='vertical')
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
@@ -433,22 +537,20 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename):
         plt.gcf().savefig(png_filename, bbox_inches="tight")
         print(f"Figure saved as {png_filename}")
         plt.close()
-        df = pd.DataFrame(values_dict, index=dir_names)
-        # formatted_df = df_transposed.apply(lambda col: col.apply(lambda x: f"{x:.2f}" if isinstance(x, float) else x))
-        df.to_csv(f"{tsv_filename}", sep='\t')        
+        # df = pd.DataFrame(values_dict, index=dir_names)
+        # # formatted_df = df_transposed.apply(lambda col: col.apply(lambda x: f"{x:.2f}" if isinstance(x, float) else x))
+        # df.to_csv(f"{tsv_filename}", sep='\t')    
+
+        filtered_df = pd.DataFrame({k: values_dict[k] for k in filtered_patterns_order}, index=dir_names)
+        filtered_df.to_csv(tsv_filename, sep='\t')        
+        
         print(f"Data saved as {tsv_filename}")
     else:
         plt.show()
         
-def line_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filename):
-    patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
-                      'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'energy', 'Madelung_Mulliken', 'Madelung_Loewdin', 
-                      'ICOHP', 'ICOBI', 'GP_Mulliken', 'GP_Loewdin', 'bond', 'hexa_ratio', 'volume',
-                      'mag_M_up', 'mag_M_down', 'mag_O_up', 'mag_O_down', 'chg_M', 'chg_O']
-    filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
-
+def line_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filename, filtered_patterns_order):
     if len(filtered_patterns_order) < 2:
-        raise ValueError("Not enough valid patterns with data for line fitting.")
+        print('Not enough valid patterns with data for line fitting.')
     
     X = np.array(values_dict[filtered_patterns_order[0]])
     Y = np.array(values_dict[filtered_patterns_order[1]])
@@ -483,15 +585,9 @@ def line_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filenam
     else:
         plt.show()
         
-def plane_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filename):
-    patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
-                      'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'energy', 'Madelung_Mulliken', 'Madelung_Loewdin', 
-                      'ICOHP', 'ICOBI', 'GP_Mulliken', 'GP_Loewdin', 'bond', 'hexa_ratio', 'volume',
-                      'mag_M_up', 'mag_M_down', 'mag_O_up', 'mag_O_down', 'chg_M', 'chg_O']
-    filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
-
+def plane_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filename, filtered_patterns_order):
     if len(filtered_patterns_order) < 3:
-        raise ValueError("Not enough valid patterns with data for plane fitting.")
+        print('Not enough valid patterns with data for plane fitting.')
     
     X = np.array(values_dict[filtered_patterns_order[0]])
     Y = np.array(values_dict[filtered_patterns_order[1]])
@@ -531,4 +627,3 @@ def plane_fitting(patterns, values_dict, dir_names, xlabel, ylabel, save, filena
     
 if __name__ == '__main__':
     main()
-

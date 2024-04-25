@@ -14,14 +14,11 @@ sumo-dosplot \
     --column 1 \
     --width 12 \
     --height 6 \
-    --elements Co.d \
-    --orbitals Co.d \
-    --atoms Co.1 \
-    --no-total \
-    --yscale 2 \
+    --yscale 1 \
     --zero-line \
     --prefix $prefix \
     --xmin -10 \
-    --xmax 10
+    --xmax 6 \
+    --gaussian 0.05
     
 

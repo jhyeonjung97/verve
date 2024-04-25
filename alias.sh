@@ -50,8 +50,12 @@ sed -i "3a\#SBATCH -G 4" submit.sh'
 alias hour='sh ~/bin/verve/hour.sh'
 alias minute='sh ~/bin/verve/minute.sh'
 alias static='sh ~/bin/verve/static.sh'
+alias phonon='sh ~/bin/verve/phonon.sh'
 alias lobin='sh ~/bin/verve/lobin.sh'
 alias mpi='python ~/bin/verve/mpi.py'
+alias gather='sh ~/bin/verve/gather.sh'
+alias rename='sh ~/bin/verve/rename.sh'
+alias slab='python ~/bin/verve/slab.py'
 
 # Analysis
 alias dp='display'
@@ -78,6 +82,9 @@ alias open='sh ~/bin/verve/open.sh'
 alias more='sh ~/bin/verve/more.sh'
 alias tsv='python ~/bin/verve/tsv.py'
 alias atoms='python ~/bin/verve/atoms.py'
+alias time='grep sec OUTCAR'
+alias formation='python ~/bin/verve/formation.py'
+alias png='sh ~/bin/verve/png.sh'
 
 #SSH
 alias hi='sh ~/bin/verve/gits.sh orange shoulder verve tools

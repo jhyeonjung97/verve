@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import sys
+import os
 import argparse
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 
@@ -23,17 +24,45 @@ def line_fitting(xfiles, yfiles, xlabel, ylabel, png_filename, tsv_filename):
         else:
             summed_y += df
 
-    plt.figure()
+    plt.figure(figsize=(8, 6))
     XX_values = np.array([])
     YY_values = np.array([])
     num_rows, num_cols = summed_x.shape
-    
-    for col_name in summed_x.columns:
+
+    if '1_Tetrahedral_WZ' in os.getcwd():
+        coordination = 'WZ'
+        markers = ['v'] * len(summed_x.columns)
+        colors = plt.cm.Reds(np.linspace(0.1, 0.9, len(summed_x.columns)))
+    elif '2_Tetrahedral_ZB' in os.getcwd():
+        coordination = 'ZB'
+        markers = ['v'] * len(summed_x.columns)
+        colors = plt.cm.Oranges(np.linspace(0.1, 0.9, len(summed_x.columns)))
+    elif '3_Tetragonal_LT' in os.getcwd():
+        coordination = 'TN'
+        markers = ['^'] * len(summed_x.columns)
+        colors = plt.cm.Wistia(np.linspace(0.1, 0.9, len(summed_x.columns)))
+    elif '4_Square_Planar_TN' in os.getcwd():
+        coordination = 'TN'
+        markers = ['s'] * len(summed_x.columns)
+        colors = plt.cm.Greens(np.linspace(0.1, 0.9, len(summed_x.columns)))
+    elif '5_Square_Planar_33' in os.getcwd():
+        coordination = '33'
+        markers = ['s'] * len(summed_x.columns)
+        colors = plt.cm.Blues(np.linspace(0.1, 0.9, len(summed_x.columns)))
+    elif '6_Octahedral_RS' in os.getcwd():
+        coordination = 'RS'
+        markers = ['o'] * len(summed_x.columns)
+        colors = plt.cm.Purples(np.linspace(0.1, 0.9, len(summed_x.columns)))        
+            
+    for i, col_name in enumerate(summed_x.columns):
         X_values = summed_x[col_name].values
         Y_values = summed_y[col_name].values
+        mask = ~np.isnan(X_values) & ~np.isnan(Y_values)
+        X_values = X_values[mask]
+        Y_values = Y_values[mask]
         XX_values = np.concatenate((XX_values, X_values))
         YY_values = np.concatenate((YY_values, Y_values))
-        plt.scatter(X_values, Y_values, label=col_name)
+        plt.scatter(X_values, Y_values, color=colors[i], marker=markers[i], label=col_name)
         
     A = np.vstack([XX_values, np.ones(len(XX_values))]).T
     coeffs, residuals, rank, s = np.linalg.lstsq(A, YY_values, rcond=None)
@@ -44,14 +73,15 @@ def line_fitting(xfiles, yfiles, xlabel, ylabel, png_filename, tsv_filename):
     plt.plot(xx, yy, color='black', alpha=0.5)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
+    plt.legend()
     
     YY_pred = a*XX_values + b
     R2 = r2_score(YY_values, YY_pred)
     MAE = mean_absolute_error(YY_values, YY_pred)
     MSE = mean_squared_error(YY_values, YY_pred)
 
-    x_text_margin = np.min(XX_values) + (np.max(XX_values) - np.min(XX_values)) * 0.02
-    y_text_margin = np.max(YY_values) - (np.max(YY_values) - np.min(YY_values)) * 0.05
+    x_text_margin = np.min(XX_values) + (np.max(XX_values) - np.min(XX_values)) * 0.25
+    y_text_margin = np.max(YY_values) - (np.max(YY_values) - np.min(YY_values)) * 0.95
     plt.text(x_text_margin, y_text_margin, 
              f"Y = {a:.3f}X + {b:.3f}\nR^2: {R2:.3f}, MAE: {MAE:.3f}, MSE: {MSE:.3f}", fontsize=9)
     
@@ -73,16 +103,20 @@ if __name__ == "__main__":
     parser.add_argument('-o', '--output', type=str, default=None)
     parser.add_argument('--xlabel', type=str, default='X')
     parser.add_argument('--ylabel', type=str, default='Y')
+    parser.add_argument('--xdata', type=str, default='X')
+    parser.add_argument('--ydata', type=str, default='Y')
     
     args = parser.parse_args()
     xfiles = args.xfiles
     yfiles = args.yfiles
     xlabel = args.xlabel
     ylabel = args.ylabel
+    xdata = args.xdata
+    ydata = args.ydata
     output = args.output
     if not output:
-        png_filename = f"linear_{xlabel}_vs_{ylabel}.png"
-        tsv_filename = f"linear_{xlabel}_vs_{ylabel}.tsv"
+        png_filename = f"linear_{xdata}_vs_{ydata}.png"
+        tsv_filename = f"linear_{xdata}_vs_{ydata}.tsv"
     else:
         png_filename = f"linear_{output}.png"
         tsv_filename = f"linear_{output}.tsv"
