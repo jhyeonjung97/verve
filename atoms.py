@@ -31,7 +31,7 @@ for dir in sorted_dirs:
     
     pattern_A = os.path.join(dir_path, 'final*mnc*traj')
     pattern_B = os.path.join(dir_path, 'final*static*traj')
-    pattern_C = os.path.join(dir_path, 'final*opt*traj')
+    # pattern_C = os.path.join(dir_path, 'final*opt*traj')
     pattern_D = os.path.join(dir_path, '*json')
 
     matching_files = []
