@@ -3,6 +3,6 @@ do
     if [[ "$file" == *.png ]]; then
         display "$file"
     else
-        open "$file"
+        more "$file"
     fi
 done
