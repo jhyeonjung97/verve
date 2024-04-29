@@ -28,7 +28,7 @@ else:
 sorted_dirs = sorted(dirs)
 for dir in sorted_dirs:
     dir_path = os.path.join('.', dir)
-    patterns = ['final*static*traj', 'final*opt*traj', '*json']
+    patterns = ['final*mnc*traj', 'final*static*traj', 'final*opt*traj', '*json']
     matching_files = [file for pattern in patterns for file in glob.glob(os.path.join(dir_path, pattern))]
     
     atoms = None
