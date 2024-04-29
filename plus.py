@@ -10,12 +10,19 @@ def process_files(add_files, subtract_files, output_filename):
     # Process addition files
     for filename in add_files:
         df = pd.read_csv(filename, delimiter='\t')
-        df_result = df if df_result is None else df_result + df
+        if df_result is None:
+            df_result = df
+        else:
+            df_result.iloc[:, 1:] += df.iloc[:, 1:]  # Add values excluding the first column
 
     # Process subtraction files
     for filename in subtract_files:
         df = pd.read_csv(filename, delimiter='\t')
-        df_result = -df if df_result is None else df_result - df
+        if df_result is None:
+            df_result = -df.iloc[:, 1:]  # Subtract values for initialization, excluding the first column
+            df_result.insert(0, df.columns[0], df.iloc[:, 0])  # Add back the first column unchanged
+        else:
+            df_result.iloc[:, 1:] -= df.iloc[:, 1:]  # Subtract values excluding the first column
 
     # Save the processed DataFrame
     if df_result is not None:
@@ -24,8 +31,8 @@ def process_files(add_files, subtract_files, output_filename):
 
 def plot_data(df, output_filename):
     plt.figure(figsize=(10, 6))
-    for column in df.columns:
-        plt.plot(df.index, df[column], marker='o', label=column)
+    for column in df.columns[1:]:  # Skip plotting the first column
+        plt.plot(df.iloc[:, 0], df[column], marker='o', label=column)  # Assuming the first column is a suitable x-axis
     plt.xlabel('Index')
     plt.ylabel('Values')
     plt.title('Data Plot')
