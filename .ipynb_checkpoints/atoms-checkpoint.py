@@ -35,7 +35,7 @@ for dir in sorted_dirs:
     pattern_D = os.path.join(dir_path, '*json')
 
     matching_files = []
-    for pattern in [pattern_A, pattern_B, pattern_C, pattern_D]:
+    for pattern in [pattern_A, pattern_B, pattern_D]:
         matching_files.extend(glob.glob(pattern))
         if matching_files:
             break
