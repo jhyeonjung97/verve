@@ -28,8 +28,17 @@ else:
 sorted_dirs = sorted(dirs)
 for dir in sorted_dirs:
     dir_path = os.path.join('.', dir)
-    patterns = ['final*mnc*traj', 'final*static*traj', 'final*opt*traj', '*json']
-    matching_files = [file for pattern in patterns for file in glob.glob(os.path.join(dir_path, pattern))]
+    
+    pattern_A = os.path.join(dir_path, 'final*mnc*traj')
+    pattern_B = os.path.join(dir_path, 'final*static*traj')
+    pattern_C = os.path.join(dir_path, 'final*opt*traj')
+    pattern_D = os.path.join(dir_path, '*json')
+
+    matching_files = []
+    for pattern in [pattern_A, pattern_B, pattern_C, pattern_D]:
+        matching_files.extend(glob.glob(pattern))
+        if matching_files:
+            break
     
     atoms = None
     for traj_file in matching_files:
