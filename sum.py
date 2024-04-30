@@ -74,15 +74,13 @@ def process_files(add_files, subtract_files, output,
     # Save the processed DataFrame
     if summed_df is not None:
         summed_df.to_csv(f'{output}.tsv', index=False, sep='\t')
+        print(f"Summed data saved to {tsv_filename}")
         plot_data(summed_df, output, xlabel, ylabel, labels, row, a, b, font, markers, colors)
+        print(f"Summed data saved to {png_filename}")
 
 def plot_data(summed_df, output, xlabel, ylabel, labels, row, a, b, font, markers, colors):
     
     plt.figure(figsize=(10, 6))
-
-    print(markers)
-    print(colors)
-    print(summed_df)
         
     for j, column in enumerate(summed_df.columns):
         filtered_x = []
@@ -124,10 +122,7 @@ def plot_data(summed_df, output, xlabel, ylabel, labels, row, a, b, font, marker
                     elif exp_df['row'][i] == '5d':
                         exp_color = colors[4]; exp_marker = markers[4]
                     plt.scatter(exp_df['numb'][i], exp_df['dH_form'][i],
-                                marker=exp_marker, color=exp_color, edgecolors=exp_color, facecolors='white')
-    
-    summed_df.to_csv(tsv_filename, sep='\t')
-    print(f"Merged data saved to {tsv_filename}")
+                                marker=exp_marker, color=exp_color, edgecolors=exp_color, facecolors='white')    
 
     plt.xticks(np.arange(len(indice)), indice, fontsize=fontsize)
     plt.yticks(fontsize=fontsize)
