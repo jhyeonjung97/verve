@@ -25,6 +25,8 @@ def process_files(add_files, subtract_files, output,
     # Process addition files
     for filename in add_files:
         df = pd.read_csv(filename, delimiter='\t')
+        if 'Unnamed: 0' in df.columns:
+            df.rename(columns={'Unnamed: 0': 'ID'}, inplace=True)
         if summed_df is None:
             summed_df = df
         else:
@@ -33,12 +35,13 @@ def process_files(add_files, subtract_files, output,
     # Process subtraction files
     for filename in subtract_files:
         df = pd.read_csv(filename, delimiter='\t')
+        if 'Unnamed: 0' in df.columns:
+            df.rename(columns={'Unnamed: 0': 'ID'}, inplace=True)
         if summed_df is None:
             summed_df = -df  # Subtract values for initialization, excluding the first column
         else:
             summed_df.iloc[:, 1:] -= df.iloc[:, 1:]  # Subtract values excluding the first column
 
-    summed_df[0][0] = np.nan
 
     if row:
         indice = metal_rows[row]
