@@ -73,15 +73,14 @@ def process_files(add_files, subtract_files, output,
             
     # Save the processed DataFrame
     if summed_df is not None:
-        summed_df.to_csv(f'{output}.tsv', index=False, sep='\t')
+        summed_df.to_csv(f'{tsv_filename}', index=False, sep='\t')
         print(f"Summed data saved to {tsv_filename}")
-        plot_data(summed_df, output, xlabel, ylabel, labels, row, a, b, fontsize, markers, colors)
+        plot_data(summed_df, png_filename, xlabel, ylabel, labels, row, a, b, fontsize, markers, colors)
         print(f"Summed data saved to {png_filename}")
 
-def plot_data(summed_df, output, xlabel, ylabel, labels, row, a, b, fontsize, markers, colors):
+def plot_data(summed_df, png_filename, xlabel, ylabel, labels, row, a, b, fontsize, markers, colors):
     
     plt.figure(figsize=(10, 6))
-    print(fontsize)
     for j, column in enumerate(summed_df.columns):
         filtered_x = []
         filtered_values = []
@@ -99,7 +98,7 @@ def plot_data(summed_df, output, xlabel, ylabel, labels, row, a, b, fontsize, ma
     if 'hexa_ratio' in summed_df.columns:
         plt.plot(x, [1.633]*len(x), linestyle=':', label='hexa_ratio0', color='black')
         
-    if 'norm_formation' in output:
+    if 'norm_formation' in png_filename:
         exp_path = '/pscratch/sd/j/jiuy97/3_V_shape/monoxides.tsv'
         exp_df = pd.read_csv(exp_path, delimiter='\t')
         exp_df['dH_form'] = exp_df['dH_form'] / 96.48
