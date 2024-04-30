@@ -83,11 +83,11 @@ def plot_data(df, output_filename, xlabel, ylabel, labels, row, a, b, font, mark
     #     plt.plot(df.iloc[:, 0], df[column], marker=markers[i], color=colors[i], label=column)  
     #     # Assuming the first column is a suitable x-axis
 
-    for j, column in enumerate(merged_df.columns):
+    for j, column in enumerate(summed_df.columns):
         filtered_x = []
         filtered_values = []
-        x = merged_df.index
-        values = merged_df[column]
+        x = summed_df.index
+        values = summed_df[column]
         for i, v in enumerate(values):
             if not np.isnan(v):
                 filtered_x.append(i)
@@ -125,7 +125,7 @@ def plot_data(df, output_filename, xlabel, ylabel, labels, row, a, b, font, mark
                     plt.scatter(exp_df['numb'][i], exp_df['dH_form'][i],
                                 marker=exp_marker, color=exp_color, edgecolors=exp_color, facecolors='white')
     
-    merged_df.to_csv(tsv_filename, sep='\t')
+    summed_df.to_csv(tsv_filename, sep='\t')
     print(f"Merged data saved to {tsv_filename}")
 
     plt.xticks(np.arange(len(indice)), indice, fontsize=fontsize)
