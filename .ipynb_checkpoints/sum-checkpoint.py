@@ -76,8 +76,10 @@ def process_files(add_files, subtract_files, output,
             
     # Save the processed DataFrame
     if summed_df is not None:
-        summed_df.to_csv(f'{tsv_filename}', index=False, sep='\t')
+        summed_df.to_csv(f'{tsv_filename}', index=True, sep='\t')
         print(f"Summed data saved to {tsv_filename}")
+
+        # df = df.drop(df.columns[1], axis=1)
         plot_data(summed_df, png_filename, xlabel, ylabel, labels, row, a, b, fontsize, markers, colors)
         print(f"Figure saved as {png_filename}")
 
