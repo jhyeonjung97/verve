@@ -39,7 +39,7 @@ def process_files(add_files, subtract_files, output_filename,
         else:
             summed_df.iloc[:, 1:] -= df.iloc[:, 1:]  # Subtract values excluding the first column
 
-    print(summed_df.column)
+    print(summed_df.columns)
     
     if row:
         indice = metal_rows[row]
