@@ -1,10 +1,11 @@
 import pandas as pd
 import numpy as np
 from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_absolute_error, mean_squared_error
 import argparse
 
 def main():
-    parser = argparse.ArgumentParser(description='Perform linear regression using aggregated columns from multiple TSV files.')
+    parser = argparse.ArgumentParser(description='Perform linear regression using aggregated columns from multiple TSV files and calculate MAE, MSE.')
     parser.add_argument('--Y', required=True, help='File path for Y.tsv')
     parser.add_argument('--X1', required=True, help='File path for X1.tsv')
     parser.add_argument('--X2', required=True, help='File path for X2.tsv')
@@ -47,10 +48,19 @@ def main():
     model = LinearRegression()
     model.fit(X, Y)
 
+    # Make predictions
+    Y_pred = model.predict(X)
+
+    # Calculate MAE and MSE
+    mae = mean_absolute_error(Y, Y_pred)
+    mse = mean_squared_error(Y, Y_pred)
+
     # Display results
     print(f"Intercept: {model.intercept_}")
     print(f"Coefficients: {model.coef_}")
     print(f"R-squared: {model.score(X, Y)}")
+    print(f"Mean Absolute Error: {mae}")
+    print(f"Mean Squared Error: {mse}")
 
 if __name__ == "__main__":
     main()
