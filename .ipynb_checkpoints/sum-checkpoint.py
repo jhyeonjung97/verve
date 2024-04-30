@@ -98,7 +98,7 @@ def plot_data(summed_df, output_filename, xlabel, ylabel, labels, row, a, b, fon
             continue
         plt.plot(filtered_x, filtered_values, marker=markers[j], color=colors[j], label=column)
     
-    if 'hexa_ratio' in df.columns:
+    if 'hexa_ratio' in summed_df.columns:
         plt.plot(x, [1.633]*len(x), linestyle=':', label='hexa_ratio0', color='black')
         
     if 'norm_formation' in output:
