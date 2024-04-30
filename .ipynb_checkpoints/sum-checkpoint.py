@@ -38,8 +38,6 @@ def process_files(add_files, subtract_files, output_filename,
         else:
             summed_df -= df  # Subtract values excluding the first column
             
-    summed_df = summed_df.drop(summed_df.columns[1], axis=1)
-
     if row:
         indice = metal_rows[row]
         markers = ['v', 'v', '^', 's', 's', 'o']
