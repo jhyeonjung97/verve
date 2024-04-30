@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import argparse
 
 def main():
-    parser = argparse.ArgumentParser(description='Perform linear regression using aggregated columns from multiple TSV files, calculate MAE, MSE, plot results, and save output.')
+    parser = argparse.ArgumentParser(description='Perform linear regression using aggregated columns from multiple TSV files excluding the first column, calculate MAE, MSE, plot results, and save output.')
     parser.add_argument('--Y', required=True, help='File path for Y.tsv')
     parser.add_argument('--X1', required=True, help='File path for X1.tsv')
     parser.add_argument('--X2', required=True, help='File path for X2.tsv')
@@ -14,15 +14,15 @@ def main():
 
     args = parser.parse_args()
 
-    # Load the data
-    df_Y = pd.read_csv(args.Y, delimiter='\t')
-    df_X1 = pd.read_csv(args.X1, delimiter='\t')
-    df_X2 = pd.read_csv(args.X2, delimiter='\t')
-    df_X3 = pd.read_csv(args.X3, delimiter='\t')
+    # Load the data excluding the first column
+    df_Y = pd.read_csv(args.Y, delimiter='\t').iloc[:, 1:]
+    df_X1 = pd.read_csv(args.X1, delimiter='\t').iloc[:, 1:]
+    df_X2 = pd.read_csv(args.X2, delimiter='\t').iloc[:, 1:]
+    df_X3 = pd.read_csv(args.X3, delimiter='\t').iloc[:, 1:]
 
     # Ensure all DataFrames have the same shape
     if not (df_Y.shape == df_X1.shape == df_X2.shape == df_X3.shape):
-        raise ValueError("All files must have the same number of rows and columns.")
+        raise ValueError("All files must have the same number of rows and columns after excluding the first column.")
 
     # Reshape the data into a long format
     Y = df_Y.values.flatten()
@@ -73,7 +73,7 @@ def main():
     plt.title('Actual vs. Predicted Values')
     plt.grid(True)
     plt.show()
-    plt.gcf().savefig('lr.png', bbox_inches="tight")
+    plt.gcf().savefig('regression_output.png', bbox_inches="tight")
     
     # Display results
     print(f"Intercept: {model.intercept_}")
