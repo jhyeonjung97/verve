@@ -40,7 +40,7 @@ def process_files(add_files, subtract_files, output,
         else:
             summed_df -= df  # Subtract values excluding the first column
             
-    summed_df.columns[0] = summed_indice
+    summed_df.index = summed_indice
 
     if row:
         indice = metal_rows[row]
