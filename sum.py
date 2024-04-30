@@ -9,7 +9,7 @@ print(f"\033[92m{os.getcwd()}\033[0m")
 
 
 def process_files(add_files, subtract_files, output,
-                 xlabel, ylabel, labels, row, a, b, font):
+                 xlabel, ylabel, labels, row, a, b, fontsize):
 
     metal_rows = {
         '3d': ['Ca', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn', 'Ga', 'Ge'],
@@ -75,13 +75,13 @@ def process_files(add_files, subtract_files, output,
     if summed_df is not None:
         summed_df.to_csv(f'{output}.tsv', index=False, sep='\t')
         print(f"Summed data saved to {tsv_filename}")
-        plot_data(summed_df, output, xlabel, ylabel, labels, row, a, b, font, markers, colors)
+        plot_data(summed_df, output, xlabel, ylabel, labels, row, a, b, fontsize, markers, colors)
         print(f"Summed data saved to {png_filename}")
 
-def plot_data(summed_df, output, xlabel, ylabel, labels, row, a, b, font, markers, colors):
+def plot_data(summed_df, output, xlabel, ylabel, labels, row, a, b, fontsize, markers, colors):
     
     plt.figure(figsize=(10, 6))
-    print(font)
+    print(fontsize)
     for j, column in enumerate(summed_df.columns):
         filtered_x = []
         filtered_values = []
@@ -124,11 +124,11 @@ def plot_data(summed_df, output, xlabel, ylabel, labels, row, a, b, font, marker
                     plt.scatter(exp_df['numb'][i], exp_df['dH_form'][i],
                                 marker=exp_marker, color=exp_color, edgecolors=exp_color, facecolors='white')    
 
-    # plt.xticks(np.arange(len(indice)), indice, font=font)
-    plt.yticks(font=font)
-    plt.xlabel(xlabel, font=font)
-    plt.ylabel(ylabel, font=font)
-    plt.legend(prop={'size': font}, ncol=1)
+    # plt.xticks(np.arange(len(indice)), indice, fontsize=fontsize)
+    plt.yticks(fontsize=fontsize)
+    plt.xlabel(xlabel, fontsize=fontsize)
+    plt.ylabel(ylabel, fontsize=fontsize)
+    plt.legend(prop={'size': fontsize}, ncol=1)
     plt.tight_layout()
     plt.gcf().savefig(png_filename, bbox_inches="tight")
     print(f"Figure saved as {png_filename}")
@@ -145,13 +145,13 @@ def main():
     parser.add_argument('-r', '--row', type=str, default=None)
     parser.add_argument('-a', type=float, default=8)
     parser.add_argument('-b', type=float, default=6)
-    parser.add_argument('--font', type=float, default=10)
+    parser.add_argument('--fontsize', type=float, default=10)
     args = parser.parse_args()
 
     # Execute file processing
     process_files(args.plus, args.minus, args.output, 
                   args.xlabel, args.ylabel, args.labels, 
-                  args.row, args.a, args.b, args.font)
+                  args.row, args.a, args.b, args.fontsize)
 
 if __name__ == "__main__":
     main()
