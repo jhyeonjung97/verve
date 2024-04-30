@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import argparse
 
 def main():
-    parser = argparse.ArgumentParser(description='Perform linear regression using aggregated columns from multiple TSV files, calculate MAE, MSE, and plot results.')
+    parser = argparse.ArgumentParser(description='Perform linear regression using aggregated columns from multiple TSV files, calculate MAE, MSE, plot results, and save output.')
     parser.add_argument('--Y', required=True, help='File path for Y.tsv')
     parser.add_argument('--X1', required=True, help='File path for X1.tsv')
     parser.add_argument('--X2', required=True, help='File path for X2.tsv')
@@ -32,7 +32,7 @@ def main():
     
     # Combine into a single DataFrame
     df_combined = pd.DataFrame({
-        'Y': Y,
+        'Actual Y': Y,
         'X1': X1,
         'X2': X2,
         'X3': X3
@@ -43,7 +43,7 @@ def main():
 
     # Set up the predictors and response
     X = df_combined[['X1', 'X2', 'X3']]
-    Y = df_combined['Y']
+    Y = df_combined['Actual Y']
 
     # Initialize and fit the Linear Regression Model
     model = LinearRegression()
@@ -55,6 +55,14 @@ def main():
     # Calculate MAE and MSE
     mae = mean_absolute_error(Y, Y_pred)
     mse = mean_squared_error(Y, Y_pred)
+
+    # Append predictions and error metrics to the DataFrame
+    df_combined['Predicted Y'] = Y_pred
+    df_combined['Residuals'] = Y - Y_pred
+
+    # Save the extended DataFrame to a new TSV file
+    output_filename = 'regression_output.tsv'
+    df_combined.to_csv(output_filename, sep='\t', index=False)
 
     # Plotting actual vs predicted values
     plt.figure(figsize=(10, 6))
@@ -73,6 +81,7 @@ def main():
     print(f"R-squared: {model.score(X, Y)}")
     print(f"Mean Absolute Error: {mae}")
     print(f"Mean Squared Error: {mse}")
+    print(f"Results saved to {output_filename}")
 
 if __name__ == "__main__":
     main()
