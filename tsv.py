@@ -58,11 +58,19 @@ def plot_patterns_from_multiple_tsv(add_files, subtract_files, filenames, output
         print(f"Warning: More filenames ({len(filenames)}) than labels ({len(labels)}). Excess filenames will be ignored.")
         filenames = filenames[:len(labels)]
     
-    for j, file in enumerate(filenames):        
+    # for j, file in enumerate(filenames):        
+    #     df = pd.read_csv(file, delimiter='\t').iloc[:, 1:]
+    #     df.columns[j] = labels[j] if isinstance(labels[j], list) else [labels[j]]
+    #     merged_df = pd.concat([merged_df, df], axis=1)
+        
+    for j, file in enumerate(filenames):
         df = pd.read_csv(file, delimiter='\t').iloc[:, 1:]
-        df.columns[j] = labels[j] if isinstance(labels[j], list) else [labels[j]]
-        merged_df = pd.concat([merged_df, df], axis=1)
-
+        if isinstance(labels[j], list):
+            new_labels = labels[j]
+        else:
+            new_labels = [labels[j]] * len(df.columns)
+        df.columns = new_labels
+        
     print(merged_df)
 
     for filename in add_files:
