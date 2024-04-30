@@ -75,10 +75,10 @@ def process_files(add_files, subtract_files, output,
     if summed_df is not None:
         summed_df.to_csv(f'{output}.tsv', index=False, sep='\t')
         print(f"Summed data saved to {tsv_filename}")
-        plot_data(summed_df, output, xlabel, ylabel, labels, row, a, b, font, markers, colors, font)
+        plot_data(summed_df, output, xlabel, ylabel, labels, row, a, b, font, markers, colors)
         print(f"Summed data saved to {png_filename}")
 
-def plot_data(summed_df, output, xlabel, ylabel, labels, row, a, b, font, markers, colors, font):
+def plot_data(summed_df, output, xlabel, ylabel, labels, row, a, b, font, markers, colors):
     
     plt.figure(figsize=(10, 6))
         
