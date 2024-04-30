@@ -18,7 +18,6 @@ def process_files(add_files, subtract_files, output,
         }   
 
     summed_df = None
-    # summed_index = None
     
     png_filename = f"summed_{output}.png"   
     tsv_filename = f"summed_{output}.tsv"
@@ -28,7 +27,6 @@ def process_files(add_files, subtract_files, output,
         df = pd.read_csv(filename, delimiter='\t')
         if summed_df is None:
             summed_df = df
-            # summed_index = df.index
         else:
             summed_df.iloc[:, 1:] += df.iloc[:, 1:]  # Add values excluding the first column
 
@@ -37,11 +35,10 @@ def process_files(add_files, subtract_files, output,
         df = pd.read_csv(filename, delimiter='\t')
         if summed_df is None:
             summed_df = -df  # Subtract values for initialization, excluding the first column
-            # summed_index = df.index
         else:
             summed_df.iloc[:, 1:] -= df.iloc[:, 1:]  # Subtract values excluding the first column
-    
-    # summed_df.index = summed_index
+
+    summed_df[0][0] = np.nan
 
     if row:
         indice = metal_rows[row]
