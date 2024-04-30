@@ -81,7 +81,7 @@ def process_files(add_files, subtract_files, output,
 def plot_data(summed_df, output, xlabel, ylabel, labels, row, a, b, font, markers, colors):
     
     plt.figure(figsize=(10, 6))
-        
+    print(font)
     for j, column in enumerate(summed_df.columns):
         filtered_x = []
         filtered_values = []
