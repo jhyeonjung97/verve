@@ -32,18 +32,18 @@ def main():
     
     # Combine into a single DataFrame
     df_combined = pd.DataFrame({
-        'Actual Y': Y,
-        'X1': X1,
-        'X2': X2,
-        'X3': X3
+        'E_form': Y,
+        'ICOHP': X1,
+        'MadelungL': X2,
+        'CFSE': X3
     })
 
     # Drop rows with NaN values (if any)
     df_combined.dropna(inplace=True)
 
     # Set up the predictors and response
-    X = df_combined[['X1', 'X2', 'X3']]
-    Y = df_combined['Actual Y']
+    X = df_combined[['ICOHP', 'MadelungL', 'CFSE']]
+    Y = df_combined['E_form']
 
     # Initialize and fit the Linear Regression Model
     model = LinearRegression()
@@ -68,9 +68,9 @@ def main():
     plt.figure(figsize=(10, 6))
     plt.scatter(Y, Y_pred, alpha=0.3)
     plt.plot([Y.min(), Y.max()], [Y.min(), Y.max()], 'r--', lw=2)  # Ideal line where actual = predicted
-    plt.xlabel('Actual Values')
-    plt.ylabel('Predicted Values')
-    plt.title('Actual vs. Predicted Values')
+    plt.xlabel('DFT-calculated Formation Energy (eV)')
+    plt.ylabel('Predicted Formation Energy (eV)')
+    plt.title('Calculated vs. Predicted Values')
     plt.grid(True)
     plt.show()
     plt.gcf().savefig('regression_output.png', bbox_inches="tight")
