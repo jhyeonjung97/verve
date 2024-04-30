@@ -27,6 +27,8 @@ def process_files(add_files, subtract_files, output,
         df = pd.read_csv(filename, delimiter='\t')
         if summed_df is None:
             summed_df = df
+            print(df.columns[0])
+            print(df.index)
             summed_indice = df.columns[0]
         else:
             summed_df += df  # Add values excluding the first column
@@ -39,7 +41,7 @@ def process_files(add_files, subtract_files, output,
             summed_indice = df.columns[0]
         else:
             summed_df -= df  # Subtract values excluding the first column
-            
+    
     summed_df.index = summed_indice
 
     if row:
