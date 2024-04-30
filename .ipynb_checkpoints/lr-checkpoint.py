@@ -70,9 +70,9 @@ def main():
     plt.plot([Y.min(), Y.max()], [Y.min(), Y.max()], 'r--', lw=2)  # Ideal line where actual = predicted
     plt.xlabel('DFT-calculated Formation Energy (eV)')
     plt.ylabel('Predicted Formation Energy (eV)')
-    plt.title('Calculated vs. Predicted Values')
-    plt.grid(True)
-    plt.show()
+    # plt.title('Calculated vs. Predicted Values')
+    # plt.show()
+    plt.tight_layout()
     plt.gcf().savefig('regression_output.png', bbox_inches="tight")
     
     # Display results
