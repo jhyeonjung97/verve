@@ -2,10 +2,11 @@ import pandas as pd
 import numpy as np
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, mean_squared_error
+import matplotlib.pyplot as plt
 import argparse
 
 def main():
-    parser = argparse.ArgumentParser(description='Perform linear regression using aggregated columns from multiple TSV files and calculate MAE, MSE.')
+    parser = argparse.ArgumentParser(description='Perform linear regression using aggregated columns from multiple TSV files, calculate MAE, MSE, and plot results.')
     parser.add_argument('--Y', required=True, help='File path for Y.tsv')
     parser.add_argument('--X1', required=True, help='File path for X1.tsv')
     parser.add_argument('--X2', required=True, help='File path for X2.tsv')
@@ -54,6 +55,16 @@ def main():
     # Calculate MAE and MSE
     mae = mean_absolute_error(Y, Y_pred)
     mse = mean_squared_error(Y, Y_pred)
+
+    # Plotting actual vs predicted values
+    plt.figure(figsize=(10, 6))
+    plt.scatter(Y, Y_pred, alpha=0.3)
+    plt.plot([Y.min(), Y.max()], [Y.min(), Y.max()], 'r--', lw=2)  # Ideal line where actual = predicted
+    plt.xlabel('Actual Values')
+    plt.ylabel('Predicted Values')
+    plt.title('Actual vs. Predicted Values')
+    plt.grid(True)
+    plt.show()
 
     # Display results
     print(f"Intercept: {model.intercept_}")
