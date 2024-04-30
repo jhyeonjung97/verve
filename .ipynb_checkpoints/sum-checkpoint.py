@@ -79,7 +79,7 @@ def process_files(add_files, subtract_files, output,
         summed_df.to_csv(f'{tsv_filename}', index=False, sep='\t')
         print(f"Summed data saved to {tsv_filename}")
         plot_data(summed_df, png_filename, xlabel, ylabel, labels, row, a, b, fontsize, markers, colors)
-        print(f"Summed data saved to {png_filename}")
+        print(f"Figure saved as {png_filename}")
 
 def plot_data(summed_df, png_filename, xlabel, ylabel, labels, row, a, b, fontsize, markers, colors):
     
@@ -133,7 +133,6 @@ def plot_data(summed_df, png_filename, xlabel, ylabel, labels, row, a, b, fontsi
     plt.legend(prop={'size': fontsize}, ncol=1)
     plt.tight_layout()
     plt.gcf().savefig(png_filename, bbox_inches="tight")
-    print(f"Figure saved as {png_filename}")
     plt.close()
     
 def main():
