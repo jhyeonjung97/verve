@@ -75,10 +75,10 @@ def process_files(add_files, subtract_files, output,
     if summed_df is not None:
         summed_df.to_csv(f'{output}.tsv', index=False, sep='\t')
         print(f"Summed data saved to {tsv_filename}")
-        plot_data(summed_df, output, xlabel, ylabel, labels, row, a, b, font, markers, colors, fontsize)
+        plot_data(summed_df, output, xlabel, ylabel, labels, row, a, b, font, markers, colors, font)
         print(f"Summed data saved to {png_filename}")
 
-def plot_data(summed_df, output, xlabel, ylabel, labels, row, a, b, font, markers, colors, fontsize):
+def plot_data(summed_df, output, xlabel, ylabel, labels, row, a, b, font, markers, colors, font):
     
     plt.figure(figsize=(10, 6))
         
@@ -124,11 +124,11 @@ def plot_data(summed_df, output, xlabel, ylabel, labels, row, a, b, font, marker
                     plt.scatter(exp_df['numb'][i], exp_df['dH_form'][i],
                                 marker=exp_marker, color=exp_color, edgecolors=exp_color, facecolors='white')    
 
-    # plt.xticks(np.arange(len(indice)), indice, fontsize=fontsize)
-    plt.yticks(fontsize=fontsize)
-    plt.xlabel(xlabel, fontsize=fontsize)
-    plt.ylabel(ylabel, fontsize=fontsize)
-    plt.legend(prop={'size': fontsize}, ncol=1)
+    # plt.xticks(np.arange(len(indice)), indice, font=font)
+    plt.yticks(font=font)
+    plt.xlabel(xlabel, font=font)
+    plt.ylabel(ylabel, font=font)
+    plt.legend(prop={'size': font}, ncol=1)
     plt.tight_layout()
     plt.gcf().savefig(png_filename, bbox_inches="tight")
     print(f"Figure saved as {png_filename}")
