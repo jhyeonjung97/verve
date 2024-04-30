@@ -50,27 +50,27 @@ def process_files(add_files, subtract_files, output_filename,
         if '1_Tetrahedral_WZ' in os.getcwd():
             coordination = 'WZ'
             markers = ['v']
-            colors = plt.cm.Reds(np.linspace(0.1, 0.9, len(summed_df.column)))
+            colors = plt.cm.Reds(np.linspace(0.1, 0.9, len(summed_df.columns)))
         elif '2_Tetrahedral_ZB' in os.getcwd():
             coordination = 'ZB'
-            markers = ['v'] * len(summed_df.column)
-            colors = plt.cm.Oranges(np.linspace(0.1, 0.9, len(summed_df.column)))
+            markers = ['v'] * len(summed_df.columns)
+            colors = plt.cm.Oranges(np.linspace(0.1, 0.9, len(summed_df.columns)))
         elif '3_Tetragonal_LT' in os.getcwd():
             coordination = 'LT'
-            markers = ['^'] * len(summed_df.colum)
-            colors = plt.cm.Wistia(np.linspace(0.1, 0.9, len(summed_df.colum)))
+            markers = ['^'] * len(summed_df.columns)
+            colors = plt.cm.Wistia(np.linspace(0.1, 0.9, len(summed_df.columns)))
         elif '4_Square_Planar_TN' in os.getcwd():
             coordination = 'TN'
-            markers = ['s'] * len(summed_df.colum)
-            colors = plt.cm.Greens(np.linspace(0.1, 0.9, len(summed_df.colum)))
+            markers = ['s'] * len(summed_df.columns)
+            colors = plt.cm.Greens(np.linspace(0.1, 0.9, len(summed_df.columns)))
         elif '5_Square_Planar_33' in os.getcwd():
             coordination = '33'
-            markers = ['s'] * len(summed_df.colum)
-            colors = plt.cm.Blues(np.linspace(0.1, 0.9, len(summed_df.colum)))
+            markers = ['s'] * len(summed_df.columns)
+            colors = plt.cm.Blues(np.linspace(0.1, 0.9, len(summed_df.columns)))
         elif '6_Octahedral_RS' in os.getcwd():
             coordination = 'RS'
-            markers = ['o'] * len(summed_df.colum)
-            colors = plt.cm.Purples(np.linspace(0.1, 0.9, len(summed_df.colum)))     
+            markers = ['o'] * len(summed_df.columns)
+            colors = plt.cm.Purples(np.linspace(0.1, 0.9, len(summed_df.columns)))     
             
     # Save the processed DataFrame
     if summed_df is not None:
