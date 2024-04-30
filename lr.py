@@ -57,7 +57,7 @@ def main():
     mse = mean_squared_error(Y, Y_pred)
 
     # Append predictions and error metrics to the DataFrame
-    df_combined['Predicted Y'] = Y_pred
+    df_combined['Predicted E_form'] = Y_pred
     df_combined['Residuals'] = Y - Y_pred
 
     # Save the extended DataFrame to a new TSV file
