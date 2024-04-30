@@ -42,6 +42,7 @@ def process_files(add_files, subtract_files, output,
         else:
             summed_df.iloc[:, 1:] -= df.iloc[:, 1:]  # Subtract values excluding the first column
 
+    summed_df = summed_df.drop(summed_df.columns[0], axis=1)
 
     if row:
         indice = metal_rows[row]
@@ -78,8 +79,6 @@ def process_files(add_files, subtract_files, output,
     if summed_df is not None:
         summed_df.to_csv(f'{tsv_filename}', index=True, sep='\t')
         print(f"Summed data saved to {tsv_filename}")
-
-        # df = df.drop(df.columns[1], axis=1)
         plot_data(summed_df, png_filename, xlabel, ylabel, labels, row, a, b, fontsize, markers, colors)
         print(f"Figure saved as {png_filename}")
 
