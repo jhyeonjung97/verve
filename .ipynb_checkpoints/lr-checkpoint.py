@@ -65,7 +65,8 @@ def main():
     plt.title('Actual vs. Predicted Values')
     plt.grid(True)
     plt.show()
-
+    plt.gcf().savefig('lr.png', bbox_inches="tight")
+    
     # Display results
     print(f"Intercept: {model.intercept_}")
     print(f"Coefficients: {model.coef_}")
