@@ -28,20 +28,17 @@ def process_files(add_files, subtract_files, output_filename,
         if summed_df is None:
             summed_df = df
         else:
-            summed_df.iloc[:, 1:] += df.iloc[:, 1:]  # Add values excluding the first column
+            summed_df += df  # Add values excluding the first column
 
     # Process subtraction files
     for filename in subtract_files:
         df = pd.read_csv(filename, delimiter='\t')
         if summed_df is None:
-            summed_df = -df.iloc[:, 1:]  # Subtract values for initialization, excluding the first column
-            summed_df.insert(0, df.columns[0], df.iloc[:, 0])  # Add back the first column unchanged
+            summed_df = -df  # Subtract values for initialization, excluding the first column
         else:
-            summed_df.iloc[:, 1:] -= df.iloc[:, 1:]  # Subtract values excluding the first column
+            summed_df -= df  # Subtract values excluding the first column
             
     summed_df = summed_df.drop(summed_df.columns[1], axis=1)
-    print(summed_df.columns)
-    print(len(summed_df.columns))
 
     if row:
         indice = metal_rows[row]
