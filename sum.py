@@ -8,7 +8,7 @@ import argparse
 print(f"\033[92m{os.getcwd()}\033[0m")
 
 
-def process_files(add_files, subtract_files, output_filename,
+def process_files(add_files, subtract_files, output,
                  xlabel, ylabel, labels, row, a, b, font):
 
     metal_rows = {
@@ -19,8 +19,8 @@ def process_files(add_files, subtract_files, output_filename,
 
     summed_df = None
     
-    png_filename = f"summed_{output_filename}.png"   
-    tsv_filename = f"summed_{output_filename}.tsv"
+    png_filename = f"summed_{output}.png"   
+    tsv_filename = f"summed_{output}.tsv"
     
     # Process addition files
     for filename in add_files:
@@ -73,10 +73,10 @@ def process_files(add_files, subtract_files, output_filename,
             
     # Save the processed DataFrame
     if summed_df is not None:
-        summed_df.to_csv(f'{output_filename}.tsv', index=False, sep='\t')
-        plot_data(summed_df, output_filename, xlabel, ylabel, labels, row, a, b, font, markers, colors)
+        summed_df.to_csv(f'{output}.tsv', index=False, sep='\t')
+        plot_data(summed_df, output, xlabel, ylabel, labels, row, a, b, font, markers, colors)
 
-def plot_data(summed_df, output_filename, xlabel, ylabel, labels, row, a, b, font, markers, colors):
+def plot_data(summed_df, output, xlabel, ylabel, labels, row, a, b, font, markers, colors):
     
     plt.figure(figsize=(10, 6))
 
