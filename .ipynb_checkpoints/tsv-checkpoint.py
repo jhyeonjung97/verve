@@ -7,7 +7,7 @@ import argparse
 
 print(f"\033[92m{os.getcwd()}\033[0m")
 
-def plot_patterns_from_multiple_tsv(add_files, subtract_files, filenames, output, xlabel, ylabel, labels, a, b, row, fontsize):
+def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, a, b, row, fontsize):
         
     metal_rows = {
         '3d': ['Ca', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn', 'Ga', 'Ge'],
@@ -46,48 +46,21 @@ def plot_patterns_from_multiple_tsv(add_files, subtract_files, filenames, output
             markers = ['o'] * len(filenames)
             colors = plt.cm.Purples(np.linspace(0.1, 0.9, len(filenames)))        
 
-    merged_df = None
-
-    if add_files or subtract_files:
-        png_filename = f"merged_{output}.png"   
-        tsv_filename = f"merged_{output}.tsv"
-
+    merged_df = None    
     plt.figure(figsize=(a, b))
+    
+    png_filename = f"merged_{output}.png"   
+    tsv_filename = f"merged_{output}.tsv"
 
     if len(filenames) > len(labels):
         print(f"Warning: More filenames ({len(filenames)}) than labels ({len(labels)}). Excess filenames will be ignored.")
         filenames = filenames[:len(labels)]
-    
-    # for j, file in enumerate(filenames):        
-    #     df = pd.read_csv(file, delimiter='\t').iloc[:, 1:]
-    #     df.columns[j] = labels[j] if isinstance(labels[j], list) else [labels[j]]
-    #     merged_df = pd.concat([merged_df, df], axis=1)
-        
+
     for j, file in enumerate(filenames):
         df = pd.read_csv(file, delimiter='\t').iloc[:, 1:]
-        if isinstance(labels[j], list):
-            new_labels = labels[j]
-        else:
-            new_labels = [labels[j]] * len(df.columns)
-        df.columns = new_labels
-        
-    print(merged_df)
+        df.columns = labels[j] if isinstance(labels[j], list) else [labels[j]]
+        merged_df = pd.concat([merged_df, df], axis=1)
 
-    for filename in add_files:
-        df = pd.read_csv(filename, delimiter='\t')
-        if merged_df is None:
-            merged_df = df
-        else:
-            merged_df.iloc[:, 1:] += df.iloc[:, 1:]  # Add values excluding the first column
-            
-    for filename in subtract_files:
-        df = pd.read_csv(filename, delimiter='\t')
-        if merged_df is None:
-            merged_df = -df.iloc[:, 1:]  # Subtract values for initialization, excluding the first column
-            merged_df.insert(0, df.columns[0], df.iloc[:, 0])  # Add back the first column unchanged
-        else:
-            merged_df.iloc[:, 1:] -= df.iloc[:, 1:]  # Subtract values excluding the first column
-            
     for j, column in enumerate(merged_df.columns):
         filtered_x = []
         filtered_values = []
@@ -146,8 +119,6 @@ def plot_patterns_from_multiple_tsv(add_files, subtract_files, filenames, output
     
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Plot TSV data.')
-    parser.add_argument('-p', '--plus', nargs='+', help='Files to sum', default=[])
-    parser.add_argument('-m', '--minus', nargs='+', help='Files to subtract', default=[])
     parser.add_argument('files', nargs='+', help='The TSV files to plot.')
     parser.add_argument('-o', '--output', type=str, default='', help="The filename for the output PNG file.")
     parser.add_argument('-x', '--xlabel', type=str, default='Element or Lattice parameter (Å)', help="xlabel")
@@ -159,6 +130,6 @@ if __name__ == "__main__":
     parser.add_argument('--font', type=float, default=10)
     
     args = parser.parse_args()        
-    plot_patterns_from_multiple_tsv(args.plus, args.minus, args.files, args.output, args.xlabel, args.ylabel, args.labels, 
+    plot_patterns_from_multiple_tsv(args.files, args.output, args.xlabel, args.ylabel, args.labels, 
                                     args.a, args.b, args.row, fontsize=args.font)
 

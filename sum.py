@@ -1,19 +1,43 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import sys
-import os
 import argparse
 
 print(f"\033[92m{os.getcwd()}\033[0m")
 
-def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, a, b, row, fontsize):
-        
+
+def process_files(add_files, subtract_files, output_filename,
+                 xlabel, ylabel, labels, row, a, b, font):
+
     metal_rows = {
         '3d': ['Ca', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn', 'Ga', 'Ge'],
         '4d': ['Sr', 'Y', 'Zr', 'Nb', 'Mo', 'Tc', 'Ru', 'Rh', 'Pd', 'Ag', 'Cd', 'In', 'Sn'],
         '5d': ['Ba', 'La', 'Hf', 'Ta', 'W', 'Re', 'Os', 'Ir', 'Pt', 'Au', 'Hg', 'Tl', 'Pb']
-        }
+        }   
+
+    summed_df = None
+    
+    png_filename = f"summed_{output_filename}.png"   
+    tsv_filename = f"summed_{output_filename}.tsv"
+    
+    # Process addition files
+    for filename in add_files:
+        df = pd.read_csv(filename, delimiter='\t')
+        if summed_df is None:
+            summed_df = df
+        else:
+            summed_df.iloc[:, 1:] += df.iloc[:, 1:]  # Add values excluding the first column
+
+    # Process subtraction files
+    for filename in subtract_files:
+        df = pd.read_csv(filename, delimiter='\t')
+        if summed_df is None:
+            summed_df = -df.iloc[:, 1:]  # Subtract values for initialization, excluding the first column
+            summed_df.insert(0, df.columns[0], df.iloc[:, 0])  # Add back the first column unchanged
+        else:
+            summed_df.iloc[:, 1:] -= df.iloc[:, 1:]  # Subtract values excluding the first column
+
+    print(summed_df.column)
     
     if row:
         indice = metal_rows[row]
@@ -23,43 +47,39 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, a
         indice = [f'{a}\n{b}\n{c}' for a, b, c in zip(metal_rows['3d'], metal_rows['4d'], metal_rows['5d'])]
         if '1_Tetrahedral_WZ' in os.getcwd():
             coordination = 'WZ'
-            markers = ['v'] * len(filenames)
-            colors = plt.cm.Reds(np.linspace(0.1, 0.9, len(filenames)))
+            markers = ['v']
+            colors = plt.cm.Reds(np.linspace(0.1, 0.9, len(summed_df.column)))
         elif '2_Tetrahedral_ZB' in os.getcwd():
             coordination = 'ZB'
-            markers = ['v'] * len(filenames)
-            colors = plt.cm.Oranges(np.linspace(0.1, 0.9, len(filenames)))
+            markers = ['v'] * len(summed_df.column)
+            colors = plt.cm.Oranges(np.linspace(0.1, 0.9, len(summed_df.column)))
         elif '3_Tetragonal_LT' in os.getcwd():
             coordination = 'LT'
-            markers = ['^'] * len(filenames)
-            colors = plt.cm.Wistia(np.linspace(0.1, 0.9, len(filenames)))
+            markers = ['^'] * len(summed_df.colum)
+            colors = plt.cm.Wistia(np.linspace(0.1, 0.9, len(summed_df.colum)))
         elif '4_Square_Planar_TN' in os.getcwd():
             coordination = 'TN'
-            markers = ['s'] * len(filenames)
-            colors = plt.cm.Greens(np.linspace(0.1, 0.9, len(filenames)))
+            markers = ['s'] * len(summed_df.colum)
+            colors = plt.cm.Greens(np.linspace(0.1, 0.9, len(summed_df.colum)))
         elif '5_Square_Planar_33' in os.getcwd():
             coordination = '33'
-            markers = ['s'] * len(filenames)
-            colors = plt.cm.Blues(np.linspace(0.1, 0.9, len(filenames)))
+            markers = ['s'] * len(summed_df.colum)
+            colors = plt.cm.Blues(np.linspace(0.1, 0.9, len(summed_df.colum)))
         elif '6_Octahedral_RS' in os.getcwd():
             coordination = 'RS'
-            markers = ['o'] * len(filenames)
-            colors = plt.cm.Purples(np.linspace(0.1, 0.9, len(filenames)))        
+            markers = ['o'] * len(summed_df.colum)
+            colors = plt.cm.Purples(np.linspace(0.1, 0.9, len(summed_df.colum)))     
+            
+    # Save the processed DataFrame
+    if summed_df is not None:
+        summed_df.to_csv(f'{output_filename}.tsv', index=False, sep='\t')
+        plot_data(summed_df, output_filename, xlabel, ylabel, labels, row, a, b, font, markers, colors)
 
-    merged_df = None    
-    plt.figure(figsize=(a, b))
-    
-    png_filename = f"merged_{output}.png"   
-    tsv_filename = f"merged_{output}.tsv"
-
-    if len(filenames) > len(labels):
-        print(f"Warning: More filenames ({len(filenames)}) than labels ({len(labels)}). Excess filenames will be ignored.")
-        filenames = filenames[:len(labels)]
-
-    for j, file in enumerate(filenames):
-        df = pd.read_csv(file, delimiter='\t').iloc[:, 1:]
-        df.columns = labels[j] if isinstance(labels[j], list) else [labels[j]]
-        merged_df = pd.concat([merged_df, df], axis=1)
+def plot_data(df, output_filename, xlabel, ylabel, labels, row, a, b, font, markers, colors):
+    plt.figure(figsize=(10, 6))
+    # for i, column in enumerate(df.columns[1:]):  # Skip plotting the first column
+    #     plt.plot(df.iloc[:, 0], df[column], marker=markers[i], color=colors[i], label=column)  
+    #     # Assuming the first column is a suitable x-axis
 
     for j, column in enumerate(merged_df.columns):
         filtered_x = []
@@ -111,16 +131,16 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, a
     plt.xlabel(xlabel, fontsize=fontsize)
     plt.ylabel(ylabel, fontsize=fontsize)
     plt.legend(prop={'size': fontsize}, ncol=1)
-    # plt.grid(True)
     plt.tight_layout()
     plt.gcf().savefig(png_filename, bbox_inches="tight")
     print(f"Figure saved as {png_filename}")
     plt.close()
     
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Plot TSV data.')
-    parser.add_argument('files', nargs='+', help='The TSV files to plot.')
-    parser.add_argument('-o', '--output', type=str, default='', help="The filename for the output PNG file.")
+def main():
+    parser = argparse.ArgumentParser(description='Process and plot TSV files.')
+    parser.add_argument('-p', '--plus', nargs='+', help='Files to sum', default=[])
+    parser.add_argument('-m', '--minus', nargs='+', help='Files to subtract', default=[])
+    parser.add_argument('-o', '--output', help='Output file name', default='output')
     parser.add_argument('-x', '--xlabel', type=str, default='Element or Lattice parameter (Å)', help="xlabel")
     parser.add_argument('-y', '--ylabel', type=str, default='Energy (eV) or Charge (e)', help="ylabel")
     parser.add_argument('-l', '--labels', nargs='+', default=['Tetrahedral_WZ', 'Tetrahedral_ZB', 'Tetragonal_LT', 'Square_planar_TN', 'Square_planar_33', 'Octahedral_RS'])
@@ -128,8 +148,12 @@ if __name__ == "__main__":
     parser.add_argument('-a', type=float, default=8)
     parser.add_argument('-b', type=float, default=6)
     parser.add_argument('--font', type=float, default=10)
-    
-    args = parser.parse_args()        
-    plot_patterns_from_multiple_tsv(args.files, args.output, args.xlabel, args.ylabel, args.labels, 
-                                    args.a, args.b, args.row, fontsize=args.font)
+    args = parser.parse_args()
 
+    # Execute file processing
+    process_files(args.plus, args.minus, args.output, 
+                  args.xlabel, args.ylabel, args.labels, 
+                  args.row, args.a, args.b, args.font)
+
+if __name__ == "__main__":
+    main()
