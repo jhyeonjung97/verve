@@ -124,7 +124,7 @@ def plot_data(summed_df, output, xlabel, ylabel, labels, row, a, b, font, marker
                     plt.scatter(exp_df['numb'][i], exp_df['dH_form'][i],
                                 marker=exp_marker, color=exp_color, edgecolors=exp_color, facecolors='white')    
 
-    plt.xticks(np.arange(len(indice)), indice, fontsize=fontsize)
+    # plt.xticks(np.arange(len(indice)), indice, fontsize=fontsize)
     plt.yticks(fontsize=fontsize)
     plt.xlabel(xlabel, fontsize=fontsize)
     plt.ylabel(ylabel, fontsize=fontsize)
