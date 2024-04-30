@@ -38,9 +38,9 @@ def process_files(add_files, subtract_files, output_filename,
             summed_df.insert(0, df.columns[0], df.iloc[:, 0])  # Add back the first column unchanged
         else:
             summed_df.iloc[:, 1:] -= df.iloc[:, 1:]  # Subtract values excluding the first column
+            
+    summed_df = summed_df.drop(summed_df.columns[1], axis=1)
 
-    print(summed_df.columns)
-    
     if row:
         indice = metal_rows[row]
         markers = ['v', 'v', '^', 's', 's', 'o']
