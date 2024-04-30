@@ -48,7 +48,7 @@ def process_files(add_files, subtract_files, output_filename,
         indice = [f'{a}\n{b}\n{c}' for a, b, c in zip(metal_rows['3d'], metal_rows['4d'], metal_rows['5d'])]
         if '1_Tetrahedral_WZ' in os.getcwd():
             coordination = 'WZ'
-            markers = ['v']
+            markers = ['v'] * len(summed_df.columns)
             colors = plt.cm.Reds(np.linspace(0.1, 0.9, len(summed_df.columns)))
         elif '2_Tetrahedral_ZB' in os.getcwd():
             coordination = 'ZB'
