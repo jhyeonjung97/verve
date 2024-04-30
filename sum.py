@@ -77,7 +77,7 @@ def process_files(add_files, subtract_files, output_filename,
         summed_df.to_csv(f'{output_filename}.tsv', index=False, sep='\t')
         plot_data(summed_df, output_filename, xlabel, ylabel, labels, row, a, b, font, markers, colors)
 
-def plot_data(df, output_filename, xlabel, ylabel, labels, row, a, b, font, markers, colors):
+def plot_data(summed_df, output_filename, xlabel, ylabel, labels, row, a, b, font, markers, colors):
     plt.figure(figsize=(10, 6))
     # for i, column in enumerate(df.columns[1:]):  # Skip plotting the first column
     #     plt.plot(df.iloc[:, 0], df[column], marker=markers[i], color=colors[i], label=column)  
