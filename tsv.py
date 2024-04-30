@@ -63,6 +63,8 @@ def plot_patterns_from_multiple_tsv(add_files, subtract_files, filenames, output
         df.columns = labels[j] if isinstance(labels[j], list) else [labels[j]]
         merged_df = pd.concat([merged_df, df], axis=1)
 
+    print(merged_df)
+
     for filename in add_files:
         df = pd.read_csv(filename, delimiter='\t')
         if merged_df is None:
