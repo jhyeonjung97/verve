@@ -84,6 +84,7 @@ elif [[ ${here} == 'nersc' ]]; then
             python ~/bin/verve/lr.py --Y merged_norm_formation.tsv --X1 merged_ICOHP.tsv --X2 merged_norm_Madelung_L.tsv --X3 merged_cfse.tsv --X4 merged_IE1.tsv --X5 merged_IE2.tsv --X6 merged_IE3.tsv --X7 merged_sub.tsv > regression_output7.log
         #     python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Crystal Field Stabilization Energy" -o cfse */energy_cfse.tsv
         elif [[ $dir == *'Tetragonal'* ]] || [[ $PWD == *'Square_Planar'* ]]; then
+            echo 'pass'
         #     python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Square prism ratio [c/a]" -o hexa_ratio */energy_hexa_ratio.tsv
         else
         #     python ~/bin/verve/lr.py --Y merged_norm_formation.tsv --X1 merged_ICOHP.tsv --X2 merged_norm_Madelung_L.tsv --X3 merged_cfse.tsv > regression_output.log
