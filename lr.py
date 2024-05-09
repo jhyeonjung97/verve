@@ -11,6 +11,10 @@ def main():
     parser.add_argument('--X1', required=True, help='File path for X1.tsv')
     parser.add_argument('--X2', required=True, help='File path for X2.tsv')
     parser.add_argument('--X3', required=True, help='File path for X3.tsv')
+    parser.add_argument('--X4', required=True, help='File path for X4.tsv')
+    parser.add_argument('--X5', required=True, help='File path for X5.tsv')
+    parser.add_argument('--X6', required=True, help='File path for X6.tsv')
+    parser.add_argument('--X7', required=True, help='File path for X7.tsv')
 
     args = parser.parse_args()
 
@@ -19,9 +23,13 @@ def main():
     df_X1 = pd.read_csv(args.X1, delimiter='\t').iloc[:, 1:]
     df_X2 = pd.read_csv(args.X2, delimiter='\t').iloc[:, 1:]
     df_X3 = pd.read_csv(args.X3, delimiter='\t').iloc[:, 1:]
+    df_X4 = pd.read_csv(args.X4, delimiter='\t').iloc[:, 1:]
+    df_X5 = pd.read_csv(args.X5, delimiter='\t').iloc[:, 1:]
+    df_X6 = pd.read_csv(args.X6, delimiter='\t').iloc[:, 1:]
+    df_X7 = pd.read_csv(args.X7, delimiter='\t').iloc[:, 1:]
 
     # Ensure all DataFrames have the same shape
-    if not (df_Y.shape == df_X1.shape == df_X2.shape == df_X3.shape):
+    if not (df_Y.shape == df_X1.shape == df_X2.shape == df_X3.shape == df_X4.shape == df_X5.shape == df_X6.shape == df_X7.shape):
         raise ValueError("All files must have the same number of rows and columns after excluding the first column.")
 
     # Reshape the data into a long format
@@ -29,20 +37,28 @@ def main():
     X1 = df_X1.values.flatten()
     X2 = df_X2.values.flatten()
     X3 = df_X3.values.flatten()
+    X4 = df_X4.values.flatten()
+    X5 = df_X5.values.flatten()
+    X6 = df_X6.values.flatten()
+    X7 = df_X7.values.flatten()
     
     # Combine into a single DataFrame
     df_combined = pd.DataFrame({
         'E_form': Y,
         'ICOHP': X1,
         'MadelungL': X2,
-        'CFSE': X3
+        'CFSE': X3,
+        'IE1': X4,
+        'IE2': X5,
+        'IE3': X6,
+        'E_sub': X7
     })
 
     # Drop rows with NaN values (if any)
     df_combined.dropna(inplace=True)
 
     # Set up the predictors and response
-    X = df_combined[['ICOHP', 'MadelungL', 'CFSE']]
+    X = df_combined[['ICOHP', 'MadelungL', 'CFSE', 'IE1', 'IE2', 'IE3', 'E_sub']]
     Y = df_combined['E_form']
 
     # Initialize and fit the Linear Regression Model
@@ -61,7 +77,7 @@ def main():
     df_combined['Residuals'] = Y - Y_pred
 
     # Save the extended DataFrame to a new TSV file
-    output_filename = 'regression_output.tsv'
+    output_filename = 'regression_output7.tsv'
     df_combined.to_csv(output_filename, sep='\t', index=False)
 
     # Plotting actual vs predicted values
@@ -73,7 +89,7 @@ def main():
     # plt.title('Calculated vs. Predicted Values')
     # plt.show()
     plt.tight_layout()
-    plt.gcf().savefig('regression_output.png', bbox_inches="tight")
+    plt.gcf().savefig('regression_output7.png', bbox_inches="tight")
     
     # Display results
     print(f"Intercept: {model.intercept_}")

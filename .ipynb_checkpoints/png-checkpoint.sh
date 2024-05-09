@@ -63,27 +63,33 @@ elif [[ ${here} == 'nersc' ]]; then
         # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Gross population (Loewdin)" -o GP_Loewdin_M */energy_GP_Loewdin_M.tsv
         python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Bader charge (e-)" -o chg */energy_chg_M.tsv
         python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (M-O)" -y "Bond length (A)" -o chg */energy_bond.tsv
+        python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (M-O)" -y "Ionization energy (eV)" -o chg */energy_IE1.tsv
+        python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (M-O)" -y "Ionization energy (eV)" -o chg */energy_IE2.tsv
+        python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (M-O)" -y "Ionization energy (eV)" -o chg */energy_IE3.tsv
+        python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (M-O)" -y "Sublimation energy (eV)" -o chg */energy_sub.tsv
         # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Formation energy (eV/MO)" -o norm_formation */energy_norm_formation.tsv
-        python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "PSCENC (eV/MO)" -o norm_PSCENC */energy_norm_PSCENC.tsv
-        python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "TEWEN (eV/MO)" -o norm_TEWEN */energy_norm_TEWEN.tsv
-        python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "DENC (eV/MO)" -o norm_DENC */energy_norm_DENC.tsv
-        python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "EXHF (eV/MO)" -o norm_EXHF */energy_norm_EXHF.tsv
-        python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "XCENC (eV/MO)" -o norm_XCENC */energy_norm_XCENC.tsv
-        python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "PAW_double_counting (eV/MO)" -o norm_PAW_double_counting */energy_norm_PAW_double_counting.tsv
-        python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "EENTRO (eV/MO)" -o norm_EENTRO */energy_norm_EENTRO.tsv
-        python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "EBANDS (eV/MO)" -o norm_EBANDS */energy_norm_EBANDS.tsv
-        python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "EATOM (eV/MO)" -o norm_PSCENC */energy_norm_EATOM.tsv
+        # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "PSCENC (eV/MO)" -o norm_PSCENC */energy_norm_PSCENC.tsv
+        # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "TEWEN (eV/MO)" -o norm_TEWEN */energy_norm_TEWEN.tsv
+        # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "DENC (eV/MO)" -o norm_DENC */energy_norm_DENC.tsv
+        # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "EXHF (eV/MO)" -o norm_EXHF */energy_norm_EXHF.tsv
+        # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "XCENC (eV/MO)" -o norm_XCENC */energy_norm_XCENC.tsv
+        # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "PAW_double_counting (eV/MO)" -o norm_PAW_double_counting */energy_norm_PAW_double_counting.tsv
+        # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "EENTRO (eV/MO)" -o norm_EENTRO */energy_norm_EENTRO.tsv
+        # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "EBANDS (eV/MO)" -o norm_EBANDS */energy_norm_EBANDS.tsv
+        # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "EATOM (eV/MO)" -o norm_PSCENC */energy_norm_EATOM.tsv
         
-        # if [[ $PWD == *'Tetraheral'* ]]; then
+        if [[ $PWD == *'Tetraheral'* ]]; then
         #     python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Hexagonal ratio [c/a]" -o hexa_ratio */energy_hexa_ratio.tsv
-        #     python ~/bin/verve/lr.py --Y merged_norm_formation.tsv --X1 merged_ICOHP.tsv --X2 merged_norm_Madelung_L.tsv --X3 merged_cfse.tsv > regression_output.log
+        #     python ~/bin/verve/lr.py --Y merged_norm_formation.tsv --X1 merged_ICOHP.tsv --X2 merged_norm_Madelung_L.tsv --X3 merged_cfse.tsv > regression_output3.log
+            python ~/bin/verve/lr.py --Y merged_norm_formation.tsv --X1 merged_ICOHP.tsv --X2 merged_norm_Madelung_L.tsv --X3 merged_cfse.tsv --X4 merged_IE1.tsv --X5 merged_IE2.tsv --X6 merged_IE3.tsv --X7 merged_sub.tsv > regression_output7.log
         #     python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Crystal Field Stabilization Energy" -o cfse */energy_cfse.tsv
-        # elif [[ $dir == *'Tetragonal'* ]] || [[ $PWD == *'Square_Planar'* ]]; then
+        elif [[ $dir == *'Tetragonal'* ]] || [[ $PWD == *'Square_Planar'* ]]; then
         #     python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Square prism ratio [c/a]" -o hexa_ratio */energy_hexa_ratio.tsv
-        # else
+        else
         #     python ~/bin/verve/lr.py --Y merged_norm_formation.tsv --X1 merged_ICOHP.tsv --X2 merged_norm_Madelung_L.tsv --X3 merged_cfse.tsv > regression_output.log
+            python ~/bin/verve/lr.py --Y merged_norm_formation.tsv --X1 merged_ICOHP.tsv --X2 merged_norm_Madelung_L.tsv --X3 merged_cfse.tsv --X4 merged_IE1.tsv --X5 merged_IE2.tsv --X6 merged_IE3.tsv --X7 merged_sub.tsv > regression_output7.log
         #     python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Crystal Field Stabilization Energy" -o cfse */energy_cfse.tsv
-        # fi
+        fi
         
         # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Bond lentgh (A/M-O)" -o norm_bond */energy_norm_bond.tsv
         # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "ICOHP (eV/M-O)" -o norm_ICOHP */energy_norm_ICOHP.tsv
