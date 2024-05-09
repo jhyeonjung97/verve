@@ -311,11 +311,12 @@ def extract_values(directory, patterns, norm, dir_range):
                 subprocess.call('python ~/bin/playground/aloha/cohp.py > icohp.txt', shell=True, cwd=dir_path)
             if os.path.exists(ICOHP_path) and os.path.getsize(ICOHP_path) != 0:
                 with open(ICOHP_path, 'r') as file:
+                    bond_length = []
                     for line in file:
                         match = re.search(r'\b\d+\s+\w+\s+\d+\s+\w+\s+\d+\s+\S+\s+[\d.]+\s+([\d.]+)$', line)
                         if match:
-                            bond_length += float(match.group(1))
-                values.setdefault('bond', []).append(bond_length)
+                            bond_length.append(float(match.group(1)))
+                values.setdefault('bond', []).append(np.mean(bond_length))
             else:
                 values.setdefault('bond', []).append(np.nan)
         if 'ZPE' in specific_patterns:
