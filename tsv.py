@@ -21,32 +21,33 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, a
         colors = ['#d62728', '#ff7f0e', '#ffd70e', '#2ca02c', '#279ff2', '#9467bd']
     else:
         indice = [f'{a}\n{b}\n{c}' for a, b, c in zip(metal_rows['3d'], metal_rows['4d'], metal_rows['5d'])]
+        len = len(filenames)
         if '1_Tetrahedral_WZ' in os.getcwd():
             coordination = 'WZ'
-            markers = ['v'] * len(filenames)
-            colors = plt.cm.Reds(np.linspace(0.1, 0.9, len(filenames)))
+            markers = ['v'] * len
+            colors = plt.cm.Reds(np.linspace(0.1, 0.9, len)
         elif '2_Tetrahedral_ZB' in os.getcwd():
             coordination = 'ZB'
-            markers = ['v'] * len(filenames)
-            colors = plt.cm.Oranges(np.linspace(0.1, 0.9, len(filenames)))
+            markers = ['v'] * len
+            colors = plt.cm.Oranges(np.linspace(0.1, 0.9, len)
         elif '3_Tetragonal_LT' in os.getcwd():
             coordination = 'LT'
-            markers = ['^'] * len(filenames)
-            colors = plt.cm.Wistia(np.linspace(0.1, 0.9, len(filenames)))
+            markers = ['^'] * len
+            colors = plt.cm.Wistia(np.linspace(0.1, 0.9, len)
         elif '4_Square_Planar_TN' in os.getcwd():
             coordination = 'TN'
-            markers = ['s'] * len(filenames)
-            colors = plt.cm.Greens(np.linspace(0.1, 0.9, len(filenames)))
+            markers = ['s'] * len
+            colors = plt.cm.Greens(np.linspace(0.1, 0.9, len)
         elif '5_Square_Planar_33' in os.getcwd():
             coordination = '33'
-            markers = ['s'] * len(filenames)
-            colors = plt.cm.Blues(np.linspace(0.1, 0.9, len(filenames)))
+            markers = ['s'] * len
+            colors = plt.cm.Blues(np.linspace(0.1, 0.9, len)
         elif '6_Octahedral_RS' in os.getcwd():
             coordination = 'RS'
-            markers = ['o'] * len(filenames)
-            colors = plt.cm.Purples(np.linspace(0.1, 0.9, len(filenames)))
+            markers = ['o'] * len
+            colors = plt.cm.Purples(np.linspace(0.1, 0.9, len)
 
-    print(len(filenames))
+    
 
     merged_df = None    
     plt.figure(figsize=(a, b))
@@ -97,11 +98,11 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, a
             for i in exp_df.index:
                 if exp_df['Coordination'][i] == coordination:
                     if exp_df['row'][i] == '3d':
-                        exp_color = colors[2]; exp_marker = markers[2]
+                        exp_color = colors[-3]; exp_marker = markers[-3]
                     elif exp_df['row'][i] == '4d':
-                        exp_color = colors[3]; exp_marker = markers[3]
+                        exp_color = colors[-2]; exp_marker = markers[-2]
                     elif exp_df['row'][i] == '5d':
-                        exp_color = colors[4]; exp_marker = markers[4]
+                        exp_color = colors[-1]; exp_marker = markers[-1]
                     plt.scatter(exp_df['numb'][i], exp_df['dH_form'][i],
                                 marker=exp_marker, color=exp_color, edgecolors=exp_color, facecolors='white')
     
