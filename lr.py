@@ -71,7 +71,7 @@ def main():
     print(f"Results saved to {tsv_filename}")
     
     # Plotting actual vs predicted values
-    plt.figure(figsize=(6, 4))
+    plt.figure(figsize=(10, 8))
     plt.scatter(Y, Y_pred, alpha=0.3)
     
     # Annotate each point with its label
