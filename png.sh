@@ -79,10 +79,11 @@ elif [[ ${here} == 'nersc' ]]; then
         # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "EATOM (eV/MO)" -o norm_EATOM */energy_norm_EATOM.tsv
         
         if [[ $PWD == *'Tetraheral'* ]]; then
+            echo 'pass'
             # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Hexagonal ratio [c/a]" -o hexa_ratio */energy_hexa_ratio.tsv
             # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Crystal Field Stabilization Energy" -o cfse */energy_cfse.tsv
-            python ~/bin/verve/lr.py --Y merged_norm_formation.tsv --X merged_ICOHP.tsv merged_norm_Madelung_L.tsv merged_cfse.tsv -c ICOHP Madelung CFSE > regression3.log
-            python ~/bin/verve/lr.py --Y merged_norm_formation.tsv --X merged_ICOHP.tsv merged_norm_Madelung_L.tsv merged_cfse.tsv merged_IE1.tsv merged_IE2.tsv merged_IE3.tsv merged_sub.tsv -c ICOHP Madelung CFSE IE1 IE2 IE3 Esub > regression7.log
+            # python ~/bin/verve/lr.py --Y merged_norm_formation.tsv --X merged_ICOHP.tsv merged_norm_Madelung_L.tsv merged_cfse.tsv -c ICOHP Madelung CFSE > regression3.log
+            # python ~/bin/verve/lr.py --Y merged_norm_formation.tsv --X merged_ICOHP.tsv merged_norm_Madelung_L.tsv merged_cfse.tsv merged_IE1.tsv merged_IE2.tsv merged_IE3.tsv merged_sub.tsv -c ICOHP Madelung CFSE IE1 IE2 IE3 Esub > regression7.log
         elif [[ $dir == *'Tetragonal'* ]] || [[ $PWD == *'Square_Planar'* ]]; then
             echo 'pass'
             # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Square prism ratio [c/a]" -o hexa_ratio */energy_hexa_ratio.tsv
