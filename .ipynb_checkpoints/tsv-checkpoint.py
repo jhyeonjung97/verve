@@ -21,33 +21,31 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, a
         colors = ['#d62728', '#ff7f0e', '#ffd70e', '#2ca02c', '#279ff2', '#9467bd']
     else:
         indice = [f'{a}\n{b}\n{c}' for a, b, c in zip(metal_rows['3d'], metal_rows['4d'], metal_rows['5d'])]
-        len = len(filenames)
+        l = len(filenames)
         if '1_Tetrahedral_WZ' in os.getcwd():
             coordination = 'WZ'
-            markers = ['v'] * len
-            colors = plt.cm.Reds(np.linspace(0.1, 0.9, len))
+            markers = ['v'] * l
+            colors = plt.cm.Reds(np.linspace(0.1, 0.9, l))
         elif '2_Tetrahedral_ZB' in os.getcwd():
             coordination = 'ZB'
-            markers = ['v'] * len
-            colors = plt.cm.Oranges(np.linspace(0.1, 0.9, len))
+            markers = ['v'] * l
+            colors = plt.cm.Oranges(np.linspace(0.1, 0.9, l))
         elif '3_Tetragonal_LT' in os.getcwd():
             coordination = 'LT'
-            markers = ['^'] * len
-            colors = plt.cm.Wistia(np.linspace(0.1, 0.9, len))
+            markers = ['^'] * l
+            colors = plt.cm.Wistia(np.linspace(0.1, 0.9, l))
         elif '4_Square_Planar_TN' in os.getcwd():
             coordination = 'TN'
-            markers = ['s'] * len
-            colors = plt.cm.Greens(np.linspace(0.1, 0.9, len))
+            markers = ['s'] * l
+            colors = plt.cm.Greens(np.linspace(0.1, 0.9, l))
         elif '5_Square_Planar_33' in os.getcwd():
             coordination = '33'
-            markers = ['s'] * len
-            colors = plt.cm.Blues(np.linspace(0.1, 0.9, len))
+            markers = ['s'] * l
+            colors = plt.cm.Blues(np.linspace(0.1, 0.9, l))
         elif '6_Octahedral_RS' in os.getcwd():
             coordination = 'RS'
-            markers = ['o'] * len
-            colors = plt.cm.Purples(np.linspace(0.1, 0.9, len))
-
-    
+            markers = ['o'] * l
+            colors = plt.cm.Purples(np.linspace(0.1, 0.9, l))
 
     merged_df = None    
     plt.figure(figsize=(a, b))
@@ -55,8 +53,8 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, a
     png_filename = f"merged_{output}.png"   
     tsv_filename = f"merged_{output}.tsv"
 
-    if len(filenames) > len(labels):
-        print(f"Warning: More filenames ({len(filenames)}) than labels ({len(labels)}). Excess filenames will be ignored.")
+    if l > len(labels):
+        print(f"Warning: More filenames ({l}) than labels ({len(labels)}). Excess filenames will be ignored.")
         filenames = filenames[:len(labels)]
 
     for j, file in enumerate(filenames):
