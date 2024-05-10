@@ -63,6 +63,7 @@ def main():
     png_filename = f'{filename}.png'
     print(df_combined)
     df_combined.to_csv(tsv_filename, sep='\t', index=False)
+    print(f"Results saved to {tsv_filename}")
 
     # Plotting actual vs predicted values
     plt.figure(figsize=(6, 4))
@@ -81,7 +82,7 @@ def main():
     print(f"R-squared: {model.score(X, Y)}")
     print(f"Mean Absolute Error: {mae}")
     print(f"Mean Squared Error: {mse}")
-    print(f"Results saved to {output_filename}")
+    print(f"Figure saved as {png_filename}")
 
 if __name__ == "__main__":
     main()
