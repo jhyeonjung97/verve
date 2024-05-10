@@ -25,27 +25,27 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, a
         if '1_Tetrahedral_WZ' in os.getcwd():
             coordination = 'WZ'
             markers = ['v'] * l
-            colors = plt.cm.Reds(np.linspace(0.1, 0.9, l))
+            colors = plt.cm.Reds(np.linspace(0.3, 0.9, l))
         elif '2_Tetrahedral_ZB' in os.getcwd():
             coordination = 'ZB'
             markers = ['v'] * l
-            colors = plt.cm.Oranges(np.linspace(0.1, 0.9, l))
+            colors = plt.cm.Oranges(np.linspace(0.3, 0.9, l))
         elif '3_Tetragonal_LT' in os.getcwd():
             coordination = 'LT'
             markers = ['^'] * l
-            colors = plt.cm.Wistia(np.linspace(0.1, 0.9, l))
+            colors = plt.cm.Wistia(np.linspace(0.3, 0.9, l))
         elif '4_Square_Planar_TN' in os.getcwd():
             coordination = 'TN'
             markers = ['s'] * l
-            colors = plt.cm.Greens(np.linspace(0.1, 0.9, l))
+            colors = plt.cm.Greens(np.linspace(0.3, 0.9, l))
         elif '5_Square_Planar_33' in os.getcwd():
             coordination = '33'
             markers = ['s'] * l
-            colors = plt.cm.Blues(np.linspace(0.1, 0.9, l))
+            colors = plt.cm.Blues(np.linspace(0.3, 0.9, l))
         elif '6_Octahedral_RS' in os.getcwd():
             coordination = 'RS'
             markers = ['o'] * l
-            colors = plt.cm.Purples(np.linspace(0.1, 0.9, l))
+            colors = plt.cm.Purples(np.linspace(0.3, 0.9, l))
 
     merged_df = None    
     plt.figure(figsize=(a, b))
