@@ -44,7 +44,9 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, a
         elif '6_Octahedral_RS' in os.getcwd():
             coordination = 'RS'
             markers = ['o'] * len(filenames)
-            colors = plt.cm.Purples(np.linspace(0.1, 0.9, len(filenames)))        
+            colors = plt.cm.Purples(np.linspace(0.1, 0.9, len(filenames)))
+
+    print(len(filenames))
 
     merged_df = None    
     plt.figure(figsize=(a, b))

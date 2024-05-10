@@ -66,7 +66,6 @@ def main():
     # Save the extended DataFrame to a new TSV file
     tsv_filename = f'{filename}.tsv'
     png_filename = f'{filename}.png'
-    print(df_combined)
     df_combined.to_csv(tsv_filename, sep='\t', index=False)
     print(f"Results saved to {tsv_filename}")
     
