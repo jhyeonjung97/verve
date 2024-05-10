@@ -18,7 +18,12 @@ def main():
     
     # Load the data excluding the first column
     df_Y = pd.read_csv(args.Y, delimiter='\t').iloc[:, 1:]
-    X_dataframes = [pd.read_csv(x_file, delimiter='\t').iloc[:, 1:] for x_file in args.X]
+    labels = pd.read_csv('merged_element.tsv', delimiter='\t').iloc[:, 1:].values.flatten()
+
+    if args.columns:
+        X_dataframes = [pd.read_csv(x_file, delimiter='\t')[args.columns] for x_file in args.X]
+    else:
+        X_dataframes = [pd.read_csv(x_file, delimiter='\t').iloc[:, 1:] for x_file in args.X]
 
     # Ensure all DataFrames have the same shape
     all_shapes = [df_Y.shape] + [df.shape for df in X_dataframes]
@@ -28,7 +33,6 @@ def main():
     # Flatten and combine the X data into a single DataFrame
     Y = df_Y.values.flatten()
     X_combined = np.column_stack([df.values.flatten() for df in X_dataframes])
-    labels = pd.read_csv('merged_element.tsv', delimiter='\t').iloc[:, 1:].values.flatten()
     
     # Create column names for X
     column_names = args.columns if args.columns else [f'X{i+1}' for i in range(len(X_dataframes))]
