@@ -10,11 +10,10 @@ def main():
     parser.add_argument('--Y', required=True, help='File path for Y.tsv')
     parser.add_argument('--X', required=True, nargs='+', help='File paths for one or more X.tsv files')
     parser.add_argument('-c', '--columns', nargs='+', help='Column names to be used from the X.tsv files')
-    parser.add_argument('-o', '--output', dest='filename', type=str, default='regression', help="output filename")
+    parser.add_argument('-o', '--output', dest='filename', type=str, default='', help="output filename")
     args = parser.parse_args()
 
-    filename = '_' + args.filename
-    filename = f'regression_{filename}' if filename else 'regression'
+    filename = f'regression{args.filename}'
     
     # Load the data excluding the first column
     df_Y = pd.read_csv(args.Y, delimiter='\t').iloc[:, 1:]

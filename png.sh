@@ -89,8 +89,8 @@ elif [[ ${here} == 'nersc' ]]; then
             # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Square prism ratio [c/a]" -o hexa_ratio */energy_hexa_ratio.tsv
         else
             # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Crystal Field Stabilization Energy" -o cfse */energy_cfse.tsv
-            python ~/bin/verve/lr.py --Y merged_norm_formation.tsv --X merged_ICOHP.tsv merged_norm_Madelung_L.tsv merged_cfse.tsv > regression3.log
-            python ~/bin/verve/lr.py --Y merged_norm_formation.tsv --X merged_ICOHP.tsv merged_norm_Madelung_L.tsv merged_cfse.tsv merged_IE1.tsv merged_IE2.tsv merged_IE3.tsv merged_sub.tsv > regression7.log        
+            python ~/bin/verve/lr.py -o 3 --Y merged_norm_formation.tsv --X merged_ICOHP.tsv merged_norm_Madelung_L.tsv merged_cfse.tsv > regression3.log
+            python ~/bin/verve/lr.py -o 7 --Y merged_norm_formation.tsv --X merged_ICOHP.tsv merged_norm_Madelung_L.tsv merged_cfse.tsv merged_IE1.tsv merged_IE2.tsv merged_IE3.tsv merged_sub.tsv > regression7.log        
         fi
         
         # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Bond lentgh (A/M-O)" -o norm_bond */energy_norm_bond.tsv
