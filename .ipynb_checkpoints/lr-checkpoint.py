@@ -28,6 +28,7 @@ def main():
     # Flatten and combine the X data into a single DataFrame
     Y = df_Y.values.flatten()
     X_combined = np.column_stack([df.values.flatten() for df in X_dataframes])
+    labels = pd.read_csv('merged_element.tsv', delimiter='\t').iloc[:, 1:].values.flatten()
     
     # Create column names for X
     column_names = args.columns if args.columns else [f'X{i+1}' for i in range(len(X_dataframes))]
@@ -64,10 +65,15 @@ def main():
     print(df_combined)
     df_combined.to_csv(tsv_filename, sep='\t', index=False)
     print(f"Results saved to {tsv_filename}")
-
+    
     # Plotting actual vs predicted values
     plt.figure(figsize=(6, 4))
     plt.scatter(Y, Y_pred, alpha=0.3)
+    
+    # Annotate each point with its label
+    for (i, label) in enumerate(labels):
+        plt.annotate(label, (Y[i], Y_pred[i]))
+        
     plt.plot([Y.min(), Y.max()], [Y.min(), Y.max()], 'r--', lw=2)  # Ideal line where actual = predicted
     plt.xlabel('DFT-calculated Formation Energy (eV)')
     plt.ylabel('Predicted Formation Energy (eV)')
