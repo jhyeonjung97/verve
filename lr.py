@@ -18,7 +18,8 @@ def main():
     # Load the data excluding the first column
     df_Y = pd.read_csv(args.Y, delimiter='\t').iloc[:, 1:]
     labels = pd.read_csv('/pscratch/sd/j/jiuy97/3_V_shape/merged_element.tsv', delimiter='\t').iloc[:, 1:].values.flatten()
-
+    print(labels)
+    
     if args.columns:
         X_dataframes = [pd.read_csv(x_file, delimiter='\t')[args.columns] for x_file in args.X]
     else:
