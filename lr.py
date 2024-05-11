@@ -71,11 +71,17 @@ def main():
     
     # Plotting actual vs predicted values
     plt.figure(figsize=(10, 8))
-    plt.scatter(Y, Y_pred, alpha=0.3)
+    colors = ['red', 'green', 'blue']  # Extend this list if more files
+    file_row_count = df_Y.shape[0]  # Assuming equal rows per file
     
-    # Annotate each point with its label
-    for (i, label) in enumerate(labels):
-        plt.annotate(label, (Y[i], Y_pred[i]))
+    for i, color in enumerate(colors):
+        start_index = i * file_row_count
+        end_index = start_index + file_row_count
+        plt.scatter(Y[start_index:end_index], Y_pred[start_index:end_index], alpha=0.3, c=color)
+        
+        # Annotate each point with its label
+        for j in range(start_index, end_index):
+            plt.annotate(labels[j], (Y[j], Y_pred[j]))
         
     plt.plot([Y.min(), Y.max()], [Y.min(), Y.max()], 'r--', lw=2)  # Ideal line where actual = predicted
     plt.xlabel('DFT-calculated Formation Energy (eV)')
