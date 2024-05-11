@@ -18,30 +18,30 @@ def main():
     # Load the data excluding the first column
     df_Y = pd.read_csv(args.Y, delimiter='\t').iloc[:, 1:]
     labels = pd.read_csv('/pscratch/sd/j/jiuy97/3_V_shape/merged_element.tsv', delimiter='\t').iloc[:, 1:].values.flatten()
+    print(labels)
     
     if args.columns:
         X_dataframes = [pd.read_csv(x_file, delimiter='\t')[args.columns] for x_file in args.X]
     else:
         X_dataframes = [pd.read_csv(x_file, delimiter='\t').iloc[:, 1:] for x_file in args.X]
-        
+
     # Ensure all DataFrames have the same shape
     all_shapes = [df_Y.shape] + [df.shape for df in X_dataframes]
     if not all(shape == all_shapes[0] for shape in all_shapes):
         raise ValueError("All files must have the same number of rows and columns after excluding the first column.")
 
-    # Combining all X dataframes (ensure they are compatible)
+    # Flatten and combine the X data into a single DataFrame
+    Y = df_Y.values.flatten()
     X_combined = np.column_stack([df.values.flatten() for df in X_dataframes])
     
     # Create column names for X
     column_names = args.columns if args.columns else [f'X{i+1}' for i in range(len(X_dataframes))]
 
-    # Combine the X data into a single DataFrame and add Y
+    # Combine into a single DataFrame
     df_combined = pd.DataFrame(X_combined, columns=column_names)
-    df_combined['E_form'] = df_Y.values.flatten()
-    
-    # Handle NaNs carefully
-    valid_indices = df_combined.index[df_combined.notna().all(1)]  # Get indices before dropping NaNs
-    filtered_labels = labels[valid_indices]  # Filter labels to match valid indices
+    df_combined['E_form'] = Y
+
+    # Drop rows with NaN values (if any)
     df_combined.dropna(inplace=True)
 
     # Set up the predictors and response
@@ -72,7 +72,7 @@ def main():
     # Plotting actual vs predicted values
     plt.figure(figsize=(10, 8))
     colors = ['red', 'green', 'blue']  # Extend this list if more files
-    file_row_count = df_combined.shape[0] // len(args.X)  # Adjust row count post NaN removal
+    file_row_count = df_Y.shape[0]  # Assuming equal rows per file
     
     for i, color in enumerate(colors):
         start_index = i * file_row_count
@@ -81,13 +81,11 @@ def main():
         
         # Annotate each point with its label
         for j in range(start_index, end_index):
-            if j < len(filtered_labels):  # Ensure within bounds of filtered_labels
-                plt.annotate(filtered_labels[j], (Y[j], Y_pred[j]))
+            plt.annotate(labels[j], (Y[j], Y_pred[j]))
         
-    plt.plot([Y.min(), Y.max()], [Y.min(), Y.max()], 'r--', lw=2) 
+    plt.plot([Y.min(), Y.max()], [Y.min(), Y.max()], 'r--', lw=2)  # Ideal line where actual = predicted
     plt.xlabel('DFT-calculated Formation Energy (eV)')
     plt.ylabel('Predicted Formation Energy (eV)')
-    plt.legend()  # Use a slice of labels list to create a legend
     # plt.title('Calculated vs. Predicted Values')
     # plt.show()
     plt.tight_layout()
