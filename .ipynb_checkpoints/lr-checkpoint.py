@@ -18,27 +18,24 @@ def main():
     # Load the data excluding the first column
     df_Y = pd.read_csv(args.Y, delimiter='\t').iloc[:, 1:]
     labels = pd.read_csv('/pscratch/sd/j/jiuy97/3_V_shape/merged_element.tsv', delimiter='\t').iloc[:, 1:].values.flatten()
-    print(labels)
     
     if args.columns:
         X_dataframes = [pd.read_csv(x_file, delimiter='\t')[args.columns] for x_file in args.X]
     else:
         X_dataframes = [pd.read_csv(x_file, delimiter='\t').iloc[:, 1:] for x_file in args.X]
-
+        
     # Ensure all DataFrames have the same shape
     all_shapes = [df_Y.shape] + [df.shape for df in X_dataframes]
     if not all(shape == all_shapes[0] for shape in all_shapes):
         raise ValueError("All files must have the same number of rows and columns after excluding the first column.")
 
-    # Flatten and combine the X data into a single DataFrame
-    Y = df_Y.values.flatten()
+    # Combining all X dataframes (ensure they are compatible)
     X_combined = np.column_stack([df.values.flatten() for df in X_dataframes])
     
     # Create column names for X
     column_names = args.columns if args.columns else [f'X{i+1}' for i in range(len(X_dataframes))]
 
     # Combine the X data into a single DataFrame and add Y
-    X_combined = np.column_stack([df.values for df in X_dataframes])
     df_combined = pd.DataFrame(X_combined, columns=[f'X{i+1}' for i in range(len(X_dataframes))])
     df_combined['E_form'] = df_Y.values.flatten()
     
