@@ -77,7 +77,7 @@ def main():
     # Plotting actual vs predicted values
     plt.figure(figsize=(10, 8))
     colors = ['red', 'green', 'blue']  # Extend this list if more files
-    file_row_count = df_Y.shape[0]  # Assuming equal rows per file
+    file_row_count = df_combined.shape[0] // len(args.X)  # Adjust row count post NaN removal
     
     for i, color in enumerate(colors):
         start_index = i * file_row_count
