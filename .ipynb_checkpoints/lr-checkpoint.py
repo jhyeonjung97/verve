@@ -31,16 +31,17 @@ def main():
 
     # Combining all X dataframes (ensure they are compatible)
     X_combined = np.column_stack([df.values.flatten() for df in X_dataframes])
+    
+    # Create column names for X
+    column_names = args.columns if args.columns else [f'X{i+1}' for i in range(len(X_dataframes))]
 
     # Combine the X data into a single DataFrame and add Y
-    df_combined = pd.DataFrame(X_combined, columns=[f'X{i+1}' for i in range(len(X_dataframes))])
+    df_combined = pd.DataFrame(X_combined, columns=column_names)
     df_combined['E_form'] = df_Y.values.flatten()
     
-    # Note labels to ensure they align after dropping NaNs
+    # Handle NaNs carefully
     valid_indices = df_combined.index[df_combined.notna().all(1)]  # Get indices before dropping NaNs
     filtered_labels = labels[valid_indices]  # Filter labels to match valid indices
-    
-    # Now we can safely drop NaNs
     df_combined.dropna(inplace=True)
 
     # Set up the predictors and response
@@ -71,19 +72,19 @@ def main():
     # Plotting actual vs predicted values
     plt.figure(figsize=(10, 8))
     colors = ['red', 'green', 'blue']  # Extend this list if more files
-    legend_labels = [f'X{i+1}' for i in range(len(args.X))]  # Corresponds to each X.tsv file
+    file_row_count = df_combined.shape[0] // len(args.X)  # Adjust row count post NaN removal
     
-    for i, (color, legend_label) in enumerate(zip(colors, legend_labels)):
+    for i, color in enumerate(colors):
         start_index = i * file_row_count
         end_index = start_index + file_row_count
-        x_subset = Y[start_index:end_index]
-        y_subset = Y_pred[start_index:end_index]
-        plt.scatter(x_subset, y_subset, alpha=0.3, color=color, label=legend_label)
+        plt.scatter(Y[start_index:end_index], Y_pred[start_index:end_index], alpha=0.3, c=color)
         
-        for x, y, label in zip(x_subset, y_subset, filtered_labels[start_index:end_index]):
-            plt.annotate(label, (x, y))
+        # Annotate each point with its label
+        for j in range(start_index, end_index):
+            if j < len(filtered_labels):  # Ensure within bounds of filtered_labels
+                plt.annotate(filtered_labels[j], (Y[j], Y_pred[j]))
         
-    plt.plot([Y.min(), Y.max()], [Y.min(), Y.max()], 'r--', lw=2)  # Ideal line where actual = predicted
+    plt.plot([Y.min(), Y.max()], [Y.min(), Y.max()], 'r--', lw=2) 
     plt.xlabel('DFT-calculated Formation Energy (eV)')
     plt.ylabel('Predicted Formation Energy (eV)')
     plt.legend()  # Use a slice of labels list to create a legend
