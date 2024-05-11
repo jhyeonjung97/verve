@@ -37,11 +37,16 @@ def main():
     # Create column names for X
     column_names = args.columns if args.columns else [f'X{i+1}' for i in range(len(X_dataframes))]
 
-    # Combine into a single DataFrame
-    df_combined = pd.DataFrame(X_combined, columns=column_names)
-    df_combined['E_form'] = Y
-
-    # Drop rows with NaN values (if any)
+    # Combine the X data into a single DataFrame and add Y
+    X_combined = np.column_stack([df.values for df in X_dataframes])
+    df_combined = pd.DataFrame(X_combined, columns=[f'X{i+1}' for i in range(len(X_dataframes))])
+    df_combined['E_form'] = df_Y.values.flatten()
+    
+    # Note labels to ensure they align after dropping NaNs
+    valid_indices = df_combined.dropna().index
+    filtered_labels = labels[valid_indices]
+    
+    # Now we can safely drop NaNs
     df_combined.dropna(inplace=True)
 
     # Set up the predictors and response
@@ -81,11 +86,13 @@ def main():
         
         # Annotate each point with its label
         for j in range(start_index, end_index):
-            plt.annotate(labels[j], (Y[j], Y_pred[j]))
+            if j < len(filtered_labels):  # Ensure within bounds of filtered_labels
+                plt.annotate(filtered_labels[j], (Y[j], Y_pred[j]))
         
     plt.plot([Y.min(), Y.max()], [Y.min(), Y.max()], 'r--', lw=2)  # Ideal line where actual = predicted
     plt.xlabel('DFT-calculated Formation Energy (eV)')
     plt.ylabel('Predicted Formation Energy (eV)')
+    plt.legend(labels[:len(colors)])  # Use a slice of labels list to create a legend
     # plt.title('Calculated vs. Predicted Values')
     # plt.show()
     plt.tight_layout()
