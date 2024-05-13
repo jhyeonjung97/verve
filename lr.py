@@ -36,6 +36,8 @@ def main():
     Y = pd.DataFrame(df_Y_combined['value'])
     labels = pd.DataFrame(df_L['value'])
     rows = pd.DataFrame(df_Y_combined['variable'])
+
+    print(X)
     
     Y.columns = ['E_form']
     rows.columns = ['Row']
