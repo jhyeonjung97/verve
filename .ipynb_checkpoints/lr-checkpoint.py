@@ -96,7 +96,6 @@ def main():
     degrees_of_freedom = X.shape[0] - X.shape[1] - 1  # Adjust for intercept
     estimated_variance = rss / degrees_of_freedom
 
-    print(estimated_variance)
     M = pd.concat([X, Y], axis=1)
     print(M)
     
