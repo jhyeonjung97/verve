@@ -94,9 +94,10 @@ def main():
 
     M = pd.concat([Y, X], axis=1)
     covariance_matrix = np.cov(M, rowvar=False)
+    correlation_matrix = covariance_matrix.corr()
     
     plt.figure(figsize=(7, 6)) # Set the figure size as needed
-    sns.heatmap(covariance_matrix, annot=True, fmt=".2f", cmap='coolwarm')
+    sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap='coolwarm')
     plt.xticks(np.arange(M.shape[1]) + 0.5, M.columns, rotation=90, ha='right')
     plt.yticks(np.arange(M.shape[1]) + 0.5, M.columns, rotation=0, va='center')
     plt.title('Covariance matrix showing correlation coefficients')
