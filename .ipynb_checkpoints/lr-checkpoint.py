@@ -34,6 +34,9 @@ def main():
     X = df_combined
     Y = df_Y.iloc[:df_combined.shape[0]]
 
+    print(X)
+    print(Y)
+
     model = LinearRegression()
     model.fit(X, Y)
 
