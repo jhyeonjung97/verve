@@ -10,6 +10,7 @@ def main():
     parser = argparse.ArgumentParser(description='Perform linear regression using aggregated columns from multiple TSV files excluding the first column, calculate MAE, MSE, plot results, and save output.')
     parser.add_argument('--Y', required=True, help='File path for Y.tsv')
     parser.add_argument('--X', required=True, nargs='+', help='File paths for one or more X.tsv files')
+    parser.add_argument('--C', default='merged_coord.tsv' help='File paths for one or more C.tsv files')
     parser.add_argument('-i', '--index', required=True, nargs='+', help='Column names to be used from the X.tsv files')
     parser.add_argument('-o', '--output', dest='filename', type=str, default='', help="output filename")
     args = parser.parse_args()
@@ -18,7 +19,7 @@ def main():
     
     # Load the data excluding the first column
     df_Y = pd.read_csv(args.Y, delimiter='\t').iloc[:, 1:]
-    df_C = pd.melt(pd.read_csv('./merged_Coord.tsv', delimiter='\t').iloc[:, 1:])
+    df_C = pd.read_csv(args.C, delimiter='\t').iloc[:, 1:]
     df_L = pd.melt(pd.read_csv('/pscratch/sd/j/jiuy97/3_V_shape/merged_element.tsv', delimiter='\t').iloc[:, 1:])
     X_dataframes = []
     data_counts = []
