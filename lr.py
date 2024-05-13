@@ -29,7 +29,7 @@ def main():
         single_column_df = melted_df['value'].reset_index(drop=True)
         X_dataframes.append(single_column_df)
     
-    df_X_combined = pd.concat(X_dataframes, axis=1, index=column_names)
+    df_X_combined = pd.concat(X_dataframes, axis=1)
     df_Y_combined = pd.melt(df_Y.iloc[:df_X_combined.shape[0]])
 
     X = df_X_combined
