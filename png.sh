@@ -170,7 +170,7 @@ elif [[ ${here} == 'nersc' ]]; then
     mv /pscratch/sd/j/jiuy97/3_V_shape/3_Tetragonal_LT /pscratch/sd/j/jiuy97
     python ~/bin/verve/concat.py -o norm_formation --X */merged_norm_formation.tsv
     python ~/bin/verve/concat.py -o ICOHP --X */merged_ICOHP.tsv
-    python ~/bin/verve/concat.py -o norm_MadelungL --X */merged_MadelungL.tsv
+    python ~/bin/verve/concat.py -o norm_MadelungL --X */merged_norm_MadelungL.tsv
     python ~/bin/verve/concat.py -o cfse --X */merged_cfse.tsv
     python ~/bin/verve/concat.py -o IE1 --X */merged_IE1.tsv
     python ~/bin/verve/concat.py -o IE2 --X */merged_IE2.tsv
