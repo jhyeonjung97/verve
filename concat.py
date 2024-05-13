@@ -12,8 +12,13 @@ def main():
     parser.add_argument('-o', '--output', dest='filename', type=str, default='', help="output filename")
     args = parser.parse_args()
     filename = args.filename
-    
-    df_X_combined = pd.concat(args.X, axis=0)
+
+    X_dataframes = []
+    for x_file in args.X:
+        df_X = pd.read_csv(x_file, delimiter='\t').iloc[:, 1:]
+        X_dataframes.append(df_X)
+        
+    df_X_combined = pd.concat(X_dataframes, axis=0)
     print(df_X_combined)
 
 if __name__ == "__main__":
