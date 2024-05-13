@@ -39,6 +39,8 @@ def main():
     rows.columns = ['Row']
     labels.columns = ['Metal']
 
+    print(labels)
+    
     df_combined = pd.concat([rows, labels, X, Y], axis=1)
     print(df_combined)
     
