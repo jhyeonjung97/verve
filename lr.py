@@ -21,78 +21,51 @@ def main():
     X_dataframes = []
     data_counts = []
     
-    # Loop through each X.tsv file path
     for x_file in args.X:
-        df_X = pd.read_csv(x_file, delimiter='\t').iloc[:, 1:]  # Load each file excluding the first column
+        df_X = pd.read_csv(x_file, delimiter='\t').iloc[:, 1:]
         row_count = df_X.shape[0]
-        nan_count = df_X.isna().any(axis=1).sum()  # Count rows with any NaNs
-        X_dataframes.append(df_X)
-        data_counts.append(row_count-nan_count)
+        nan_count = df_X.isna().any(axis=1).sum()
+        X_dataframes.append(df_X.dropna())
+        data_counts.append(row_count - nan_count)  # Store counts of non-NaN rows only
 
-    # Ensure all DataFrames have the same shape
-    all_shapes = [df_Y.shape] + [df.shape for df in X_dataframes]
-    if not all(shape == all_shapes[0] for shape in all_shapes):
-        raise ValueError("All files must have the same number of rows and columns after excluding the first column.")
-    
-    # Create column names for X
-    column_names = args.columns if args.columns else [f'X{i+1}' for i in range(len(X_dataframes))]
-
-    # Combine into a single DataFrame
     df_combined = pd.concat(X_dataframes, axis=1)
     df_combined = df_combined.dropna()
 
-    # Set up the predictors and response
     X = df_combined
-    Y = df_Y.iloc[:df_combined.shape[0]]  # Adjust Y to match the length of X after NaN dropping
+    Y = df_Y.iloc[:df_combined.shape[0]]
 
-    # Initialize and fit the Linear Regression Model
     model = LinearRegression()
     model.fit(X, Y)
 
-    # Make predictions
     Y_pred = model.predict(X)
 
-    # Calculate MAE and MSE
     mae = mean_absolute_error(Y, Y_pred)
     mse = mean_squared_error(Y, Y_pred)
 
-    # Append predictions and error metrics to the DataFrame
     df_combined['Predicted E_form'] = Y_pred
     df_combined['Residuals'] = Y - Y_pred
 
-    # Save the extended DataFrame to a new TSV file
     tsv_filename = f'{filename}.tsv'
     png_filename = f'{filename}.png'
     df_combined.to_csv(tsv_filename, sep='\t', index=False)
-    print(f"Results saved to {tsv_filename}")
     
-    # Plotting actual vs predicted values
     plt.figure(figsize=(10, 8))
-    colors = ['red', 'green', 'blue']  # Extend this list if more files
-    # file_row_count = df_Y.shape[0]  # Assuming equal rows per file
-
-    print(labels)
-    print(Y)
-    
+    colors = ['red', 'green', 'blue']  # Ensure enough colors are defined
     start_index = 0
-    end_index = data_counts[0]-1
-    for i, color in enumerate(colors):
-        plt.scatter(Y[start_index:end_index], Y_pred[start_index:end_index], alpha=0.3, c=color)        
-        # Annotate each point with its label
+    for i, data_count in enumerate(data_counts):
+        end_index = start_index + data_count
+        plt.scatter(Y[start_index:end_index], Y_pred[start_index:end_index], alpha=0.3, c=colors[i % len(colors)])
         for j in range(start_index, end_index):
             plt.annotate(labels[j], (Y[j], Y_pred[j]))
-        start_index += data_counts[i]
-        end_index += data_counts[i]
-        
-    plt.plot([Y.min(), Y.max()], [Y.min(), Y.max()], 'r--', lw=2)  # Ideal line where actual = predicted
+        start_index = end_index
+    
+    plt.plot([Y.min(), Y.max()], [Y.min(), Y.max()], 'r--', lw=2)
     plt.xlabel('DFT-calculated Formation Energy (eV)')
     plt.ylabel('Predicted Formation Energy (eV)')
-    # plt.title('Calculated vs. Predicted Values')
-    # plt.show()
     plt.tight_layout()
     plt.gcf().savefig(png_filename, bbox_inches="tight")
     
-    # Display results
+    print(f"Results saved to {tsv_filename}")
     print(f"Intercept: {model.intercept_}")
     print(f"Coefficients: {model.coef_}")
     print(f"R-squared: {model.score(X, Y)}")
