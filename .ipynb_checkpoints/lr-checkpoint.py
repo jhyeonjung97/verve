@@ -62,7 +62,6 @@ def main():
     tsv_filename = f'{filename}.tsv'
     png_filename = f'{filename}.png'
     df_combined.to_csv(tsv_filename, sep='\t', index=False)
-    print(f"Results saved to {tsv_filename}")
     
     plt.figure(figsize=(10, 8))
     colors = ['red', 'green', 'blue']
@@ -87,6 +86,8 @@ def main():
     print(f"R-squared: {model.score(X, Y)}")
     print(f"Mean Absolute Error: {mae}")
     print(f"Mean Squared Error: {mse}")
+    
+    print(f"Results saved to {tsv_filename}")
     print(f"Figure saved as {png_filename}")
 
 if __name__ == "__main__":
