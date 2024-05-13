@@ -1,9 +1,10 @@
-import pandas as pd
+import argparse
 import numpy as np
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, mean_squared_error
-import matplotlib.pyplot as plt
-import argparse
 
 def main():
     parser = argparse.ArgumentParser(description='Perform linear regression using aggregated columns from multiple TSV files excluding the first column, calculate MAE, MSE, plot results, and save output.')
@@ -55,24 +56,21 @@ def main():
     
     mae = mean_absolute_error(Y, Y_pred)
     mse = mean_squared_error(Y, Y_pred)
-
-    df_combined['Predicted E_form'] = Y_pred
-    df_combined['Residuals'] = Y - Y_pred
     
-    rss = np.sum(df_combined['Residuals']**2)
-    degrees_of_freedom = X.shape[0] - X.shape[1] - 1  # Adjust for intercept
-    estimated_variance = rss / degrees_of_freedom
+    print(f"Intercept: {model.intercept_}")
+    print(f"Coefficients: {model.coef_}")
+    print(f"R-squared: {model.score(X, Y)}")
+    print(f"Mean Absolute Error: {mae}")
+    print(f"Mean Squared Error: {mse}")
     
-    XTX_inv = np.linalg.inv(X.T.dot(X))
-    covariance_matrix = XTX_inv * estimated_variance
-    
-    print("Covariance matrix of the coefficients:")
-    print(covariance_matrix)
-
     tsv_filename = f'{filename}.tsv'
     png_filename = f'{filename}.png'
     df_combined.to_csv(tsv_filename, sep='\t', index=False)
+    print(f"Results saved to {tsv_filename}")
     
+    df_combined['Predicted E_form'] = Y_pred
+    df_combined['Residuals'] = Y - Y_pred
+
     plt.figure(figsize=(10, 8))
     colors = ['red', 'green', 'blue']
     for i, row in enumerate(['3d', '4d', '5d']):
@@ -90,15 +88,22 @@ def main():
     plt.legend()
     plt.tight_layout()
     plt.gcf().savefig(png_filename, bbox_inches="tight")
-    
-    print(f"Intercept: {model.intercept_}")
-    print(f"Coefficients: {model.coef_}")
-    print(f"R-squared: {model.score(X, Y)}")
-    print(f"Mean Absolute Error: {mae}")
-    print(f"Mean Squared Error: {mse}")
-    
-    print(f"Results saved to {tsv_filename}")
     print(f"Figure saved as {png_filename}")
+    plt.close()
+    
+    rss = np.sum(df_combined['Residuals']**2)
+    degrees_of_freedom = X.shape[0] - X.shape[1] - 1  # Adjust for intercept
+    estimated_variance = rss / degrees_of_freedom
+    
+    XTX_inv = np.linalg.inv(X.T.dot(X))
+    covariance_matrix = XTX_inv * estimated_variance
+    
+    plt.figure(figsize=(10, 8))  # Set the figure size as needed
+    sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap='coolwarm', cbar_kws={'label': 'Correlation coefficient'})
+    plt.title('Covariance matrix showing correlation coefficients')
+    plt.show()
+    
+    
 
 if __name__ == "__main__":
     main()
