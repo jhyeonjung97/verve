@@ -8,7 +8,7 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error
 
 def main():
     parser = argparse.ArgumentParser(description='Perform linear regression using aggregated columns from multiple TSV files excluding the first column, calculate MAE, MSE, plot results, and save output.')
-    parser.add_argument('--Y', required=True, help='File path for Y.tsv')
+    parser.add_argument('--Y', required=True, nargs='+', help='File path for Y.tsv')
     parser.add_argument('--X', required=True, nargs='+', help='File paths for one or more X.tsv files')
     parser.add_argument('-c', '--columns', required=True, nargs='+', help='Column names to be used from the X.tsv files')
     parser.add_argument('-o', '--output', dest='filename', type=str, default='', help="output filename")
@@ -20,6 +20,7 @@ def main():
     df_Y = pd.read_csv(args.Y, delimiter='\t').iloc[:, 1:]
     df_L = pd.melt(pd.read_csv('/pscratch/sd/j/jiuy97/3_V_shape/merged_element.tsv', delimiter='\t').iloc[:, 1:])
     X_dataframes = []
+    Y_dataframes = []
     data_counts = []
     
     for x_file in args.X:
@@ -27,10 +28,11 @@ def main():
         melted_df = pd.melt(df_X)
         single_column_df = melted_df['value'].reset_index(drop=True)
         X_dataframes.append(single_column_df)
-    
+        
     df_X_combined = pd.concat(X_dataframes, axis=1)
     df_X_combined.columns = args.columns
-    df_Y_combined = pd.melt(df_Y.iloc[:df_X_combined.shape[0]])
+    df_Y_combined = pd.concat(args.Y, axis=1)
+    df_Y_combined = pd.melt(df_Y_combined)
     
     X = df_X_combined
     Y = pd.DataFrame(df_Y_combined['value'])
