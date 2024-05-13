@@ -18,8 +18,8 @@ def main():
     df_Y = pd.read_csv(args.Y, delimiter='\t').iloc[:, 1:]
     df_L = pd.melt(pd.read_csv('/pscratch/sd/j/jiuy97/3_V_shape/merged_element.tsv', delimiter='\t').iloc[:, 1:])
     labels = df_L['value'].reset_index(drop=True)
-    X_dataframes = []
     data_counts = []
+    dataframes = []
     
     for x_file in args.X:
         df_X = pd.read_csv(x_file, delimiter='\t').iloc[:, 1:]
@@ -33,7 +33,7 @@ def main():
     
     X = df_X_combined
     Y = pd.DataFrame(df_Y_combined['value'])
-    df_row = pd.DataFrame(df_Y_combined['variable'])
+    df_row = pd.DataFrame(df_Y_combined['variable'])]
     
     Y.columns = ['E_form']
     df_row.columns = ['Row']
@@ -44,6 +44,10 @@ def main():
 
     Y_pred = model.predict(X)
 
+    print(X)
+    print(Y)
+    print(Y_pred)
+    
     mae = mean_absolute_error(Y, Y_pred)
     mse = mean_squared_error(Y, Y_pred)
 
