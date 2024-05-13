@@ -92,19 +92,13 @@ def main():
     print(f"Figure saved as {png_filename}")
     plt.close()
 
-    rss = np.sum(df_combined['Residuals']**2)
-    degrees_of_freedom = X.shape[0] - X.shape[1] - 1  # Adjust for intercept
-    estimated_variance = rss / degrees_of_freedom
-
     M = pd.concat([Y, X], axis=1)
-    
-    XTX_inv = np.linalg.inv(M.T.dot(M))
-    covariance_matrix = XTX_inv * estimated_variance
+    covariance_matrix = M.corr()
     
     plt.figure(figsize=(7, 6)) # Set the figure size as needed
     sns.heatmap(covariance_matrix, annot=True, fmt=".2f", cmap='coolwarm')
-    plt.xticks(np.arange(len(M.columns)) + 0.5, M.columns, rotation=90, ha='right')
-    plt.yticks(np.arange(len(M.columns)) + 0.5, M.columns, rotation=0, va='center')
+    plt.xticks(np.arange(M.shape[1]) + 0.5, M.columns, rotation=90, ha='right')
+    plt.yticks(np.arange(M.shape[1]) + 0.5, M.columns, rotation=0, va='center')
     plt.title('Covariance matrix showing correlation coefficients')
     plt.tight_layout()
     plt.gcf().savefig(matrix_filename, bbox_inches="tight")
