@@ -65,14 +65,14 @@ def main():
     print(f"Mean Absolute Error: {mae}")
     print(f"Mean Squared Error: {mse}")
     
+    df_combined['Predicted E_form'] = Y_pred
+    df_combined['Residuals'] = Y - Y_pred
+    
     tsv_filename = f'{filename}.tsv'
     png_filename = f'{filename}.png'
     df_combined.to_csv(tsv_filename, sep='\t', index=False)
     print(f"Results saved to {tsv_filename}")
     
-    df_combined['Predicted E_form'] = Y_pred
-    df_combined['Residuals'] = Y - Y_pred
-
     plt.figure(figsize=(10, 8))
     colors = ['red', 'green', 'blue']
     for i, row in enumerate(['3d', '4d', '5d']):
