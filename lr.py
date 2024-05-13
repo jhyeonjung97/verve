@@ -12,15 +12,12 @@ def main():
     parser.add_argument('-c', '--columns', required=True, nargs='+', help='Column names to be used from the X.tsv files')
     parser.add_argument('-o', '--output', dest='filename', type=str, default='', help="output filename")
     args = parser.parse_args()
-
-    column_names = args.columns
     filename = f'regression{args.filename}'
     
     # Load the data excluding the first column
     df_Y = pd.read_csv(args.Y, delimiter='\t').iloc[:, 1:]
     df_L = pd.melt(pd.read_csv('/pscratch/sd/j/jiuy97/3_V_shape/merged_element.tsv', delimiter='\t').iloc[:, 1:])
     labels = df_L['value'].reset_index(drop=True)
-    print(labels)
     X_dataframes = []
     data_counts = []
     
@@ -32,11 +29,15 @@ def main():
     
     df_X_combined = pd.concat(X_dataframes, axis=1)
     df_Y_combined = pd.melt(df_Y.iloc[:df_X_combined.shape[0]])
-
+    
     X = df_X_combined
     Y = pd.DataFrame(df_Y_combined['value'])
     df_row = pd.DataFrame(df_Y_combined['variable'])
-    print(X, Y, df_row)
+    
+    X.columns = args.columns
+    Y.columns = ['E_form']
+    df_row.columns = ['Row']
+    labels.columns = ['Metal']
     
     model = LinearRegression()
     model.fit(X, Y)
