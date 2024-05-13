@@ -28,13 +28,13 @@ def main():
         X_dataframes.append(single_column_df)
     
     df_X_combined = pd.concat(X_dataframes, axis=1)
+    df_X_combined.columns = args.columns
     df_Y_combined = pd.melt(df_Y.iloc[:df_X_combined.shape[0]])
     
     X = df_X_combined
     Y = pd.DataFrame(df_Y_combined['value'])
     df_row = pd.DataFrame(df_Y_combined['variable'])
     
-    X.columns = args.columns
     Y.columns = ['E_form']
     df_row.columns = ['Row']
     labels.columns = ['Metal']
