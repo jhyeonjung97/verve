@@ -93,7 +93,7 @@ def main():
     plt.close()
 
     M = pd.concat([Y, X], axis=1)
-    covariance_matrix = np.cov(df, M=False)
+    covariance_matrix = np.cov(M, rowvar=False)
     
     plt.figure(figsize=(7, 6)) # Set the figure size as needed
     sns.heatmap(covariance_matrix, annot=True, fmt=".2f", cmap='coolwarm')
