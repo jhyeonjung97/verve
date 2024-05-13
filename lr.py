@@ -33,15 +33,14 @@ def main():
     
     X = df_X_combined
     Y = pd.DataFrame(df_Y_combined['value'])
-    df_row = pd.DataFrame(df_Y_combined['variable'])
+    rows = pd.DataFrame(df_Y_combined['variable'])
     
     Y.columns = ['E_form']
-    df_row.columns = ['Row']
+    rows.columns = ['Row']
     labels.columns = ['Metal']
 
-    df_combined = pd.concat([X, Y, df_row, labels], axis=1)
+    df_combined = pd.concat([rows, labels, X, Y, rows], axis=1)
     print(df_combined)
-
     
     model = LinearRegression()
     model.fit(X, Y)
