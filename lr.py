@@ -77,6 +77,7 @@ def main():
     colors = ['red', 'green', 'blue']  # Extend this list if more files
     # file_row_count = df_Y.shape[0]  # Assuming equal rows per file
 
+    print(Y)
     for i, color in enumerate(colors):
         start_index = data_counts[i]
         end_index = data_counts[i+1]
