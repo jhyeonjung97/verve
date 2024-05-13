@@ -29,13 +29,15 @@ def main():
     
     df_combined = pd.concat(X_dataframes, axis=1)
     df_combined = df_combined.dropna()
-    
+
+    df_Y = pd.melt(df_Y.iloc[:df_combined.shape[0]])
+    print(df_Y)
 
     X = df_combined
-    Y = pd.melt(df_Y.iloc[:df_combined.shape[0]])
-
-    print(X)
+    Y = pd.DataFrame(Y['variable'])
+    df_row = pd.DataFrame(Y['value'])
     print(Y)
+    print(df_row)
     
     model = LinearRegression()
     model.fit(X, Y)
