@@ -101,7 +101,7 @@ def main():
     
     plt.figure(figsize=(8, 6)) # Set the figure size as needed
     sns.heatmap(covariance_matrix, annot=True, fmt=".2f", cmap='coolwarm')
-    plt.xticks(np.arange(len(X.columns)) + 0.5, X.columns, rotation=45, ha='right')
+    plt.xticks(np.arange(len(X.columns)) + 0.5, X.columns, rotation=90, ha='right')
     plt.yticks(np.arange(len(X.columns)) + 0.5, X.columns, rotation=0, va='center')
     plt.title('Covariance matrix showing correlation coefficients')
     plt.tight_layout()
