@@ -43,11 +43,6 @@ def main():
     R.columns = ['Row']
     L.columns = ['Metal']
     
-    print(R)
-    print(L)
-    print(X)
-    print(Y)
-    
     df_combined = pd.concat([R, L, X, Y], axis=1)
     df_combined = df_combined.dropna()
     
