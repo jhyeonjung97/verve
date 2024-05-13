@@ -49,7 +49,9 @@ def main():
     Y = df_combined['E_form']
     rows = df_combined['Row']
     labels = df_combined['Metal']
-    
+
+    print(X)
+    print(Y)
     model = LinearRegression()
     model.fit(X, Y)
 
