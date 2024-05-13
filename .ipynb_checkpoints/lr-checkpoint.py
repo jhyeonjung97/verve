@@ -99,14 +99,13 @@ def main():
     XTX_inv = np.linalg.inv(X.T.dot(X))
     covariance_matrix = XTX_inv * estimated_variance
     
-    plt.figure(figsize=(8, 6)) # Set the figure size as needed
+    plt.figure(figsize=(6, 6)) # Set the figure size as needed
     sns.heatmap(covariance_matrix, annot=True, fmt=".2f", cmap='coolwarm')
     plt.xticks(np.arange(len(X.columns)) + 0.5, X.columns, rotation=90, ha='right')
     plt.yticks(np.arange(len(X.columns)) + 0.5, X.columns, rotation=0, va='center')
     plt.title('Covariance matrix showing correlation coefficients')
     plt.tight_layout()
     plt.gcf().savefig(matrix_filename, bbox_inches="tight")
-    plt.show()
 
 if __name__ == "__main__":
     main()
