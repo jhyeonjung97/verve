@@ -94,7 +94,7 @@ def main():
 
     M = pd.concat([Y, X], axis=1)
     # covariance_matrix = np.cov(M, rowvar=False)
-    correlation_matrix = M.corr()
+    correlation_matrix = M.corr().abs()
     
     plt.figure(figsize=(7, 6)) # Set the figure size as needed
     sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap='coolwarm')
