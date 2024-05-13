@@ -96,20 +96,20 @@ def main():
     degrees_of_freedom = X.shape[0] - X.shape[1] - 1  # Adjust for intercept
     estimated_variance = rss / degrees_of_freedom
 
-    print(df_combined)
-    print(rss)
+    M = X+Y
     
-    XTX_inv = np.linalg.inv(X.T.dot(X))
+    XTX_inv = np.linalg.inv(M.T.dot(M))
     covariance_matrix = XTX_inv * estimated_variance
     
     plt.figure(figsize=(7, 6)) # Set the figure size as needed
     sns.heatmap(covariance_matrix, annot=True, fmt=".2f", cmap='coolwarm')
-    plt.xticks(np.arange(len(X.columns)) + 0.5, X.columns, rotation=90, ha='right')
-    plt.yticks(np.arange(len(X.columns)) + 0.5, X.columns, rotation=0, va='center')
+    plt.xticks(np.arange(len(M.columns)) + 0.5, M.columns, rotation=90, ha='right')
+    plt.yticks(np.arange(len(M.columns)) + 0.5, M.columns, rotation=0, va='center')
     plt.title('Covariance matrix showing correlation coefficients')
     plt.tight_layout()
     plt.gcf().savefig(matrix_filename, bbox_inches="tight")
     print(f"Figure saved as {matrix_filename}")
+    plt.close()
 
 if __name__ == "__main__":
     main()
