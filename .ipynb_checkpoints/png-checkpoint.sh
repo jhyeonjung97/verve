@@ -169,13 +169,13 @@ elif [[ ${here} == 'nersc' ]]; then
     # python ~/bin/verve/sum.py -r 5d -x "Metal (MO)" -y "E_form - ICOHP - E_Madelung (eV/M-O)" -p merged_norm_formation_5d.tsv -m merged_ICOHP_5d.tsv merged_norm_MadelungL_5d.tsv -o cfse_5d
     mv /pscratch/sd/j/jiuy97/3_V_shape/3_Tetragonal_LT /pscratch/sd/j/jiuy97
     python ~/bin/verve/concat.py -o norm_formation */merged_norm_formation.tsv
-    python ~/bin/verve/tsv.py -o ICOHP */merged_ICOHP.tsv
-    python ~/bin/verve/tsv.py -o norm_MadelungL */merged_MadelungL.tsv
-    python ~/bin/verve/tsv.py -o cfse */merged_cfse.tsv
-    python ~/bin/verve/tsv.py -o IE1 */merged_IE1.tsv
-    python ~/bin/verve/tsv.py -o IE2 */merged_IE2.tsv
-    python ~/bin/verve/tsv.py -o IE3 */merged_IE3.tsv
-    python ~/bin/verve/tsv.py -o sub */merged_sub.tsv
+    python ~/bin/verve/concat.py -o ICOHP */merged_ICOHP.tsv
+    python ~/bin/verve/concat.py -o norm_MadelungL */merged_MadelungL.tsv
+    python ~/bin/verve/concat.py -o cfse */merged_cfse.tsv
+    python ~/bin/verve/concat.py -o IE1 */merged_IE1.tsv
+    python ~/bin/verve/concat.py -o IE2 */merged_IE2.tsv
+    python ~/bin/verve/concat.py -o IE3 */merged_IE3.tsv
+    python ~/bin/verve/concat.py -o sub */merged_sub.tsv
     mv /pscratch/sd/j/jiuy97/3_Tetragonal_LT /pscratch/sd/j/jiuy97/3_V_shape/3_Tetragonal_LT
     
     python ~/bin/verve/lr.py -o 7 -c ICOHP MadelungL CFSE IE1 IE2 IE3 E_sub --Y merged_norm_formation.tsv --X merged_ICOHP.tsv merged_norm_MadelungL.tsv merged_cfse.tsv merged_IE1.tsv merged_IE2.tsv merged_IE3.tsv merged_sub.tsv > regression7.log   
