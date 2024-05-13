@@ -32,7 +32,7 @@ def main():
     
     X = df_X_combined
     Y = pd.DataFrame(df_Y_combined['value'])
-    labels = pd.Dataframe(df_L['value'])
+    labels = pd.DataFrame(df_L['value'])
     rows = pd.DataFrame(df_Y_combined['variable'])
     
     Y.columns = ['E_form']
