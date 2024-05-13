@@ -99,7 +99,7 @@ def main():
     covariance_matrix = XTX_inv * estimated_variance
     
     plt.figure(figsize=(10, 8))  # Set the figure size as needed
-    sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap='coolwarm', cbar_kws={'label': 'Correlation coefficient'})
+    sns.heatmap(covariance_matrix, annot=True, fmt=".2f", cmap='coolwarm', cbar_kws={'label': 'Correlation coefficient'})
     plt.title('Covariance matrix showing correlation coefficients')
     plt.show()
     
