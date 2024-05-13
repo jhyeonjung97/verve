@@ -51,12 +51,12 @@ def main():
     mae = mean_absolute_error(Y, Y_pred)
     mse = mean_squared_error(Y, Y_pred)
 
-    df_X_combined['Predicted E_form'] = Y_pred
-    df_X_combined['Residuals'] = Y - Y_pred
+    X['Predicted E_form'] = Y_pred
+    X['Residuals'] = Y - Y_pred
 
     tsv_filename = f'{filename}.tsv'
     png_filename = f'{filename}.png'
-    df_X_combined.to_csv(tsv_filename, sep='\t', index=False)
+    X.to_csv(tsv_filename, sep='\t', index=False)
     
     plt.figure(figsize=(10, 8))
     colors = ['red', 'green', 'blue']  # Ensure enough colors are defined
