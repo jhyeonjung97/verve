@@ -10,7 +10,7 @@ def main():
     parser = argparse.ArgumentParser(description='Perform linear regression using aggregated columns from multiple TSV files excluding the first column, calculate MAE, MSE, plot results, and save output.')
     parser.add_argument('--Y', required=True, help='File path for Y.tsv')
     parser.add_argument('--X', required=True, nargs='+', help='File paths for one or more X.tsv files')
-    parser.add_argument('-c', '--columns', required=True, nargs='+', help='Column names to be used from the X.tsv files')
+    parser.add_argument('-i', '--index', required=True, nargs='+', help='Column names to be used from the X.tsv files')
     parser.add_argument('-o', '--output', dest='filename', type=str, default='', help="output filename")
     args = parser.parse_args()
     numb = int(args.filename)
@@ -18,6 +18,7 @@ def main():
     
     # Load the data excluding the first column
     df_Y = pd.read_csv(args.Y, delimiter='\t').iloc[:, 1:]
+    df_C = pd.melt(pd.read_csv('./merged_Coordinationtsv', delimiter='\t').iloc[:, 1:])
     df_L = pd.melt(pd.read_csv('/pscratch/sd/j/jiuy97/3_V_shape/merged_element.tsv', delimiter='\t').iloc[:, 1:])
     X_dataframes = []
     data_counts = []
@@ -29,7 +30,7 @@ def main():
         X_dataframes.append(single_column_df)
     
     df_X_combined = pd.concat(X_dataframes, axis=1)
-    df_X_combined.columns = args.columns
+    df_X_combined.columns = args.index
     df_Y_combined = pd.melt(df_Y.iloc[:df_X_combined.shape[0]])
     print(df_X_combined.shape[0]//df_L.shape[0])
     df_L_combined = pd.concat([df_L]*(df_X_combined.shape[0]//df_L.shape[0]), ignore_index=True)
@@ -38,18 +39,21 @@ def main():
     Y = pd.DataFrame(df_Y_combined['value'])
     R = pd.DataFrame(df_Y_combined['variable'])
     L = pd.DataFrame(df_L_combined['value'])
+    C = pd.DataFrame(df_C_combined['value'])
     
     Y.columns = ['E_form']
     R.columns = ['Row']
     L.columns = ['Metal']
+    C.columns = ['Coordination']
     
-    df_combined = pd.concat([R, L, X, Y], axis=1)
+    df_combined = pd.concat([R, L, C, X, Y], axis=1)
     df_combined = df_combined.dropna()
     
     X = df_combined.iloc[:, -(numb+1):-1]
     Y = df_combined['E_form']
     R = df_combined['Row']
     L = df_combined['Metal']
+    C = df_combined['Coordination']
 
     model = LinearRegression()
     model.fit(X, Y)
@@ -75,14 +79,17 @@ def main():
 
     plt.figure(figsize=(10, 8))
     colors = ['red', 'green', 'blue']
+    markers = ['v', 'v', '^', 's', 's', 'o']
     for i, row in enumerate(['3d', '4d', '5d']):
-        subset = df_combined[df_combined['Row'] == row]
-        LL = subset['Metal']
-        YY = subset['E_form']
-        YY_pred = subset['Predicted E_form']
-        plt.scatter(YY, YY_pred, alpha=0.3, c=colors[i], label=row)
-        for (x, y, label) in zip(YY, YY_pred, LL):
-            plt.annotate(label, (x, y))
+        sub = df_combined[df_combined['Row'] == row]
+        for j, coordination in enumerate(['WZ', 'ZB', 'LT', 'TN', '33', 'RS']):
+            subset = sub[sub['Coordination'] == coordination]
+            LL = subset['Metal']
+            YY = subset['E_form']
+            YY_pred = subset['Predicted E_form']
+            plt.scatter(YY, YY_pred, alpha=0.3, c=colors[i], m=markers[j], label=f'{row}_{coordination}')
+            for (x, y, label) in zip(YY, YY_pred, LL):
+                plt.annotate(label, (x, y))
             
     plt.plot([Y.min(), Y.max()], [Y.min(), Y.max()], 'r--', lw=2)
     plt.xlabel('DFT-calculated Formation Energy (eV)')
