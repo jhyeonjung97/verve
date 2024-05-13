@@ -19,7 +19,7 @@ def main():
     df_Y = pd.read_csv(args.Y, delimiter='\t').iloc[:, 1:]
     labels = pd.read_csv('/pscratch/sd/j/jiuy97/3_V_shape/merged_element.tsv', delimiter='\t').iloc[:, 1:].values.flatten()
     X_dataframes = []
-    data_counts = [0]
+    data_counts = []
     
     # Loop through each X.tsv file path
     for x_file in args.X:
@@ -28,7 +28,6 @@ def main():
         nan_count = df_X.isna().any(axis=1).sum()  # Count rows with any NaNs
         X_dataframes.append(df_X)
         data_counts.append(row_count-nan_count)
-        print(row_count, nan_count, row_count-nan_count)
 
     # Ensure all DataFrames have the same shape
     all_shapes = [df_Y.shape] + [df.shape for df in X_dataframes]
@@ -79,12 +78,13 @@ def main():
     colors = ['red', 'green', 'blue']  # Extend this list if more files
     # file_row_count = df_Y.shape[0]  # Assuming equal rows per file
 
-    print(Y)
+    start_index = 0
+    end_index = data_counts[0]-1
     for i, color in enumerate(colors):
-        start_index = data_counts[i]
-        end_index = data_counts[i+1]
         print(start_index, end_index)
         plt.scatter(Y[start_index:end_index], Y_pred[start_index:end_index], alpha=0.3, c=color)
+        start_index += data_counts[i]
+        end_index += data_counts[i]
         
         # Annotate each point with its label
         for j in range(start_index, end_index):
