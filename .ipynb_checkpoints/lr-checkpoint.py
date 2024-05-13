@@ -18,12 +18,15 @@ def main():
     # Load the data excluding the first column
     df_Y = pd.read_csv(args.Y, delimiter='\t').iloc[:, 1:]
     labels = pd.read_csv('/pscratch/sd/j/jiuy97/3_V_shape/merged_element.tsv', delimiter='\t').iloc[:, 1:].values.flatten()
-    print(labels)
+    data_counts = []
     
-    if args.columns:
-        X_dataframes = [pd.read_csv(x_file, delimiter='\t')[args.columns] for x_file in args.X]
-    else:
-        X_dataframes = [pd.read_csv(x_file, delimiter='\t').iloc[:, 1:] for x_file in args.X]
+    # Loop through each X.tsv file path
+    for x_file in args.X:
+        df_X = pd.read_csv(x_file, delimiter='\t').iloc[:, 1:]  # Load each file excluding the first column
+        row_count = df_X.shape[0]
+        nan_count = df_X.isna().any(axis=1).sum()  # Count rows with any NaNs
+        X_dataframes.append(df_X)
+        data_counts.append(row_count-nan_count)
 
     # Ensure all DataFrames have the same shape
     all_shapes = [df_Y.shape] + [df.shape for df in X_dataframes]
@@ -72,7 +75,7 @@ def main():
     # Plotting actual vs predicted values
     plt.figure(figsize=(10, 8))
     colors = ['red', 'green', 'blue']  # Extend this list if more files
-    file_row_count = df_Y.shape[0]  # Assuming equal rows per file
+    # file_row_count = df_Y.shape[0]  # Assuming equal rows per file
     
     for i, color in enumerate(colors):
         start_index = i * file_row_count
