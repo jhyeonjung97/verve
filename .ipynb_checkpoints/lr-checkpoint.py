@@ -27,17 +27,15 @@ def main():
         single_column_df = melted_df['value'].reset_index(drop=True)
         X_dataframes.append(single_column_df)
     
-    df_combined = pd.concat(X_dataframes, axis=1)
-    df_combined = df_combined.dropna()
+    df_X_combined = pd.concat(X_dataframes, axis=1)
+    df_X_combined = df_X_combined.dropna()
 
-    df_Y = pd.melt(df_Y.iloc[:df_combined.shape[0]])
-    print(df_Y)
+    df_Y_combined = pd.melt(df_Y.iloc[:df_X_combined.shape[0]])
 
-    X = df_combined
-    Y = pd.DataFrame(df_Y['variable'])
-    df_row = pd.DataFrame(df_Y['value'])
-    print(Y)
-    print(df_row)
+    X = df_X_combined
+    Y = pd.DataFrame(df_Y_combined['value'])
+    df_row = pd.DataFrame(df_Y_combined['variable'])
+    print(X, Y, df_row)
     
     model = LinearRegression()
     model.fit(X, Y)
@@ -47,12 +45,12 @@ def main():
     mae = mean_absolute_error(Y, Y_pred)
     mse = mean_squared_error(Y, Y_pred)
 
-    df_combined['Predicted E_form'] = Y_pred
-    df_combined['Residuals'] = Y - Y_pred
+    df_X_combined['Predicted E_form'] = Y_pred
+    df_X_combined['Residuals'] = Y - Y_pred
 
     tsv_filename = f'{filename}.tsv'
     png_filename = f'{filename}.png'
-    df_combined.to_csv(tsv_filename, sep='\t', index=False)
+    df_X_combined.to_csv(tsv_filename, sep='\t', index=False)
     
     plt.figure(figsize=(10, 8))
     colors = ['red', 'green', 'blue']  # Ensure enough colors are defined
