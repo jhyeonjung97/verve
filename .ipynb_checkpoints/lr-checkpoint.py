@@ -11,8 +11,8 @@ def main():
     parser.add_argument('--X', required=True, nargs='+', help='File paths for one or more X.tsv files')
     parser.add_argument('-c', '--columns', nargs='+', help='Column names to be used from the X.tsv files')
     parser.add_argument('-o', '--output', dest='filename', type=str, default='', help="output filename")
+    
     args = parser.parse_args()
-
     filename = f'regression{args.filename}'
     
     # Load the data excluding the first column
@@ -26,8 +26,11 @@ def main():
         df_X = pd.read_csv(x_file, delimiter='\t').iloc[:, 1:]  # Load each file excluding the first column
         row_count = df_X.shape[0]
         nan_count = df_X.isna().any(axis=1).sum()  # Count rows with any NaNs
-        X_dataframes.append(df_X)
-        data_counts.append(row_count-nan_count)
+        data_counts.append(row_count - nan_count)  # Store the count of non-NaN rows
+        df_Xs.append(df_X)
+
+    # Concatenate all X dataframes by columns
+    X_dataframes = pd.concat(df_Xs, axis=1)
 
     # Ensure all DataFrames have the same shape
     all_shapes = [df_Y.shape] + [df.shape for df in X_dataframes]
