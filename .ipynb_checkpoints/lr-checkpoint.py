@@ -96,6 +96,7 @@ def main():
     degrees_of_freedom = X.shape[0] - X.shape[1] - 1  # Adjust for intercept
     estimated_variance = rss / degrees_of_freedom
 
+    print(estimated_variance)
     M = X+Y
     
     XTX_inv = np.linalg.inv(M.T.dot(M))
