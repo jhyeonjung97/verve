@@ -38,10 +38,9 @@ def main():
     Y.columns = ['E_form']
     rows.columns = ['Row']
     labels.columns = ['Metal']
-
-    print(labels)
     
     df_combined = pd.concat([rows, labels, X, Y], axis=1)
+    df_combined = df_combined.dropna()
     print(df_combined)
     
     model = LinearRegression()
