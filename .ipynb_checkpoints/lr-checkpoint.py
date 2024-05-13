@@ -18,6 +18,7 @@ def main():
     # Load the data excluding the first column
     df_Y = pd.read_csv(args.Y, delimiter='\t').iloc[:, 1:]
     labels = pd.read_csv('/pscratch/sd/j/jiuy97/3_V_shape/merged_element.tsv', delimiter='\t').iloc[:, 1:].values.flatten()
+    X_dataframes = []
     data_counts = [0]
     
     # Loop through each X.tsv file path
