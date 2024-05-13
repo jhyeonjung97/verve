@@ -34,8 +34,8 @@ def main():
     print(df_Y)
 
     X = df_combined
-    Y = pd.DataFrame(Y['variable'])
-    df_row = pd.DataFrame(Y['value'])
+    Y = pd.DataFrame(df_Y['variable'])
+    df_row = pd.DataFrame(df_Y['value'])
     print(Y)
     print(df_row)
     
