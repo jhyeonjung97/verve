@@ -18,7 +18,7 @@ def main():
     # Load the data excluding the first column
     df_Y = pd.read_csv(args.Y, delimiter='\t').iloc[:, 1:]
     labels = pd.read_csv('/pscratch/sd/j/jiuy97/3_V_shape/merged_element.tsv', delimiter='\t').iloc[:, 1:].values.flatten()
-    data_counts = []
+    data_counts = [0]
     
     # Loop through each X.tsv file path
     for x_file in args.X:
@@ -76,10 +76,11 @@ def main():
     plt.figure(figsize=(10, 8))
     colors = ['red', 'green', 'blue']  # Extend this list if more files
     # file_row_count = df_Y.shape[0]  # Assuming equal rows per file
-    
+
     for i, color in enumerate(colors):
-        start_index = i * file_row_count
-        end_index = start_index + file_row_count
+        start_index = data_counts[i]
+        end_index = data_counts[i+1]
+        print(start_index, end_index)
         plt.scatter(Y[start_index:end_index], Y_pred[start_index:end_index], alpha=0.3, c=color)
         
         # Annotate each point with its label
