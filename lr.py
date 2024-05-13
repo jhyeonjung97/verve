@@ -25,21 +25,14 @@ def main():
         df_X = pd.read_csv(x_file, delimiter='\t').iloc[:, 1:]
         melted_df = pd.melt(df_X)
         single_column_df = melted_df['value'].reset_index(drop=True)
-        # valid_df = single_column_df.dropna()
-        # row_count = df_X.shape[0]
-        # nan_count = df_X.isna().any(axis=1).sum()
         X_dataframes.append(melted_df)
-        # data_counts.append(row_count - nan_count)
     
     df_combined = pd.concat(X_dataframes, axis=1)
     df_combined = df_combined.dropna()
     print(df_combined)
 
     X = df_combined
-    Y = df_Y.iloc[:df_combined.shape[0]]
-
-    print(X)
-    print(Y)
+    Y = pd.melt(df_Y.iloc[:df_combined.shape[0]])
 
     model = LinearRegression()
     model.fit(X, Y)
