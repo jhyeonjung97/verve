@@ -19,7 +19,7 @@ def main():
         X_dataframes.append(df_X)
         
     df_X_combined = pd.concat(X_dataframes, axis=0)
-    df_X_combined.to_csv(f'concat_{filename}.png', sep='\t', index=False)
+    df_X_combined.to_csv(f'concat_{filename}.tsv', sep='\t', index=False)
 
 if __name__ == "__main__":
     main()
