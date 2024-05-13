@@ -168,15 +168,15 @@ elif [[ ${here} == 'nersc' ]]; then
     # python ~/bin/verve/sum.py -r 4d -x "Metal (MO)" -y "E_form - ICOHP - E_Madelung (eV/M-O)" -p merged_norm_formation_4d.tsv -m merged_ICOHP_4d.tsv merged_norm_MadelungL_4d.tsv -o cfse_4d
     # python ~/bin/verve/sum.py -r 5d -x "Metal (MO)" -y "E_form - ICOHP - E_Madelung (eV/M-O)" -p merged_norm_formation_5d.tsv -m merged_ICOHP_5d.tsv merged_norm_MadelungL_5d.tsv -o cfse_5d
     mv /pscratch/sd/j/jiuy97/3_V_shape/3_Tetragonal_LT /pscratch/sd/j/jiuy97
-    python ~/bin/verve/concat.py -o norm_formation */merged_norm_formation.tsv
-    python ~/bin/verve/concat.py -o ICOHP */merged_ICOHP.tsv
-    python ~/bin/verve/concat.py -o norm_MadelungL */merged_MadelungL.tsv
-    python ~/bin/verve/concat.py -o cfse */merged_cfse.tsv
-    python ~/bin/verve/concat.py -o IE1 */merged_IE1.tsv
-    python ~/bin/verve/concat.py -o IE2 */merged_IE2.tsv
-    python ~/bin/verve/concat.py -o IE3 */merged_IE3.tsv
-    python ~/bin/verve/concat.py -o sub */merged_sub.tsv
+    python ~/bin/verve/concat.py -o norm_formation --X */merged_norm_formation.tsv
+    python ~/bin/verve/concat.py -o ICOHP --X */merged_ICOHP.tsv
+    python ~/bin/verve/concat.py -o norm_MadelungL --X */merged_MadelungL.tsv
+    python ~/bin/verve/concat.py -o cfse --X */merged_cfse.tsv
+    python ~/bin/verve/concat.py -o IE1 --X */merged_IE1.tsv
+    python ~/bin/verve/concat.py -o IE2 --X */merged_IE2.tsv
+    python ~/bin/verve/concat.py -o IE3 --X */merged_IE3.tsv
+    python ~/bin/verve/concat.py -o sub --X */merged_sub.tsv
     mv /pscratch/sd/j/jiuy97/3_Tetragonal_LT /pscratch/sd/j/jiuy97/3_V_shape/3_Tetragonal_LT
     
-    python ~/bin/verve/lr.py -o 7 -c ICOHP MadelungL CFSE IE1 IE2 IE3 E_sub --Y merged_norm_formation.tsv --X merged_ICOHP.tsv merged_norm_MadelungL.tsv merged_cfse.tsv merged_IE1.tsv merged_IE2.tsv merged_IE3.tsv merged_sub.tsv > regression7.log   
+    python ~/bin/verve/lr.py -o 7 -c ICOHP MadelungL CFSE IE1 IE2 IE3 E_sub --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv > regression7.log   
 fi
