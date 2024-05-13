@@ -97,7 +97,8 @@ def main():
     estimated_variance = rss / degrees_of_freedom
 
     print(estimated_variance)
-    M = X+Y
+    M = pd.concat([X, Y], axis=1)
+    print(M)
     
     XTX_inv = np.linalg.inv(M.T.dot(M))
     covariance_matrix = XTX_inv # * estimated_variance
