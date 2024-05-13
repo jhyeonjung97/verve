@@ -100,7 +100,7 @@ def main():
     M = X+Y
     
     XTX_inv = np.linalg.inv(M.T.dot(M))
-    covariance_matrix = XTX_inv * estimated_variance
+    covariance_matrix = XTX_inv # * estimated_variance
     
     plt.figure(figsize=(7, 6)) # Set the figure size as needed
     sns.heatmap(covariance_matrix, annot=True, fmt=".2f", cmap='coolwarm')
