@@ -65,6 +65,7 @@ def main():
     
     tsv_filename = f'{filename}.tsv'
     png_filename = f'{filename}.png'
+    matrix_filename = f'covariance_matrix{str(numb)}.png'
     df_combined.to_csv(tsv_filename, sep='\t', index=False)
     print(f"Results saved to {tsv_filename}")
     
@@ -98,11 +99,12 @@ def main():
     XTX_inv = np.linalg.inv(X.T.dot(X))
     covariance_matrix = XTX_inv * estimated_variance
     
-    plt.figure(figsize=(10, 8))  # Set the figure size as needed
-    sns.heatmap(covariance_matrix, annot=True, fmt=".2f", cmap='coolwarm', cbar_kws={'label': 'Correlation coefficient'})
+    plt.figure(figsize=(8, 6)) # Set the figure size as needed
+    sns.heatmap(covariance_matrix, annot=True, fmt=".2f", cmap='coolwarm')
     plt.xticks(np.arange(len(X.columns)) + 0.5, X.columns, rotation=45, ha='right')
     plt.yticks(np.arange(len(X.columns)) + 0.5, X.columns, rotation=0, va='center')
     plt.title('Covariance matrix showing correlation coefficients')
+    plt.gcf().savefig(matrix_filename, bbox_inches="tight")
     plt.show()
 
 if __name__ == "__main__":
