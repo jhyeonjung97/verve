@@ -58,6 +58,16 @@ def main():
 
     df_combined['Predicted E_form'] = Y_pred
     df_combined['Residuals'] = Y - Y_pred
+    
+    rss = np.sum(df_combined['Residuals']**2)
+    degrees_of_freedom = X.shape[0] - X.shape[1] - 1  # Adjust for intercept
+    estimated_variance = rss / degrees_of_freedom
+    
+    XTX_inv = np.linalg.inv(X.T.dot(X))
+    covariance_matrix = XTX_inv * estimated_variance
+    
+    print("Covariance matrix of the coefficients:")
+    print(covariance_matrix)
 
     tsv_filename = f'{filename}.tsv'
     png_filename = f'{filename}.png'
