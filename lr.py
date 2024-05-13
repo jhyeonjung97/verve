@@ -97,13 +97,10 @@ def main():
     estimated_variance = rss / degrees_of_freedom
 
     M = pd.concat([X, Y], axis=1)
-    print(X)
-    print(Y)
-    print(M)
     
     XTX_inv = np.linalg.inv(M.T.dot(M))
     covariance_matrix = XTX_inv # * estimated_variance
-    # print(covariance_matrix)
+    print(covariance_matrix)
     
     plt.figure(figsize=(7, 6)) # Set the figure size as needed
     sns.heatmap(covariance_matrix, annot=True, fmt=".2f", cmap='coolwarm')
