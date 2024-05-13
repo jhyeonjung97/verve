@@ -71,7 +71,7 @@ def main():
         LL = subset['Metal']
         YY = subset['E_form']
         YY_pred = subset['Predicted E_form']
-        plt.scatter(YY, YY_pred, alpha=0.3, c=colors[i])
+        plt.scatter(YY, YY_pred, alpha=0.3, c=colors[i], label=row)
         for (x, y, label) in zip(YY, YY_pred, LL):
             plt.annotate(label, (x, y))
             
