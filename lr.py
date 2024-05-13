@@ -78,6 +78,7 @@ def main():
     plt.plot([Y.min(), Y.max()], [Y.min(), Y.max()], 'r--', lw=2)
     plt.xlabel('DFT-calculated Formation Energy (eV)')
     plt.ylabel('Predicted Formation Energy (eV)')
+    plt.legend()
     plt.tight_layout()
     plt.gcf().savefig(png_filename, bbox_inches="tight")
     
