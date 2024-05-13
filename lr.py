@@ -9,10 +9,11 @@ def main():
     parser = argparse.ArgumentParser(description='Perform linear regression using aggregated columns from multiple TSV files excluding the first column, calculate MAE, MSE, plot results, and save output.')
     parser.add_argument('--Y', required=True, help='File path for Y.tsv')
     parser.add_argument('--X', required=True, nargs='+', help='File paths for one or more X.tsv files')
-    parser.add_argument('-c', '--columns', nargs='+', help='Column names to be used from the X.tsv files')
+    parser.add_argument('-c', '--columns', required=True, nargs='+', help='Column names to be used from the X.tsv files')
     parser.add_argument('-o', '--output', dest='filename', type=str, default='', help="output filename")
     args = parser.parse_args()
 
+    column_names = args.columns
     filename = f'regression{args.filename}'
     
     # Load the data excluding the first column
@@ -27,15 +28,16 @@ def main():
         single_column_df = melted_df['value'].reset_index(drop=True)
         X_dataframes.append(single_column_df)
     
-    df_X_combined = pd.concat(X_dataframes, axis=1)
-    df_X_combined = df_X_combined.dropna()
-
+    df_X_combined = pd.concat(X_dataframes, axis=1, index=column_names)
     df_Y_combined = pd.melt(df_Y.iloc[:df_X_combined.shape[0]])
 
     X = df_X_combined
     Y = pd.DataFrame(df_Y_combined['value'])
     df_row = pd.DataFrame(df_Y_combined['variable'])
-    print(X, Y, df_row)
+
+    for i in len(X):
+        if X[:][i].isna() or Y[:][i].isna() or df_row[:][i].isna():
+            drop that row from X, Y, df_row
     
     model = LinearRegression()
     model.fit(X, Y)
