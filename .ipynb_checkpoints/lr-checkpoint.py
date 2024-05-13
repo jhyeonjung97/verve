@@ -38,15 +38,15 @@ def main():
     Y.columns = ['E_form']
     df_row.columns = ['Row']
     labels.columns = ['Metal']
+
+    df_combined = pd.concat([X, Y, df_row, labels], axis=1)
+    print(df_combined)
+
     
     model = LinearRegression()
     model.fit(X, Y)
 
     Y_pred = model.predict(X)
-
-    print(X)
-    print(Y)
-    print(Y_pred)
     
     mae = mean_absolute_error(Y, Y_pred)
     mse = mean_squared_error(Y, Y_pred)
