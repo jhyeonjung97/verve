@@ -78,10 +78,11 @@ def main():
     colors = ['red', 'green', 'blue']  # Extend this list if more files
     # file_row_count = df_Y.shape[0]  # Assuming equal rows per file
 
+    print(labels)
+    
     start_index = 0
     end_index = data_counts[0]-1
     for i, color in enumerate(colors):
-        print(start_index, end_index)
         plt.scatter(Y[start_index:end_index], Y_pred[start_index:end_index], alpha=0.3, c=color)        
         # Annotate each point with its label
         for j in range(start_index, end_index):
