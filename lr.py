@@ -33,7 +33,7 @@ def main():
     
     X = df_X_combined
     Y = pd.DataFrame(df_Y_combined['value'])
-    df_row = pd.DataFrame(df_Y_combined['variable'])]
+    df_row = pd.DataFrame(df_Y_combined['variable'])
     
     Y.columns = ['E_form']
     df_row.columns = ['Row']
