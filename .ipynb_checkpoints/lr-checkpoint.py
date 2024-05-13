@@ -26,6 +26,10 @@ def main():
         row_count = df_X.shape[0]
         nan_count = df_X.isna().any(axis=1).sum()
         X_dataframes.append(df_X.dropna())
+        print(df_X)
+        print(pd.melt(df_X))
+        print(df_X.stack().reset_index(drop=True))
+        print(df_X.values.flatten())
         data_counts.append(row_count - nan_count)  # Store counts of non-NaN rows only
 
     df_combined = pd.concat(X_dataframes, axis=1)
