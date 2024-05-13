@@ -95,7 +95,7 @@ def main():
             for (x, y, label) in zip(YY, YY_pred, LL):
                 plt.annotate(label, (x, y))
             
-    plt.plot([Y.min(), Y.max()], [Y.min(), Y.max()], 'r--', lw=2)
+    plt.plot([Y.min(), Y.max()], [Y.min(), Y.max()], 'r--', lw=1)
     plt.xlabel('DFT-calculated Formation Energy (eV)')
     plt.ylabel('Predicted Formation Energy (eV)')
     plt.legend()
