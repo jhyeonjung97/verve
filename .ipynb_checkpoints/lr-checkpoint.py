@@ -34,28 +34,26 @@ def main():
     
     X = df_X_combined
     Y = pd.DataFrame(df_Y_combined['value'])
-    labels = pd.DataFrame(df_L['value'])
-    rows = pd.DataFrame(df_Y_combined['variable'])
+    R = pd.DataFrame(df_Y_combined['variable'])
+    L = pd.DataFrame(df_L['value'])
     
     Y.columns = ['E_form']
-    rows.columns = ['Row']
-    labels.columns = ['Metal']
+    R.columns = ['Row']
+    L.columns = ['Metal']
     
-    print(rows)
-    print(labels)
+    print(R)
+    print(L)
     print(X)
     print(Y)
     
-    df_combined = pd.concat([rows, labels, X, Y], axis=1)
+    df_combined = pd.concat([R, L, X, Y], axis=1)
     df_combined = df_combined.dropna()
     
     X = df_combined.iloc[:, -(numb+1):-1]
     Y = df_combined['E_form']
-    rows = df_combined['Row']
-    labels = df_combined['Metal']
+    R = df_combined['Row']
+    L = df_combined['Metal']
 
-    
-    
     model = LinearRegression()
     model.fit(X, Y)
 
