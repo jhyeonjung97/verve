@@ -20,7 +20,6 @@ def main():
     df_Y = pd.read_csv(args.Y, delimiter='\t').iloc[:, 1:]
     df_L = pd.melt(pd.read_csv('/pscratch/sd/j/jiuy97/3_V_shape/merged_element.tsv', delimiter='\t').iloc[:, 1:])
     X_dataframes = []
-    Y_dataframes = []
     data_counts = []
     
     for x_file in args.X:
@@ -28,10 +27,10 @@ def main():
         melted_df = pd.melt(df_X)
         single_column_df = melted_df['value'].reset_index(drop=True)
         X_dataframes.append(single_column_df)
-        
+    
     df_X_combined = pd.concat(X_dataframes, axis=1)
     df_X_combined.columns = args.columns
-    df_Y_combined = pd.melt(df_Y)
+    df_Y_combined = pd.melt(df_Y.iloc[:df_X_combined.shape[0]])
     
     X = df_X_combined
     Y = pd.DataFrame(df_Y_combined['value'])
@@ -49,9 +48,7 @@ def main():
     Y = df_combined['E_form']
     rows = df_combined['Row']
     labels = df_combined['Metal']
-
-    print(X)
-    print(Y)
+    
     model = LinearRegression()
     model.fit(X, Y)
 
@@ -66,14 +63,14 @@ def main():
     print(f"Mean Absolute Error: {mae}")
     print(f"Mean Squared Error: {mse}")
     
-    df_combined['Predicted E_form'] = Y_pred
-    df_combined['Residuals'] = Y - Y_pred
-    
     tsv_filename = f'{filename}.tsv'
     png_filename = f'{filename}.png'
     df_combined.to_csv(tsv_filename, sep='\t', index=False)
     print(f"Results saved to {tsv_filename}")
     
+    df_combined['Predicted E_form'] = Y_pred
+    df_combined['Residuals'] = Y - Y_pred
+
     plt.figure(figsize=(10, 8))
     colors = ['red', 'green', 'blue']
     for i, row in enumerate(['3d', '4d', '5d']):
@@ -100,8 +97,7 @@ def main():
     abs_correlation_matrix = correlation_matrix.abs()
     
     plt.figure(figsize=(7, 6)) # Set the figure size as needed
-    sns.heatmap(correlation_matrix, annot=True, fmt=".2f",
-                cmap='coolwarm', center=0, vmin=-1, vmax=1)
+    sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap='coolwarm')
     plt.xticks(np.arange(M.shape[1]) + 0.5, M.columns, rotation=90, ha='right')
     plt.yticks(np.arange(M.shape[1]) + 0.5, M.columns, rotation=0, va='center')
     plt.tight_layout()
