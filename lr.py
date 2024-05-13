@@ -12,6 +12,7 @@ def main():
     parser.add_argument('-c', '--columns', required=True, nargs='+', help='Column names to be used from the X.tsv files')
     parser.add_argument('-o', '--output', dest='filename', type=str, default='', help="output filename")
     args = parser.parse_args()
+    numb = int(args.filename)
     filename = f'regression{args.filename}'
     
     # Load the data excluding the first column
@@ -41,7 +42,11 @@ def main():
     
     df_combined = pd.concat([rows, labels, X, Y], axis=1)
     df_combined = df_combined.dropna()
-    print(df_combined)
+    
+    X = df_combined.iloc[:, -numb:]
+    Y = df_combined['E_form']
+    rows = df_combined['Row']
+    labels = df_combined['Metal']
     
     model = LinearRegression()
     model.fit(X, Y)
@@ -51,30 +56,30 @@ def main():
     mae = mean_absolute_error(Y, Y_pred)
     mse = mean_squared_error(Y, Y_pred)
 
-    X['Predicted E_form'] = Y_pred
-    X['Residuals'] = Y - Y_pred
+    df_combined['Predicted E_form'] = Y_pred
+    df_combined['Residuals'] = Y - Y_pred
 
     tsv_filename = f'{filename}.tsv'
     png_filename = f'{filename}.png'
-    X.to_csv(tsv_filename, sep='\t', index=False)
-    
-    plt.figure(figsize=(10, 8))
-    colors = ['red', 'green', 'blue']  # Ensure enough colors are defined
-    start_index = 0
-    for i, data_count in enumerate(data_counts):
-        end_index = start_index + data_count
-        plt.scatter(Y[start_index:end_index], Y_pred[start_index:end_index], alpha=0.3, c=colors[i % len(colors)])
-        for j in range(start_index, end_index):
-            plt.annotate(labels[j], (Y[j], Y_pred[j]))
-        start_index = end_index
-    
-    plt.plot([Y.min(), Y.max()], [Y.min(), Y.max()], 'r--', lw=2)
-    plt.xlabel('DFT-calculated Formation Energy (eV)')
-    plt.ylabel('Predicted Formation Energy (eV)')
-    plt.tight_layout()
-    plt.gcf().savefig(png_filename, bbox_inches="tight")
-    
+    df_combined.to_csv(tsv_filename, sep='\t', index=False)
     print(f"Results saved to {tsv_filename}")
+    
+    # plt.figure(figsize=(10, 8))
+    # colors = ['red', 'green', 'blue']  # Ensure enough colors are defined
+    # start_index = 0
+    # for i, data_count in enumerate(data_counts):
+    #     end_index = start_index + data_count
+    #     plt.scatter(Y[start_index:end_index], Y_pred[start_index:end_index], alpha=0.3, c=colors[i % len(colors)])
+    #     for j in range(start_index, end_index):
+    #         plt.annotate(labels[j], (Y[j], Y_pred[j]))
+    #     start_index = end_index
+    
+    # plt.plot([Y.min(), Y.max()], [Y.min(), Y.max()], 'r--', lw=2)
+    # plt.xlabel('DFT-calculated Formation Energy (eV)')
+    # plt.ylabel('Predicted Formation Energy (eV)')
+    # plt.tight_layout()
+    # plt.gcf().savefig(png_filename, bbox_inches="tight")
+    
     print(f"Intercept: {model.intercept_}")
     print(f"Coefficients: {model.coef_}")
     print(f"R-squared: {model.score(X, Y)}")
