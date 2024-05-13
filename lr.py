@@ -31,11 +31,12 @@ def main():
     df_X_combined = pd.concat(X_dataframes, axis=1)
     df_X_combined.columns = args.columns
     df_Y_combined = pd.melt(df_Y.iloc[:df_X_combined.shape[0]])
+    df_L_combined = pd.concat([df_L]*(df_X_combined.shape[0]/df_L.shape[0]), ignore_index=True)
     
     X = df_X_combined
     Y = pd.DataFrame(df_Y_combined['value'])
     R = pd.DataFrame(df_Y_combined['variable'])
-    L = pd.DataFrame(df_L['value'])
+    L = pd.DataFrame(df_L_combined['value'])
     
     Y.columns = ['E_form']
     R.columns = ['Row']
