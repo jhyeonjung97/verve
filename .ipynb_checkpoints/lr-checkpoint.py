@@ -18,7 +18,7 @@ def main():
     
     # Load the data excluding the first column
     df_Y = pd.read_csv(args.Y, delimiter='\t').iloc[:, 1:]
-    df_C = pd.melt(pd.read_csv('./merged_Coordinationtsv', delimiter='\t').iloc[:, 1:])
+    df_C = pd.melt(pd.read_csv('./merged_Coord.tsv', delimiter='\t').iloc[:, 1:])
     df_L = pd.melt(pd.read_csv('/pscratch/sd/j/jiuy97/3_V_shape/merged_element.tsv', delimiter='\t').iloc[:, 1:])
     X_dataframes = []
     data_counts = []
