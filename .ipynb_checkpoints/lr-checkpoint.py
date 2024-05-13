@@ -28,6 +28,7 @@ def main():
         nan_count = df_X.isna().any(axis=1).sum()  # Count rows with any NaNs
         X_dataframes.append(df_X)
         data_counts.append(row_count-nan_count)
+        print(row_count, nan_count, row_count-nan_count)
 
     # Ensure all DataFrames have the same shape
     all_shapes = [df_Y.shape] + [df.shape for df in X_dataframes]
