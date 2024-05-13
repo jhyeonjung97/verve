@@ -104,6 +104,7 @@ def main():
     plt.xticks(np.arange(len(X.columns)) + 0.5, X.columns, rotation=45, ha='right')
     plt.yticks(np.arange(len(X.columns)) + 0.5, X.columns, rotation=0, va='center')
     plt.title('Covariance matrix showing correlation coefficients')
+    plt.tight_layout()
     plt.gcf().savefig(matrix_filename, bbox_inches="tight")
     plt.show()
 
