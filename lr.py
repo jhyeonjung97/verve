@@ -25,7 +25,7 @@ def main():
         df_X = pd.read_csv(x_file, delimiter='\t').iloc[:, 1:]
         melted_df = pd.melt(df_X)
         single_column_df = melted_df['value'].reset_index(drop=True)
-        X_dataframes.append(melted_df)
+        X_dataframes.append(single_column_df)
     
     df_combined = pd.concat(X_dataframes, axis=1)
     df_combined = df_combined.dropna()
