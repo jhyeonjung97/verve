@@ -43,7 +43,7 @@ def main():
     df_combined = pd.concat([rows, labels, X, Y], axis=1)
     df_combined = df_combined.dropna()
     
-    X = df_combined.iloc[:, -numb:]
+    X = df_combined.iloc[:, -(numb+1):-1]
     Y = df_combined['E_form']
     rows = df_combined['Row']
     labels = df_combined['Metal']
