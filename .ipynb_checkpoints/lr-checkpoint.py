@@ -64,21 +64,22 @@ def main():
     df_combined.to_csv(tsv_filename, sep='\t', index=False)
     print(f"Results saved to {tsv_filename}")
     
-    # plt.figure(figsize=(10, 8))
-    # colors = ['red', 'green', 'blue']  # Ensure enough colors are defined
-    # start_index = 0
-    # for i, data_count in enumerate(data_counts):
-    #     end_index = start_index + data_count
-    #     plt.scatter(Y[start_index:end_index], Y_pred[start_index:end_index], alpha=0.3, c=colors[i % len(colors)])
-    #     for j in range(start_index, end_index):
-    #         plt.annotate(labels[j], (Y[j], Y_pred[j]))
-    #     start_index = end_index
-    
-    # plt.plot([Y.min(), Y.max()], [Y.min(), Y.max()], 'r--', lw=2)
-    # plt.xlabel('DFT-calculated Formation Energy (eV)')
-    # plt.ylabel('Predicted Formation Energy (eV)')
-    # plt.tight_layout()
-    # plt.gcf().savefig(png_filename, bbox_inches="tight")
+    plt.figure(figsize=(10, 8))
+    colors = ['red', 'green', 'blue']
+    for i, row in ['3d', '4d', '5d']:
+        subset = df_combined[df_combined['row'] == row]
+        LL = subset['Metal']
+        YY = subset['E_form']
+        YY_pred = subset['Predicted E_form']
+        plt.scatter(YY, YY_pred, alpha=0.3, c=colors[i % len(colors)])
+        for (x, y, label) in zip(YY, YY_pred, LL):
+            plt.annotate(label, (x, y))
+            
+    plt.plot([Y.min(), Y.max()], [Y.min(), Y.max()], 'r--', lw=2)
+    plt.xlabel('DFT-calculated Formation Energy (eV)')
+    plt.ylabel('Predicted Formation Energy (eV)')
+    plt.tight_layout()
+    plt.gcf().savefig(png_filename, bbox_inches="tight")
     
     print(f"Intercept: {model.intercept_}")
     print(f"Coefficients: {model.coef_}")
