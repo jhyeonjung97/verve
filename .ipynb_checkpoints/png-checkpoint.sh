@@ -101,7 +101,7 @@ elif [[ ${here} == 'nersc' ]]; then
             python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Sublimation energy (eV)" -o sub 1_afm/energy_sub.tsv 4d/energy_sub.tsv 5d/energy_sub.tsv
             
             python ~/bin/verve/lr.py -o 3 -c ICOHP MadelungL CFSE --Y merged_norm_formation.tsv --X merged_ICOHP.tsv merged_norm_MadelungL.tsv merged_cfse.tsv > regression3.log
-            python ~/bin/verve/lr.py -o 7 --Y merged_norm_formation.tsv --X merged_ICOHP.tsv merged_norm_MadelungL.tsv merged_cfse.tsv merged_IE1.tsv merged_IE2.tsv merged_IE3.tsv merged_sub.tsv > regression7.log    
+            python ~/bin/verve/lr.py -o 7 -c ICOHP MadelungL CFSE IE1 IE2 IE3 E_sub --Y merged_norm_formation.tsv --X merged_ICOHP.tsv merged_norm_MadelungL.tsv merged_cfse.tsv merged_IE1.tsv merged_IE2.tsv merged_IE3.tsv merged_sub.tsv > regression7.log    
             
         fi
         
