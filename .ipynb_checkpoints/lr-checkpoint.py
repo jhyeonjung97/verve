@@ -34,10 +34,7 @@ def main():
     X = df_X_combined
     Y = pd.DataFrame(df_Y_combined['value'])
     df_row = pd.DataFrame(df_Y_combined['variable'])
-
-    for i in len(X):
-        if X[:][i].isna() or Y[:][i].isna() or df_row[:][i].isna():
-            drop that row from X, Y, df_row
+    print(X, Y, df_row)
     
     model = LinearRegression()
     model.fit(X, Y)
