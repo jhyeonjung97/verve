@@ -18,8 +18,8 @@ def main():
     df_Y = pd.read_csv(args.Y, delimiter='\t').iloc[:, 1:]
     df_L = pd.melt(pd.read_csv('/pscratch/sd/j/jiuy97/3_V_shape/merged_element.tsv', delimiter='\t').iloc[:, 1:])
     labels = df_L['value'].reset_index(drop=True)
+    X_dataframes = []
     data_counts = []
-    dataframes = []
     
     for x_file in args.X:
         df_X = pd.read_csv(x_file, delimiter='\t').iloc[:, 1:]
