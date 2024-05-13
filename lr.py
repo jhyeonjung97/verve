@@ -79,6 +79,7 @@ def main():
     # file_row_count = df_Y.shape[0]  # Assuming equal rows per file
 
     print(labels)
+    print(Y)
     
     start_index = 0
     end_index = data_counts[0]-1
