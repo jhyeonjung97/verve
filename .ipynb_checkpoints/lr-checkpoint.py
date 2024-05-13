@@ -31,8 +31,7 @@ def main():
         
     df_X_combined = pd.concat(X_dataframes, axis=1)
     df_X_combined.columns = args.columns
-    df_Y_combined = pd.concat(args.Y, axis=1)
-    df_Y_combined = pd.melt(df_Y_combined)
+    df_Y_combined = pd.melt(df_Y)
     
     X = df_X_combined
     Y = pd.DataFrame(df_Y_combined['value'])
