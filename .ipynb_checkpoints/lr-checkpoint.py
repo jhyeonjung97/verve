@@ -81,10 +81,12 @@ def main():
 
     plt.figure(figsize=(10, 8))
     colors = ['red', 'green', 'blue']
-    markers = ['v', 'v', '^', 's', 's', 'o']
+    markers = ['v', 'v', 's', 's', 'o']
+    # markers = ['v', 'v', '^', 's', 's', 'o']
     for i, row in enumerate(['3d', '4d', '5d']):
         sub = df_combined[df_combined['Row'] == row]
-        for j, coordination in enumerate(['WZ', 'ZB', 'LT', 'TN', '33', 'RS']):
+        for j, coordination in enumerate(['WZ', 'ZB', 'TN', '33', 'RS']):
+        # for j, coordination in enumerate(['WZ', 'ZB', 'LT', 'TN', '33', 'RS']):
             subset = sub[sub['Coordination'] == coordination]
             LL = subset['Metal']
             YY = subset['E_form']
