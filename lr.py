@@ -33,6 +33,7 @@ def main():
     df_X_combined = pd.concat(X_dataframes, axis=1)
     df_X_combined.columns = args.index
     df_Y_combined = pd.melt(df_Y.iloc[:df_X_combined.shape[0]])
+    df_C_combined = pd.melt(df_C.iloc[:df_X_combined.shape[0]])
     print(df_X_combined.shape[0]//df_L.shape[0])
     df_L_combined = pd.concat([df_L]*(df_X_combined.shape[0]//df_L.shape[0]), ignore_index=True)
     
