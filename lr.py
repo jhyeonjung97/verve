@@ -32,8 +32,11 @@ def main():
     # Concatenate all X dataframes by columns
     X_dataframes = pd.concat(df_Xs, axis=1)
 
+    print(df_Xs)
+    print(X_dataframes)
+    
     # Ensure all DataFrames have the same shape
-    all_shapes = [df_Y.shape] + [df.shape for df in X_dataframes]
+    all_shapes = [df_Y.shape] + [df.shape for df in df_Xs]
     if not all(shape == all_shapes[0] for shape in all_shapes):
         raise ValueError("All files must have the same number of rows and columns after excluding the first column.")
 
