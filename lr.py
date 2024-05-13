@@ -11,14 +11,14 @@ def main():
     parser.add_argument('--X', required=True, nargs='+', help='File paths for one or more X.tsv files')
     parser.add_argument('-c', '--columns', nargs='+', help='Column names to be used from the X.tsv files')
     parser.add_argument('-o', '--output', dest='filename', type=str, default='', help="output filename")
-    
     args = parser.parse_args()
+
     filename = f'regression{args.filename}'
     
     # Load the data excluding the first column
     df_Y = pd.read_csv(args.Y, delimiter='\t').iloc[:, 1:]
     labels = pd.read_csv('/pscratch/sd/j/jiuy97/3_V_shape/merged_element.tsv', delimiter='\t').iloc[:, 1:].values.flatten()
-    df_Xs = []
+    X_dataframes = []
     data_counts = []
     
     # Loop through each X.tsv file path
@@ -26,37 +26,24 @@ def main():
         df_X = pd.read_csv(x_file, delimiter='\t').iloc[:, 1:]  # Load each file excluding the first column
         row_count = df_X.shape[0]
         nan_count = df_X.isna().any(axis=1).sum()  # Count rows with any NaNs
-        data_counts.append(row_count - nan_count)  # Store the count of non-NaN rows
-        df_Xs.append(df_X)
+        X_dataframes.append(df_X)
+        data_counts.append(row_count-nan_count)
 
-    # Concatenate all X dataframes by columns
-    X_dataframes = pd.concat(df_Xs, axis=1)
-
-    print(df_Xs)
-    print(X_dataframes)
-    
     # Ensure all DataFrames have the same shape
-    all_shapes = [df_Y.shape] + [df.shape for df in df_Xs]
+    all_shapes = [df_Y.shape] + [df.shape for df in X_dataframes]
     if not all(shape == all_shapes[0] for shape in all_shapes):
         raise ValueError("All files must have the same number of rows and columns after excluding the first column.")
-
-    # Flatten and combine the X data into a single DataFrame
-    Y = df_Y.values.flatten()
-    X_combined = np.column_stack([df.values.flatten() for df in X_dataframes])
     
     # Create column names for X
     column_names = args.columns if args.columns else [f'X{i+1}' for i in range(len(X_dataframes))]
 
     # Combine into a single DataFrame
-    df_combined = pd.DataFrame(X_combined, columns=column_names)
-    df_combined['E_form'] = Y
-
-    # Drop rows with NaN values (if any)
-    df_combined.dropna(inplace=True)
+    df_combined = pd.concat(X_dataframes, axis=1)
+    df_combined = df_combined.dropna()
 
     # Set up the predictors and response
-    X = df_combined[column_names]
-    Y = df_combined['E_form']
+    X = df_combined
+    Y = df_Y.iloc[:df_combined.shape[0]]  # Adjust Y to match the length of X after NaN dropping
 
     # Initialize and fit the Linear Regression Model
     model = LinearRegression()
