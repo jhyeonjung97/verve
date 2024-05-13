@@ -66,7 +66,7 @@ def main():
     
     plt.figure(figsize=(10, 8))
     colors = ['red', 'green', 'blue']
-    for i, row in ['3d', '4d', '5d']:
+    for i, row in enumerate(['3d', '4d', '5d']):
         subset = df_combined[df_combined['Row'] == row]
         LL = subset['Metal']
         YY = subset['E_form']
