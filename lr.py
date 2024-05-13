@@ -23,13 +23,13 @@ def main():
     
     for x_file in args.X:
         df_X = pd.read_csv(x_file, delimiter='\t').iloc[:, 1:]
+        melted_df = pd.melt(df_X)
+        single_column_df = melted_df['value'].reset_index(drop=True)
         row_count = df_X.shape[0]
         nan_count = df_X.isna().any(axis=1).sum()
-        X_dataframes.append(df_X.dropna())
+        X_dataframes.append(single_column_df.dropna())
         print(df_X)
-        print(pd.melt(df_X))
-        print(df_X.stack().reset_index(drop=True))
-        print(df_X.values.flatten())
+        print(single_column_df)
         data_counts.append(row_count - nan_count)  # Store counts of non-NaN rows only
 
     df_combined = pd.concat(X_dataframes, axis=1)
