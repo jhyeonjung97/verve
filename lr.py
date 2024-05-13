@@ -39,7 +39,7 @@ def main():
     rows.columns = ['Row']
     labels.columns = ['Metal']
 
-    df_combined = pd.concat([rows, labels, X, Y, rows], axis=1)
+    df_combined = pd.concat([rows, labels, X, Y], axis=1)
     print(df_combined)
     
     model = LinearRegression()
