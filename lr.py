@@ -66,12 +66,12 @@ def main():
     mae = mean_absolute_error(Y, Y_pred)
     mse = mean_squared_error(Y, Y_pred)
 
-    print(f"Intercept: {model.intercept_}")
+    print(f"Intercept:\t{model.intercept_}")
     for i, coef in enumerate(model.coef_):
-        print(f"Coefficient {i+1}: {coef:.2f} for {index[i]}")
-    print(f"R-squared: {model.score(X, Y)}")
-    print(f"Mean Absolute Error: {mae}")
-    print(f"Mean Squared Error: {mse}")
+        print(f"Coefficient{i+1}:\t{coef:.2f} for {index[i]}")
+    print(f"R-squared:\t{model.score(X, Y)}")
+    print(f"Mean Absolute Error:\t{mae}")
+    print(f"Mean Squared Error:\t{mse}")
     
     tsv_filename = f'{filename}.tsv'
     png_filename = f'{filename}.png'
