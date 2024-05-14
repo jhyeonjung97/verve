@@ -20,8 +20,8 @@ def main():
     if args.numb:
         numb = args.numb
     else:
-        numb = int(args.filename) 
-    filename = f'regression{args.filename}'
+        numb = int(args.filename)
+    filename = args.filename
     
     # Load the data excluding the first column
     df_Y = pd.read_csv(args.Y, delimiter='\t').iloc[:, 1:]
@@ -76,9 +76,9 @@ def main():
     print(f"\nR-squared: {model.score(X, Y)}")
     print(f"Mean Absolute Error: {mae}")
     print(f"Mean Squared Error: {mse}\n")
-    
-    tsv_filename = f'{filename}.tsv'
-    png_filename = f'{filename}.png'
+
+    tsv_filename = f'regression{filename}.tsv'
+    png_filename = f'regression{filename}.png'
     df_combined.to_csv(tsv_filename, sep='\t', index=False)
     # print(f"Results saved to {tsv_filename}")
     
@@ -120,7 +120,7 @@ def main():
     plt.xticks(np.arange(M.shape[1]) + 0.5, M.columns, rotation=90, ha='right')
     plt.yticks(np.arange(M.shape[1]) + 0.5, M.columns, rotation=0, va='center')
     plt.tight_layout()
-    plt.gcf().savefig(f'covariance_matrix{str(numb)}.png', bbox_inches="tight")
+    plt.gcf().savefig(f'covariance_matrix{str(filename)}.png', bbox_inches="tight")
     plt.close()
     
     plt.figure(figsize=(7, 6)) # Set the figure size as needed
@@ -129,7 +129,8 @@ def main():
     plt.xticks(np.arange(M.shape[1]) + 0.5, M.columns, rotation=90, ha='right')
     plt.yticks(np.arange(M.shape[1]) + 0.5, M.columns, rotation=0, va='center')
     plt.tight_layout()
-    plt.gcf().savefig(f'abs_covariance_matrix{str(numb)}.png', bbox_inches="tight")
+    plt.gcf().savefig(f'abs_covariance_matrix{str(filename)}.png', bbox_inches="tight")
     plt.close()
+    
 if __name__ == "__main__":
     main()
