@@ -29,6 +29,7 @@ elif [[ ${here} == 'nersc' ]]; then
             # python ~/bin/verve/energy.py --save -p chg -e M  -x "Metal (MO)" -y "Bader charge (e-)"
             # python ~/bin/verve/energy.py --save -p bond  -x "Metal (M-O)" -y "Bond length (A)"
             # python ~/bin/verve/energy.py --save -p ICOHP -x "Metal (MO)" -y "ICOHP (eV/MO)"
+            python ~/bin/verve/energy.py --save -p ICOBI -x "Metal (MO)" -y "ICOBI (/M-O)"
             # python ~/bin/verve/energy.py --save -p PSCENC -x "Metal (MO)" -y "PSCENC (eV/MO)" -n m
             # python ~/bin/verve/energy.py --save -p TEWEN -x "Metal (MO)" -y "TEWEN (eV/MO)" -n m
             # python ~/bin/verve/energy.py --save -p DENC -x "Metal (MO)" -y "DENC (eV/MO)" -n m
