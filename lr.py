@@ -15,6 +15,7 @@ def main():
     parser.add_argument('-o', '--output', dest='filename', type=str, default='', help="output filename")
     args = parser.parse_args()
     numb = int(args.filename)
+    index = args.index
     filename = f'regression{args.filename}'
     
     # Load the data excluding the first column
@@ -31,7 +32,7 @@ def main():
         X_dataframes.append(single_column_df)
     
     df_X_combined = pd.concat(X_dataframes, axis=1)
-    df_X_combined.columns = args.index
+    df_X_combined.columns = index
     df_Y_combined = pd.melt(df_Y.iloc[:df_X_combined.shape[0]])
     df_C_combined = pd.melt(df_C.iloc[:df_X_combined.shape[0]])
     print(df_X_combined.shape[0]//df_L.shape[0])
@@ -64,9 +65,10 @@ def main():
     
     mae = mean_absolute_error(Y, Y_pred)
     mse = mean_squared_error(Y, Y_pred)
-    
+
     print(f"Intercept: {model.intercept_}")
-    print(f"Coefficients: {model.coef_}")
+    for i, coef in enumerate(model.coef_, start=1):
+        print(f"Coefficient {i} for {index[i]}: {coef}")
     print(f"R-squared: {model.score(X, Y)}")
     print(f"Mean Absolute Error: {mae}")
     print(f"Mean Squared Error: {mse}")
