@@ -12,11 +12,15 @@ def main():
     parser.add_argument('--X', required=True, nargs='+', help='File paths for one or more X.tsv files')
     parser.add_argument('--C', default='merged_coord.tsv', help='File paths for one or more C.tsv files')
     parser.add_argument('-i', '--index', required=True, nargs='+', help='Column names to be used from the X.tsv files')
-    parser.add_argument('-n', '--numb', type=int)
+    parser.add_argument('-n', '--numb', type=int, help='An optional integer number')
     parser.add_argument('-o', '--output', dest='filename', type=str, default='', help="output filename")
     args = parser.parse_args()
-    numb = int(args.filename) if not numb
     index = args.index
+    
+    if args.numb:
+        numb = args.numb
+    else:
+        numb = int(args.filename) 
     filename = f'regression{args.filename}'
     
     # Load the data excluding the first column
