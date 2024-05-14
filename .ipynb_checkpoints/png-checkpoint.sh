@@ -22,8 +22,10 @@ elif [[ ${here} == 'nersc' ]]; then
         if [[ $dir != *'save'* ]] && [[ $dir != *'rhom'* ]] && [[ $dir != *'bin'* ]] && [[ $dir != *'cubic'* ]]; then
             cd $dir
                 for sub in *_*/; do
+                    cd $sub
                     echo $PWD
                     python ~/bin/playground/aloha/cobi.py > icobi.txt
+                    cd ..
                 done
             # python ~/bin/verve/energy.py --save -p Madelung_L -x "Metal (MO)" -y "Madelugn energy (Loewdin, eV/MO)" -n m
             # python ~/bin/verve/energy.py --save -p energy -x "Metal (MO)" -y "Total energy (eV/MO)" -n m
