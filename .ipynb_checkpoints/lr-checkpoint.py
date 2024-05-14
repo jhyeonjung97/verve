@@ -69,7 +69,7 @@ def main():
     print(f"Intercept: {model.intercept_}")
     for i, coef in enumerate(model.coef_, start=1):
         print(i, index, coef)
-        print(f"Coefficient {i} for {index[i]}: {coef}")
+        print(f"Coefficient {i} for {index[i-1]}: {coef}")
     print(f"R-squared: {model.score(X, Y)}")
     print(f"Mean Absolute Error: {mae}")
     print(f"Mean Squared Error: {mse}")
