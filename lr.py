@@ -65,10 +65,10 @@ def main():
     mae = mean_absolute_error(Y, Y_pred)
     mse = mean_squared_error(Y, Y_pred)
 
-    print(f"Intercept: {model.intercept_}\n")
+    print(f"\nIntercept: {model.intercept_}\n")
     for i, coef in enumerate(model.coef_):
-        print(f"Coefficient ({index[i]}): {coef:.2f}\n")
-    print(f"R-squared: {model.score(X, Y)}")
+        print(f"Coefficient ({index[i]}): {coef:.2f}")
+    print(f"\nR-squared: {model.score(X, Y)}")
     print(f"Mean Absolute Error: {mae}")
     print(f"Mean Squared Error: {mse}\n")
     
