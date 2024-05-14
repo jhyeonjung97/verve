@@ -1,8 +1,7 @@
 import pandas as pd
-import numpy as np
 
-x = pd.read_csv('energy_IE1.tsv', delimiter='\t').iloc[:, 1:]
-y = pd.read_csv('energy_IE2.tsv', delimiter='\t').iloc[:, 1:]
+x = pd.read_csv('energy_IE1.tsv', delimiter='\t', index_col=0)
+y = pd.read_csv('energy_IE2.tsv', delimiter='\t', index_col=0)
 x.columns = ['IE1+IE2']
 y.columns = ['IE1+IE2']
 z = x+y
