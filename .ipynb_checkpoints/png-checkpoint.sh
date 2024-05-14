@@ -109,7 +109,7 @@ elif [[ ${here} == 'nersc' ]]; then
         #     python ~/bin/verve/lr.py -o 4 -i MadelungL CFSE IE1 IE2 --Y merged_norm_formation.tsv --X merged_norm_MadelungL.tsv merged_cfse.tsv merged_IE1.tsv merged_IE2.tsv > regression4.log
         #     python ~/bin/verve/lr.py -o 7 -i ICOHP MadelungL CFSE IE1 IE2 IE3 E_sub --Y merged_norm_formation.tsv --X merged_ICOHP.tsv merged_norm_MadelungL.tsv merged_cfse.tsv merged_IE1.tsv merged_IE2.tsv merged_IE3.tsv merged_sub.tsv > regression7.log  
         else
-            python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "IE1 + IE2 (eV)" -o norm_formation 1_afm/energy_norm_formation.tsv 4d/energy_norm_formation.tsv 5d/energy_norm_formation.tsv
+            python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "IE1 + IE2 (eV)" -o norm_formation 1_afm/energy_IE12.tsv 4d/energy_IE12.tsv 5d/energy_IE12.tsv
         #     # :
         #     # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Formation energy (eV/MO)" -o norm_formation 1_afm/energy_norm_formation.tsv 4d/energy_norm_formation.tsv 5d/energy_norm_formation.tsv
         #     # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "ICOHP (eV/MO)" -o ICOHP 1_afm/energy_ICOHP.tsv 4d/energy_ICOHP.tsv 5d/energy_ICOHP.tsv
