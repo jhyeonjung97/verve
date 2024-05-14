@@ -35,7 +35,6 @@ def main():
     df_X_combined.columns = index
     df_Y_combined = pd.melt(df_Y.iloc[:df_X_combined.shape[0]])
     df_C_combined = pd.melt(df_C.iloc[:df_X_combined.shape[0]])
-    print(df_X_combined.shape[0]//df_L.shape[0])
     df_L_combined = pd.concat([df_L]*(df_X_combined.shape[0]//df_L.shape[0]), ignore_index=True)
     
     X = df_X_combined
@@ -66,17 +65,17 @@ def main():
     mae = mean_absolute_error(Y, Y_pred)
     mse = mean_squared_error(Y, Y_pred)
 
-    print(f"Intercept: {model.intercept_}")
+    print(f"Intercept: {model.intercept_}\n")
     for i, coef in enumerate(model.coef_):
-        print(f"Coefficient ({index[i]}): {coef:.2f}")
+        print(f"Coefficient ({index[i]}): {coef:.2f}\n")
     print(f"R-squared: {model.score(X, Y)}")
     print(f"Mean Absolute Error: {mae}")
-    print(f"Mean Squared Error: {mse}")
+    print(f"Mean Squared Error: {mse}\n")
     
     tsv_filename = f'{filename}.tsv'
     png_filename = f'{filename}.png'
     df_combined.to_csv(tsv_filename, sep='\t', index=False)
-    print(f"Results saved to {tsv_filename}")
+    # print(f"Results saved to {tsv_filename}")
     
     df_combined['Predicted E_form'] = Y_pred
     df_combined['Residuals'] = Y - Y_pred
@@ -103,7 +102,7 @@ def main():
     plt.legend()
     plt.tight_layout()
     plt.gcf().savefig(png_filename, bbox_inches="tight")
-    print(f"Figure saved as {png_filename}")
+    # print(f"Figure saved as {png_filename}")
     plt.close()
 
     M = pd.concat([Y, X], axis=1)
