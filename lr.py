@@ -12,9 +12,10 @@ def main():
     parser.add_argument('--X', required=True, nargs='+', help='File paths for one or more X.tsv files')
     parser.add_argument('--C', default='merged_coord.tsv', help='File paths for one or more C.tsv files')
     parser.add_argument('-i', '--index', required=True, nargs='+', help='Column names to be used from the X.tsv files')
+    parser.add_argument('-n', '--numb', type=int)
     parser.add_argument('-o', '--output', dest='filename', type=str, default='', help="output filename")
     args = parser.parse_args()
-    numb = int(args.filename)
+    numb = int(args.filename) if not numb
     index = args.index
     filename = f'regression{args.filename}'
     
