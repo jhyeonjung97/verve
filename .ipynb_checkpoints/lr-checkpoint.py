@@ -18,9 +18,9 @@ def main():
     numb = len(index)
     
     if args.filename:
-        filename = numb + '_' + args.filename
+        filename = str(numb) + '_' + args.filename
     else:
-        filename = numb
+        filename = str(numb)
         
     # Load the data excluding the first column
     df_Y = pd.read_csv(args.Y, delimiter='\t').iloc[:, 1:]
