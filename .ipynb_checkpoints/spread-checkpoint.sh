@@ -38,8 +38,9 @@ if [[ $atom_tag == 1 ]]; then
     for i in {0..9}
     do
         dir=$i_*/
-        cp $name$i.vasp $dir
-        echo "cp $name$i.vasp $dir"
+        file=$name*$i.vasp
+        cp $file $dir
+        echo "cp $file $dir"
     done
     exit
 else
