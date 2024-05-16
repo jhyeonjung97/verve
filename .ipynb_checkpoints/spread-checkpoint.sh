@@ -1,14 +1,18 @@
 #!/bin/bash
 
 dir_tag=0
+atom_tag=0
 forced_tag=0
-while getopts ":rfs:d:" opt; do
+while getopts ":rfas:d:" opt; do
   case $opt in
     r)
       dir_tag=1
       ;;
     f)
       forced_tag=1
+      ;;
+    a)
+      atom_tag=1
       ;;
     s)
       select_dir="$OPTARG"
@@ -27,7 +31,20 @@ while getopts ":rfs:d:" opt; do
   esac
 done
 shift "$((OPTIND-1))"
-files=$@
+
+
+if [[ $atom_tag == 1 ]]; then
+    name=$1
+    for i in {0..9}
+    do
+        dir=$i_*/
+        cp $name$i.vasp $dir
+        echo "cp $name$i.vasp $dir"
+    done
+    exit
+else
+    files=$@
+fi
 
 if [[ -n $select_dir ]]; then
     DIR=$select_dir
