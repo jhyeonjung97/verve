@@ -37,7 +37,7 @@ if [[ $atom_tag == 1 ]]; then
     name=$1
     for i in {0..9}
     do
-        dir="$i_*/"
+        dir="$i"_*/
         file="$name"0"$i".vasp
         cp $file $dir
         echo "cp $file $dir"
