@@ -173,15 +173,15 @@ elif [[ ${here} == 'nersc' ]]; then
     # python ~/bin/verve/sum.py -r 3d -x "Metal (MO)" -y "E_form - ICOHP - E_Madelung (eV/M-O)" -p merged_norm_formation_3d.tsv -m merged_ICOHP_3d.tsv merged_norm_MadelungL_3d.tsv -o cfse_3d
     # python ~/bin/verve/sum.py -r 4d -x "Metal (MO)" -y "E_form - ICOHP - E_Madelung (eV/M-O)" -p merged_norm_formation_4d.tsv -m merged_ICOHP_4d.tsv merged_norm_MadelungL_4d.tsv -o cfse_4d
     # python ~/bin/verve/sum.py -r 5d -x "Metal (MO)" -y "E_form - ICOHP - E_Madelung (eV/M-O)" -p merged_norm_formation_5d.tsv -m merged_ICOHP_5d.tsv merged_norm_MadelungL_5d.tsv -o cfse_5d
-    # python ~/bin/verve/concat.py -o norm_formation --X */merged_norm_formation.tsv
-    # python ~/bin/verve/concat.py -o ICOHP --X */merged_ICOHP.tsv
-    # python ~/bin/verve/concat.py -o norm_MadelungL --X */merged_norm_MadelungL.tsv
-    # python ~/bin/verve/concat.py -o cfse --X */merged_cfse.tsv
-    # python ~/bin/verve/concat.py -o IE1 --X */merged_IE1.tsv
-    # python ~/bin/verve/concat.py -o IE2 --X */merged_IE2.tsv
-    # python ~/bin/verve/concat.py -o IE3 --X */merged_IE3.tsv
-    # python ~/bin/verve/concat.py -o sub --X */merged_sub.tsv
-    # python ~/bin/verve/concat.py -o coord --X */merged_coord.tsv
+    python ~/bin/verve/concat.py -o norm_formation --X */merged_norm_formation.tsv
+    python ~/bin/verve/concat.py -o ICOHP --X */merged_ICOHP.tsv
+    python ~/bin/verve/concat.py -o norm_MadelungL --X */merged_norm_MadelungL.tsv
+    python ~/bin/verve/concat.py -o cfse --X */merged_cfse.tsv
+    python ~/bin/verve/concat.py -o IE1 --X */merged_IE1.tsv
+    python ~/bin/verve/concat.py -o IE2 --X */merged_IE2.tsv
+    python ~/bin/verve/concat.py -o IE3 --X */merged_IE3.tsv
+    python ~/bin/verve/concat.py -o sub --X */merged_sub.tsv
+    python ~/bin/verve/concat.py -o coord --X */merged_coord.tsv
     # python ~/bin/verve/lr.py --C concat_coord.tsv -i IE2 --Y concat_norm_formation.tsv --X concat_IE2.tsv > regression1.log 
     # python ~/bin/verve/lr.py --C concat_coord.tsv -i IE1 IE2 --Y concat_norm_formation.tsv --X concat_IE1.tsv concat_IE2.tsv > regression2.log
 

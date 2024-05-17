@@ -87,7 +87,7 @@ def main():
 
     plt.figure(figsize=(10, 8))
     colors = ['red', 'green', 'blue']
-    markers = ['v', 'v', 's', 's', 'o']
+    markers = ['v', '^', 's', 'D', 'o']
     # markers = ['v', 'v', '^', 's', 's', 'o']
     for i, row in enumerate(['3d', '4d', '5d']):
         sub = df_combined[df_combined['Row'] == row]
