@@ -46,7 +46,7 @@ def main():
     
     X = df_X_combined
     Y = pd.DataFrame(df_Y_combined['value'])
-    L = pd.DataFrame(df_R_combined['value'])
+    R = pd.DataFrame(df_R_combined['value'])
     L = pd.DataFrame(df_L_combined['value'])
     C = pd.DataFrame(df_C_combined['value'])
     
