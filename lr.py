@@ -98,8 +98,6 @@ def main():
         for j, coordination in enumerate(['WZ', 'ZB', 'TN', '33', 'RS']):
         # for j, coordination in enumerate(['WZ', 'ZB', 'LT', 'TN', '33', 'RS']):
             subset = sub[sub['Coordination'] == coordination]
-            print(row, coordination)
-            print(subset)
             LL = subset['Metal']
             YY = subset['E_form']
             YY_pred = subset['Predicted E_form']
