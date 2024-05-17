@@ -11,6 +11,7 @@ def main():
     parser.add_argument('--Y', required=True, help='File path for Y.tsv')
     parser.add_argument('--X', required=True, nargs='+', help='File paths for one or more X.tsv files')
     parser.add_argument('--C', default='merged_coord.tsv', help='File paths for one or more C.tsv files')
+    parser.add_argument('--R', default='merged_row.tsv', help='File paths for one or more R.tsv files')
     parser.add_argument('-i', '--index', required=True, nargs='+', help='Column names to be used from the X.tsv files')
     parser.add_argument('-o', '--output', dest='filename', type=str, default='', help="output filename")
     args = parser.parse_args()
@@ -25,7 +26,7 @@ def main():
     # Load the data excluding the first column
     df_Y = pd.read_csv(args.Y, delimiter='\t').iloc[:, 1:]
     df_C = pd.read_csv(args.C, delimiter='\t', dtype=str).iloc[:, 1:]
-    print(df_C)
+    df_R = pd.read_csv(args.R, delimiter='\t', dtype=str).iloc[:, 1:]
     df_L = pd.melt(pd.read_csv('/pscratch/sd/j/jiuy97/3_V_shape/merged_element.tsv', delimiter='\t').iloc[:, 1:])
     X_dataframes = []
     data_counts = []
@@ -40,11 +41,12 @@ def main():
     df_X_combined.columns = index
     df_Y_combined = pd.melt(df_Y.iloc[:df_X_combined.shape[0]])
     df_C_combined = pd.melt(df_C.iloc[:df_X_combined.shape[0]])
+    df_R_combined = pd.melt(df_R.iloc[:df_X_combined.shape[0]])
     df_L_combined = pd.concat([df_L]*(df_X_combined.shape[0]//df_L.shape[0]), ignore_index=True)
     
     X = df_X_combined
     Y = pd.DataFrame(df_Y_combined['value'])
-    R = pd.DataFrame(df_Y_combined['variable'])
+    L = pd.DataFrame(df_R_combined['value'])
     L = pd.DataFrame(df_L_combined['value'])
     C = pd.DataFrame(df_C_combined['value'])
     
