@@ -161,6 +161,7 @@ elif [[ ${here} == 'nersc' ]]; then
     python ~/bin/verve/concat.py -o sub --X *_*/merged_sub.tsv
     python ~/bin/verve/concat.py -o coord --X *_*/merged_coord.tsv
     python ~/bin/verve/concat.py -o row --X *_*/merged_row.tsv
+    python ~/bin/verve/concat.py -o element --X *_*/merged_element.tsv
     
     python ~/bin/verve/lr.py -i IE2 --Y concat_norm_formation.tsv --X concat_IE2.tsv > regression1.log 
     python ~/bin/verve/lr.py -i IE1 IE2 --Y concat_norm_formation.tsv --X concat_IE1.tsv concat_IE2.tsv > regression2.log
