@@ -58,6 +58,7 @@ def main():
     
     df_combined = pd.concat([R, L, C, X, Y], axis=1)
     df_combined = df_combined.dropna()
+    df_combined = df_combined[df_combined['Metal'] != 'Ba']
     
     X = df_combined.iloc[:, -(numb+1):-1]
     Y = df_combined['E_form']
