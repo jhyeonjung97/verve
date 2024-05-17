@@ -4,7 +4,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.gaussian_process import GaussianProcessRegressor
-from sklearn.gaussian_process.kernels import RBF, ConstantKernel as C
+from sklearn.gaussian_process.kernels import RBF, ConstantKernel as K
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 
 def main():
@@ -67,7 +67,7 @@ def main():
     L = df_combined['Metal']
     C = df_combined['Coordination']
 
-    kernel = C(1.0, (1e-3, 1e3)) * RBF(1.0, (1e-2, 1e2))
+    kernel = K(1.0, (1e-3, 1e3)) * RBF(1.0, (1e-2, 1e2))
     model = GaussianProcessRegressor(kernel=kernel, n_restarts_optimizer=10)
     model.fit(X, Y)
 
