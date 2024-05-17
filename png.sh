@@ -162,23 +162,23 @@ elif [[ ${here} == 'nersc' ]]; then
     python ~/bin/verve/concat.py -o coord --X *_*/merged_coord.tsv
     python ~/bin/verve/concat.py -o row --X *_*/merged_row.tsv
     
-    python ~/bin/verve/lr.py --C concat_coord.tsv -i IE2 --Y concat_norm_formation.tsv --X concat_IE2.tsv > regression1.log 
-    python ~/bin/verve/lr.py --C concat_coord.tsv -i IE1 IE2 --Y concat_norm_formation.tsv --X concat_IE1.tsv concat_IE2.tsv > regression2.log
+    python ~/bin/verve/lr.py -i IE2 --Y concat_norm_formation.tsv --X concat_IE2.tsv > regression1.log 
+    python ~/bin/verve/lr.py -i IE1 IE2 --Y concat_norm_formation.tsv --X concat_IE1.tsv concat_IE2.tsv > regression2.log
 
-    python ~/bin/verve/lr.py --C concat_coord.tsv -i MadelungL IE1 IE2 --Y concat_norm_formation.tsv --X concat_norm_MadelungL.tsv concat_IE1.tsv concat_IE2.tsv > regression3.log
-    python ~/bin/verve/lr.py -o MadelungL --C concat_coord.tsv -i IE1 IE2 IE3 --Y concat_norm_formation.tsv --X concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv > regression3_MadelungL.log
+    python ~/bin/verve/lr.py -i MadelungL IE1 IE2 --Y concat_norm_formation.tsv --X concat_norm_MadelungL.tsv concat_IE1.tsv concat_IE2.tsv > regression3.log
+    python ~/bin/verve/lr.py -o MadelungL -i IE1 IE2 IE3 --Y concat_norm_formation.tsv --X concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv > regression3_MadelungL.log
 
-    python ~/bin/verve/lr.py --C concat_coord.tsv -i MadelungL IE1 IE2 IE3 --Y concat_norm_formation.tsv --X concat_norm_MadelungL.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv > regression4.log
-    python ~/bin/verve/lr.py -o MadelungL --C concat_coord.tsv -i IE1 IE2 IE3 E_sub --Y concat_norm_formation.tsv --X concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv > regression4_MadelungL.log
-    python ~/bin/verve/lr.py -o sub --C concat_coord.tsv -i MadelungL IE1 IE2 E_sub --Y concat_norm_formation.tsv --X concat_norm_MadelungL.tsv concat_IE1.tsv concat_IE2.tsv concat_sub.tsv > regression4_sub.log
+    python ~/bin/verve/lr.py -i MadelungL IE1 IE2 IE3 --Y concat_norm_formation.tsv --X concat_norm_MadelungL.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv > regression4.log
+    python ~/bin/verve/lr.py -o MadelungL -i IE1 IE2 IE3 E_sub --Y concat_norm_formation.tsv --X concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv > regression4_MadelungL.log
+    python ~/bin/verve/lr.py -o sub -i MadelungL IE1 IE2 E_sub --Y concat_norm_formation.tsv --X concat_norm_MadelungL.tsv concat_IE1.tsv concat_IE2.tsv concat_sub.tsv > regression4_sub.log
 
-    python ~/bin/verve/lr.py --C concat_coord.tsv -i MadelungL IE1 IE2 IE3 E_sub --Y concat_norm_formation.tsv --X concat_norm_MadelungL.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv > regression5.log
-    python ~/bin/verve/lr.py -o MadelungL --C concat_coord.tsv -i ICOHP IE1 IE2 IE3 E_sub --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv > regression5_MadelungL.log
-    python ~/bin/verve/lr.py -o IE3 --C concat_coord.tsv -i ICOHP MadelungL IE1 IE2 E_sub --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_norm_MadelungL.tsv concat_IE1.tsv concat_IE2.tsv concat_sub.tsv > regression5_IE3.log
-    python ~/bin/verve/lr.py -o sub --C concat_coord.tsv -i ICOHP MadelungL IE1 IE2 IE3 --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_norm_MadelungL.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv > regression5_sub.log
+    python ~/bin/verve/lr.py -i MadelungL IE1 IE2 IE3 E_sub --Y concat_norm_formation.tsv --X concat_norm_MadelungL.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv > regression5.log
+    python ~/bin/verve/lr.py -o MadelungL -i ICOHP IE1 IE2 IE3 E_sub --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv > regression5_MadelungL.log
+    python ~/bin/verve/lr.py -o IE3 -i ICOHP MadelungL IE1 IE2 E_sub --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_norm_MadelungL.tsv concat_IE1.tsv concat_IE2.tsv concat_sub.tsv > regression5_IE3.log
+    python ~/bin/verve/lr.py -o sub -i ICOHP MadelungL IE1 IE2 IE3 --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_norm_MadelungL.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv > regression5_sub.log
 
-    python ~/bin/verve/lr.py --C concat_coord.tsv -i ICOHP MadelungL IE1 IE2 IE3 E_sub --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_norm_MadelungL.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv > regression6.log
-    python ~/bin/verve/lr.py -o cfse --C concat_coord.tsv -i ICOHP MadelungL CFSE IE1 IE2 IE3 --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv > regression6_cfse.log
+    python ~/bin/verve/lr.py -i ICOHP MadelungL IE1 IE2 IE3 E_sub --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_norm_MadelungL.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv > regression6.log
+    python ~/bin/verve/lr.py -o cfse -i ICOHP MadelungL CFSE IE1 IE2 IE3 --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv > regression6_cfse.log
     
-    python ~/bin/verve/lr.py --C concat_coord.tsv -i ICOHP MadelungL CFSE IE1 IE2 IE3 E_sub --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv > regression7.log   
+    python ~/bin/verve/lr.py -i ICOHP MadelungL CFSE IE1 IE2 IE3 E_sub --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv > regression7.log   
 fi
