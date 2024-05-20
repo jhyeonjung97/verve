@@ -1,10 +1,6 @@
 import argparse
 import numpy as np
 import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_absolute_error, mean_squared_error
 
 def main():
     parser = argparse.ArgumentParser(description='Perform linear regression using aggregated columns from multiple TSV files excluding the first column, calculate MAE, MSE, plot results, and save output.')
