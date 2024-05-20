@@ -23,6 +23,8 @@ def main():
     
     if args.filename:
         filename = str(numb) + '_' + args.filename
+    elif row:
+        filename = str(numb) + '_' + row + 'd'
     else:
         filename = str(numb)
         
