@@ -3,7 +3,7 @@ import pandas as pd
 
 # Read the data
 X = pd.read_csv('energy_sub.tsv', delimiter='\t')
-Y = pd.read_csv('energy_norm_formation.tsv', delimiter='\t', header=None, index_col=0)
+Y = pd.read_csv('energy_norm_formation.tsv', delimiter='\t', index_col=0)
 
 
 print(X)
