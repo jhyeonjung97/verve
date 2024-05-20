@@ -14,9 +14,11 @@ def main():
     parser.add_argument('--R', default='concat_row.tsv', help='File paths for one or more R.tsv files')
     parser.add_argument('--L', default='concat_element.tsv', help='File paths for one or more L.tsv files')
     parser.add_argument('-i', '--index', required=True, nargs='+', help='Column names to be used from the X.tsv files')
+    parser.add_argument('-r', '--row', default=None, type=int)
     parser.add_argument('-o', '--output', dest='filename', type=str, default='', help="output filename")
     args = parser.parse_args()
     index = args.index
+    row = args.row
     numb = len(index)
     
     if args.filename:
@@ -59,7 +61,9 @@ def main():
     df_combined = pd.concat([R, L, C, X, Y], axis=1)
     df_combined = df_combined.dropna()
     # df_combined = df_combined[df_combined['Metal'] != 'Ba']
-    
+    if row:
+        df_combined = df_combined[df_combined['Row'] == row]
+        
     X = df_combined.iloc[:, -(numb+1):-1]
     Y = df_combined['E_form']
     R = df_combined['Row']
