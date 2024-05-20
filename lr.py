@@ -27,7 +27,7 @@ def main():
     # Load the data excluding the first column
     df_Y = pd.read_csv(args.Y, delimiter='\t').iloc[:, 1:]
     df_C = pd.read_csv(args.C, delimiter='\t', dtype=str).iloc[:, 1:]
-    df_R = pd.read_csv(args.R, delimiter='\t', dtype=str).iloc[:, 1:]
+    df_R = pd.read_csv(args.R, delimiter='\t', dtype=int).iloc[:, 1:]
     df_L = pd.read_csv(args.L, delimiter='\t', dtype=str).iloc[:, 1:]
     X_dataframes = []
     data_counts = []
@@ -93,7 +93,7 @@ def main():
     colors = ['red', 'green', 'blue']
     markers = ['v', '^', 's', 'D', 'o']
     # markers = ['v', 'v', '^', 's', 's', 'o']
-    for i, row in enumerate(['3d', '4d', '5d']):
+    for i, row in enumerate([3, 4, 5]):
         sub = df_combined[df_combined['Row'] == row]
         for j, coordination in enumerate(['WZ', 'ZB', 'TN', '33', 'RS']):
         # for j, coordination in enumerate(['WZ', 'ZB', 'LT', 'TN', '33', 'RS']):
