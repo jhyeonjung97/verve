@@ -5,11 +5,6 @@ import pandas as pd
 X = pd.read_csv('energy_sub.tsv', delimiter='\t')
 Y = pd.read_csv('energy_norm_formation.tsv', delimiter='\t', index_col=0)
 
-
-print(X)
-
-print(Y)
-
 # Set the index of X to match the index of Y
 X.index = Y.index
 
