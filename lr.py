@@ -74,17 +74,19 @@ def main():
     mae = mean_absolute_error(Y, Y_pred)
     mse = mean_squared_error(Y, Y_pred)
 
-    print(f"\nIntercept: {model.intercept_}\n")
-    for i, coef in enumerate(model.coef_):
-        print(f"Coefficient ({index[i]}): {coef:.2f}")
-    print(f"\nR-squared: {model.score(X, Y)}")
-    print(f"Mean Absolute Error: {mae}")
-    print(f"Mean Squared Error: {mse}\n")
-
     tsv_filename = f'regression{filename}.tsv'
     png_filename = f'regression{filename}.png'
+    log_filename = f'regression{filename}.log'
     df_combined.to_csv(tsv_filename, sep='\t', index=False)
     # print(f"Results saved to {tsv_filename}")
+    
+    with open(log_filename, 'w') as file:
+        file.write(f"\nIntercept: {model.intercept_}\n")
+        for i, coef in enumerate(model.coef_):
+            file.write(f"Coefficient ({index[i]}): {coef:.2f}\n")
+        file.write(f"\nR-squared: {model.score(X, Y)}\n")
+        file.write(f"Mean Absolute Error: {mae}\n")
+        file.write(f"Mean Squared Error: {mse}\n")
     
     df_combined['Predicted E_form'] = Y_pred
     df_combined['Residuals'] = Y - Y_pred
