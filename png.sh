@@ -89,7 +89,7 @@ elif [[ ${here} == 'nersc' ]]; then
         # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Ionization energy (eV)" -o IE1 1_afm/energy_IE1.tsv 4d/energy_IE1.tsv 5d/energy_IE1.tsv
         # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Ionization energy (eV)" -o IE2 1_afm/energy_IE2.tsv 4d/energy_IE2.tsv 5d/energy_IE2.tsv
         # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Ionization energy (eV)" -o IE3 1_afm/energy_IE3.tsv 4d/energy_IE3.tsv 5d/energy_IE3.tsv
-        python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Sublimation energy (eV)" -o sub 1_afm/energy_sub.tsv 4d/energy_sub.tsv 5d/energy_sub.tsv
+        # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Sublimation energy (eV)" -o sub 1_afm/energy_sub.tsv 4d/energy_sub.tsv 5d/energy_sub.tsv
         
         # python ~/bin/verve/lr.py -o 3 -i ICOHP MadelungL CFSE --Y merged_norm_formation.tsv --X merged_ICOHP.tsv merged_norm_MadelungL.tsv merged_cfse.tsv > regression3.log
         # python ~/bin/verve/lr.py -o 4 -i MadelungL CFSE IE1 IE2 --Y merged_norm_formation.tsv --X merged_norm_MadelungL.tsv merged_cfse.tsv merged_IE1.tsv merged_IE2.tsv > regression4.log
