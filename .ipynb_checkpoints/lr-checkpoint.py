@@ -81,12 +81,12 @@ def main():
     # print(f"Results saved to {tsv_filename}")
     
     with open(log_filename, 'w') as file:
-        file.write(f"\nIntercept: {model.intercept_}\n")
+        file.write(f"\nIntercept: {model.intercept_}\n\n")
         for i, coef in enumerate(model.coef_):
             file.write(f"Coefficient ({index[i]}): {coef:.2f}\n")
         file.write(f"\nR-squared: {model.score(X, Y)}\n")
         file.write(f"Mean Absolute Error: {mae}\n")
-        file.write(f"Mean Squared Error: {mse}\n")
+        file.write(f"Mean Squared Error: {mse}\n\n")
     
     df_combined['Predicted E_form'] = Y_pred
     df_combined['Residuals'] = Y - Y_pred
