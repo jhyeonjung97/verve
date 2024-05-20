@@ -15,16 +15,20 @@ def main():
     parser.add_argument('--L', default='concat_element.tsv', help='File paths for one or more L.tsv files')
     parser.add_argument('-i', '--index', required=True, nargs='+', help='Column names to be used from the X.tsv files')
     parser.add_argument('-r', '--row', default=None, type=int)
+    parser.add_argument('-c', '--coord', default=None, type=str)
     parser.add_argument('-o', '--output', dest='filename', type=str, default='', help="output filename")
     args = parser.parse_args()
     index = args.index
     row = args.row
+    coord = args.coord
     numb = len(index)
     
     if args.filename:
         filename = str(numb) + '_' + args.filename
     elif row:
         filename = str(numb) + '_' + str(row) + 'd'
+    elif coord:
+        filename = str(numb) + '_' + coord
     else:
         filename = str(numb)
         
@@ -65,6 +69,8 @@ def main():
     # df_combined = df_combined[df_combined['Metal'] != 'Ba']
     if row:
         df_combined = df_combined[df_combined['Row'] == row]
+    elif coord:
+        df_combined = df_combined[df_combined['Coordination'] == coord]
         
     X = df_combined.iloc[:, -(numb+1):-1]
     Y = df_combined['E_form']
