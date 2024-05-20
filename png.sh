@@ -155,7 +155,7 @@ elif [[ ${here} == 'nersc' ]]; then
     # python ~/bin/verve/concat.py -o ICOHP --X *_*/merged_ICOHP.tsv
     # python ~/bin/verve/concat.py -o wICOHP --X *_*/merged_weighted_ICOHP.tsv
     # python ~/bin/verve/concat.py -o norm_MadelungL --X *_*/merged_norm_MadelungL.tsv
-    # python ~/bin/verve/concat.py -o norm_wMadelungL --X *_*/merged_norm_wMadelungL.tsv
+    # python ~/bin/verve/concat.py -o norm_wMadelungL --X *_*/merged_weighted_norm_MadelungL.tsv
     # python ~/bin/verve/concat.py -o cfse --X *_*/merged_cfse.tsv
     # python ~/bin/verve/concat.py -o IE1 --X *_*/merged_IE1.tsv
     # python ~/bin/verve/concat.py -o IE2 --X *_*/merged_IE2.tsv
