@@ -25,17 +25,16 @@ def main():
     zero = args.zero
     numb = len(index)
     
+    filename = str(numb)
     if args.filename:
-        filename = str(numb) + '_' + args.filename
-    elif row:
-        filename = str(numb) + '_' + str(row) + 'd'
-    elif coord:
-        filename = str(numb) + '_' + coord
-    elif zero:
-        filename = str(numb) + '_zero'
-    else:
-        filename = str(numb)
-        
+        filename = filename + '_' + args.filename
+    if row:
+        filename = filename + '_' + str(row) + 'd'
+    if coord:
+        filename = filename + '_' + coord
+    if zero:
+        filename = filename + '_zero'
+    
     # Load the data excluding the first column
     df_Y = pd.read_csv(args.Y, delimiter='\t').iloc[:, 1:]
     df_C = pd.read_csv(args.C, delimiter='\t', dtype=str).iloc[:, 1:]
@@ -73,9 +72,9 @@ def main():
     # df_combined = df_combined[df_combined['Metal'] != 'Ba']
     if row:
         df_combined = df_combined[df_combined['Row'] == row]
-    elif coord:
+    if coord:
         df_combined = df_combined[df_combined['Coordination'] == coord]
-    elif zero:
+    if zero:
         df_combined = df_combined[df_combined['E_form'] < 0]
         
     X = df_combined.iloc[:, -(numb+1):-1]
