@@ -16,11 +16,13 @@ def main():
     parser.add_argument('-i', '--index', required=True, nargs='+', help='Column names to be used from the X.tsv files')
     parser.add_argument('-r', '--row', default=None, type=int)
     parser.add_argument('-c', '--coord', default=None, type=str)
+    parser.add_argument('-z', '--zero', action='store_true', default=False)
     parser.add_argument('-o', '--output', dest='filename', type=str, default='', help="output filename")
     args = parser.parse_args()
     index = args.index
     row = args.row
     coord = args.coord
+    zero = args.zero
     numb = len(index)
     
     if args.filename:
@@ -29,6 +31,8 @@ def main():
         filename = str(numb) + '_' + str(row) + 'd'
     elif coord:
         filename = str(numb) + '_' + coord
+    elif zero:
+        filename = str(numb) + '_zero'
     else:
         filename = str(numb)
         
@@ -71,6 +75,8 @@ def main():
         df_combined = df_combined[df_combined['Row'] == row]
     elif coord:
         df_combined = df_combined[df_combined['Coordination'] == coord]
+    elif zero:
+        df_combined = df_combined[df_combined['E_form'] < 0]
         
     X = df_combined.iloc[:, -(numb+1):-1]
     Y = df_combined['E_form']
