@@ -166,6 +166,7 @@ elif [[ ${here} == 'nersc' ]]; then
     # python ~/bin/verve/concat.py -o row --X *_*/merged_row.tsv
     # python ~/bin/verve/concat.py -o group --X *_*/merged_group.tsv
     # python ~/bin/verve/concat.py -o element --X *_*/merged_element.tsv
+    # python ~/bin/verve/concat.py -o redoxP --X *_*/merged_redoxP.tsv
 
     python ~/bin/verve/lr.py -i wICOHP MadelungL CFSE IE12 --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv 
     python ~/bin/verve/lr.py -r 3 -i wICOHP MadelungL CFSE IE12 --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv 
@@ -193,8 +194,7 @@ elif [[ ${here} == 'nersc' ]]; then
     
     python ~/bin/verve/lr.py -i ICOHP MadelungL CFSE IE1 IE2 IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
     python ~/bin/verve/lr.py -o wICOHP -i wICOHP MadelungL CFSE IE1 IE2 IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
-    python ~/bin/verve/lr.py -o wMadelungL -i ICOHP wMadelungL CFSE IE1 IE2 IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
-    python ~/bin/verve/lr.py -o w -i wICOHP wMadelungL CFSE IE1 IE2 IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
+    python ~/bin/verve/lr.py -o w -i wICOHP wMadelungL CFSE IE1 IE2 IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_wMadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
     
     python ~/bin/verve/lr.py -r 3 -i wICOHP MadelungL CFSE IE1 IE2 IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
     python ~/bin/verve/lr.py -r 4 -i wICOHP MadelungL CFSE IE1 IE2 IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
@@ -209,6 +209,8 @@ elif [[ ${here} == 'nersc' ]]; then
     python ~/bin/verve/lr.py -z -r 4 -i wICOHP MadelungL CFSE IE1 IE2 IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
     python ~/bin/verve/lr.py -z -r 5 -i wICOHP MadelungL CFSE IE1 IE2 IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
     
+    python ~/bin/verve/lr.py -i wICOHP MadelungL CFSE IE1 IE2 IE3 E_sub row group redoxP --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv concat_redoxP.tsv
+
     # python ~/bin/verve/gaussian.py -i ICOHP MadelungL CFSE IE1 IE2 IE3 E_sub --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv > gaussian7.log   
     # python ~/bin/verve/gaussian.py -o w -i wICOHP MadelungL CFSE IE1 IE2 IE3 E_sub --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv > gaussian7w.log   
 fi
