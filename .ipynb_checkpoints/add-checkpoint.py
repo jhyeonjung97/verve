@@ -1,5 +1,6 @@
 from ase.io import read, write
 from ase import Atoms
+from ase.build import molecule
 
 atoms = read('start.traj')
 del atoms[[atom.symbol == 'O' for atom in atoms]]
