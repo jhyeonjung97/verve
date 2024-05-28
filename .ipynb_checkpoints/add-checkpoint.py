@@ -3,7 +3,8 @@ from ase import Atoms
 from ase.atom import Atom
 
 atoms = read('start.traj')
-del atoms[[atom.symbol == 'Li' for atom in atoms]]
+del atoms[[atom.symbol == 'O' for atom in atoms]]
+del atoms[[atom.symbol == 'H' for atom in atoms]]
 
 for atom in filtered_atoms:
     if atom.symbol == 'Mn':
