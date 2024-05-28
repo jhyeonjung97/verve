@@ -7,7 +7,7 @@ atoms = read('start.traj')
 del atoms[[atom.symbol == 'O' for atom in atoms]]
 del atoms[[atom.symbol == 'H' for atom in atoms]]
 
-for atom in filtered_atoms:
+for atom in atoms:
     if atom.symbol == 'Mn':
         atoms.append(Atom('O', position=atom.position + (0.0, 0.0, +1.8)))
         atoms.append(Atom('O', position=atom.position + (0.0, 0.0, -1.8)))
