@@ -4,8 +4,8 @@ from ase.atom import Atom
 from ase.build import molecule
 
 atoms = read('start.traj')
-del atoms[[atom.symbol == 'O' for atom in atoms]]
-del atoms[[atom.symbol == 'H' for atom in atoms]]
+del atoms[atom.symbol == 'O' for atom in atoms]
+del atoms[atom.symbol == 'H' for atom in atoms]
 
 for atom in atoms:
     if atom.symbol == 'Mn':
