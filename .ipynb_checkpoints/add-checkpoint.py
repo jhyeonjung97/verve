@@ -11,4 +11,4 @@ for atom in atoms:
         atoms.append(Atom('H', position=atom.position + (+0.8, 0.0, +0.6)))
         # atoms.append(Atom('H', position=atom.position + (-0.8, 0.0, -0.6)))
 
-write('hello.traj', atoms)
+write('start.traj', atoms)
