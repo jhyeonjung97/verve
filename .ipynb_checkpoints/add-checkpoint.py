@@ -8,5 +8,5 @@ for atom in atoms:
         atoms.append(Atom('O', position=atom.position+(0.0,0.0,+1.8)))
         atoms.append(Atom('O', position=atom.position+(0.0,0.0,-1.8)))
         atoms.append(Atom('H', position=atom.position+(0.0,0.0,+1.8)+(+0.8,0.0,+0.6)))
-        atoms.append(Atom('H', position=atom.position+(0.0,0.0,-1.8)+(-0.8,0.0,-0.6)))
+        # atoms.append(Atom('H', position=atom.position+(0.0,0.0,-1.8)+(-0.8,0.0,-0.6)))
 write('start.traj', atoms)
