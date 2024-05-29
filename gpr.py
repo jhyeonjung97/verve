@@ -7,6 +7,7 @@ from sklearn.gaussian_process import GaussianProcessRegressor as GPR
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 from sklearn.preprocessing import StandardScaler, PolynomialFeatures
 from sklearn.model_selection import train_test_split, GridSearchCV, cross_validate
+from sklearn.ensemble import GradientBoostingRegressor as GBR
 from sklearn.pipeline import Pipeline
 from sklearn.utils import shuffle
 
@@ -135,7 +136,7 @@ def main():
     print('Entire Dataset MAE: ', mae_all)
     print('Entire Dataset MSE: ', mse_all)
 
-    ensemble_model = GradientBoostingRegressor(n_estimators=1000, validation_fraction=0.2, n_iter_no_change=10, tol=0.01)
+    ensemble_model = GBR(n_estimators=1000, validation_fraction=0.2, n_iter_no_change=10, tol=0.01)
     ensemble_model.fit(X_train, Y_train)
 
     # Predict and evaluate the ensemble model on the test set
