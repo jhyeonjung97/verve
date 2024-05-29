@@ -111,15 +111,16 @@ def main():
     print(np.mean(score['test_neg_mean_absolute_error']))
     print(np.mean(score['test_r2']))
     
-#     pipe.fit(X_train, Y_train)
-#     opt_alpha = float(pipe['model'].best_estimator_.get_params()['alpha'])
+    pipe.fit(X_train, Y_train)
+    opt_alpha = float(pipe['model'].best_estimator_.get_params()['alpha'])
 
-#     model = GPR(normalize_y=True, alpha=opt_alpha)
-#     model.fit(X, Y)
+    model = GPR(normalize_y=True, alpha=opt_alpha)
+    model.fit(X, Y)
     
-#     Y_pred = model.predict(X)
-#     mae = mean_absolute_error(Y, Y_pred)
-#     mse = mean_squared_error(Y, Y_pred)
+    Y_pred = model.predict(X)
+    mae = mean_absolute_error(Y, Y_pred)
+    mse = mean_squared_error(Y, Y_pred)
+    print(mae, mse)
 
 #     # Save results
 #     tsv_filename = f'regression{filename}.tsv'
