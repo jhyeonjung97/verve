@@ -97,20 +97,23 @@ def main():
     params = [{'alpha': np.logspace(-3, 2, 200)}]
     model = GridSearchCV(GPR(normalize_y=True), params, cv=5)
     
-    print(params)
-    print(model)
+    # print(params)
+    # print(model)
     
-#     poly = PolynomialFeatures(degree=2)
-#     pipe = Pipeline([
-#         ('scaler', StandardScaler()),
-#         ('model', model),
-#     ])
+    poly = PolynomialFeatures(degree=2)
+    pipe = Pipeline([
+        ('scaler', StandardScaler()),
+        ('model', model),
+    ])
     
-#     score = cross_validate(pipe, X_train, y_train, scoring=['r2', 'neg_mean_absolute_error'], cv=5)
-#     print(score)
-#     print('CV scores:')
-#     print(np.mean(score['test_neg_mean_absolute_error']))
-#     print(np.mean(score['test_r2']))
+    print(poly)
+    print(pipe)
+    
+    score = cross_validate(pipe, X_train, y_train, scoring=['r2', 'neg_mean_absolute_error'], cv=5)
+    print(score)
+    print('CV scores:')
+    print(np.mean(score['test_neg_mean_absolute_error']))
+    print(np.mean(score['test_r2']))
     
 #     pipe.fit(X_train, y_train)
 #     opt_alpha = float(pipe['model'].best_estimator_.get_params()['alpha'])
