@@ -87,15 +87,18 @@ def main():
     L = df_combined['Metal']
     C = df_combined['Coordination']
 
-    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.3)
+    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.1)
 
-    print("X_train: ", X_train.shape)
-    print("X_test: ", X_test.shape)
-    print("Y_train: ", Y_train.shape)
-    print("Y_test: ", Y_test.shape)
+    # print("X_train: ", X_train.shape)
+    # print("X_test: ", X_test.shape)
+    # print("Y_train: ", Y_train.shape)
+    # print("Y_test: ", Y_test.shape)
     
-#     params = [{'alpha': np.logspace(-3, 2, 200)}]
-#     model = GridSearchCV(GPR(normalize_y=True), params, cv=5)
+    params = [{'alpha': np.logspace(-3, 2, 200)}]
+    model = GridSearchCV(GPR(normalize_y=True), params, cv=5)
+    
+    print(params)
+    print(model)
     
 #     poly = PolynomialFeatures(degree=2)
 #     pipe = Pipeline([
