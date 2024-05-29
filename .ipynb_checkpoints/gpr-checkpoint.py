@@ -106,12 +106,8 @@ def main():
         ('model', model),
     ])
     
-    print(poly)
-    print(pipe)
-    
     score = cross_validate(pipe, X_train, Y_train, scoring=['r2', 'neg_mean_absolute_error'], cv=5)
-    print(score)
-    print('CV scores:')
+    print('CV scores:', score)
     print(np.mean(score['test_neg_mean_absolute_error']))
     print(np.mean(score['test_r2']))
     
