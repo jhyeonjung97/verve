@@ -11,70 +11,81 @@ from sklearn.pipeline import Pipeline
 from sklearn.utils import shuffle
 
 def main():
-    # Argument parser setup
-    parser = argparse.ArgumentParser(description='Perform regression using aggregated columns from multiple TSV files excluding the first column, calculate MAE, MSE, plot results, and save output.')
+    parser = argparse.ArgumentParser(description='Perform linear regression using aggregated columns from multiple TSV files excluding the first column, calculate MAE, MSE, plot results, and save output.')
     parser.add_argument('--Y', required=True, help='File path for Y.tsv')
     parser.add_argument('--X', required=True, nargs='+', help='File paths for one or more X.tsv files')
-    parser.add_argument('--C', default='concat_coord.tsv', help='File path for C.tsv')
-    parser.add_argument('--R', default='concat_row.tsv', help='File path for R.tsv')
-    parser.add_argument('--L', default='concat_element.tsv', help='File path for L.tsv')
+    parser.add_argument('--C', default='concat_coord.tsv', help='File paths for one or more C.tsv files')
+    parser.add_argument('--R', default='concat_row.tsv', help='File paths for one or more R.tsv files')
+    parser.add_argument('--L', default='concat_element.tsv', help='File paths for one or more L.tsv files')
     parser.add_argument('-i', '--index', required=True, nargs='+', help='Column names to be used from the X.tsv files')
-    parser.add_argument('-r', '--row', default=None, type=int, help='Filter by specific row')
-    parser.add_argument('-c', '--coord', default=None, type=str, help='Filter by specific coordination')
-    parser.add_argument('-z', '--zero', action='store_true', default=False, help='Filter E_form values less than zero')
-    parser.add_argument('-o', '--output', dest='filename', type=str, default='', help="Output filename")
+    parser.add_argument('-r', '--row', default=None, type=int)
+    parser.add_argument('-c', '--coord', default=None, type=str)
+    parser.add_argument('-z', '--zero', action='store_true', default=False)
+    parser.add_argument('-o', '--output', dest='filename', type=str, default='', help="output filename")
     args = parser.parse_args()
-
-    # Generate the output filename based on provided arguments
-    filename = str(len(args.index))
+    index = args.index
+    row = args.row
+    coord = args.coord
+    zero = args.zero
+    numb = len(index)
+    
+    filename = str(numb)
     if args.filename:
-        filename += '_' + args.filename
-    if args.row:
-        filename += f'_{args.row}d'
-    if args.coord:
-        filename += f'_{args.coord}'
-    if args.zero:
-        filename += '_zero'
-
+        filename = filename + '_' + args.filename
+    if row:
+        filename = filename + '_' + str(row) + 'd'
+    if coord:
+        filename = filename + '_' + coord
+    if zero:
+        filename = filename + '_zero'
+    
     # Load the data excluding the first column
     df_Y = pd.read_csv(args.Y, delimiter='\t').iloc[:, 1:]
     df_C = pd.read_csv(args.C, delimiter='\t', dtype=str).iloc[:, 1:]
     df_R = pd.read_csv(args.R, delimiter='\t', dtype=int).iloc[:, 1:]
     df_L = pd.read_csv(args.L, delimiter='\t', dtype=str).iloc[:, 1:]
-    
     X_dataframes = []
+    data_counts = []
+    
     for x_file in args.X:
         df_X = pd.read_csv(x_file, delimiter='\t').iloc[:, 1:]
-        single_column_df = pd.melt(df_X)['value'].reset_index(drop=True)
+        melted_df = pd.melt(df_X)
+        single_column_df = melted_df['value'].reset_index(drop=True)
         X_dataframes.append(single_column_df)
-
-    # Combine dataframes
+    
     df_X_combined = pd.concat(X_dataframes, axis=1)
-    df_X_combined.columns = args.index
+    df_X_combined.columns = index
     df_Y_combined = pd.melt(df_Y.iloc[:df_X_combined.shape[0]])
     df_C_combined = pd.melt(df_C.iloc[:df_X_combined.shape[0]])
     df_R_combined = pd.melt(df_R.iloc[:df_X_combined.shape[0]])
     df_L_combined = pd.melt(df_L.iloc[:df_X_combined.shape[0]])
     
-    # Create combined dataframe
     X = df_X_combined
-    Y = pd.DataFrame(df_Y_combined['value'], columns=['E_form'])
-    R = pd.DataFrame(df_R_combined['value'], columns=['Row'])
-    L = pd.DataFrame(df_L_combined['value'], columns=['Metal'])
-    C = pd.DataFrame(df_C_combined['value'], columns=['Coordination'])
-
-    df_combined = pd.concat([R, L, C, X, Y], axis=1).dropna()
+    Y = pd.DataFrame(df_Y_combined['value'])
+    R = pd.DataFrame(df_R_combined['value'])
+    L = pd.DataFrame(df_L_combined['value'])
+    C = pd.DataFrame(df_C_combined['value'])
     
-    # Apply filters
-    if args.row:
-        df_combined = df_combined[df_combined['Row'] == args.row]
-    if args.coord:
-        df_combined = df_combined[df_combined['Coordination'] == args.coord]
-    if args.zero:
+    Y.columns = ['E_form']
+    R.columns = ['Row']
+    L.columns = ['Metal']
+    C.columns = ['Coordination']
+    
+    df_combined = pd.concat([R, L, C, X, Y], axis=1)
+    df_combined = df_combined.dropna()
+    # df_combined = df_combined[df_combined['Metal'] != 'Ba']
+    if row:
+        df_combined = df_combined[df_combined['Row'] == row]
+    if coord:
+        df_combined = df_combined[df_combined['Coordination'] == coord]
+    if zero:
         df_combined = df_combined[df_combined['E_form'] < 0]
-
-    X = df_combined.iloc[:, -(len(args.index) + 1):-1]
+        
+    X = df_combined.iloc[:, -(numb+1):-1]
     Y = df_combined['E_form']
+    R = df_combined['Row']
+    L = df_combined['Metal']
+    C = df_combined['Coordination']
 
     print(X)
     print(Y)
