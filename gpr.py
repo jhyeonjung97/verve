@@ -87,11 +87,13 @@ def main():
     L = df_combined['Metal']
     C = df_combined['Coordination']
 
-    print(X)
-    print(Y)
-    
-#     X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.3)
+    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.3)
 
+    print(X_train)
+    print(X_test)
+    print(Y_train)
+    print(Y_test)
+    
 #     params = [{'alpha': np.logspace(-3, 2, 200)}]
 #     model = GridSearchCV(GPR(normalize_y=True), params, cv=5)
     
