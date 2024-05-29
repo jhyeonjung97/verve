@@ -78,6 +78,8 @@ def main():
 
     # Model fitting and evaluation
     XX, YY = shuffle(X, Y)
+    print(XX)
+    print(YY)
     X_train, X_test, y_train, y_test = train_test_split(XX, YY, test_size=0.3)
 
     params = [{'alpha': np.logspace(-3, 2, 200)}]

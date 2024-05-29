@@ -215,5 +215,5 @@ elif [[ ${here} == 'nersc' ]]; then
     # python ~/bin/verve/lr.py -o redoxP_clean -i ICOHP MadelungL CFSE redoxP IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_redoxP_clean.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv 
 
     # python ~/bin/verve/lr.py -i ICOHP wICOHP MadelungL CFSE IE1 IE2 IE12 redoxP IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv 
-    # python ~/bin/verve/gaussian.py -o w -i wICOHP MadelungL CFSE IE1 IE2 IE3 E_sub --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv > gaussian7w.log   
+    python ~/bin/verve/gpr.py -o w -i wICOHP MadelungL CFSE IE1 IE2 IE3 E_sub --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv
 fi
