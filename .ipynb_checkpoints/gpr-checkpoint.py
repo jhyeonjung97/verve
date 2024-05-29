@@ -3,10 +3,11 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split, GridSearchCV, cross_validate
+from sklearn.model_selection import GridSearchCV, cross_validate, train_test_split
 from sklearn.gaussian_process import GaussianProcessRegressor as GPR
+from sklearn.gaussian_process.kernels import RBF, Matern, RationalQuadratic
 from sklearn.ensemble import GradientBoostingRegressor as GBR
-from sklearn.preprocessing import StandardScaler, PolynomialFeatures
+from sklearn.preprocessing import PolynomialFeatures, StandardScaler
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 from sklearn.linear_model import Ridge
 from sklearn.pipeline import Pipeline
@@ -92,15 +93,23 @@ def main():
     # Split the data into training and test sets
     X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.1, random_state=42)
 
-    # Define the parameter grid for alpha in GPR
-    gpr_params = [{'alpha': np.logspace(-3, 2, 200)}]
+    # Define the parameter grid in GPR
+    gpr_params = {
+        'poly__degree': [1, 2, 3],
+        'scaler': [StandardScaler(), None],  # Including None for no scaling
+        'model__alpha': np.logspace(-3, 2, 200),
+        'model__kernel': [RBF(length_scale=1.0), Matern(length_scale=1.0, nu=1.5), RationalQuadratic(length_scale=1.0, alpha=1.0)],
+        'model__kernel__length_scale': np.logspace(-2, 2, 10),  # Common parameter for RBF, Matern, and RationalQuadratic
+        'model__kernel__alpha': [0.1, 1.0, 10.0],  # Parameter for RationalQuadratic
+        'model__kernel__nu': [0.5, 1.5, 2.5]  # Parameter for Matern
+    }
 
     # Initialize GridSearchCV with GaussianProcessRegressor
     gpr_model = GridSearchCV(GPR(normalize_y=True), gpr_params, cv=5)
 
     # Create the pipeline with PolynomialFeatures and StandardScaler for GPR
     gpr_pipe = Pipeline([
-        ('poly', PolynomialFeatures(degree=2)),
+        ('poly', PolynomialFeatures()),
         ('scaler', StandardScaler()),
         ('model', gpr_model),
     ])
@@ -175,7 +184,7 @@ def main():
     mse_gbr = mean_squared_error(Y, Y_pred_gbr)
     print(f"GBR R^2: {gbr_pipe.score(X, Y):.4f}")
     print(f"GBR MAE: {mae_gbr:.4f}")
-    print(f"GBR MSE: {mse_gbr:.4f}")
+    print(f"GBR MSE: {mse_gbr:.4f}\n")
     
     # Predict and evaluate the GBR model on the test set
     Y_pred_gbr_test = gbr_pipe.predict(X_test)
