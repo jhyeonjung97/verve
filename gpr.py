@@ -106,21 +106,34 @@ def main():
         ('model', model),
     ])
     
-    score = cross_validate(pipe, X_train, Y_train, scoring=['r2', 'neg_mean_absolute_error'], cv=5)
-    print('CV scores:', score)
-    print(np.mean(score['test_neg_mean_absolute_error']))
-    print(np.mean(score['test_r2']))
+    score = cross_validate(pipe, X_train, Y_train, scoring=['r2', 'neg_mean_absolute_error', 'neg_mean_squared_error'], cv=5)
+    # print('CV scores:', score)
+    print('Test, R^2: ', np.mean(score['test_r2']))
+    print('Test, MAE: ', -np.mean(score['test_neg_mean_absolute_error']))
+    print('Test, MSE: ', -np.mean(score['test_neg_mean_squared_error']))
     
     pipe.fit(X_train, Y_train)
     opt_alpha = float(pipe['model'].best_estimator_.get_params()['alpha'])
 
     model = GPR(normalize_y=True, alpha=opt_alpha)
+    model.fit(X_train, Y_train)
+
+    # Predict on the test set
+    Y_pred_test = model.predict(X_test)
+
+    # Compute and print MAE and MSE for the test set
+    mae_test = mean_absolute_error(Y_test, Y_pred_test)
+    mse_test = mean_squared_error(Y_test, Y_pred_test)
+    print('Test Set MAE: ', mae_test)
+    print('Test Set MSE: ', mse_test)
+
+    # If you want to train the final model on the entire dataset and evaluate on the entire dataset (as in your original code)
     model.fit(X, Y)
-    
-    Y_pred = model.predict(X)
-    mae = mean_absolute_error(Y, Y_pred)
-    mse = mean_squared_error(Y, Y_pred)
-    print(mae, mse)
+    Y_pred_all = model.predict(X)
+    mae_all = mean_absolute_error(Y, Y_pred_all)
+    mse_all = mean_squared_error(Y, Y_pred_all)
+    print('Entire Dataset MAE: ', mae_all)
+    print('Entire Dataset MSE: ', mse_all)
 
 #     # Save results
 #     tsv_filename = f'regression{filename}.tsv'
