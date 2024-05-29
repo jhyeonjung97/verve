@@ -137,7 +137,7 @@ def main():
     }
 
     ensemble_model = GridSearchCV(
-        GradientBoostingRegressor(validation_fraction=0.2, n_iter_no_change=10, tol=0.01),
+        GBR(validation_fraction=0.2, n_iter_no_change=10, tol=0.01),
         ensemble_params,
         cv=5
     )
