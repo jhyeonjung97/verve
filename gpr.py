@@ -91,7 +91,7 @@ def main():
     C = df_combined['Coordination']
 
     # Split the data into training and test sets
-    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.1, random_state=42)
+    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=42)
 
     # Define the parameter grid in GPR
     gpr_params = {
@@ -103,16 +103,16 @@ def main():
         'model__kernel__alpha': [0.1, 1.0, 10.0],  # Parameter for RationalQuadratic
         'model__kernel__nu': [0.5, 1.5, 2.5]  # Parameter for Matern
     }
-
-    # Initialize GridSearchCV with GaussianProcessRegressor
-    gpr_model = GridSearchCV(GPR(normalize_y=True), gpr_params, cv=5)
-
+    
     # Create the pipeline with PolynomialFeatures and StandardScaler for GPR
     gpr_pipe = Pipeline([
         ('poly', PolynomialFeatures()),
         ('scaler', StandardScaler()),
         ('model', gpr_model),
     ])
+    
+    # Initialize GridSearchCV with GaussianProcessRegressor
+    gpr_model = GridSearchCV(gpr_pipe, gpr_params, cv=5)
 
     # Cross-validate the pipeline and print CV scores for GPR
     # gpr_score = cross_validate(gpr_pipe, X_train, Y_train, scoring=['r2', 'neg_mean_absolute_error', 'neg_mean_squared_error'], cv=5)
