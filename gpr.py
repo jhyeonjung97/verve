@@ -93,10 +93,10 @@ def main():
     X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.1, random_state=42)
 
     # Define the parameter grid for alpha in GPR
-    params = [{'alpha': np.logspace(-3, 2, 200)}]
+    gpr_params = [{'alpha': np.logspace(-3, 2, 200)}]
 
     # Initialize GridSearchCV with GaussianProcessRegressor
-    gpr_model = GridSearchCV(GPR(normalize_y=True), params, cv=5)
+    gpr_model = GridSearchCV(GPR(normalize_y=True), gpr_params, cv=5)
 
     # Create the pipeline with PolynomialFeatures and StandardScaler for GPR
     gpr_pipe = Pipeline([
@@ -128,42 +128,42 @@ def main():
     print('GPR Test Set MAE: ', mae_gpr_test)
     print('GPR Test Set MSE: ', mse_gpr_test)
 
-    # Optionally: Use an ensemble method with early stopping and regularization for comparison
-    ensemble_params = {
+    # Optionally: Use an GBR method with early stopping and regularization for comparison
+    gbr_params = {
         'n_estimators': [100, 200],
         'learning_rate': [0.1, 0.01],
         'subsample': [0.8, 0.9, 1.0],
         'max_depth': [3, 5]
     }
 
-    ensemble_model = GridSearchCV(
+    gbr_model = GridSearchCV(
         GBR(validation_fraction=0.2, n_iter_no_change=10, tol=0.01),
-        ensemble_params,
+        gbr_params,
         cv=5
     )
 
-    # Create the pipeline with PolynomialFeatures and StandardScaler for the ensemble model
-    ensemble_pipe = Pipeline([
+    # Create the pipeline with PolynomialFeatures and StandardScaler for the GBR model
+    gbr_pipe = Pipeline([
         ('poly', PolynomialFeatures(degree=2)),
         ('scaler', StandardScaler()),
-        ('model', ensemble_model),
+        ('model', gbr_model),
     ])
 
-    # Cross-validate the pipeline and print CV scores for the ensemble model
-    ensemble_score = cross_validate(ensemble_pipe, X_train, Y_train, scoring=['r2', 'neg_mean_absolute_error', 'neg_mean_squared_error'], cv=5)
-    print('Ensemble CV Test R^2: ', np.mean(ensemble_score['test_r2']))
-    print('Ensemble CV Test MAE: ', -np.mean(ensemble_score['test_neg_mean_absolute_error']))  # Take negative to get positive MAE
-    print('Ensemble CV Test MSE: ', -np.mean(ensemble_score['test_neg_mean_squared_error']))  # Take negative to get positive MSE
+    # Cross-validate the pipeline and print CV scores for the GBR model
+    gbr_score = cross_validate(gbr_pipe, X_train, Y_train, scoring=['r2', 'neg_mean_absolute_error', 'neg_mean_squared_error'], cv=5)
+    print('GBR CV Test R^2: ', np.mean(gbr_score['test_r2']))
+    print('GBR CV Test MAE: ', -np.mean(gbr_score['test_neg_mean_absolute_error']))  # Take negative to get positive MAE
+    print('GBR CV Test MSE: ', -np.mean(gbr_score['test_neg_mean_squared_error']))  # Take negative to get positive MSE
 
-    # Fit the ensemble pipeline to the training data
-    ensemble_pipe.fit(X_train, Y_train)
+    # Fit the GBR pipeline to the training data
+    gbr_pipe.fit(X_train, Y_train)
 
-    # Predict and evaluate the ensemble model on the test set
-    Y_pred_ensemble_test = ensemble_pipe.predict(X_test)
-    mae_ensemble_test = mean_absolute_error(Y_test, Y_pred_ensemble_test)
-    mse_ensemble_test = mean_squared_error(Y_test, Y_pred_ensemble_test)
-    print('Ensemble Model Test Set MAE: ', mae_ensemble_test)
-    print('Ensemble Model Test Set MSE: ', mse_ensemble_test)
+    # Predict and evaluate the GBR model on the test set
+    Y_pred_gbr_test = gbr_pipe.predict(X_test)
+    mae_gbr_test = mean_absolute_error(Y_test, Y_pred_gbr_test)
+    mse_gbr_test = mean_squared_error(Y_test, Y_pred_gbr_test)
+    print('GBR Model Test Set MAE: ', mae_gbr_test)
+    print('GBR Model Test Set MSE: ', mse_gbr_test)
     
 #     # Save results
 #     tsv_filename = f'regression{filename}.tsv'
