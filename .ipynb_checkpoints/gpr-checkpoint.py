@@ -100,8 +100,8 @@ def main():
     # print(params)
     # print(model)
     
-    poly = PolynomialFeatures(degree=2)
     pipe = Pipeline([
+        ('poly', PolynomialFeatures(degree=2)),
         ('scaler', StandardScaler()),
         ('model', model),
     ])
@@ -134,6 +134,16 @@ def main():
     mse_all = mean_squared_error(Y, Y_pred_all)
     print('Entire Dataset MAE: ', mae_all)
     print('Entire Dataset MSE: ', mse_all)
+
+    ensemble_model = GradientBoostingRegressor(n_estimators=1000, validation_fraction=0.2, n_iter_no_change=10, tol=0.01)
+    ensemble_model.fit(X_train, Y_train)
+
+    # Predict and evaluate the ensemble model on the test set
+    Y_pred_ensemble = ensemble_model.predict(X_test)
+    mae_ensemble = mean_absolute_error(Y_test, Y_pred_ensemble)
+    mse_ensemble = mean_squared_error(Y_test, Y_pred_ensemble)
+    print('Ensemble Model Test Set MAE: ', mae_ensemble)
+    print('Ensemble Model Test Set MSE: ', mse_ensemble)
 
 #     # Save results
 #     tsv_filename = f'regression{filename}.tsv'
