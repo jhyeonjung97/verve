@@ -162,7 +162,7 @@ def main():
     Y_pred_gbr_test = gbr_pipe.predict(X_test)
     mae_gbr_test = mean_absolute_error(Y_test, Y_pred_gbr_test)
     mse_gbr_test = mean_squared_error(Y_test, Y_pred_gbr_test)
-    print(f"\nR-squared: {gbr_pipe.score(X, Y):.4f}")
+    print(f"GBR Test R^2: {gbr_pipe.score(X, Y):.4f}")
     print(f"GBR Test MAE: {mae_gbr_test:.4f}")
     print(f"GBR Test MSE: {mse_gbr_test:.4f}")
     
