@@ -106,10 +106,10 @@ def main():
     ])
 
     # Cross-validate the pipeline and print CV scores for GPR
-    gpr_score = cross_validate(gpr_pipe, X_train, Y_train, scoring=['r2', 'neg_mean_absolute_error', 'neg_mean_squared_error'], cv=5)
-    print(f"GPR CV Test R^2: {np.mean(gpr_score['test_r2']):.4f}")
-    print(f"GPR CV Test MAE: {-np.mean(gpr_score['test_neg_mean_absolute_error']):.4f}")  # Take negative to get positive MAE
-    print(f"GPR CV Test MSE: {-np.mean(gpr_score['test_neg_mean_squared_error']):.4f}\n")  # Take negative to get positive MSE
+    # gpr_score = cross_validate(gpr_pipe, X_train, Y_train, scoring=['r2', 'neg_mean_absolute_error', 'neg_mean_squared_error'], cv=5)
+    # print(f"GPR CV Test R^2: {np.mean(gpr_score['test_r2']):.4f}")
+    # print(f"GPR CV Test MAE: {-np.mean(gpr_score['test_neg_mean_absolute_error']):.4f}")  # Take negative to get positive MAE
+    # print(f"GPR CV Test MSE: {-np.mean(gpr_score['test_neg_mean_squared_error']):.4f}\n")  # Take negative to get positive MSE
 
     # Fit the GPR pipeline to the training data
     gpr_pipe.fit(X_train, Y_train)
@@ -119,13 +119,23 @@ def main():
     gpr_final_model = GPR(normalize_y=True, alpha=opt_alpha)
     gpr_final_model.fit(X_train, Y_train)
 
+    # Predict on the entire set using the final GPR model
+    Y_pred_gpr = gpr_final_model.predict(X)
+
+    # Compute and print MAE and MSE for the entire set for GPR
+    mae_gpr = mean_absolute_error(Y, Y_pred_gpr)
+    mse_gpr = mean_squared_error(Y, Y_pred_gpr)
+    print(f"GPR R^2: {gpr_pipe.score(X, Y):.4f}")
+    print(f"GPR MAE: {mae_gpr:.4f}")
+    print(f"GPR MSE: {mse_gpr:.4f}\n")
+    
     # Predict on the test set using the final GPR model
     Y_pred_gpr_test = gpr_final_model.predict(X_test)
 
     # Compute and print MAE and MSE for the test set for GPR
     mae_gpr_test = mean_absolute_error(Y_test, Y_pred_gpr_test)
     mse_gpr_test = mean_squared_error(Y_test, Y_pred_gpr_test)
-    print(f"GPR Test R^2: {gpr_pipe.score(X, Y):.4f}")
+    print(f"GPR Test R^2: {gpr_pipe.score(X_test, Y_test):.4f}")
     print(f"GPR Test MAE: {mae_gpr_test:.4f}")
     print(f"GPR Test MSE: {mse_gpr_test:.4f}\n")
 
@@ -151,19 +161,27 @@ def main():
     ])
 
     # Cross-validate the pipeline and print CV scores for the GBR model
-    gbr_score = cross_validate(gbr_pipe, X_train, Y_train, scoring=['r2', 'neg_mean_absolute_error', 'neg_mean_squared_error'], cv=5)
-    print(f"GBR CV Test R^2: {np.mean(gbr_score['test_r2']):.4f}")
-    print(f"GBR CV Test MAE: {-np.mean(gbr_score['test_neg_mean_absolute_error']):.4f}")  # Take negative to get positive MAE
-    print(f"GBR CV Test MSE: {-np.mean(gbr_score['test_neg_mean_squared_error']):.4f}\n")  # Take negative to get positive MSE
+    # gbr_score = cross_validate(gbr_pipe, X_train, Y_train, scoring=['r2', 'neg_mean_absolute_error', 'neg_mean_squared_error'], cv=5)
+    # print(f"GBR CV Test R^2: {np.mean(gbr_score['test_r2']):.4f}")
+    # print(f"GBR CV Test MAE: {-np.mean(gbr_score['test_neg_mean_absolute_error']):.4f}")  # Take negative to get positive MAE
+    # print(f"GBR CV Test MSE: {-np.mean(gbr_score['test_neg_mean_squared_error']):.4f}\n")  # Take negative to get positive MSE
 
     # Fit the GBR pipeline to the training data
     gbr_pipe.fit(X_train, Y_train)
 
+    # Predict and evaluate the GBR model on the entire set
+    Y_pred_gbr = gbr_pipe.predict(X)
+    mae_gbr = mean_absolute_error(Y, Y_pred_gbr)
+    mse_gbr = mean_squared_error(Y, Y_pred_gbr)
+    print(f"GBR R^2: {gbr_pipe.score(X, Y):.4f}")
+    print(f"GBR MAE: {mae_gbr:.4f}")
+    print(f"GBR MSE: {mse_gbr:.4f}")
+    
     # Predict and evaluate the GBR model on the test set
     Y_pred_gbr_test = gbr_pipe.predict(X_test)
     mae_gbr_test = mean_absolute_error(Y_test, Y_pred_gbr_test)
     mse_gbr_test = mean_squared_error(Y_test, Y_pred_gbr_test)
-    print(f"GBR Test R^2: {gbr_pipe.score(X, Y):.4f}")
+    print(f"GBR Test R^2: {gbr_pipe.score(X_test, Y_test):.4f}")
     print(f"GBR Test MAE: {mae_gbr_test:.4f}")
     print(f"GBR Test MSE: {mse_gbr_test:.4f}")
     
