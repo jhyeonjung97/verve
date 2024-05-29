@@ -107,9 +107,9 @@ def main():
 
     # Cross-validate the pipeline and print CV scores for GPR
     gpr_score = cross_validate(gpr_pipe, X_train, Y_train, scoring=['r2', 'neg_mean_absolute_error', 'neg_mean_squared_error'], cv=5)
-    print('GPR CV Test R^2: ', np.mean(gpr_score['test_r2']))
-    print('GPR CV Test MAE: ', -np.mean(gpr_score['test_neg_mean_absolute_error']))  # Take negative to get positive MAE
-    print('GPR CV Test MSE: ', -np.mean(gpr_score['test_neg_mean_squared_error']))  # Take negative to get positive MSE
+    print(f"GPR CV Test R^2: {np.mean(gpr_score['test_r2']):.4f}")
+    print(f"GPR CV Test MAE: {-np.mean(gpr_score['test_neg_mean_absolute_error']):.4f}")  # Take negative to get positive MAE
+    print(f"GPR CV Test MSE: {-np.mean(gpr_score['test_neg_mean_squared_error']):.4f}\n")  # Take negative to get positive MSE
 
     # Fit the GPR pipeline to the training data
     gpr_pipe.fit(X_train, Y_train)
@@ -125,8 +125,9 @@ def main():
     # Compute and print MAE and MSE for the test set for GPR
     mae_gpr_test = mean_absolute_error(Y_test, Y_pred_gpr_test)
     mse_gpr_test = mean_squared_error(Y_test, Y_pred_gpr_test)
-    print('GPR Test MAE: ', mae_gpr_test)
-    print('GPR Test MSE: ', mse_gpr_test)
+    print(f"GPR Test R^2: {gpr_pipe.score(X, Y):.4f}")
+    print(f"GPR Test MAE: {mae_gpr_test:.4f}")
+    print(f"GPR Test MSE: {mse_gpr_test:.4f}\n")
 
     # Optionally: Use an GBR method with early stopping and regularization for comparison
     gbr_params = {
@@ -151,9 +152,9 @@ def main():
 
     # Cross-validate the pipeline and print CV scores for the GBR model
     gbr_score = cross_validate(gbr_pipe, X_train, Y_train, scoring=['r2', 'neg_mean_absolute_error', 'neg_mean_squared_error'], cv=5)
-    print('GBR CV Test R^2: ', np.mean(gbr_score['test_r2']))
-    print('GBR CV Test MAE: ', -np.mean(gbr_score['test_neg_mean_absolute_error']))  # Take negative to get positive MAE
-    print('GBR CV Test MSE: ', -np.mean(gbr_score['test_neg_mean_squared_error']))  # Take negative to get positive MSE
+    print(f"GBR CV Test R^2: {np.mean(gbr_score['test_r2']):.4f}")
+    print(f"GBR CV Test MAE: {-np.mean(gbr_score['test_neg_mean_absolute_error']):.4f}")  # Take negative to get positive MAE
+    print(f"GBR CV Test MSE: {-np.mean(gbr_score['test_neg_mean_squared_error']):.4f}\n")  # Take negative to get positive MSE
 
     # Fit the GBR pipeline to the training data
     gbr_pipe.fit(X_train, Y_train)
