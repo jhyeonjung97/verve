@@ -3,11 +3,12 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-from sklearn.gaussian_process import GaussianProcessRegressor as GPR
-from sklearn.metrics import mean_absolute_error, mean_squared_error
-from sklearn.preprocessing import StandardScaler, PolynomialFeatures
 from sklearn.model_selection import train_test_split, GridSearchCV, cross_validate
+from sklearn.gaussian_process import GaussianProcessRegressor as GPR
 from sklearn.ensemble import GradientBoostingRegressor as GBR
+from sklearn.preprocessing import StandardScaler, PolynomialFeatures
+from sklearn.metrics import mean_absolute_error, mean_squared_error
+from sklearn.linear_model import Ridge
 from sklearn.pipeline import Pipeline
 from sklearn.utils import shuffle
 
