@@ -76,6 +76,9 @@ def main():
     X = df_combined.iloc[:, -(len(args.index) + 1):-1]
     Y = df_combined['E_form']
 
+    print(X)
+    print(Y)
+    
 #     X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.3)
 
 #     params = [{'alpha': np.logspace(-3, 2, 200)}]
