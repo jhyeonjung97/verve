@@ -125,8 +125,8 @@ def main():
     # Compute and print MAE and MSE for the test set for GPR
     mae_gpr_test = mean_absolute_error(Y_test, Y_pred_gpr_test)
     mse_gpr_test = mean_squared_error(Y_test, Y_pred_gpr_test)
-    print('GPR Test Set MAE: ', mae_gpr_test)
-    print('GPR Test Set MSE: ', mse_gpr_test)
+    print('GPR Test MAE: ', mae_gpr_test)
+    print('GPR Test MSE: ', mse_gpr_test)
 
     # Optionally: Use an GBR method with early stopping and regularization for comparison
     gbr_params = {
@@ -162,8 +162,9 @@ def main():
     Y_pred_gbr_test = gbr_pipe.predict(X_test)
     mae_gbr_test = mean_absolute_error(Y_test, Y_pred_gbr_test)
     mse_gbr_test = mean_squared_error(Y_test, Y_pred_gbr_test)
-    print('GBR Model Test Set MAE: ', mae_gbr_test)
-    print('GBR Model Test Set MSE: ', mse_gbr_test)
+    print(f"\nR-squared: {gbr_pipe.score(X, Y):.4f}")
+    print(f"GBR Test MAE: {mae_gbr_test:.4f}")
+    print(f"GBR Test MSE: {mse_gbr_test:.4f}")
     
 #     # Save results
 #     tsv_filename = f'regression{filename}.tsv'
