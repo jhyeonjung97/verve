@@ -96,7 +96,7 @@ def main():
     # Define separate parameter grids for each kernel with a lower bound for length_scale
     gpr_params = {
         'poly__degree': [1, 2, 3],
-        'model__alpha': np.logspace(-3, 2, 200)
+        'model__alpha': np.logspace(-3, 2, 200),
         'model__kernel__length_scale': np.logspace(-2, 2, 10)
     }
 
