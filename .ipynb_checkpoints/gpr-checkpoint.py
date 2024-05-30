@@ -178,7 +178,7 @@ def main():
         file.write(f"Test\t{best_gpr_pipe.score(X_test, Y_test):.4f}\t{mae_gpr_test:.4f}\t{mse_gpr_test:.4f}\n\n")
 
     overall_end_time = time.time()
-    overall_time = overall_end_time - overall_time
+    overall_time = overall_end_time - overall_start_time
     
     with open(log_filename, 'a') as file:
         file.write(f"Optimization time: {optimization_time:.2f} sec\n")
