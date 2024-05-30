@@ -103,7 +103,7 @@ def main():
     # Define the objective function for Optuna
     def objective(trial):
         poly_degree = trial.suggest_int('poly__degree', 1, 3)
-        alpha = trial.suggest_loguniform('model__alpha', 1e-10, 10)
+        alpha = trial.suggest_float('model__alpha', 1e-10, 10, log=True)
     
         # Create the pipeline with PolynomialFeatures and StandardScaler for GPR
         gpr_pipe = Pipeline([

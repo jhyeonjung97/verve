@@ -101,21 +101,21 @@ def main():
     overall_start_time = time.time()
     X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=42)
 
-# Define the search space for HyperOpt
-search_space = {
-    'poly__degree': scope.int(hp.quniform('poly__degree', 1, 3, 1)),
-    'model__n_estimators': scope.int(hp.quniform('model__n_estimators', 50, 100, 1)),
-    'model__learning_rate': hp.loguniform('model__learning_rate', -2, -1),
-    'model__subsample': hp.uniform('model__subsample', 0.8, 1.0),
-    'model__max_depth': scope.int(hp.quniform('model__max_depth', 3, 4, 1)),
-    'model__min_samples_split': scope.int(hp.quniform('model__min_samples_split', 2, 5, 1)),
-    'model__min_samples_leaf': scope.int(hp.quniform('model__min_samples_leaf', 1, 2, 1)),
-    'model__max_features': hp.choice('model__max_features', [None, 'sqrt', 'log2', 0.6, 0.8, 1.0]),
-    'model__max_leaf_nodes': hp.choice('model__max_leaf_nodes', [None, 10, 20, 30]),
-    'model__min_weight_fraction_leaf': hp.uniform('model__min_weight_fraction_leaf', 0.0, 0.2),
-    'model__validation_fraction': hp.uniform('model__validation_fraction', 0.1, 0.2),
-    'model__n_iter_no_change': hp.choice('model__n_iter_no_change', [None, 10, 20])
-}
+    # Define the search space for HyperOpt
+    search_space = {
+        'poly__degree': scope.int(hp.quniform('poly__degree', 1, 3, 1)),
+        'model__n_estimators': scope.int(hp.quniform('model__n_estimators', 50, 100, 1)),
+        'model__learning_rate': hp.loguniform('model__learning_rate', -2, -1),
+        'model__subsample': hp.uniform('model__subsample', 0.8, 1.0),
+        'model__max_depth': scope.int(hp.quniform('model__max_depth', 3, 4, 1)),
+        'model__min_samples_split': scope.int(hp.quniform('model__min_samples_split', 2, 5, 1)),
+        'model__min_samples_leaf': scope.int(hp.quniform('model__min_samples_leaf', 1, 2, 1)),
+        'model__max_features': hp.choice('model__max_features', [None, 'sqrt', 'log2', 0.6, 0.8, 1.0]),
+        'model__max_leaf_nodes': hp.choice('model__max_leaf_nodes', [None, 10, 20, 30]),
+        'model__min_weight_fraction_leaf': hp.uniform('model__min_weight_fraction_leaf', 0.0, 0.2),
+        'model__validation_fraction': hp.uniform('model__validation_fraction', 0.1, 0.2),
+        'model__n_iter_no_change': hp.choice('model__n_iter_no_change', [None, 10, 20])
+    }
 
     # Define the objective function for HyperOpt
     def objective(params):

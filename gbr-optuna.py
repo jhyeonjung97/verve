@@ -105,15 +105,15 @@ def main():
     def objective(trial):
         poly_degree = trial.suggest_int('poly__degree', 1, 3)
         n_estimators = trial.suggest_int('n_estimators', 50, 100)
-        learning_rate = trial.suggest_loguniform('learning_rate', 0.01, 0.1)
-        subsample = trial.suggest_uniform('subsample', 0.8, 1.0)
+        learning_rate = trial.suggest_float('learning_rate', 0.01, 0., log=True)
+        subsample = trial.suggest_float('subsample', 0.8, 1.0)
         max_depth = trial.suggest_int('max_depth', 3, 4)
         min_samples_split = trial.suggest_int('min_samples_split', 2, 5)
         min_samples_leaf = trial.suggest_int('min_samples_leaf', 1, 2)
         max_features = trial.suggest_categorical('max_features', [None, 'sqrt', 'log2', 0.6, 0.8, 1.0])
         max_leaf_nodes = trial.suggest_categorical('max_leaf_nodes', [None, 10, 20, 30])
-        min_weight_fraction_leaf = trial.suggest_uniform('min_weight_fraction_leaf', 0.0, 0.2)
-        validation_fraction = trial.suggest_uniform('validation_fraction', 0.1, 0.2)
+        min_weight_fraction_leaf = trial.suggest_float('min_weight_fraction_leaf', 0.0, 0.2)
+        validation_fraction = trial.suggest_float('validation_fraction', 0.1, 0.2)
         n_iter_no_change = trial.suggest_categorical('n_iter_no_change', [None, 10, 20])
     
         # Create the pipeline with PolynomialFeatures, StandardScaler, and GradientBoostingRegressor
