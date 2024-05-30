@@ -7,7 +7,6 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import GridSearchCV, cross_validate, train_test_split
 from sklearn.gaussian_process import GaussianProcessRegressor as GPR
 from sklearn.gaussian_process.kernels import RBF, Matern, RationalQuadratic
-from sklearn.ensemble import GradientBoostingRegressor as GBR
 from sklearn.preprocessing import PolynomialFeatures, StandardScaler
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 from sklearn.linear_model import Ridge

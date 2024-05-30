@@ -5,7 +5,6 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.model_selection import GridSearchCV, cross_validate, train_test_split
-from sklearn.gaussian_process import GaussianProcessRegressor as GPR
 from sklearn.gaussian_process.kernels import RBF, Matern, RationalQuadratic
 from sklearn.ensemble import GradientBoostingRegressor as GBR
 from sklearn.preprocessing import PolynomialFeatures, StandardScaler
@@ -167,7 +166,7 @@ def main():
 
     # Predict on the entire set using the final GBR model
     start_time = time.time()
-    Y_pred_gpr = best_gpr_pipe.predict(X)
+    Y_pred_gbr = best_gbr_pipe.predict(X)
     end_time = time.time()
     prediction_time = end_time - start_time
     
@@ -182,7 +181,7 @@ def main():
         
     # Predict on the test set using the final GBR model
     start_time = time.time()
-    Y_pred_gpr_test = best_gpr_pipe.predict(X_test)
+    Y_pred_gbr_test = best_gbr_pipe.predict(X_test)
     end_time = time.time()
     test_prediction_time = end_time - start_time
     
