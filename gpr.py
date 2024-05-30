@@ -122,10 +122,9 @@ def main():
 
     # Fit the GPR pipeline to the training data
     gpr_pipe.fit(X_train, Y_train)
-    opt_alpha = float(gpr_pipe['model'].best_estimator_.get_params()['alpha'])
 
     # Train final GPR model with optimized alpha on the entire training dataset
-    gpr_final_model = GPR(normalize_y=True, alpha=opt_alpha)
+    gpr_final_model = gpr_pipe.best_estimator_.named_steps['model']
     gpr_final_model.fit(X_train, Y_train)
 
     # Predict on the entire set using the final GPR model
