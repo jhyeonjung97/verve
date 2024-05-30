@@ -107,7 +107,7 @@ def main():
     ])
 
     # Initialize GridSearchCV with GaussianProcessRegressor
-    gpr_search = GridSearchCV(gpr_pipe, gpr_params, cv=5)
+    gpr_search = GridSearchCV(gpr_pipe, gpr_params, cv=5, scoring='neg_mean_absolute_error')
 
     # Cross-validate the pipeline and print CV scores for GPR
     # gpr_score = cross_validate(gpr_search, X_train, Y_train, 
@@ -122,7 +122,7 @@ def main():
     # Extract the best pipeline from GridSearchCV
     best_gpr_pipe = gpr_search.best_estimator_
     print(f"Optimized poly: {gpr_search.best_params_['poly__degree']}")
-    print(f"Optimized alpha: {gpr_search.best_params_['model__alpha']}\n")
+    print(f"Optimized alpha: {gpr_search.best_params_['model__alpha']:.4f}\n")
 
     # Predict on the entire set using the final GPR model
     Y_pred_gpr = best_gpr_pipe.predict(X)
@@ -146,57 +146,66 @@ def main():
 
     # Optionally: Use an GBR method with early stopping and regularization for comparison
     gbr_params = {
-        'n_estimators': [100, 200],
-        'learning_rate': [0.1, 0.01],
-        'subsample': [0.8, 0.9, 1.0],
-        'max_depth': [3, 5],
-        'min_samples_split': [2, 5, 10],
-        'min_samples_leaf': [1, 2, 5, 10],
-        'max_features': [None, 'auto', 'sqrt', 'log2', 0.6, 0.8, 1.0],
-        'max_leaf_nodes': [None, 10, 20, 30],
-        'min_weight_fraction_leaf': [0.0, 0.1, 0.2],
-        'validation_fraction': [0.1, 0.2],
-        'n_iter_no_change': [None, 10, 20]
+        'poly__degree': [1, 2, 3],
+        'model__n_estimators': [100, 200],
+        'model__learning_rate': [0.1, 0.01],
+        'model__subsample': [0.8, 0.9, 1.0],
+        'model__max_depth': [3, 5],
+        'model__min_samples_split': [2, 5, 10],
+        'model__min_samples_leaf': [1, 2, 5, 10],
+        'model__max_features': [None, 'auto', 'sqrt', 'log2', 0.6, 0.8, 1.0],
+        'model__max_leaf_nodes': [None, 10, 20, 30],
+        'model__min_weight_fraction_leaf': [0.0, 0.1, 0.2],
+        'model__validation_fraction': [0.1, 0.2],
+        'model__n_iter_no_change': [None, 10, 20]
     }
-
-    gbr_model = GridSearchCV(
-        GBR(validation_fraction=0.2, n_iter_no_change=10, tol=0.01),
-        gbr_params,
-        cv=5
-    )
-
-    # Create the pipeline with PolynomialFeatures and StandardScaler for the GBR model
+    
+    # Create the pipeline with PolynomialFeatures, StandardScaler, and GradientBoostingRegressor
     gbr_pipe = Pipeline([
-        ('poly', PolynomialFeatures(degree=2)),
+        ('poly', PolynomialFeatures()),
         ('scaler', StandardScaler()),
-        ('model', gbr_model),
+        ('model', GBR(random_state=42)),
     ])
 
-    # Cross-validate the pipeline and print CV scores for the GBR model
-    # gbr_score = cross_validate(gbr_pipe, X_train, Y_train, scoring=['r2', 'neg_mean_absolute_error', 'neg_mean_squared_error'], cv=5)
-    # print(f"GBR CV Test R^2: {np.mean(gbr_score['test_r2']):.4f}")
-    # print(f"GBR CV Test MAE: {-np.mean(gbr_score['test_neg_mean_absolute_error']):.4f}")  # Take negative to get positive MAE
-    # print(f"GBR CV Test MSE: {-np.mean(gbr_score['test_neg_mean_squared_error']):.4f}\n")  # Take negative to get positive MSE
+    # Initialize GridSearchCV with the pipeline and parameter grid
+    gbr_search = GridSearchCV(gbr_pipe, gbr_params, cv=5, scoring='neg_mean_absolute_error')
 
-    # Fit the GBR pipeline to the training data
-    gbr_pipe.fit(X_train, Y_train)
+    # Cross-validate the pipeline and print CV scores for GBR
+    gbr_score = cross_validate(gbr_search, X_train, Y_train, 
+                               scoring=['r2', 'neg_mean_absolute_error', 'neg_mean_squared_error'], cv=5)
+    print(f"GBR CV Test R^2: {np.mean(gbr_score['test_r2']):.4f}")
+    print(f"GBR CV Test MAE: {-np.mean(gbr_score['test_neg_mean_absolute_error']):.4f}")  # Take negative to get positive MAE
+    print(f"GBR CV Test MSE: {-np.mean(gbr_score['test_neg_mean_squared_error']):.4f}\n")  # Take negative to get positive MSE
 
-    # Predict and evaluate the GBR model on the entire set
-    Y_pred_gbr = gbr_pipe.predict(X)
+    # Fit the GridSearchCV to the training data
+    gbr_search.fit(X_train, Y_train)
+
+    # Print the optimized parameters
+    print("Optimized Parameters:")
+    print(gbr_search.best_params_)
+
+    # Extract the best pipeline from GridSearchCV
+    best_gbr_pipe = gbr_search.best_estimator_
+
+    # Predict on the entire set using the final GBR model
+    Y_pred_gbr = best_gbr_pipe.predict(X)
+
+    # Compute and print MAE and MSE for the entire set for GBR
     mae_gbr = mean_absolute_error(Y, Y_pred_gbr)
     mse_gbr = mean_squared_error(Y, Y_pred_gbr)
-    print(f"GBR R^2: {gbr_pipe.score(X, Y):.4f}")
+    print(f"GBR R^2: {best_gbr_pipe.score(X, Y):.4f}")
     print(f"GBR MAE: {mae_gbr:.4f}")
     print(f"GBR MSE: {mse_gbr:.4f}\n")
-    
-    # Predict and evaluate the GBR model on the test set
-    Y_pred_gbr_test = gbr_pipe.predict(X_test)
+
+    # Predict on the test set using the final GBR model
+    Y_pred_gbr_test = best_gbr_pipe.predict(X_test)
+
+    # Compute and print MAE and MSE for the test set for GBR
     mae_gbr_test = mean_absolute_error(Y_test, Y_pred_gbr_test)
     mse_gbr_test = mean_squared_error(Y_test, Y_pred_gbr_test)
-    print(f"GBR Test R^2: {gbr_pipe.score(X_test, Y_test):.4f}")
+    print(f"GBR Test R^2: {best_gbr_pipe.score(X_test, Y_test):.4f}")
     print(f"GBR Test MAE: {mae_gbr_test:.4f}")
-    print(f"GBR Test MSE: {mse_gbr_test:.4f}")
-    
+    print(f"GBR Test MSE: {mse_gbr_test:.4f}\n")  
 #     # Save results
 #     tsv_filename = f'regression{filename}.tsv'
 #     png_filename = f'regression{filename}.png'
