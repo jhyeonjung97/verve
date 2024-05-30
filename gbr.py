@@ -97,6 +97,7 @@ def main():
     C = df_combined['Coordination']
 
     # Split the data into training and test sets
+    overall_start_time = time.time()
     X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=42)
 
     # Use an GBR method with early stopping and regularization for comparison
@@ -123,11 +124,17 @@ def main():
     ])
 
     # Initialize GridSearchCV with the pipeline and parameter grid
+    start_time = time.time()
     gbr_search = GridSearchCV(gbr_pipe, gbr_params, cv=5, scoring='neg_mean_absolute_error')
+    end_time = time.time()
+    optimization_time = end_time - start_time
     
     # Fit the GridSearchCV to the training data
+    start_time = time.time()
     gbr_search.fit(X_train, Y_train)
-
+    end_time = time.time()
+    fitting_time = end_time - start_time
+    
     # Extract the best pipeline from GridSearchCV
     best_gbr_pipe = gbr_search.best_estimator_
     
@@ -140,15 +147,18 @@ def main():
         file.write(f"Optimized max_depth: {gbr_search.best_params_['model__max_depth']:.4f}\n")
         file.write(f"Optimized min_samples_split: {gbr_search.best_params_['model__min_samples_split']:.4f}\n")
         file.write(f"Optimized min_samples_leaf: {gbr_search.best_params_['model__min_samples_leaf']:.4f}\n")
-        # file.write(f"Optimized max_features: {gbr_search.best_params_['model__max_features']:.4f}\n")
-        # file.write(f"Optimized max_leaf_nodes: {gbr_search.best_params_['model__max_leaf_nodes']:.4f}\n")
-        # file.write(f"Optimized min_weight_fraction_leaf: {gbr_search.best_params_['model__min_weight_fraction_leaf']:.4f}\n")
-        # file.write(f"Optimized validation_fraction: {gbr_search.best_params_['model__validation_fraction']:.4f}\n")
-        # file.write(f"Optimized n_iter_no_change: {gbr_search.best_params_['model__n_iter_no_change']:.4f}\n")
+        file.write(f"Optimized max_features: {gbr_search.best_params_['model__max_features']:.4f}\n")
+        file.write(f"Optimized max_leaf_nodes: {gbr_search.best_params_['model__max_leaf_nodes']:.4f}\n")
+        file.write(f"Optimized min_weight_fraction_leaf: {gbr_search.best_params_['model__min_weight_fraction_leaf']:.4f}\n")
+        file.write(f"Optimized validation_fraction: {gbr_search.best_params_['model__validation_fraction']:.4f}\n")
+        file.write(f"Optimized n_iter_no_change: {gbr_search.best_params_['model__n_iter_no_change']:.4f}\n")
     
     # Cross-validate the pipeline and print CV scores for GBR
+    start_time = time.time()
     gbr_score = cross_validate(gbr_search, X_train, Y_train, 
                                scoring=['r2', 'neg_mean_absolute_error', 'neg_mean_squared_error'], cv=5)
+    end_time = time.time()
+    cross_validation_time = end_time - start_time
     # print(f"GBR CV Test R^2: {np.mean(gbr_score['test_r2']):.4f}")
     # print(f"GBR CV Test MAE: {-np.mean(gbr_score['test_neg_mean_absolute_error']):.4f}")  # Take negative to get positive MAE
     # print(f"GBR CV Test MSE: {-np.mean(gbr_score['test_neg_mean_squared_error']):.4f}\n")  # Take negative to get positive MSE
@@ -156,8 +166,11 @@ def main():
         file.write(f"CV\t{np.mean(gbr_score['test_r2']):.4f}\t{-np.mean(gbr_score['test_neg_mean_absolute_error']):.4f}\t{-np.mean(gbr_score['test_neg_mean_squared_error']):.4f}\n")  # Take negative to get positive MSE
 
     # Predict on the entire set using the final GBR model
-    Y_pred_gbr = best_gbr_pipe.predict(X)
-
+    start_time = time.time()
+    Y_pred_gpr = best_gpr_pipe.predict(X)
+    end_time = time.time()
+    prediction_time = end_time - start_time
+    
     # Compute and print MAE and MSE for the entire set for GBR
     mae_gbr = mean_absolute_error(Y, Y_pred_gbr)
     mse_gbr = mean_squared_error(Y, Y_pred_gbr)
@@ -168,8 +181,11 @@ def main():
         file.write(f"Entire\t{best_gbr_pipe.score(X, Y):.4f}\t{mae_gbr:.4f}\t{mse_gbr:.4f}\n")
         
     # Predict on the test set using the final GBR model
-    Y_pred_gbr_test = best_gbr_pipe.predict(X_test)
-
+    start_time = time.time()
+    Y_pred_gpr_test = best_gpr_pipe.predict(X_test)
+    end_time = time.time()
+    test_prediction_time = end_time - start_time
+    
     # Compute and print MAE and MSE for the test set for GBR
     mae_gbr_test = mean_absolute_error(Y_test, Y_pred_gbr_test)
     mse_gbr_test = mean_squared_error(Y_test, Y_pred_gbr_test)
@@ -178,10 +194,20 @@ def main():
     # print(f"GBR Test MSE: {mse_gbr_test:.4f}\n")  
     with open(log_filename, 'a') as file:
         file.write(f"Test\t{best_gbr_pipe.score(X_test, Y_test):.4f}\t{mae_gbr_test:.4f}\t{mse_gbr_test:.4f}\n")
+        
+    overall_end_time = time.time()
+    overall_time = overall_end_time - overall_time
+    
+    with open(log_filename, 'a') as file:
+        file.write(f"Optimization time: {optimization_time:.2f} sec\n")
+        file.write(f"Model fitting time: {fitting_time:.2f} sec\n")
+        file.write(f"Cross-validation time: {cross_validation_time:.2f} sec\n")
+        file.write(f"Prediction time (entire set): {prediction_time:.2f} sec\n")
+        file.write(f"Prediction time (test set): {test_prediction_time:.2f} sec\n")
+        file.write(f"Overall time: {overall_time:.2f} sec\n")
 
     df_combined['Predicted E_form'] = Y_pred_gbr
     df_combined['Residuals'] = Y - Y_pred_gbr
-    
     df_combined.to_csv(tsv_filename, sep='\t', index=False)
 
 #     # Plot results

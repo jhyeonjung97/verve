@@ -98,6 +98,7 @@ def main():
     C = df_combined['Coordination']
 
     # Split the data into training and test sets
+    overall_start_time = time.time()
     X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=42)
     
     # Define separate parameter grids for each kernel with a lower bound for length_scale
@@ -176,12 +177,16 @@ def main():
     with open(log_filename, 'a') as file:
         file.write(f"Test\t{best_gpr_pipe.score(X_test, Y_test):.4f}\t{mae_gpr_test:.4f}\t{mse_gpr_test:.4f}\n\n")
 
+    overall_end_time = time.time()
+    overall_time = overall_end_time - overall_time
+    
     with open(log_filename, 'a') as file:
-        file.write(f"Optimization time: {optimization_time:.2f} seconds\n")
-        file.write(f"Model fitting time: {fitting_time:.2f} seconds\n")
-        file.write(f"Cross-validation time: {cross_validation_time:.2f} seconds\n")
-        file.write(f"Prediction time (entire set): {prediction_time:.2f} seconds\n")
+        file.write(f"Optimization time: {optimization_time:.2f} sec\n")
+        file.write(f"Model fitting time: {fitting_time:.2f} sec\n")
+        file.write(f"Cross-validation time: {cross_validation_time:.2f} sec\n")
+        file.write(f"Prediction time (entire set): {prediction_time:.2f} sec\n")
         file.write(f"Prediction time (test set): {test_prediction_time:.2f} sec\n")
+        file.write(f"Overall time: {overall_time:.2f} sec\n")
 
     df_combined['Predicted E_form'] = Y_pred_gpr
     df_combined['Residuals'] = Y - Y_pred_gpr
