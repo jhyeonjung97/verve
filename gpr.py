@@ -46,7 +46,7 @@ def main():
     tsv_filename = f'gpr{filename}.tsv'
     png_filename = f'gpr{filename}.png'
     log_filename = f'gpr{filename}.log'
-    
+            
     # Load the data excluding the first column
     df_Y = pd.read_csv(args.Y, delimiter='\t').iloc[:, 1:]
     df_C = pd.read_csv(args.C, delimiter='\t', dtype=str).iloc[:, 1:]
@@ -114,17 +114,6 @@ def main():
     # Initialize GridSearchCV with GaussianProcessRegressor
     gpr_search = GridSearchCV(gpr_pipe, gpr_params, cv=5, scoring='neg_mean_absolute_error')
 
-    # Cross-validate the pipeline and print CV scores for GPR
-    gpr_score = cross_validate(gpr_search, X_train, Y_train, 
-                               scoring=['r2', 'neg_mean_absolute_error', 'neg_mean_squared_error'], cv=5)
-    # print(f"GPR CV Test R^2: {np.mean(gpr_score['test_r2']):.4f}")
-    # print(f"GPR CV Test MAE: {-np.mean(gpr_score['test_neg_mean_absolute_error']):.4f}")  # Take negative to get positive MAE
-    # print(f"GPR CV Test MSE: {-np.mean(gpr_score['test_neg_mean_squared_error']):.4f}\n")  # Take negative to get positive MSE
-    with open(log_filename, 'w') as file:
-        file.write(f"GPR CV Test R^2: {np.mean(gpr_score['test_r2']):.4f}")
-        file.write(f"GPR CV Test MAE: {-np.mean(gpr_score['test_neg_mean_absolute_error']):.4f}")  # Take negative to get positive MAE
-        file.write(f"GPR CV Test MSE: {-np.mean(gpr_score['test_neg_mean_squared_error']):.4f}\n")  # Take negative to get positive MSE
-        
     # Fit the GridSearchCV to the training data
     gpr_search.fit(X_train, Y_train)
 
@@ -136,6 +125,16 @@ def main():
         file.write(f"Optimized poly: {gpr_search.best_params_['poly__degree']}")
         file.write(f"Optimized alpha: {gpr_search.best_params_['model__alpha']:.4f}\n")
         
+    # Cross-validate the pipeline and print CV scores for GPR
+    gpr_score = cross_validate(gpr_search, X_train, Y_train, 
+                               scoring=['r2', 'neg_mean_absolute_error', 'neg_mean_squared_error'], cv=5)
+    # print(f"GPR CV Test R^2: {np.mean(gpr_score['test_r2']):.4f}")
+    # print(f"GPR CV Test MAE: {-np.mean(gpr_score['test_neg_mean_absolute_error']):.4f}")  # Take negative to get positive MAE
+    # print(f"GPR CV Test MSE: {-np.mean(gpr_score['test_neg_mean_squared_error']):.4f}\n")  # Take negative to get positive MSE
+    with open(log_filename, 'w') as file:
+        file.write("\tR^2\tMAE\tMSE\n")
+        file.write(f"CV\t{np.mean(gpr_score['test_r2']):.4f}\t{-np.mean(gpr_score['test_neg_mean_absolute_error']):.4f}\t{-np.mean(gpr_score['test_neg_mean_squared_error']):.4f}")
+        
     # Predict on the entire set using the final GPR model
     Y_pred_gpr = best_gpr_pipe.predict(X)
 
@@ -146,9 +145,7 @@ def main():
     # print(f"GPR MAE: {mae_gpr:.4f}")
     # print(f"GPR MSE: {mse_gpr:.4f}\n")
     with open(log_filename, 'w') as file:
-        file.write(f"GPR R^2: {best_gpr_pipe.score(X, Y):.4f}")
-        file.write(f"GPR MAE: {mae_gpr:.4f}")
-        file.write(f"GPR MSE: {mse_gpr:.4f}\n")
+        file.write(f"All\t{best_gpr_pipe.score(X, Y):.4f}\t{mae_gpr:.4f}\t{mse_gpr:.4f}")
         
     # Predict on the test set using the final GPR model
     Y_pred_gpr_test = best_gpr_pipe.predict(X_test)
@@ -160,13 +157,10 @@ def main():
     # print(f"GPR Test MAE: {mae_gpr_test:.4f}")
     # print(f"GPR Test MSE: {mse_gpr_test:.4f}\n")
     with open(log_filename, 'w') as file:
-        file.write(f"GPR Test R^2: {best_gpr_pipe.score(X_test, Y_test):.4f}")
-        file.write(f"GPR Test MAE: {mae_gpr_test:.4f}")
-        file.write(f"GPR Test MSE: {mse_gpr_test:.4f}\n")
+        file.write(f"Test\t{best_gpr_pipe.score(X_test, Y_test):.4f}\t{mae_gpr_test:.4f}\t{mse_gpr_test:.4f}")
 
     df_combined['Predicted E_form'] = Y_pred_gpr
     df_combined['Residuals'] = Y - Y_pred_gpr
-    
     df_combined.to_csv(tsv_filename, sep='\t', index=False)
 
 #     # Plot results
