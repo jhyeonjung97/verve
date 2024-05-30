@@ -126,18 +126,18 @@ def main():
     
     # Print the optimized parameters
     with open(log_filename, 'w') as file:
-        file.write(f"Optimized poly: {gpr_search.best_params_['poly__degree']}\n")
-        file.write(f"Optimized n_estimators: {gpr_search.best_params_['model__n_estimators']:.4f}\n")
-        file.write(f"Optimized learning_rate: {gpr_search.best_params_['model__learning_rate']:.4f}\n")
-        file.write(f"Optimized subsample: {gpr_search.best_params_['model__subsample']:.4f}\n")
-        file.write(f"Optimized max_depth: {gpr_search.best_params_['model__max_depth']:.4f}\n")
-        file.write(f"Optimized min_samples_split: {gpr_search.best_params_['model__min_samples_split']:.4f}\n")
-        file.write(f"Optimized min_samples_leaf: {gpr_search.best_params_['model__min_samples_leaf']:.4f}\n")
-        # file.write(f"Optimized max_features: {gpr_search.best_params_['model__max_features']:.4f}\n")
-        # file.write(f"Optimized max_leaf_nodes: {gpr_search.best_params_['model__max_leaf_nodes']:.4f}\n")
-        # file.write(f"Optimized min_weight_fraction_leaf: {gpr_search.best_params_['model__min_weight_fraction_leaf']:.4f}\n")
-        # file.write(f"Optimized validation_fraction: {gpr_search.best_params_['model__validation_fraction']:.4f}\n")
-        # file.write(f"Optimized n_iter_no_change: {gpr_search.best_params_['model__n_iter_no_change']:.4f}\n")
+        file.write(f"Optimized poly: {gbr_search.best_params_['poly__degree']}\n")
+        file.write(f"Optimized n_estimators: {gbr_search.best_params_['model__n_estimators']:.4f}\n")
+        file.write(f"Optimized learning_rate: {gbr_search.best_params_['model__learning_rate']:.4f}\n")
+        file.write(f"Optimized subsample: {gbr_search.best_params_['model__subsample']:.4f}\n")
+        file.write(f"Optimized max_depth: {gbr_search.best_params_['model__max_depth']:.4f}\n")
+        file.write(f"Optimized min_samples_split: {gbr_search.best_params_['model__min_samples_split']:.4f}\n")
+        file.write(f"Optimized min_samples_leaf: {gbr_search.best_params_['model__min_samples_leaf']:.4f}\n")
+        # file.write(f"Optimized max_features: {gbr_search.best_params_['model__max_features']:.4f}\n")
+        # file.write(f"Optimized max_leaf_nodes: {gbr_search.best_params_['model__max_leaf_nodes']:.4f}\n")
+        # file.write(f"Optimized min_weight_fraction_leaf: {gbr_search.best_params_['model__min_weight_fraction_leaf']:.4f}\n")
+        # file.write(f"Optimized validation_fraction: {gbr_search.best_params_['model__validation_fraction']:.4f}\n")
+        # file.write(f"Optimized n_iter_no_change: {gbr_search.best_params_['model__n_iter_no_change']:.4f}\n")
     
     # Cross-validate the pipeline and print CV scores for GBR
     gbr_score = cross_validate(gbr_search, X_train, Y_train, 
