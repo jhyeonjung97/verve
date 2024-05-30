@@ -9,7 +9,7 @@ from sklearn.gaussian_process.kernels import RBF, Matern, RationalQuadratic
 from sklearn.ensemble import GradientBoostingRegressor as GBR
 from sklearn.preprocessing import PolynomialFeatures, StandardScaler
 from sklearn.metrics import mean_absolute_error, mean_squared_error
-from sklearn.linear_model import Ridge
+from sklearn.linear_model import Ridge, ElasticNet
 from sklearn.pipeline import Pipeline
 from sklearn.utils import shuffle
 from hyperopt import fmin, tpe, hp, Trials, STATUS_OK
