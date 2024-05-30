@@ -197,7 +197,14 @@ def main():
     
     with open(log_filename, 'a') as file:
         file.write(f"Test\t{best_gpr_pipe.score(X_test, Y_test):.4f}\t{mae_gpr_test:.4f}\t{mse_gpr_test:.4f}\n")
-    
+        
+    with open(log_filename, 'a') as file:
+        file.write(f"Optimization time: {optimization_time:.2f} seconds\n")
+        file.write(f"Model fitting time: {fitting_time:.2f} seconds\n")
+        file.write(f"Cross-validation time: {cross_validation_time:.2f} seconds\n")
+        file.write(f"Prediction time (entire set): {prediction_time:.2f} seconds\n")
+        file.write(f"Prediction time (test set): {test_prediction_time:.2f} sec\n")
+        
     # Save predictions and residuals to a TSV file
     df_combined['Predicted E_form'] = Y_pred_gpr
     df_combined['Residuals'] = Y - Y_pred_gpr

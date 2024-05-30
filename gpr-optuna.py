@@ -119,9 +119,12 @@ def main():
         return mae
     
     # Create the Optuna study and optimize
+    start_time = time.time()
     study = optuna.create_study(direction='minimize')
     study.optimize(objective, n_trials=100)
-    
+    end_time = time.time()
+    optimization_time = end_time - start_time
+
     # Extract the best parameters and pipeline
     best_params = study.best_params
     best_poly_degree = best_params['poly__degree']
@@ -184,6 +187,7 @@ def main():
         
     with open(log_filename, 'a') as file:
         file.write(f"Optimization time: {optimization_time:.2f} seconds\n")
+        file.write(f"Model fitting time: {fitting_time:.2f} seconds\n")
         file.write(f"Cross-validation time: {cross_validation_time:.2f} seconds\n")
         file.write(f"Prediction time (entire set): {prediction_time:.2f} seconds\n")
         file.write(f"Prediction time (test set): {test_prediction_time:.2f} sec\n")
