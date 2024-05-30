@@ -140,7 +140,7 @@ def main():
     gbr_search.fit(X_train, Y_train)
 
     # Print the optimized parameters
-    with open(log_filename, 'w') as file:
+    with open(log_filename, 'a') as file:
         file.write(f"Optimized poly: {gpr_search.best_params_['poly__degree']}")
         file.write(f"Optimized n_estimators: {gpr_search.best_params_['model__n_estimators']:.4f}")
         file.write(f"Optimized learning_rate: {gpr_search.best_params_['model__learning_rate']:.4f}")
@@ -166,7 +166,7 @@ def main():
     # print(f"GBR R^2: {best_gbr_pipe.score(X, Y):.4f}")
     # print(f"GBR MAE: {mae_gbr:.4f}")
     # print(f"GBR MSE: {mse_gbr:.4f}\n")
-    with open(log_filename, 'w') as file:
+    with open(log_filename, 'a') as file:
         file.write(f"GBR R^2: {best_gbr_pipe.score(X, Y):.4f}")
         file.write(f"GBR MAE: {mae_gbr:.4f}")
         file.write(f"GBR MSE: {mse_gbr:.4f}\n")
@@ -180,7 +180,7 @@ def main():
     # print(f"GBR Test R^2: {best_gbr_pipe.score(X_test, Y_test):.4f}")
     # print(f"GBR Test MAE: {mae_gbr_test:.4f}")
     # print(f"GBR Test MSE: {mse_gbr_test:.4f}\n")  
-    with open(log_filename, 'w') as file:
+    with open(log_filename, 'a') as file:
         file.write(f"GBR Test R^2: {best_gbr_pipe.score(X_test, Y_test):.4f}")
         file.write(f"GBR Test MAE: {mae_gbr_test:.4f}")
         file.write(f"GBR Test MSE: {mse_gbr_test:.4f}\n")
