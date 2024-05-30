@@ -139,7 +139,8 @@ def main():
             max_leaf_nodes = -1  # Map None to -1
         if n_iter_no_change is None:
             n_iter_no_change = -1  # Map None to -1
-            
+
+        print(max_features, max_leaf_nodes, n_iter_no_change)
         # Create the pipeline with PolynomialFeatures, StandardScaler, and GradientBoostingRegressor
         gbr_pipe = Pipeline([
             ('poly', PolynomialFeatures(
