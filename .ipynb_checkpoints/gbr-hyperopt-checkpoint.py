@@ -132,12 +132,14 @@ def main():
         min_weight_fraction_leaf = params['model__min_weight_fraction_leaf']
         validation_fraction = params['model__validation_fraction']
         n_iter_no_change = params['model__n_iter_no_change']
-        
-        # Validate max_leaf_nodes parameter
-        if max_leaf_nodes == 0:
-            print("Invalid parameter value for max_leaf_nodes: 0")
-            return {'loss': float('inf'), 'status': STATUS_FAIL}
-        
+
+        if max_features is None:
+            max_features = -1  # Map None to -1
+        if max_leaf_nodes is None:
+            max_leaf_nodes = -1  # Map None to -1
+        if n_iter_no_change is None:
+            n_iter_no_change = -1  # Map None to -1
+            
         # Create the pipeline with PolynomialFeatures, StandardScaler, and GradientBoostingRegressor
         gbr_pipe = Pipeline([
             ('poly', PolynomialFeatures(
@@ -150,11 +152,11 @@ def main():
                 max_depth=max_depth,
                 min_samples_split=min_samples_split,
                 min_samples_leaf=min_samples_leaf,
-                max_features=max_features,
-                max_leaf_nodes=max_leaf_nodes,
+                max_features=None if max_features == -1 else max_features,
+                max_leaf_nodes=None if max_leaf_nodes == -1 else max_leaf_nodes,
                 min_weight_fraction_leaf=min_weight_fraction_leaf,
                 validation_fraction=validation_fraction,
-                n_iter_no_change=n_iter_no_change,
+                n_iter_no_change=None if n_iter_no_change == -1 else n_iter_no_change,
                 random_state=42
             )),
         ])
@@ -189,11 +191,11 @@ def main():
     best_max_depth = int(best_params['model__max_depth'])
     best_min_samples_split = int(best_params['model__min_samples_split'])
     best_min_samples_leaf = int(best_params['model__min_samples_leaf'])
-    best_max_features = best_params['model__max_features']
-    best_max_leaf_nodes = best_params['model__max_leaf_nodes']
+    best_max_features = None if best_params['model__max_features'] == -1 else best_params['model__max_features']
+    best_max_leaf_nodes = None if best_params['model__max_leaf_nodes'] == -1 else best_params['model__max_leaf_nodes']
     best_min_weight_fraction_leaf = best_params['model__min_weight_fraction_leaf']
     best_validation_fraction = best_params['model__validation_fraction']
-    best_n_iter_no_change = best_params['model__n_iter_no_change']
+    best_n_iter_no_change = None if best_params['model__n_iter_no_change'] == -1 else best_params['model__n_iter_no_change']
     
     # Create the best pipeline
     best_gbr_pipe = Pipeline([
