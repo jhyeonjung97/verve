@@ -94,24 +94,11 @@ def main():
     X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=42)
 
     # Define separate parameter grids for each kernel with a lower bound for length_scale
-    gpr_params = [
-        {
-            'poly__degree': [1, 2, 3],
-            'model__alpha': np.logspace(-3, 2, 200),
-            'model__kernel': [RBF(length_scale=1.0)]
-        },
-        {
-            'poly__degree': [1, 2, 3],
-            'model__alpha': np.logspace(-3, 2, 200),
-            'model__kernel': [Matern(length_scale=1.0, nu=1.5)]
-        },
-        {
-            'poly__degree': [1, 2, 3],
-            'model__alpha': np.logspace(-3, 2, 200),
-            'model__kernel': [RationalQuadratic(length_scale=1.0, alpha=1.0)]
-        }
-    ]
-    
+    gpr_params = {
+        'poly__degree': [1, 2, 3],
+        'model__alpha': np.logspace(-3, 2, 200)
+        'model__kernel__length_scale': np.logspace(-2, 2, 10)
+    }
 
     # Create the pipeline with PolynomialFeatures and StandardScaler for GPR
     gpr_pipe = Pipeline([
