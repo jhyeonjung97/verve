@@ -95,8 +95,8 @@ def main():
 
     # Define separate parameter grids for each kernel with a lower bound for length_scale
     gpr_params = {
-        'poly__degree': [1, 2, 3, 4, 5],
-        'model__alpha': np.logspace(-3, 2, 200),
+        'poly__degree': [1, 2, 3],
+        'model__alpha': np.logspace(-10, 1, 100)
     }
 
     # Create the pipeline with PolynomialFeatures and StandardScaler for GPR
@@ -110,18 +110,18 @@ def main():
     gpr_search = GridSearchCV(gpr_pipe, gpr_params, cv=5)
 
     # Cross-validate the pipeline and print CV scores for GPR
-    gpr_score = cross_validate(gpr_search, X_train, Y_train, 
-                               scoring=['r2', 'neg_mean_absolute_error', 'neg_mean_squared_error'], cv=5)
-    print(f"GPR CV Test R^2: {np.mean(gpr_score['test_r2']):.4f}")
-    print(f"GPR CV Test MAE: {-np.mean(gpr_score['test_neg_mean_absolute_error']):.4f}")  # Take negative to get positive MAE
-    print(f"GPR CV Test MSE: {-np.mean(gpr_score['test_neg_mean_squared_error']):.4f}\n")  # Take negative to get positive MSE
+    # gpr_score = cross_validate(gpr_search, X_train, Y_train, 
+    #                            scoring=['r2', 'neg_mean_absolute_error', 'neg_mean_squared_error'], cv=5)
+    # print(f"GPR CV Test R^2: {np.mean(gpr_score['test_r2']):.4f}")
+    # print(f"GPR CV Test MAE: {-np.mean(gpr_score['test_neg_mean_absolute_error']):.4f}")  # Take negative to get positive MAE
+    # print(f"GPR CV Test MSE: {-np.mean(gpr_score['test_neg_mean_squared_error']):.4f}\n")  # Take negative to get positive MSE
 
     # Fit the GridSearchCV to the training data
     gpr_search.fit(X_train, Y_train)
 
     # Extract the best pipeline from GridSearchCV
     best_gpr_pipe = gpr_search.best_estimator_
-    print(f"Optimized Parameters: {gpr_search.best_params_}")
+    print(f"Optimized Parameters: {gpr_search.best_params_}\n")
 
     # Predict on the entire set using the final GPR model
     Y_pred_gpr = best_gpr_pipe.predict(X)
