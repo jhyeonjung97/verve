@@ -164,8 +164,8 @@ def main():
         file.write(f"GPR Test MAE: {mae_gpr_test:.4f}")
         file.write(f"GPR Test MSE: {mse_gpr_test:.4f}\n")
 
-    df_combined['Predicted E_form'] = Y_pred_gbr
-    df_combined['Residuals'] = Y - Y_pred_gbr
+    df_combined['Predicted E_form'] = Y_pred_gpr
+    df_combined['Residuals'] = Y - Y_pred_gpr
     
     df_combined.to_csv(tsv_filename, sep='\t', index=False)
 
