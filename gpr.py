@@ -121,6 +121,8 @@ def main():
 
     # Extract the best pipeline from GridSearchCV
     best_gpr_pipe = gpr_search.best_estimator_
+    print(f"Optimized poly: {gpr_search.best_params_['poly__degree']}\n")
+    print(f"Optimized alpha: {gpr_search.best_params_['model__alpha']}\n")
     print(f"Optimized Parameters: {gpr_search.best_params_}\n")
 
     # Predict on the entire set using the final GPR model
