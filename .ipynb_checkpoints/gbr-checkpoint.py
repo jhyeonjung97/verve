@@ -146,7 +146,7 @@ def main():
     # print(f"GBR CV Test MAE: {-np.mean(gbr_score['test_neg_mean_absolute_error']):.4f}")  # Take negative to get positive MAE
     # print(f"GBR CV Test MSE: {-np.mean(gbr_score['test_neg_mean_squared_error']):.4f}\n")  # Take negative to get positive MSE
     with open(log_filename, 'w') as file:
-        file.write(f"CV\t{np.mean(gbr_score['test_r2']):.4f}\t{-np.mean(gbr_score['test_neg_mean_absolute_error']):.4f}\t{-np.mean(gbr_score['test_neg_mean_squared_error']):.4f}")  # Take negative to get positive MSE
+        file.write(f"CV\t{np.mean(gbr_score['test_r2']):.4f}\t{-np.mean(gbr_score['test_neg_mean_absolute_error']):.4f}\t{-np.mean(gbr_score['test_neg_mean_squared_error']):.4f}\n")  # Take negative to get positive MSE
         
     # Fit the GridSearchCV to the training data
     gbr_search.fit(X_train, Y_train)
@@ -164,7 +164,7 @@ def main():
     # print(f"GBR MAE: {mae_gbr:.4f}")
     # print(f"GBR MSE: {mse_gbr:.4f}\n")
     with open(log_filename, 'a') as file:
-        file.write(f"Entire\t{best_gbr_pipe.score(X, Y):.4f}\t{mae_gbr:.4f}\t{mse_gbr:.4f}")
+        file.write(f"Entire\t{best_gbr_pipe.score(X, Y):.4f}\t{mae_gbr:.4f}\t{mse_gbr:.4f}\n")
         
     # Predict on the test set using the final GBR model
     Y_pred_gbr_test = best_gbr_pipe.predict(X_test)
@@ -176,7 +176,7 @@ def main():
     # print(f"GBR Test MAE: {mae_gbr_test:.4f}")
     # print(f"GBR Test MSE: {mse_gbr_test:.4f}\n")  
     with open(log_filename, 'a') as file:
-        file.write(f"Test\t{best_gbr_pipe.score(X_test, Y_test):.4f}\t{mae_gbr_test:.4f}\t{mse_gbr_test:.4f}")
+        file.write(f"Test\t{best_gbr_pipe.score(X_test, Y_test):.4f}\t{mae_gbr_test:.4f}\t{mse_gbr_test:.4f}\n")
 
     df_combined['Predicted E_form'] = Y_pred_gbr
     df_combined['Residuals'] = Y - Y_pred_gbr
