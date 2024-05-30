@@ -104,7 +104,7 @@ def main():
     gpr_pipe = Pipeline([
         ('poly', PolynomialFeatures()),
         ('scaler', StandardScaler()),
-        ('model', GPR(normalize_y=True)),
+        ('model', GPR(kernel=RBF(), normalize_y=True)),
     ])
 
     # Initialize GridSearchCV with GaussianProcessRegressor
