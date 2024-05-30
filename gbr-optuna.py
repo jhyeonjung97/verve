@@ -105,16 +105,17 @@ def main():
     def objective(trial):
         poly_degree = trial.suggest_int('poly__degree', 1, 3)
         n_estimators = trial.suggest_int('n_estimators', 50, 100)
-        learning_rate = trial.suggest_float('learning_rate', 0.01, 0., log=True)
-        subsample = trial.suggest_float('subsample', 0.8, 1.0)
+        learning_rate = trial.suggest_loguniform('learning_rate', 0.01, 0.1)
+        subsample = trial.suggest_uniform('subsample', 0.8, 1.0)
         max_depth = trial.suggest_int('max_depth', 3, 4)
         min_samples_split = trial.suggest_int('min_samples_split', 2, 5)
         min_samples_leaf = trial.suggest_int('min_samples_leaf', 1, 2)
         max_features = trial.suggest_categorical('max_features', [None, 'sqrt', 'log2', 0.6, 0.8, 1.0])
         max_leaf_nodes = trial.suggest_categorical('max_leaf_nodes', [None, 10, 20, 30])
-        min_weight_fraction_leaf = trial.suggest_float('min_weight_fraction_leaf', 0.0, 0.2)
-        validation_fraction = trial.suggest_float('validation_fraction', 0.1, 0.2)
-        n_iter_no_change = trial.suggest_categorical('n_iter_no_change', [None, 10, 20])
+        min_weight_fraction_leaf = trial.suggest_uniform('min_weight_fraction_leaf', 0.0, 0.2)
+        validation_fraction = trial.suggest_uniform('validation_fraction', 0.1, 0.2)
+        n_iter_no_change = trial.suggest_int('n_iter_no_change', 10, 20)
+        tol = trial.suggest_loguniform('tol', 1e-4, 1e-2)
     
         # Create the pipeline with PolynomialFeatures, StandardScaler, and GradientBoostingRegressor
         gbr_pipe = Pipeline([
@@ -132,6 +133,7 @@ def main():
                 min_weight_fraction_leaf=min_weight_fraction_leaf,
                 validation_fraction=validation_fraction,
                 n_iter_no_change=n_iter_no_change,
+                tol=tol,
                 random_state=42
             )),
         ])
@@ -163,7 +165,8 @@ def main():
     best_min_weight_fraction_leaf = best_params['min_weight_fraction_leaf']
     best_validation_fraction = best_params['validation_fraction']
     best_n_iter_no_change = best_params['n_iter_no_change']
-    
+    best_tol = best_params['tol']
+
     # Create the best pipeline
     best_gbr_pipe = Pipeline([
         ('poly', PolynomialFeatures(degree=best_poly_degree)),
@@ -180,6 +183,7 @@ def main():
             min_weight_fraction_leaf=best_min_weight_fraction_leaf,
             validation_fraction=best_validation_fraction,
             n_iter_no_change=best_n_iter_no_change,
+            tol=best_tol,
             random_state=42
         )),
     ])
@@ -204,7 +208,8 @@ def main():
         file.write(f"Optimized min_weight_fraction_leaf: {best_min_weight_fraction_leaf:.4f}\n")
         file.write(f"Optimized validation_fraction: {best_validation_fraction:.4f}\n")
         file.write(f"Optimized n_iter_no_change: {best_n_iter_no_change}\n")
-    
+        file.write(f"Optimized tol: {best_tol:.4f}\n\n")
+
     # Cross-validate the pipeline and print CV scores for GBR
     start_time = time.time()
     gbr_score = cross_validate(best_gbr_pipe, X_train, Y_train, 
@@ -240,7 +245,7 @@ def main():
     mse_gbr_test = mean_squared_error(Y_test, Y_pred_gbr_test)
     
     with open(log_filename, 'a') as file:
-        file.write(f"Test\t{best_gbr_pipe.score(X_test, Y_test):.4f}\t{mae_gbr_test:.4f}\t{mse_gbr_test:.4f}\n")
+        file.write(f"Test\t{best_gbr_pipe.score(X_test, Y_test):.4f}\t{mae_gbr_test:.4f}\t{mse_gbr_test:.4f}\n\n")
     
     overall_end_time = time.time()
     overall_time = overall_end_time - overall_start_time
