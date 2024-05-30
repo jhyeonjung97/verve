@@ -115,8 +115,8 @@ def main():
     gpr_search = GridSearchCV(gpr_pipe, gpr_params, cv=5, scoring='neg_mean_absolute_error')
 
     # Cross-validate the pipeline and print CV scores for GPR
-    # gpr_score = cross_validate(gpr_search, X_train, Y_train, 
-    #                            scoring=['r2', 'neg_mean_absolute_error', 'neg_mean_squared_error'], cv=5)
+    gpr_score = cross_validate(gpr_search, X_train, Y_train, 
+                               scoring=['r2', 'neg_mean_absolute_error', 'neg_mean_squared_error'], cv=5)
     # print(f"GPR CV Test R^2: {np.mean(gpr_score['test_r2']):.4f}")
     # print(f"GPR CV Test MAE: {-np.mean(gpr_score['test_neg_mean_absolute_error']):.4f}")  # Take negative to get positive MAE
     # print(f"GPR CV Test MSE: {-np.mean(gpr_score['test_neg_mean_squared_error']):.4f}\n")  # Take negative to get positive MSE
