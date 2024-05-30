@@ -102,16 +102,16 @@ def main():
     # Use an GBR method with early stopping and regularization for comparison
     gbr_params = {
         'poly__degree': [1, 2, 3],
-        'model__n_estimators': [50, 100],
-        'model__learning_rate': [0.1, 0.01],
-        'model__subsample': [0.8, 1.0],
-        'model__max_depth': [3, 4],
-        'model__min_samples_split': [2, 5],
-        'model__min_samples_leaf': [1, 2],
+        'model__n_estimators': [50, 100, 200],
+        'model__learning_rate': [0.1, 0.05, 0.01],
+        'model__subsample': [0.8, 0.9, 1.0],
+        'model__max_depth': [3, 4, 5],
+        'model__min_samples_split': [2, 5, 10],
+        'model__min_samples_leaf': [1, 2, 4],
         'model__max_features': [None, 'sqrt', 'log2', 0.6, 0.8, 1.0],
-        'model__max_leaf_nodes': [10, 20, 30],
-        'model__min_weight_fraction_leaf': [0.0, 0.1, 0.2],
-        'model__validation_fraction': [0.1, 0.2],
+        'model__max_leaf_nodes': [None, 10, 20, 30],
+        'model__min_weight_fraction_leaf': [0.0, 0.05, 0.1, 0.2],
+        'model__validation_fraction': [0.1, 0.15, 0.2],
         'model__n_iter_no_change': [None, 10, 20]
     }
     
