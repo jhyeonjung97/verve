@@ -93,57 +93,56 @@ def main():
     # Split the data into training and test sets
     X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=42)
 
-    # Define the parameter grid in GPR
+    # Define the parameter grid for the entire pipeline
     gpr_params = {
         'poly__degree': [1, 2, 3],
-        'scaler': [StandardScaler(), None],  # Including None for no scaling
         'model__alpha': np.logspace(-3, 2, 200),
-        'model__kernel': [RBF(length_scale=1.0), Matern(length_scale=1.0, nu=1.5), RationalQuadratic(length_scale=1.0, alpha=1.0)],
+        'model__kernel': [RBF(), Matern(), RationalQuadratic()],
         'model__kernel__length_scale': np.logspace(-2, 2, 10),  # Common parameter for RBF, Matern, and RationalQuadratic
         'model__kernel__alpha': [0.1, 1.0, 10.0],  # Parameter for RationalQuadratic
         'model__kernel__nu': [0.5, 1.5, 2.5]  # Parameter for Matern
     }
-    
+
     # Create the pipeline with PolynomialFeatures and StandardScaler for GPR
     gpr_pipe = Pipeline([
         ('poly', PolynomialFeatures()),
         ('scaler', StandardScaler()),
         ('model', GPR(normalize_y=True)),
     ])
-    
+
     # Initialize GridSearchCV with GaussianProcessRegressor
-    gpr_model = GridSearchCV(gpr_pipe, gpr_params, cv=5)
+    gpr_search = GridSearchCV(gpr_pipe, gpr_params, cv=5)
 
     # Cross-validate the pipeline and print CV scores for GPR
-    # gpr_score = cross_validate(gpr_pipe, X_train, Y_train, scoring=['r2', 'neg_mean_absolute_error', 'neg_mean_squared_error'], cv=5)
-    # print(f"GPR CV Test R^2: {np.mean(gpr_score['test_r2']):.4f}")
-    # print(f"GPR CV Test MAE: {-np.mean(gpr_score['test_neg_mean_absolute_error']):.4f}")  # Take negative to get positive MAE
-    # print(f"GPR CV Test MSE: {-np.mean(gpr_score['test_neg_mean_squared_error']):.4f}\n")  # Take negative to get positive MSE
+    gpr_score = cross_validate(gpr_search, X_train, Y_train, 
+                               scoring=['r2', 'neg_mean_absolute_error', 'neg_mean_squared_error'], cv=5)
+    print(f"GPR CV Test R^2: {np.mean(gpr_score['test_r2']):.4f}")
+    print(f"GPR CV Test MAE: {-np.mean(gpr_score['test_neg_mean_absolute_error']):.4f}")  # Take negative to get positive MAE
+    print(f"GPR CV Test MSE: {-np.mean(gpr_score['test_neg_mean_squared_error']):.4f}\n")  # Take negative to get positive MSE
 
-    # Fit the GPR pipeline to the training data
-    gpr_pipe.fit(X_train, Y_train)
+    # Fit the GridSearchCV to the training data
+    gpr_search.fit(X_train, Y_train)
 
-    # Train final GPR model with optimized alpha on the entire training dataset
-    gpr_final_model = gpr_pipe.best_estimator_.named_steps['model']
-    gpr_final_model.fit(X_train, Y_train)
+    # Extract the best pipeline from GridSearchCV
+    best_gpr_pipe = gpr_search.best_estimator_
 
     # Predict on the entire set using the final GPR model
-    Y_pred_gpr = gpr_final_model.predict(X)
+    Y_pred_gpr = best_gpr_pipe.predict(X)
 
     # Compute and print MAE and MSE for the entire set for GPR
     mae_gpr = mean_absolute_error(Y, Y_pred_gpr)
     mse_gpr = mean_squared_error(Y, Y_pred_gpr)
-    print(f"GPR R^2: {gpr_pipe.score(X, Y):.4f}")
+    print(f"GPR R^2: {best_gpr_pipe.score(X, Y):.4f}")
     print(f"GPR MAE: {mae_gpr:.4f}")
     print(f"GPR MSE: {mse_gpr:.4f}\n")
-    
+
     # Predict on the test set using the final GPR model
-    Y_pred_gpr_test = gpr_final_model.predict(X_test)
+    Y_pred_gpr_test = best_gpr_pipe.predict(X_test)
 
     # Compute and print MAE and MSE for the test set for GPR
     mae_gpr_test = mean_absolute_error(Y_test, Y_pred_gpr_test)
     mse_gpr_test = mean_squared_error(Y_test, Y_pred_gpr_test)
-    print(f"GPR Test R^2: {gpr_pipe.score(X_test, Y_test):.4f}")
+    print(f"GPR Test R^2: {best_gpr_pipe.score(X_test, Y_test):.4f}")
     print(f"GPR Test MAE: {mae_gpr_test:.4f}")
     print(f"GPR Test MSE: {mse_gpr_test:.4f}\n")
 
