@@ -120,9 +120,9 @@ def main():
         ])
         
         # Cross-validate the pipeline and return the mean absolute error
-        scores = cross_val_score(gpr_pipe, X_train, Y_train, 
-                                 scoring='neg_mean_absolute_error', cv=5)
-        mae = -np.mean(scores)
+        scores = cross_validate(gpr_pipe, X_train, Y_train, 
+                                scoring='neg_mean_absolute_error', cv=5)
+        mae = -np.mean(scores['test_score'])
         return {'loss': mae, 'status': STATUS_OK}
     
     # Create a Trials object to store the results of the optimization
@@ -186,6 +186,7 @@ def main():
     df_combined['Predicted E_form'] = Y_pred_gpr
     df_combined['Residuals'] = Y - Y_pred_gpr
     df_combined.to_csv(tsv_filename, sep='\t', index=False)
+
 
 #     # Plot results
 #     plt.figure(figsize=(10, 8))
