@@ -108,7 +108,6 @@ def main():
 
     # Initialize GridSearchCV with GaussianProcessRegressor
     gpr_search = GridSearchCV(gpr_pipe, gpr_params, cv=5)
-    print(f"Optimized Parameters: {gpr_search.best_params_}")
 
     # Cross-validate the pipeline and print CV scores for GPR
     gpr_score = cross_validate(gpr_search, X_train, Y_train, 
@@ -122,6 +121,7 @@ def main():
 
     # Extract the best pipeline from GridSearchCV
     best_gpr_pipe = gpr_search.best_estimator_
+    print(f"Optimized Parameters: {gpr_search.best_params_}")
 
     # Predict on the entire set using the final GPR model
     Y_pred_gpr = best_gpr_pipe.predict(X)
