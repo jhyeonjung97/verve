@@ -10,7 +10,6 @@ from sklearn.gaussian_process.kernels import RBF, Matern, RationalQuadratic
 from sklearn.ensemble import GradientBoostingRegressor as GBR
 from sklearn.preprocessing import PolynomialFeatures, StandardScaler
 from sklearn.metrics import mean_absolute_error, mean_squared_error
-from sklearn.linear_model import Ridge, ElasticNet
 from sklearn.pipeline import Pipeline
 from sklearn.utils import shuffle
 
@@ -104,7 +103,6 @@ def main():
     # Define the objective function for Optuna
     def objective(trial):
         poly_degree = trial.suggest_int('poly__degree', 1, 3)
-
         n_estimators = trial.suggest_int('n_estimators', 50, 100)
         learning_rate = trial.suggest_float('learning_rate', 0.01, 0.1, log=True)
         subsample = trial.suggest_float('subsample', 0.8, 1.0)
