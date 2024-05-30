@@ -94,14 +94,28 @@ def main():
     X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=42)
 
     # Define the parameter grid for the entire pipeline
-    gpr_params = {
-        'poly__degree': [1, 2, 3],
-        'model__alpha': np.logspace(-3, 2, 200),
-        'model__kernel': [RBF(), Matern(), RationalQuadratic()],
-        'model__kernel__length_scale': np.logspace(-2, 2, 10),  # Common parameter for RBF, Matern, and RationalQuadratic
-        'model__kernel__alpha': [0.1, 1.0, 10.0],  # Parameter for RationalQuadratic
-        'model__kernel__nu': [0.5, 1.5, 2.5]  # Parameter for Matern
-    }
+    gpr_params = [
+        {
+            'poly__degree': [1, 2, 3],
+            'model__alpha': np.logspace(-3, 2, 200),
+            'model__kernel': [RBF()],
+            'model__kernel__length_scale': np.logspace(-2, 2, 10)
+        },
+        {
+            'poly__degree': [1, 2, 3],
+            'model__alpha': np.logspace(-3, 2, 200),
+            'model__kernel': [Matern()],
+            'model__kernel__length_scale': np.logspace(-2, 2, 10),
+            'model__kernel__nu': [0.5, 1.5, 2.5]
+        },
+        {
+            'poly__degree': [1, 2, 3],
+            'model__alpha': np.logspace(-3, 2, 200),
+            'model__kernel': [RationalQuadratic()],
+            'model__kernel__length_scale': np.logspace(-2, 2, 10),
+            'model__kernel__alpha': [0.1, 1.0, 10.0]
+        }
+    ]
 
     # Create the pipeline with PolynomialFeatures and StandardScaler for GPR
     gpr_pipe = Pipeline([
