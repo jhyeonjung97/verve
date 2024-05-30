@@ -125,7 +125,7 @@ def main():
     gbr_search = GridSearchCV(gbr_pipe, gbr_params, cv=5, scoring='neg_mean_absolute_error')
     
     # Print the optimized parameters
-    with open(log_filename, 'a') as file:
+    with open(log_filename, 'w') as file:
         file.write(f"Optimized poly: {gpr_search.best_params_['poly__degree']}\n")
         file.write(f"Optimized n_estimators: {gpr_search.best_params_['model__n_estimators']:.4f}\n")
         file.write(f"Optimized learning_rate: {gpr_search.best_params_['model__learning_rate']:.4f}\n")
@@ -145,7 +145,7 @@ def main():
     # print(f"GBR CV Test R^2: {np.mean(gbr_score['test_r2']):.4f}")
     # print(f"GBR CV Test MAE: {-np.mean(gbr_score['test_neg_mean_absolute_error']):.4f}")  # Take negative to get positive MAE
     # print(f"GBR CV Test MSE: {-np.mean(gbr_score['test_neg_mean_squared_error']):.4f}\n")  # Take negative to get positive MSE
-    with open(log_filename, 'w') as file:
+    with open(log_filename, 'a') as file:
         file.write(f"CV\t{np.mean(gbr_score['test_r2']):.4f}\t{-np.mean(gbr_score['test_neg_mean_absolute_error']):.4f}\t{-np.mean(gbr_score['test_neg_mean_squared_error']):.4f}\n")  # Take negative to get positive MSE
         
     # Fit the GridSearchCV to the training data
