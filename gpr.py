@@ -99,20 +99,17 @@ def main():
             'poly__degree': [1, 2, 3],
             'model__alpha': np.logspace(-3, 2, 200),
             'model__kernel': [RBF()],
-            'model__kernel__length_scale': np.logspace(-5, 2, 10)  # Decreased lower bound for RBF
         },
         {
             'poly__degree': [1, 2, 3],
             'model__alpha': np.logspace(-3, 2, 200),
             'model__kernel': [Matern()],
-            'model__kernel__length_scale': np.logspace(-5, 2, 10),  # Decreased lower bound for Matern
             'model__kernel__nu': [0.5, 1.5, 2.5]
         },
         {
             'poly__degree': [1, 2, 3],
             'model__alpha': np.logspace(-3, 2, 200),
             'model__kernel': [RationalQuadratic()],
-            'model__kernel__length_scale': np.logspace(-5, 2, 10),  # Decreased lower bound for RationalQuadratic
             'model__kernel__alpha': [0.1, 1.0, 10.0]
         }
     ]
