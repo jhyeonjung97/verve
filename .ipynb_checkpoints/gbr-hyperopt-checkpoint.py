@@ -140,7 +140,6 @@ def main():
         if n_iter_no_change is None:
             n_iter_no_change = -1  # Map None to -1
 
-        print(max_features, max_leaf_nodes, n_iter_no_change)
         # Create the pipeline with PolynomialFeatures, StandardScaler, and GradientBoostingRegressor
         gbr_pipe = Pipeline([
             ('poly', PolynomialFeatures(
@@ -198,6 +197,8 @@ def main():
     best_validation_fraction = best_params['model__validation_fraction']
     best_n_iter_no_change = None if best_params['model__n_iter_no_change'] == -1 else best_params['model__n_iter_no_change']
     
+    print(best_max_features, best_max_leaf_nodes, best_n_iter_no_change)
+
     # Create the best pipeline
     best_gbr_pipe = Pipeline([
         ('poly', PolynomialFeatures(
