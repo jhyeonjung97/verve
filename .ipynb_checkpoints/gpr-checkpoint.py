@@ -95,20 +95,20 @@ def main():
 
     # Define separate parameter grids for each kernel with a lower bound for length_scale
     gpr_params = {
-        'poly__degree': [1, 2, 3],
+        'poly__degree': [1, 2, 3, 4, 5],
         'model__alpha': np.logspace(-3, 2, 200),
-        'model__kernel__length_scale': np.logspace(-2, 2, 10)
     }
 
     # Create the pipeline with PolynomialFeatures and StandardScaler for GPR
     gpr_pipe = Pipeline([
         ('poly', PolynomialFeatures()),
         ('scaler', StandardScaler()),
-        ('model', GPR(kernel=RBF(), normalize_y=True)),
+        ('model', GPR(normalize_y=True)),
     ])
 
     # Initialize GridSearchCV with GaussianProcessRegressor
     gpr_search = GridSearchCV(gpr_pipe, gpr_params, cv=5)
+    print(f"Optimized Parameters: {gpr_search.best_params_}")
 
     # Cross-validate the pipeline and print CV scores for GPR
     gpr_score = cross_validate(gpr_search, X_train, Y_train, 
