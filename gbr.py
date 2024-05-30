@@ -124,6 +124,12 @@ def main():
     # Initialize GridSearchCV with the pipeline and parameter grid
     gbr_search = GridSearchCV(gbr_pipe, gbr_params, cv=5, scoring='neg_mean_absolute_error')
     
+    # Fit the GridSearchCV to the training data
+    gbr_search.fit(X_train, Y_train)
+
+    # Extract the best pipeline from GridSearchCV
+    best_gbr_pipe = gbr_search.best_estimator_
+    
     # Print the optimized parameters
     with open(log_filename, 'w') as file:
         file.write(f"Optimized poly: {gbr_search.best_params_['poly__degree']}\n")
@@ -147,12 +153,6 @@ def main():
     # print(f"GBR CV Test MSE: {-np.mean(gbr_score['test_neg_mean_squared_error']):.4f}\n")  # Take negative to get positive MSE
     with open(log_filename, 'a') as file:
         file.write(f"CV\t{np.mean(gbr_score['test_r2']):.4f}\t{-np.mean(gbr_score['test_neg_mean_absolute_error']):.4f}\t{-np.mean(gbr_score['test_neg_mean_squared_error']):.4f}\n")  # Take negative to get positive MSE
-        
-    # Fit the GridSearchCV to the training data
-    gbr_search.fit(X_train, Y_train)
-
-    # Extract the best pipeline from GridSearchCV
-    best_gbr_pipe = gbr_search.best_estimator_
 
     # Predict on the entire set using the final GBR model
     Y_pred_gbr = best_gbr_pipe.predict(X)
