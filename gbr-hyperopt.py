@@ -191,11 +191,11 @@ def main():
     best_max_depth = int(best_params['model__max_depth'])
     best_min_samples_split = int(best_params['model__min_samples_split'])
     best_min_samples_leaf = int(best_params['model__min_samples_leaf'])
-    best_max_features = None if best_params['model__max_features'] == -1 else best_params['model__max_features']
-    best_max_leaf_nodes = None if best_params['model__max_leaf_nodes'] == -1 else best_params['model__max_leaf_nodes']
+    best_max_features = best_params['model__max_features']
+    best_max_leaf_nodes = best_params['model__max_leaf_nodes']
     best_min_weight_fraction_leaf = best_params['model__min_weight_fraction_leaf']
     best_validation_fraction = best_params['model__validation_fraction']
-    best_n_iter_no_change = None if best_params['model__n_iter_no_change'] == -1 else best_params['model__n_iter_no_change']
+    best_n_iter_no_change = best_params['model__n_iter_no_change']
     
     print(best_max_features, best_max_leaf_nodes, best_n_iter_no_change)
 
