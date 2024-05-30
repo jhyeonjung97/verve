@@ -41,6 +41,11 @@ def main():
         filename = filename + '_' + coord
     if zero:
         filename = filename + '_zero'
+
+    # Save results
+    tsv_filename = f'regression{filename}.tsv'
+    png_filename = f'regression{filename}.png'
+    log_filename = f'regression{filename}.log'
     
     # Load the data excluding the first column
     df_Y = pd.read_csv(args.Y, delimiter='\t').iloc[:, 1:]
@@ -115,15 +120,22 @@ def main():
     # print(f"GPR CV Test R^2: {np.mean(gpr_score['test_r2']):.4f}")
     # print(f"GPR CV Test MAE: {-np.mean(gpr_score['test_neg_mean_absolute_error']):.4f}")  # Take negative to get positive MAE
     # print(f"GPR CV Test MSE: {-np.mean(gpr_score['test_neg_mean_squared_error']):.4f}\n")  # Take negative to get positive MSE
-
+    with open(log_filename, 'w') as file:
+        file.write(f"GPR CV Test R^2: {np.mean(gpr_score['test_r2']):.4f}")
+        file.write(f"GPR CV Test MAE: {-np.mean(gpr_score['test_neg_mean_absolute_error']):.4f}")  # Take negative to get positive MAE
+        file.write(f"GPR CV Test MSE: {-np.mean(gpr_score['test_neg_mean_squared_error']):.4f}\n")  # Take negative to get positive MSE
+        
     # Fit the GridSearchCV to the training data
     gpr_search.fit(X_train, Y_train)
 
     # Extract the best pipeline from GridSearchCV
     best_gpr_pipe = gpr_search.best_estimator_
-#     print(f"Optimized poly: {gpr_search.best_params_['poly__degree']}")
-#     print(f"Optimized alpha: {gpr_search.best_params_['model__alpha']:.4f}\n")
-
+    # print(f"Optimized poly: {gpr_search.best_params_['poly__degree']}")
+    # print(f"Optimized alpha: {gpr_search.best_params_['model__alpha']:.4f}\n")
+    with open(log_filename, 'w') as file:
+        file.write(f"Optimized poly: {gpr_search.best_params_['poly__degree']}")
+        file.write(f"Optimized alpha: {gpr_search.best_params_['model__alpha']:.4f}\n")
+        
     # Predict on the entire set using the final GPR model
     Y_pred_gpr = best_gpr_pipe.predict(X)
 
@@ -133,7 +145,11 @@ def main():
     # print(f"GPR R^2: {best_gpr_pipe.score(X, Y):.4f}")
     # print(f"GPR MAE: {mae_gpr:.4f}")
     # print(f"GPR MSE: {mse_gpr:.4f}\n")
-
+    with open(log_filename, 'w') as file:
+        file.write(f"GPR R^2: {best_gpr_pipe.score(X, Y):.4f}")
+        file.write(f"GPR MAE: {mae_gpr:.4f}")
+        file.write(f"GPR MSE: {mse_gpr:.4f}\n")
+        
     # Predict on the test set using the final GPR model
     Y_pred_gpr_test = best_gpr_pipe.predict(X_test)
 
@@ -143,21 +159,25 @@ def main():
     # print(f"GPR Test R^2: {best_gpr_pipe.score(X_test, Y_test):.4f}")
     # print(f"GPR Test MAE: {mae_gpr_test:.4f}")
     # print(f"GPR Test MSE: {mse_gpr_test:.4f}\n")
-
+    with open(log_filename, 'w') as file:
+        file.write(f"GPR Test R^2: {best_gpr_pipe.score(X_test, Y_test):.4f}")
+        file.write(f"GPR Test MAE: {mae_gpr_test:.4f}")
+        file.write(f"GPR Test MSE: {mse_gpr_test:.4f}\n")
+        
     # Optionally: Use an GBR method with early stopping and regularization for comparison
     gbr_params = {
         'poly__degree': [1, 2, 3],
-        'model__n_estimators': [100, 200],
+        'model__n_estimators': [50, 100],
         'model__learning_rate': [0.1, 0.01],
-        'model__subsample': [0.8, 0.9, 1.0],
-        'model__max_depth': [3, 5],
-        'model__min_samples_split': [2, 5, 10],
-        'model__min_samples_leaf': [1, 2, 5, 10],
-        'model__max_features': [None, 'auto', 'sqrt', 'log2', 0.6, 0.8, 1.0],
-        'model__max_leaf_nodes': [None, 10, 20, 30],
-        'model__min_weight_fraction_leaf': [0.0, 0.1, 0.2],
-        'model__validation_fraction': [0.1, 0.2],
-        'model__n_iter_no_change': [None, 10, 20]
+        'model__subsample': [0.8, 1.0],
+        'model__max_depth': [3, 4],
+        'model__min_samples_split': [2, 5],
+        'model__min_samples_leaf': [1, 2],
+        # 'model__max_features': [None, 'auto', 'sqrt', 'log2', 0.6, 0.8, 1.0],
+        # 'model__max_leaf_nodes': [None, 10, 20, 30],
+        # 'model__min_weight_fraction_leaf': [0.0, 0.1, 0.2],
+        # 'model__validation_fraction': [0.1, 0.2],
+        # 'model__n_iter_no_change': [None, 10, 20]
     }
     
     # Create the pipeline with PolynomialFeatures, StandardScaler, and GradientBoostingRegressor
@@ -176,13 +196,29 @@ def main():
     # print(f"GBR CV Test R^2: {np.mean(gbr_score['test_r2']):.4f}")
     # print(f"GBR CV Test MAE: {-np.mean(gbr_score['test_neg_mean_absolute_error']):.4f}")  # Take negative to get positive MAE
     # print(f"GBR CV Test MSE: {-np.mean(gbr_score['test_neg_mean_squared_error']):.4f}\n")  # Take negative to get positive MSE
-
+    
+    with open(log_filename, 'w') as file:
+        file.write(f"GBR CV Test R^2: {np.mean(gbr_score['test_r2']):.4f}")
+        file.write(f"GBR CV Test MAE: {-np.mean(gbr_score['test_neg_mean_absolute_error']):.4f}")  # Take negative to get positive MAE
+        file.write(f"GBR CV Test MSE: {-np.mean(gbr_score['test_neg_mean_squared_error']):.4f}\n")  # Take negative to get positive MSE
+        
     # Fit the GridSearchCV to the training data
     gbr_search.fit(X_train, Y_train)
 
     # Print the optimized parameters
-    # print("Optimized Parameters:")
-    # print(gbr_search.best_params_)
+    with open(log_filename, 'w') as file:
+        file.write(f"Optimized poly: {gpr_search.best_params_['poly__degree']}")
+        file.write(f"Optimized n_estimators: {gpr_search.best_params_['model__n_estimators']:.4f}")
+        file.write(f"Optimized learning_rate: {gpr_search.best_params_['model__learning_rate']:.4f}")
+        file.write(f"Optimized subsample: {gpr_search.best_params_['model__subsample']:.4f}")
+        file.write(f"Optimized max_depth: {gpr_search.best_params_['model__max_depth']:.4f}")
+        file.write(f"Optimized min_samples_split: {gpr_search.best_params_['model__min_samples_split']:.4f}")
+        file.write(f"Optimized min_samples_leaf: {gpr_search.best_params_['model__min_samples_leaf']:.4f}")
+        # file.write(f"Optimized max_features: {gpr_search.best_params_['model__max_features']:.4f}")
+        # file.write(f"Optimized max_leaf_nodes: {gpr_search.best_params_['model__max_leaf_nodes']:.4f}")
+        # file.write(f"Optimized min_weight_fraction_leaf: {gpr_search.best_params_['model__min_weight_fraction_leaf']:.4f}")
+        # file.write(f"Optimized validation_fraction: {gpr_search.best_params_['model__validation_fraction']:.4f}")
+        # file.write(f"Optimized n_iter_no_change: {gpr_search.best_params_['model__n_iter_no_change']:.4f}\n")
 
     # Extract the best pipeline from GridSearchCV
     best_gbr_pipe = gbr_search.best_estimator_
@@ -196,7 +232,11 @@ def main():
     # print(f"GBR R^2: {best_gbr_pipe.score(X, Y):.4f}")
     # print(f"GBR MAE: {mae_gbr:.4f}")
     # print(f"GBR MSE: {mse_gbr:.4f}\n")
-
+    with open(log_filename, 'w') as file:
+        file.write(f"GBR R^2: {best_gbr_pipe.score(X, Y):.4f}")
+        file.write(f"GBR MAE: {mae_gbr:.4f}")
+        file.write(f"GBR MSE: {mse_gbr:.4f}\n")
+        
     # Predict on the test set using the final GBR model
     Y_pred_gbr_test = best_gbr_pipe.predict(X_test)
 
@@ -206,56 +246,10 @@ def main():
     # print(f"GBR Test R^2: {best_gbr_pipe.score(X_test, Y_test):.4f}")
     # print(f"GBR Test MAE: {mae_gbr_test:.4f}")
     # print(f"GBR Test MSE: {mse_gbr_test:.4f}\n")  
-    
-    # Save results
-    tsv_filename = f'regression{filename}.tsv'
-    png_filename = f'regression{filename}.png'
-    log_filename = f'regression{filename}.log'
-
     with open(log_filename, 'w') as file:
-        
-        file.write(f"GPR CV Test R^2: {np.mean(gpr_score['test_r2']):.4f}")
-        file.write(f"GPR CV Test MAE: {-np.mean(gpr_score['test_neg_mean_absolute_error']):.4f}")  # Take negative to get positive MAE
-        file.write(f"GPR CV Test MSE: {-np.mean(gpr_score['test_neg_mean_squared_error']):.4f}\n")  # Take negative to get positive MSE
-
-        file.write(f"Optimized poly: {gpr_search.best_params_['poly__degree']}")
-        file.write(f"Optimized alpha: {gpr_search.best_params_['model__alpha']:.4f}\n")
-    
-        file.write(f"GPR R^2: {best_gpr_pipe.score(X, Y):.4f}")
-        file.write(f"GPR MAE: {mae_gpr:.4f}")
-        file.write(f"GPR MSE: {mse_gpr:.4f}\n")
-
-        file.write(f"GPR Test R^2: {best_gpr_pipe.score(X_test, Y_test):.4f}")
-        file.write(f"GPR Test MAE: {mae_gpr_test:.4f}")
-        file.write(f"GPR Test MSE: {mse_gpr_test:.4f}\n")
-
-        file.write(f"GBR CV Test R^2: {np.mean(gbr_score['test_r2']):.4f}")
-        file.write(f"GBR CV Test MAE: {-np.mean(gbr_score['test_neg_mean_absolute_error']):.4f}")  # Take negative to get positive MAE
-        file.write(f"GBR CV Test MSE: {-np.mean(gbr_score['test_neg_mean_squared_error']):.4f}\n")  # Take negative to get positive MSE
-
-        file.write(f"Optimized poly: {gpr_search.best_params_['poly__degree']}")
-        file.write(f"Optimized n_estimators: {gpr_search.best_params_['model__n_estimators']:.4f}")
-        file.write(f"Optimized learning_rate: {gpr_search.best_params_['model__learning_rate']:.4f}")
-        file.write(f"Optimized subsample: {gpr_search.best_params_['model__subsample']:.4f}")
-        file.write(f"Optimized max_depth: {gpr_search.best_params_['model__max_depth']:.4f}")
-        file.write(f"Optimized min_samples_split: {gpr_search.best_params_['model__min_samples_split']:.4f}")
-        file.write(f"Optimized min_samples_leaf: {gpr_search.best_params_['model__min_samples_leaf']:.4f}")
-        file.write(f"Optimized max_features: {gpr_search.best_params_['model__max_features']:.4f}")
-        file.write(f"Optimized max_leaf_nodes: {gpr_search.best_params_['model__max_leaf_nodes']:.4f}")
-        file.write(f"Optimized min_weight_fraction_leaf: {gpr_search.best_params_['model__min_weight_fraction_leaf']:.4f}")
-        file.write(f"Optimized validation_fraction: {gpr_search.best_params_['model__validation_fraction']:.4f}")
-        file.write(f"Optimized n_iter_no_change: {gpr_search.best_params_['model__n_iter_no_change']:.4f}\n")
-    
-        file.write("Optimized Parameters:")
-        file.write(gbr_search.best_params_)
-
-        file.write(f"GBR R^2: {best_gbr_pipe.score(X, Y):.4f}")
-        file.write(f"GBR MAE: {mae_gbr:.4f}")
-        file.write(f"GBR MSE: {mse_gbr:.4f}\n")
-
         file.write(f"GBR Test R^2: {best_gbr_pipe.score(X_test, Y_test):.4f}")
         file.write(f"GBR Test MAE: {mae_gbr_test:.4f}")
-        file.write(f"GBR Test MSE: {mse_gbr_test:.4f}\n")  
+        file.write(f"GBR Test MSE: {mse_gbr_test:.4f}\n")
 
     df_combined['Predicted E_form'] = Y_pred_gbr
     df_combined['Residuals'] = Y - Y_pred_gbr
