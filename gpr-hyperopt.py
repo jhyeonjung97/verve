@@ -13,6 +13,8 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error
 from sklearn.linear_model import Ridge
 from sklearn.pipeline import Pipeline
 from sklearn.utils import shuffle
+from hyperopt import fmin, tpe, hp, Trials, STATUS_OK
+from hyperopt.pyll.base import scope
 
 def main():
     parser = argparse.ArgumentParser(description='Perform linear regression using aggregated columns from multiple TSV files excluding the first column, calculate MAE, MSE, plot results, and save output.')
@@ -99,67 +101,88 @@ def main():
     # Split the data into training and test sets
     X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=42)
 
-    # Define separate parameter grids for each kernel with a lower bound for length_scale
-    gpr_params = {
-        'poly__degree': [1, 2, 3],
-        'model__alpha': np.logspace(-10, 1, 100)
+    # Define the search space for HyperOpt
+    search_space = {
+        'poly__degree': scope.int(hp.quniform('poly__degree', 1, 3, 1)),
+        'model__alpha': hp.loguniform('model__alpha', -10, 1)
     }
-
-    # Create the pipeline with PolynomialFeatures and StandardScaler for GPR
-    gpr_pipe = Pipeline([
-        ('poly', PolynomialFeatures()),
-        ('scaler', StandardScaler()),
-        ('model', GPR(normalize_y=True)),
-    ])
-
-    # Initialize GridSearchCV with GaussianProcessRegressor
-    gpr_search = GridSearchCV(gpr_pipe, gpr_params, cv=5, scoring='neg_mean_absolute_error')
-
-    # Fit the GridSearchCV to the training data
-    gpr_search.fit(X_train, Y_train)
-
-    # Extract the best pipeline from GridSearchCV
-    best_gpr_pipe = gpr_search.best_estimator_
-    # print(f"Optimized poly: {gpr_search.best_params_['poly__degree']}")
-    # print(f"Optimized alpha: {gpr_search.best_params_['model__alpha']:.4f}\n")
-    with open(log_filename, 'w') as file:
-        file.write(f"Optimized poly: {gpr_search.best_params_['poly__degree']}\n")
-        file.write(f"Optimized alpha: {gpr_search.best_params_['model__alpha']:.4f}\n")
+    
+    # Define the objective function for HyperOpt
+    def objective(params):
+        poly_degree = params['poly__degree']
+        alpha = params['model__alpha']
         
+        # Create the pipeline with PolynomialFeatures and StandardScaler for GPR
+        gpr_pipe = Pipeline([
+            ('poly', PolynomialFeatures(degree=poly_degree)),
+            ('scaler', StandardScaler()),
+            ('model', GPR(alpha=alpha, normalize_y=True)),
+        ])
+        
+        # Cross-validate the pipeline and return the mean absolute error
+        scores = cross_val_score(gpr_pipe, X_train, Y_train, 
+                                 scoring='neg_mean_absolute_error', cv=5)
+        mae = -np.mean(scores)
+        return {'loss': mae, 'status': STATUS_OK}
+    
+    # Create a Trials object to store the results of the optimization
+    trials = Trials()
+    
+    # Run the optimization with HyperOpt
+    best_params = fmin(fn=objective,
+                       space=search_space,
+                       algo=tpe.suggest,
+                       max_evals=100,
+                       trials=trials)
+    
+    # Extract the best parameters
+    best_poly_degree = int(best_params['poly__degree'])
+    best_alpha = best_params['model__alpha']
+    
+    # Create the best pipeline
+    best_gpr_pipe = Pipeline([
+        ('poly', PolynomialFeatures(degree=best_poly_degree)),
+        ('scaler', StandardScaler()),
+        ('model', GPR(alpha=best_alpha, normalize_y=True)),
+    ])
+    
+    # Fit the best pipeline to the training data
+    best_gpr_pipe.fit(X_train, Y_train)
+    
+    # Log the best parameters
+    with open(log_filename, 'w') as file:
+        file.write(f"Optimized poly: {best_poly_degree}\n")
+        file.write(f"Optimized alpha: {best_alpha:.4f}\n")
+    
     # Cross-validate the pipeline and print CV scores for GPR
-    gpr_score = cross_validate(gpr_search, X_train, Y_train, 
+    gpr_score = cross_validate(best_gpr_pipe, X_train, Y_train, 
                                scoring=['r2', 'neg_mean_absolute_error', 'neg_mean_squared_error'], cv=5)
-    # print(f"GPR CV Test R^2: {np.mean(gpr_score['test_r2']):.4f}")
-    # print(f"GPR CV Test MAE: {-np.mean(gpr_score['test_neg_mean_absolute_error']):.4f}")  # Take negative to get positive MAE
-    # print(f"GPR CV Test MSE: {-np.mean(gpr_score['test_neg_mean_squared_error']):.4f}\n")  # Take negative to get positive MSE
+    
     with open(log_filename, 'a') as file:
         file.write("\tR^2\tMAE\tMSE\n")
         file.write(f"CV\t{np.mean(gpr_score['test_r2']):.4f}\t{-np.mean(gpr_score['test_neg_mean_absolute_error']):.4f}\t{-np.mean(gpr_score['test_neg_mean_squared_error']):.4f}\n")
-        
+    
     # Predict on the entire set using the final GPR model
     Y_pred_gpr = best_gpr_pipe.predict(X)
-
+    
     # Compute and print MAE and MSE for the entire set for GPR
     mae_gpr = mean_absolute_error(Y, Y_pred_gpr)
     mse_gpr = mean_squared_error(Y, Y_pred_gpr)
-    # print(f"GPR R^2: {best_gpr_pipe.score(X, Y):.4f}")
-    # print(f"GPR MAE: {mae_gpr:.4f}")
-    # print(f"GPR MSE: {mse_gpr:.4f}\n")
+    
     with open(log_filename, 'a') as file:
         file.write(f"Entire\t{best_gpr_pipe.score(X, Y):.4f}\t{mae_gpr:.4f}\t{mse_gpr:.4f}\n")
-        
+    
     # Predict on the test set using the final GPR model
     Y_pred_gpr_test = best_gpr_pipe.predict(X_test)
-
+    
     # Compute and print MAE and MSE for the test set for GPR
     mae_gpr_test = mean_absolute_error(Y_test, Y_pred_gpr_test)
     mse_gpr_test = mean_squared_error(Y_test, Y_pred_gpr_test)
-    # print(f"GPR Test R^2: {best_gpr_pipe.score(X_test, Y_test):.4f}")
-    # print(f"GPR Test MAE: {mae_gpr_test:.4f}")
-    # print(f"GPR Test MSE: {mse_gpr_test:.4f}\n")
+    
     with open(log_filename, 'a') as file:
         file.write(f"Test\t{best_gpr_pipe.score(X_test, Y_test):.4f}\t{mae_gpr_test:.4f}\t{mse_gpr_test:.4f}\n")
-
+    
+    # Save predictions and residuals to a TSV file
     df_combined['Predicted E_form'] = Y_pred_gpr
     df_combined['Residuals'] = Y - Y_pred_gpr
     df_combined.to_csv(tsv_filename, sep='\t', index=False)
