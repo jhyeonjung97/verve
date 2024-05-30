@@ -191,12 +191,11 @@ def main():
     gbr_search = GridSearchCV(gbr_pipe, gbr_params, cv=5, scoring='neg_mean_absolute_error')
 
     # Cross-validate the pipeline and print CV scores for GBR
-    # gbr_score = cross_validate(gbr_search, X_train, Y_train, 
-    #                            scoring=['r2', 'neg_mean_absolute_error', 'neg_mean_squared_error'], cv=5)
+    gbr_score = cross_validate(gbr_search, X_train, Y_train, 
+                               scoring=['r2', 'neg_mean_absolute_error', 'neg_mean_squared_error'], cv=5)
     # print(f"GBR CV Test R^2: {np.mean(gbr_score['test_r2']):.4f}")
     # print(f"GBR CV Test MAE: {-np.mean(gbr_score['test_neg_mean_absolute_error']):.4f}")  # Take negative to get positive MAE
     # print(f"GBR CV Test MSE: {-np.mean(gbr_score['test_neg_mean_squared_error']):.4f}\n")  # Take negative to get positive MSE
-    
     with open(log_filename, 'w') as file:
         file.write(f"GBR CV Test R^2: {np.mean(gbr_score['test_r2']):.4f}")
         file.write(f"GBR CV Test MAE: {-np.mean(gbr_score['test_neg_mean_absolute_error']):.4f}")  # Take negative to get positive MAE
