@@ -108,7 +108,7 @@ def main():
         'model__max_depth': [3, 4],
         'model__min_samples_split': [2, 5],
         'model__min_samples_leaf': [1, 2],
-        'model__max_features': [None, 'auto', 'sqrt', 'log2', 0.6, 0.8, 1.0],
+        'model__max_features': [None, 'sqrt', 'log2', 0.6, 0.8, 1.0],
         'model__max_leaf_nodes': [None, 10, 20, 30],
         'model__min_weight_fraction_leaf': [0.0, 0.1, 0.2],
         'model__validation_fraction': [0.1, 0.2],
