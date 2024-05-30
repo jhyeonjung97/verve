@@ -110,7 +110,7 @@ def main():
         max_depth = trial.suggest_int('max_depth', 3, 4)
         min_samples_split = trial.suggest_int('min_samples_split', 2, 5)
         min_samples_leaf = trial.suggest_int('min_samples_leaf', 1, 2)
-        max_features = trial.suggest_categorical('max_features', [None, 'auto', 'sqrt', 'log2', 0.6, 0.8, 1.0])
+        max_features = trial.suggest_categorical('max_features', [None, 'sqrt', 'log2', 0.6, 0.8, 1.0])
         max_leaf_nodes = trial.suggest_categorical('max_leaf_nodes', [None, 10, 20, 30])
         min_weight_fraction_leaf = trial.suggest_uniform('min_weight_fraction_leaf', 0.0, 0.2)
         validation_fraction = trial.suggest_uniform('validation_fraction', 0.1, 0.2)
