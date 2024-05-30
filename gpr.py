@@ -122,7 +122,7 @@ def main():
     # print(f"Optimized poly: {gpr_search.best_params_['poly__degree']}")
     # print(f"Optimized alpha: {gpr_search.best_params_['model__alpha']:.4f}\n")
     with open(log_filename, 'w') as file:
-        file.write(f"Optimized poly: {gpr_search.best_params_['poly__degree']}")
+        file.write(f"Optimized poly: {gpr_search.best_params_['poly__degree']}\n")
         file.write(f"Optimized alpha: {gpr_search.best_params_['model__alpha']:.4f}\n")
         
     # Cross-validate the pipeline and print CV scores for GPR
@@ -145,7 +145,7 @@ def main():
     # print(f"GPR MAE: {mae_gpr:.4f}")
     # print(f"GPR MSE: {mse_gpr:.4f}\n")
     with open(log_filename, 'a') as file:
-        file.write(f"All\t{best_gpr_pipe.score(X, Y):.4f}\t{mae_gpr:.4f}\t{mse_gpr:.4f}")
+        file.write(f"Entire\t{best_gpr_pipe.score(X, Y):.4f}\t{mae_gpr:.4f}\t{mse_gpr:.4f}")
         
     # Predict on the test set using the final GPR model
     Y_pred_gpr_test = best_gpr_pipe.predict(X_test)
