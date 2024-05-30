@@ -166,7 +166,7 @@ def main():
     
     # Run the optimization with HyperOpt
     start_time = time.time()
-    max_evals = 10  # Increase the number of evaluations
+    max_evals = 1000  # Increase the number of evaluations
     best_params = fmin(fn=objective,
                        space=search_space,
                        algo=tpe.suggest,
@@ -189,8 +189,6 @@ def main():
     best_validation_fraction = best_params['model__validation_fraction']
     best_n_iter_no_change = best_params['model__n_iter_no_change']
     
-    print(best_max_features, best_max_leaf_nodes, best_n_iter_no_change)
-
     # Create the best pipeline
     best_gbr_pipe = Pipeline([
         ('poly', PolynomialFeatures(
@@ -231,7 +229,7 @@ def main():
         file.write(f"Optimized max_leaf_nodes: {best_max_leaf_nodes}\n")
         file.write(f"Optimized min_weight_fraction_leaf: {best_min_weight_fraction_leaf:.4f}\n")
         file.write(f"Optimized validation_fraction: {best_validation_fraction:.4f}\n")
-        file.write(f"Optimized n_iter_no_change: {best_n_iter_no_change}\n")
+        file.write(f"Optimized n_iter_no_change: {best_n_iter_no_change}\n\n")
     
     # Cross-validate the pipeline and print CV scores for GBR
     start_time = time.time()
@@ -273,7 +271,7 @@ def main():
     # print(f"GBR Test MAE: {mae_gbr_test:.4f}")
     # print(f"GBR Test MSE: {mse_gbr_test:.4f}\n")  
     with open(log_filename, 'a') as file:
-        file.write(f"Test\t{best_gbr_pipe.score(X_test, Y_test):.4f}\t{mae_gbr_test:.4f}\t{mse_gbr_test:.4f}\n")
+        file.write(f"Test\t{best_gbr_pipe.score(X_test, Y_test):.4f}\t{mae_gbr_test:.4f}\t{mse_gbr_test:.4f}\n\n")
         
     overall_end_time = time.time()
     overall_time = overall_end_time - overall_start_time
