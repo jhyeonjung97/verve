@@ -133,12 +133,6 @@ def main():
         validation_fraction = params['model__validation_fraction']
         n_iter_no_change = params['model__n_iter_no_change']
 
-        if max_features is None:
-            max_features = -1  # Map None to -1
-        if max_leaf_nodes is None:
-            max_leaf_nodes = -1  # Map None to -1
-        if n_iter_no_change is None:
-            n_iter_no_change = -1  # Map None to -1
 
         # Create the pipeline with PolynomialFeatures, StandardScaler, and GradientBoostingRegressor
         gbr_pipe = Pipeline([
@@ -152,11 +146,11 @@ def main():
                 max_depth=max_depth,
                 min_samples_split=min_samples_split,
                 min_samples_leaf=min_samples_leaf,
-                max_features=None if max_features == -1 else max_features,
-                max_leaf_nodes=None if max_leaf_nodes == -1 else max_leaf_nodes,
+                max_features=max_features,
+                max_leaf_nodes=max_leaf_nodes,
                 min_weight_fraction_leaf=min_weight_fraction_leaf,
                 validation_fraction=validation_fraction,
-                n_iter_no_change=None if n_iter_no_change == -1 else n_iter_no_change,
+                n_iter_no_change=n_iter_no_change,
                 random_state=42
             )),
         ])
@@ -181,8 +175,6 @@ def main():
     end_time = time.time()
     optimization_time = end_time - start_time
     
-    print(f"Best Parameters: {best_params}")
-
     # Extract the best parameters
     best_poly_degree = int(best_params['poly__degree'])
     best_n_estimators = int(best_params['model__n_estimators'])
@@ -211,11 +203,11 @@ def main():
             max_depth=best_max_depth,
             min_samples_split=best_min_samples_split,
             min_samples_leaf=best_min_samples_leaf,
-            max_features=best_max_features,
-            max_leaf_nodes=best_max_leaf_nodes,
+            max_features=None if best_max_features==0 else best_max_features,
+            max_leaf_nodes=None if best_max_leaf_nodes==0 else best_max_leaf_nodes,
             min_weight_fraction_leaf=best_min_weight_fraction_leaf,
             validation_fraction=best_validation_fraction,
-            n_iter_no_change=best_n_iter_no_change,
+            n_iter_no_change=None if best_n_iter_no_change==0 else best_n_iter_no_change,
             random_state=42
         )),
     ])
