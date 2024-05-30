@@ -1,4 +1,4 @@
-import optuna
+import time
 import argparse
 import numpy as np
 import pandas as pd
@@ -129,11 +129,14 @@ def main():
     trials = Trials()
     
     # Run the optimization with HyperOpt
+    start_time = time.time()
     best_params = fmin(fn=objective,
                        space=search_space,
                        algo=tpe.suggest,
                        max_evals=100,
                        trials=trials)
+    end_time = time.time()
+    optimization_time = end_time - start_time
     
     # Extract the best parameters
     best_poly_degree = int(best_params['poly__degree'])
@@ -147,7 +150,10 @@ def main():
     ])
     
     # Fit the best pipeline to the training data
+    start_time = time.time()
     best_gpr_pipe.fit(X_train, Y_train)
+    end_time = time.time()
+    fitting_time = end_time - start_time
     
     # Log the best parameters
     with open(log_filename, 'w') as file:
@@ -155,15 +161,22 @@ def main():
         file.write(f"Optimized alpha: {best_alpha:.4f}\n")
     
     # Cross-validate the pipeline and print CV scores for GPR
+    start_time = time.time()
     gpr_score = cross_validate(best_gpr_pipe, X_train, Y_train, 
                                scoring=['r2', 'neg_mean_absolute_error', 'neg_mean_squared_error'], cv=5)
+    end_time = time.time()
+    cross_validation_time = end_time - start_time
     
     with open(log_filename, 'a') as file:
         file.write("\tR^2\tMAE\tMSE\n")
         file.write(f"CV\t{np.mean(gpr_score['test_r2']):.4f}\t{-np.mean(gpr_score['test_neg_mean_absolute_error']):.4f}\t{-np.mean(gpr_score['test_neg_mean_squared_error']):.4f}\n")
+
     
     # Predict on the entire set using the final GPR model
+    start_time = time.time()
     Y_pred_gpr = best_gpr_pipe.predict(X)
+    end_time = time.time()
+    prediction_time = end_time - start_time
     
     # Compute and print MAE and MSE for the entire set for GPR
     mae_gpr = mean_absolute_error(Y, Y_pred_gpr)
@@ -173,7 +186,10 @@ def main():
         file.write(f"Entire\t{best_gpr_pipe.score(X, Y):.4f}\t{mae_gpr:.4f}\t{mse_gpr:.4f}\n")
     
     # Predict on the test set using the final GPR model
+    start_time = time.time()
     Y_pred_gpr_test = best_gpr_pipe.predict(X_test)
+    end_time = time.time()
+    test_prediction_time = end_time - start_time
     
     # Compute and print MAE and MSE for the test set for GPR
     mae_gpr_test = mean_absolute_error(Y_test, Y_pred_gpr_test)

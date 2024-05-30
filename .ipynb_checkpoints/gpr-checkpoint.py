@@ -1,3 +1,4 @@
+import time
 import optuna
 import argparse
 import numpy as np
@@ -98,7 +99,7 @@ def main():
 
     # Split the data into training and test sets
     X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=42)
-
+    
     # Define separate parameter grids for each kernel with a lower bound for length_scale
     gpr_params = {
         'poly__degree': [1, 2, 3],
@@ -111,12 +112,18 @@ def main():
         ('scaler', StandardScaler()),
         ('model', GPR(normalize_y=True)),
     ])
-
+        
     # Initialize GridSearchCV with GaussianProcessRegressor
+    start_time = time.time()
     gpr_search = GridSearchCV(gpr_pipe, gpr_params, cv=5, scoring='neg_mean_absolute_error')
-
+    end_time = time.time()
+    optimization_time = end_time - start_time
+    
     # Fit the GridSearchCV to the training data
+    start_time = time.time()
     gpr_search.fit(X_train, Y_train)
+    end_time = time.time()
+    fitting_time = end_time - start_time
 
     # Extract the best pipeline from GridSearchCV
     best_gpr_pipe = gpr_search.best_estimator_
@@ -124,20 +131,26 @@ def main():
     # print(f"Optimized alpha: {gpr_search.best_params_['model__alpha']:.4f}\n")
     with open(log_filename, 'w') as file:
         file.write(f"Optimized poly: {gpr_search.best_params_['poly__degree']}\n")
-        file.write(f"Optimized alpha: {gpr_search.best_params_['model__alpha']:.4f}\n")
-        
+        file.write(f"Optimized alpha: {gpr_search.best_params_['model__alpha']:.4f}\n\n")
+            
     # Cross-validate the pipeline and print CV scores for GPR
+    start_time = time.time()
     gpr_score = cross_validate(gpr_search, X_train, Y_train, 
                                scoring=['r2', 'neg_mean_absolute_error', 'neg_mean_squared_error'], cv=5)
+    end_time = time.time()
+    cross_validation_time = end_time - start_time
     # print(f"GPR CV Test R^2: {np.mean(gpr_score['test_r2']):.4f}")
     # print(f"GPR CV Test MAE: {-np.mean(gpr_score['test_neg_mean_absolute_error']):.4f}")  # Take negative to get positive MAE
     # print(f"GPR CV Test MSE: {-np.mean(gpr_score['test_neg_mean_squared_error']):.4f}\n")  # Take negative to get positive MSE
     with open(log_filename, 'a') as file:
         file.write("\tR^2\tMAE\tMSE\n")
         file.write(f"CV\t{np.mean(gpr_score['test_r2']):.4f}\t{-np.mean(gpr_score['test_neg_mean_absolute_error']):.4f}\t{-np.mean(gpr_score['test_neg_mean_squared_error']):.4f}\n")
-        
+
     # Predict on the entire set using the final GPR model
+    start_time = time.time()
     Y_pred_gpr = best_gpr_pipe.predict(X)
+    end_time = time.time()
+    prediction_time = end_time - start_time
 
     # Compute and print MAE and MSE for the entire set for GPR
     mae_gpr = mean_absolute_error(Y, Y_pred_gpr)
@@ -149,7 +162,10 @@ def main():
         file.write(f"Entire\t{best_gpr_pipe.score(X, Y):.4f}\t{mae_gpr:.4f}\t{mse_gpr:.4f}\n")
         
     # Predict on the test set using the final GPR model
+    start_time = time.time()
     Y_pred_gpr_test = best_gpr_pipe.predict(X_test)
+    end_time = time.time()
+    test_prediction_time = end_time - start_time
 
     # Compute and print MAE and MSE for the test set for GPR
     mae_gpr_test = mean_absolute_error(Y_test, Y_pred_gpr_test)
@@ -158,7 +174,14 @@ def main():
     # print(f"GPR Test MAE: {mae_gpr_test:.4f}")
     # print(f"GPR Test MSE: {mse_gpr_test:.4f}\n")
     with open(log_filename, 'a') as file:
-        file.write(f"Test\t{best_gpr_pipe.score(X_test, Y_test):.4f}\t{mae_gpr_test:.4f}\t{mse_gpr_test:.4f}\n")
+        file.write(f"Test\t{best_gpr_pipe.score(X_test, Y_test):.4f}\t{mae_gpr_test:.4f}\t{mse_gpr_test:.4f}\n\n")
+
+    with open(log_filename, 'a') as file:
+        file.write(f"Optimization time: {optimization_time:.2f} seconds\n")
+        file.write(f"Model fitting time: {fitting_time:.2f} seconds\n")
+        file.write(f"Cross-validation time: {cross_validation_time:.2f} seconds\n")
+        file.write(f"Prediction time (entire set): {prediction_time:.2f} seconds\n")
+        file.write(f"Prediction time (test set): {test_prediction_time:.2f} sec\n")
 
     df_combined['Predicted E_form'] = Y_pred_gpr
     df_combined['Residuals'] = Y - Y_pred_gpr
