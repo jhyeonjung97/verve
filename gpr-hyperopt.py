@@ -46,9 +46,9 @@ def main():
         filename = filename + '_zero'
 
     # Save results
-    tsv_filename = f'gpr{filename}.tsv'
-    png_filename = f'gpr{filename}.png'
-    log_filename = f'gpr{filename}.log'
+    tsv_filename = f'gpr_hyperopt{filename}.tsv'
+    png_filename = f'gpr_hyperopt{filename}.png'
+    log_filename = f'gpr_hyperopt{filename}.log'
             
     # Load the data excluding the first column
     df_Y = pd.read_csv(args.Y, delimiter='\t').iloc[:, 1:]
