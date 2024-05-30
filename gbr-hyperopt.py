@@ -104,6 +104,8 @@ def main():
     # Define the search space for HyperOpt
     search_space = {
         'poly__degree': scope.int(hp.quniform('poly__degree', 1, 3, 1)),
+        'reg__alpha': hp.loguniform('reg__alpha', -3, 0),  # Regularization strength
+        'reg__l1_ratio': hp.uniform('reg__l1_ratio', 0, 1),  # ElasticNet mixing parameter
         'model__n_estimators': scope.int(hp.quniform('model__n_estimators', 50, 100, 1)),
         'model__learning_rate': hp.loguniform('model__learning_rate', -2, -1),
         'model__subsample': hp.uniform('model__subsample', 0.8, 1.0),
@@ -119,7 +121,11 @@ def main():
 
     # Define the objective function for HyperOpt
     def objective(params):
+        print(f"Params: {params}")  # Debug statement
+
         poly_degree = params['poly__degree']
+        reg_alpha = params['reg__alpha']
+        reg_l1_ratio = params['reg__l1_ratio']
         n_estimators = params['model__n_estimators']
         learning_rate = params['model__learning_rate']
         subsample = params['model__subsample']
@@ -132,10 +138,20 @@ def main():
         validation_fraction = params['model__validation_fraction']
         n_iter_no_change = params['model__n_iter_no_change']
         
+        # Validate max_leaf_nodes parameter
+        if max_leaf_nodes == 0:
+            print("Invalid parameter value for max_leaf_nodes: 0")
+            return {'loss': float('inf'), 'status': STATUS_FAIL}
+        
         # Create the pipeline with PolynomialFeatures, StandardScaler, and GradientBoostingRegressor
         gbr_pipe = Pipeline([
-            ('poly', PolynomialFeatures(degree=poly_degree)),
+            ('poly', PolynomialFeatures(
+                degree=poly_degree)),
             ('scaler', StandardScaler()),
+            ('reg', ElasticNet(
+                alpha=reg_alpha, 
+                l1_ratio=reg_l1_ratio, 
+                random_state=42)),
             ('model', GBR(
                 n_estimators=n_estimators,
                 learning_rate=learning_rate,
@@ -172,8 +188,12 @@ def main():
     end_time = time.time()
     optimization_time = end_time - start_time
     
+    print(f"Best Parameters: {best_params}")
+
     # Extract the best parameters
     best_poly_degree = int(best_params['poly__degree'])
+    best_reg_alpha = best_params['reg__alpha']
+    best_reg_l1_ratio = best_params['reg__l1_ratio']
     best_n_estimators = int(best_params['model__n_estimators'])
     best_learning_rate = best_params['model__learning_rate']
     best_subsample = best_params['model__subsample']
@@ -188,7 +208,12 @@ def main():
     
     # Create the best pipeline
     best_gbr_pipe = Pipeline([
-        ('poly', PolynomialFeatures(degree=best_poly_degree)),
+        ('poly', PolynomialFeatures(
+            degree=best_poly_degree)),
+        ('reg', ElasticNet(
+            alpha=best_reg_alpha, 
+            l1_ratio=best_reg_l1_ratio, 
+            random_state=42)),
         ('scaler', StandardScaler()),
         ('model', GBR(
             n_estimators=best_n_estimators,
@@ -215,6 +240,8 @@ def main():
     # Log the best parameters
     with open(log_filename, 'w') as file:
         file.write(f"Optimized poly: {best_poly_degree}\n")
+        file.write(f"Optimized reg alpha: {best_reg_alpha:.4f}\n")
+        file.write(f"Optimized reg l1_ratio: {best_reg_l1_ratio:.4f}\n")
         file.write(f"Optimized n_estimators: {best_n_estimators}\n")
         file.write(f"Optimized learning_rate: {best_learning_rate:.4f}\n")
         file.write(f"Optimized subsample: {best_subsample:.4f}\n")
