@@ -9,19 +9,19 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout
-from tensorflow.keras.wrappers.scikit_learn import KerasRegressor
 from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.wrappers.scikit_learn import KerasRegressor
 from hyperopt import fmin, tpe, hp, Trials, STATUS_OK
 from hyperopt.pyll.base import scope
 
-def build_model(input_dim, params):
+def build_model(input_dim, units1, dropout1, units2, dropout2, learning_rate):
     model = Sequential()
-    model.add(Dense(params['units1'], input_dim=input_dim, activation='relu'))
-    model.add(Dropout(params['dropout1']))
-    model.add(Dense(params['units2'], activation='relu'))
-    model.add(Dropout(params['dropout2']))
+    model.add(Dense(units1, input_dim=input_dim, activation='relu'))
+    model.add(Dropout(dropout1))
+    model.add(Dense(units2, activation='relu'))
+    model.add(Dropout(dropout2))
     model.add(Dense(1, activation='linear'))
-    optimizer = Adam(learning_rate=params['learning_rate'])
+    optimizer = Adam(learning_rate=learning_rate)
     model.compile(loss='mean_squared_error', optimizer=optimizer)
     return model
 
@@ -126,14 +126,19 @@ def main():
 
     # Define the objective function for HyperOpt
     def objective(params):
-        model = build_model(X_train.shape[1], params)
-        history = model.fit(X_train, Y_train,
-                            validation_data=(X_test, Y_test),
-                            epochs=int(params['epochs']),
-                            batch_size=int(params['batch_size']),
-                            verbose=0)
-        val_loss = np.min(history.history['val_loss'])
-        return {'loss': val_loss, 'status': STATUS_OK}
+        model = KerasRegressor(build_fn=build_model, 
+                               input_dim=X_train.shape[1],
+                               units1=params['units1'], 
+                               dropout1=params['dropout1'], 
+                               units2=params['units2'], 
+                               dropout2=params['dropout2'], 
+                               learning_rate=params['learning_rate'],
+                               epochs=params['epochs'],
+                               batch_size=params['batch_size'],
+                               verbose=0)
+        scores = cross_val_score(model, X_train, Y_train, cv=5, scoring='neg_mean_absolute_error')
+        mae = -np.mean(scores)
+        return {'loss': mae, 'status': STATUS_OK}
 
     # Create a Trials object to store the results of the optimization
     trials = Trials()
@@ -156,13 +161,18 @@ def main():
     best_params['epochs'] = int(best_params['epochs'])
 
     # Create and train the best model
-    best_model = build_model(X_train.shape[1], best_params)
+    best_model = KerasRegressor(build_fn=build_model, 
+                                input_dim=X_train.shape[1],
+                                units1=best_params['units1'], 
+                                dropout1=best_params['dropout1'], 
+                                units2=best_params['units2'], 
+                                dropout2=best_params['dropout2'], 
+                                learning_rate=best_params['learning_rate'],
+                                epochs=best_params['epochs'],
+                                batch_size=best_params['batch_size'],
+                                verbose=1)
     start_time = time.time()
-    history = best_model.fit(X_train, Y_train,
-                             validation_data=(X_test, Y_test),
-                             epochs=best_params['epochs'],
-                             batch_size=best_params['batch_size'],
-                             verbose=1)
+    best_model.fit(X_train, Y_train)
     end_time = time.time()
     fitting_time = end_time - start_time
 
@@ -174,7 +184,7 @@ def main():
         file.write(f"Model fitting time: {fitting_time:.2f} sec\n")
 
     # Predict on the entire set using the final model
-    Y_pred = best_model.predict(X_scaled).flatten()
+    Y_pred = best_model.predict(X_scaled)
 
     # Compute and print MAE and MSE for the entire set
     mae = mean_absolute_error(Y, Y_pred)
@@ -184,7 +194,7 @@ def main():
         file.write(f"Entire MSE: {mse:.4f}\n")
 
     # Predict on the test set using the final model
-    Y_pred_test = best_model.predict(X_test).flatten()
+    Y_pred_test = best_model.predict(X_test)
     mae_test = mean_absolute_error(Y_test, Y_pred_test)
     mse_test = mean_squared_error(Y_test, Y_pred_test)
     with open(log_filename, 'a') as file:
