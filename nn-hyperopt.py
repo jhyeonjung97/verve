@@ -183,8 +183,6 @@ def main():
     with open(log_filename, 'w') as file:
         for param_name in sorted(best_params):
             file.write(f"{param_name}: {best_params[param_name]}\n")
-        file.write(f"Optimization time: {optimization_time:.2f} sec\n")
-        file.write(f"Model fitting time: {fitting_time:.2f} sec\n")
 
     # Predict on the entire set using the final model
     Y_pred = best_model.predict(X_scaled)
@@ -193,20 +191,21 @@ def main():
     mae = mean_absolute_error(Y, Y_pred)
     mse = mean_squared_error(Y, Y_pred)
     with open(log_filename, 'a') as file:
-        file.write(f"Entire MAE: {mae:.4f}\n")
-        file.write(f"Entire MSE: {mse:.4f}\n")
+        file.write("\tMAE\tMSE\n")
+        file.write(f"\nEntire\t{mae:.4f}\t{mse:.4f}\n")
 
     # Predict on the test set using the final model
     Y_pred_test = best_model.predict(X_test)
     mae_test = mean_absolute_error(Y_test, Y_pred_test)
     mse_test = mean_squared_error(Y_test, Y_pred_test)
     with open(log_filename, 'a') as file:
-        file.write(f"Test MAE: {mae_test:.4f}\n")
-        file.write(f"Test MSE: {mse_test:.4f}\n")
+        file.write(f"Test\t{mae_test:.4f}\t{mse_test:.4f}\n\n")
 
     overall_end_time = time.time()
     overall_time = overall_end_time - overall_start_time
     with open(log_filename, 'a') as file:
+        file.write(f"Optimization time: {optimization_time:.2f} sec\n")
+        file.write(f"Model fitting time: {fitting_time:.2f} sec\n")
         file.write(f"Overall time: {overall_time:.2f} sec\n")
 
     # Save predictions and residuals to a TSV file
