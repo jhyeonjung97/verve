@@ -16,7 +16,8 @@ from hyperopt.pyll.base import scope
 
 def build_model(input_dim, units1, dropout1, units2, dropout2, learning_rate):
     model = Sequential()
-    model.add(Dense(units1, input_dim=input_dim, activation='relu'))
+    model.add(Input(shape=(input_dim,)))
+    model.add(Dense(units1, activation='relu'))
     model.add(Dropout(dropout1))
     model.add(Dense(units2, activation='relu'))
     model.add(Dropout(dropout2))
@@ -126,7 +127,7 @@ def main():
 
     # Define the objective function for HyperOpt
     def objective(params):
-        model = KerasRegressor(build_fn=build_model, 
+        model = KerasRegressor(model=build_model, 
                                input_dim=X_train.shape[1],
                                units1=params['units1'], 
                                dropout1=params['dropout1'], 
@@ -161,7 +162,7 @@ def main():
     best_params['epochs'] = int(best_params['epochs'])
 
     # Create and train the best model
-    best_model = KerasRegressor(build_fn=build_model, 
+    best_model = KerasRegressor(model=build_model, 
                                 input_dim=X_train.shape[1],
                                 units1=best_params['units1'], 
                                 dropout1=best_params['dropout1'], 
