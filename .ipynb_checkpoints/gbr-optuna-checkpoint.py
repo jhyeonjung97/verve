@@ -103,12 +103,12 @@ def main():
     # Define the objective function for Optuna
     def objective(trial):
         poly_degree = trial.suggest_int('poly__degree', 1, 3)
-        n_estimators = trial.suggest_int('n_estimators', 50, 100)
+        n_estimators = trial.suggest_int('n_estimators', 50, 200)
         learning_rate = trial.suggest_float('learning_rate', 0.01, 0.1, log=True)
         subsample = trial.suggest_float('subsample', 0.8, 1.0)
-        max_depth = trial.suggest_int('max_depth', 3, 4)
-        min_samples_split = trial.suggest_int('min_samples_split', 2, 5)
-        min_samples_leaf = trial.suggest_int('min_samples_leaf', 1, 2)
+        max_depth = trial.suggest_int('max_depth', 3, 5)
+        min_samples_split = trial.suggest_int('min_samples_split', 2, 10)
+        min_samples_leaf = trial.suggest_int('min_samples_leaf', 1, 4)
         max_features = trial.suggest_categorical('max_features', [None, 'sqrt', 'log2', 0.6, 0.8, 1.0])
         max_leaf_nodes = trial.suggest_categorical('max_leaf_nodes', [None, 10, 20, 30])
         min_weight_fraction_leaf = trial.suggest_float('min_weight_fraction_leaf', 0.0, 0.2)
@@ -170,6 +170,7 @@ def main():
     best_gbr_pipe = Pipeline([
         ('poly', PolynomialFeatures(degree=best_poly_degree)),
         ('scaler', StandardScaler()),
+        ('pca', PCA(n_components=0.95)),  # Keep 95% variance
         ('model', GBR(
             n_estimators=best_n_estimators,
             learning_rate=best_learning_rate,

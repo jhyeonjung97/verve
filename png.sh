@@ -153,6 +153,7 @@ elif [[ ${here} == 'nersc' ]]; then
     
     # python ~/bin/verve/concat.py -o norm_formation --X *_*/merged_norm_formation.tsv
     # python ~/bin/verve/concat.py -o ICOHP --X *_*/merged_ICOHP.tsv
+    # python ~/bin/verve/concat.py -o ICOBI --X *_*/merged_ICOBI.tsv
     # python ~/bin/verve/concat.py -o wICOHP --X *_*/merged_weighted_ICOHP.tsv
     # python ~/bin/verve/concat.py -o norm_MadelungL --X *_*/merged_norm_MadelungL.tsv
     # python ~/bin/verve/concat.py -o norm_wMadelungL --X *_*/merged_weighted_norm_MadelungL.tsv
@@ -231,4 +232,13 @@ python ~/bin/verve/gbr-hyperopt.py -i ICOHP wICOHP MadelungL CFSE IE1 IE2 IE12 r
 python ~/bin/verve/gbr.py -o gpu -i ICOHP wICOHP MadelungL CFSE IE1 IE2 IE12 redoxP IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
 python ~/bin/verve/gbr-optuna.py -o gpu -i ICOHP wICOHP MadelungL CFSE IE1 IE2 IE12 redoxP IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
 python ~/bin/verve/gbr-hyperopt.py -o gpu -i ICOHP wICOHP MadelungL CFSE IE1 IE2 IE12 redoxP IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
+
+
+
+python ~/bin/verve/gbr-optuna.py -i ICOHP wICOHP ICOBI MadelungL CFSE IE1 IE2 IE12 redoxP IE3 E_sub row group number negativity melting boiling density mass --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_ICOBI.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv concat_number.tsv concat_neg.tsv concat_melting.tsv concat_boiling.tsv concat_density.tsv concat_mass.tsv 
+
+
+
+
+
 fi
