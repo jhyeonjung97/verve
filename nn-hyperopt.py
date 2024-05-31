@@ -147,7 +147,7 @@ def main():
     
     # Run the optimization with HyperOpt
     start_time = time.time()
-    max_evals = 10  # Number of evaluations
+    max_evals = 1000  # Number of evaluations
     best_params = fmin(fn=objective,
                        space=search_space,
                        algo=tpe.suggest,
@@ -190,8 +190,8 @@ def main():
     mae = mean_absolute_error(Y, Y_pred)
     mse = mean_squared_error(Y, Y_pred)
     with open(log_filename, 'a') as file:
-        file.write("\tMAE\tMSE\n")
-        file.write(f"\nEntire\t{mae:.4f}\t{mse:.4f}\n")
+        file.write("\n\tMAE\tMSE\n")
+        file.write(f"Entire\t{mae:.4f}\t{mse:.4f}\n")
 
     # Predict on the test set using the final model
     Y_pred_test = best_model.predict(X_test)

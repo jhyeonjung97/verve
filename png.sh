@@ -58,28 +58,28 @@ elif [[ ${here} == 'nersc' ]]; then
     # done
     for dir in *_*/; do
         cd $dir
-        # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Madelung energy (Loewdin, eV/MO)" -o norm_MadelungL */energy_norm_Madelung_Loewdin.tsv
-        # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Total energy (eV/MO)" -o norm_energy */energy_norm_energy.tsv
-        # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Volume (A^3/MO)" -o norm_volume */energy_norm_volume.tsv
-        # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "|Magnetization|" -o mag_M */energy_mag_M.tsv
-        # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Gross population (Loewdin)" -o GP_Loewdin_M */energy_GP_Loewdin_M.tsv
-        # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Bader charge (e-)" -o chg */energy_chg_M.tsv
-        # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Bond length (A/M-O)" -o bond */energy_bond.tsv
-        # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Ionization energy (eV)" -o IE1 */energy_IE1.tsv
-        # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Ionization energy (eV)" -o IE2 */energy_IE2.tsv
-        # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Ionization energy (eV)" -o IE3 */energy_IE3.tsv
-        # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Sublimation energy (eV)" -o sub */energy_sub.tsv
-        # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Formation energy (eV/MO)" -o norm_formation */energy_norm_formation.tsv
-        # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "PSCENC (eV/MO)" -o norm_PSCENC */energy_norm_PSCENC.tsv
-        # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "TEWEN (eV/MO)" -o norm_TEWEN */energy_norm_TEWEN.tsv
-        # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "DENC (eV/MO)" -o norm_DENC */energy_norm_DENC.tsv
-        # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "EXHF (eV/MO)" -o norm_EXHF */energy_norm_EXHF.tsv
-        # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "XCENC (eV/MO)" -o norm_XCENC */energy_norm_XCENC.tsv
-        # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "PAW_double_counting (eV/MO)" -o norm_PAW_double_counting */energy_norm_PAW_double_counting.tsv
-        # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "EENTRO (eV/MO)" -o norm_EENTRO */energy_norm_EENTRO.tsv
-        # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "EBANDS (eV/MO)" -o norm_EBANDS */energy_norm_EBANDS.tsv
-        # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "EATOM (eV/MO)" -o norm_EATOM */energy_norm_EATOM.tsv
-        # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "ICOHP (eV/MO)" -o ICOHP */energy_ICOHP.tsv
+        # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Madelung energy (Loewdin, eV/MO)" -o norm_MadelungL */energy_norm_Madelung_Loewdin.tsv
+        # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Total energy (eV/MO)" -o norm_energy */energy_norm_energy.tsv
+        python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Volume (A^3/MO)" -o norm_volume 1_afm/energy_norm_volume.tsv 4d/energy_norm_volume.tsv 5d/energy_norm_volume.tsv
+        python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "|Magnetization|" -o mag_M 1_afm/energy_mag_M.tsv 4d/energy_mag_M.tsv 5d/energy_mag_M.tsv
+        python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Gross population (Loewdin)" -o GP_Loewdin_M 1_afm/energy_GP_Loewdin_M.tsv 4d/energy_GP_Loewdin_M.tsv 5d/energy_GP_Loewdin_M.tsv
+        python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Bader charge (e-)" -o chg 1_afm/energy_chg_M.tsv 4d/energy_chg_M.tsv 5d/energy_chg_M.tsv
+        python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Bond length (A/M-O)" -o bond 1_afm/energy_bond.tsv 4d/energy_bond.tsv 5d/energy_bond.tsv
+        # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Ionization energy (eV)" -o IE1 */energy_IE1.tsv
+        # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Ionization energy (eV)" -o IE2 */energy_IE2.tsv
+        # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Ionization energy (eV)" -o IE3 */energy_IE3.tsv
+        # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Sublimation energy (eV)" -o sub */energy_sub.tsv
+        # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Formation energy (eV/MO)" -o norm_formation */energy_norm_formation.tsv
+        # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "PSCENC (eV/MO)" -o norm_PSCENC */energy_norm_PSCENC.tsv
+        # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "TEWEN (eV/MO)" -o norm_TEWEN */energy_norm_TEWEN.tsv
+        # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "DENC (eV/MO)" -o norm_DENC */energy_norm_DENC.tsv
+        # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "EXHF (eV/MO)" -o norm_EXHF */energy_norm_EXHF.tsv
+        # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "XCENC (eV/MO)" -o norm_XCENC */energy_norm_XCENC.tsv
+        # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "PAW_double_counting (eV/MO)" -o norm_PAW_double_counting */energy_norm_PAW_double_counting.tsv
+        # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "EENTRO (eV/MO)" -o norm_EENTRO */energy_norm_EENTRO.tsv
+        # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "EBANDS (eV/MO)" -o norm_EBANDS */energy_norm_EBANDS.tsv
+        # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "EATOM (eV/MO)" -o norm_EATOM */energy_norm_EATOM.tsv
+        # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "ICOHP (eV/MO)" -o ICOHP */energy_ICOHP.tsv
 
         # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Formation energy (eV/MO)" -o norm_formation 1_afm/energy_norm_formation.tsv 4d/energy_norm_formation.tsv 5d/energy_norm_formation.tsv
         # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "ICOHP (eV/MO)" -o ICOHP 1_afm/energy_ICOHP.tsv 4d/energy_ICOHP.tsv 5d/energy_ICOHP.tsv
@@ -217,29 +217,17 @@ elif [[ ${here} == 'nersc' ]]; then
 
     # python ~/bin/verve/lr.py -i ICOHP wICOHP MadelungL CFSE IE1 IE2 IE12 redoxP IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
     
-python ~/bin/verve/gpr.py -i ICOHP wICOHP MadelungL CFSE IE1 IE2 IE12 redoxP IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
-python ~/bin/verve/gpr-optuna.py -i ICOHP wICOHP MadelungL CFSE IE1 IE2 IE12 redoxP IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
-python ~/bin/verve/gpr-hyperopt.py -i ICOHP wICOHP MadelungL CFSE IE1 IE2 IE12 redoxP IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
-
-python ~/bin/verve/gpr.py -o gpu -i ICOHP wICOHP MadelungL CFSE IE1 IE2 IE12 redoxP IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
-python ~/bin/verve/gpr-optuna.py -o gpu -i ICOHP wICOHP MadelungL CFSE IE1 IE2 IE12 redoxP IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
-python ~/bin/verve/gpr-hyperopt.py -o gpu -i ICOHP wICOHP MadelungL CFSE IE1 IE2 IE12 redoxP IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
-
-python ~/bin/verve/gbr.py -i ICOHP wICOHP MadelungL CFSE IE1 IE2 IE12 redoxP IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
-python ~/bin/verve/gbr-optuna.py -i ICOHP wICOHP MadelungL CFSE IE1 IE2 IE12 redoxP IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
-python ~/bin/verve/gbr-hyperopt.py -i ICOHP wICOHP MadelungL CFSE IE1 IE2 IE12 redoxP IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
-
-python ~/bin/verve/gbr.py -o gpu -i ICOHP wICOHP MadelungL CFSE IE1 IE2 IE12 redoxP IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
-python ~/bin/verve/gbr-optuna.py -o gpu -i ICOHP wICOHP MadelungL CFSE IE1 IE2 IE12 redoxP IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
-python ~/bin/verve/gbr-hyperopt.py -o gpu -i ICOHP wICOHP MadelungL CFSE IE1 IE2 IE12 redoxP IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
-
-
-
-python ~/bin/verve/gbr-optuna.py -o gpu -i ICOHP wICOHP ICOBI MadelungL CFSE IE1 IE2 IE12 redoxP IE3 E_sub row group number negativity melting boiling density mass --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_ICOBI.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv concat_number.tsv concat_neg.tsv concat_melting.tsv concat_boiling.tsv concat_density.tsv concat_mass.tsv 
-
-python ~/bin/verve/nn-hyperopt.py -i ICOHP wICOHP ICOBI MadelungL CFSE IE1 IE2 IE12 redoxP IE3 E_sub row group number negativity melting boiling density mass --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_ICOBI.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv concat_number.tsv concat_neg.tsv concat_melting.tsv concat_boiling.tsv concat_density.tsv concat_mass.tsv 
-
-
-
+    # python ~/bin/verve/gpr.py -i ICOHP wICOHP ICOBI MadelungL CFSE IE1 IE2 IE12 redoxP IE3 E_sub row group number negativity melting boiling density mass --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_ICOBI.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv concat_number.tsv concat_neg.tsv concat_melting.tsv concat_boiling.tsv concat_density.tsv concat_mass.tsv 
+    # python ~/bin/verve/gpr-optuna.py -i ICOHP wICOHP ICOBI MadelungL CFSE IE1 IE2 IE12 redoxP IE3 E_sub row group number negativity melting boiling density mass --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_ICOBI.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv concat_number.tsv concat_neg.tsv concat_melting.tsv concat_boiling.tsv concat_density.tsv concat_mass.tsv 
+    # python ~/bin/verve/gpr-hyperopt.py -i ICOHP wICOHP ICOBI MadelungL CFSE IE1 IE2 IE12 redoxP IE3 E_sub row group number negativity melting boiling density mass --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_ICOBI.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv concat_number.tsv concat_neg.tsv concat_melting.tsv concat_boiling.tsv concat_density.tsv concat_mass.tsv 
+    
+    # python ~/bin/verve/gpr.py -o gpu -i ICOHP wICOHP ICOBI MadelungL CFSE IE1 IE2 IE12 redoxP IE3 E_sub row group number negativity melting boiling density mass --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_ICOBI.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv concat_number.tsv concat_neg.tsv concat_melting.tsv concat_boiling.tsv concat_density.tsv concat_mass.tsv 
+    # python ~/bin/verve/gpr-optuna.py -o gpu -i ICOHP wICOHP ICOBI MadelungL CFSE IE1 IE2 IE12 redoxP IE3 E_sub row group number negativity melting boiling density mass --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_ICOBI.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv concat_number.tsv concat_neg.tsv concat_melting.tsv concat_boiling.tsv concat_density.tsv concat_mass.tsv 
+    # python ~/bin/verve/gpr-hyperopt.py -o gpu -i ICOHP wICOHP ICOBI MadelungL CFSE IE1 IE2 IE12 redoxP IE3 E_sub row group number negativity melting boiling density mass --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_ICOBI.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv concat_number.tsv concat_neg.tsv concat_melting.tsv concat_boiling.tsv concat_density.tsv concat_mass.tsv 
+    
+    
+    # python ~/bin/verve/nn-hyperopt.py -i ICOHP wICOHP ICOBI MadelungL CFSE IE1 IE2 IE12 redoxP IE3 E_sub row group number negativity melting boiling density mass --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_ICOBI.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv concat_number.tsv concat_neg.tsv concat_melting.tsv concat_boiling.tsv concat_density.tsv concat_mass.tsv 
+    
+    # python ~/bin/verve/nn-hyperopt.py -o gpu -i ICOHP wICOHP ICOBI MadelungL CFSE IE1 IE2 IE12 redoxP IE3 E_sub row group number negativity melting boiling density mass --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_ICOBI.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv concat_number.tsv concat_neg.tsv concat_melting.tsv concat_boiling.tsv concat_density.tsv concat_mass.tsv 
 
 fi
