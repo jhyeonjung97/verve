@@ -7,10 +7,10 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import mean_absolute_error, mean_squared_error
-from keras.models import Sequential
-from keras.layers import Dense, Dropout
-from keras.optimizers import Adam
-from keras.wrappers.scikit_learn import KerasRegressor
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Dropout
+from tensorflow.keras.optimizers import Adam
+from scikeras.wrappers import KerasRegressor
 from hyperopt import fmin, tpe, hp, Trials, STATUS_OK
 from hyperopt.pyll.base import scope
 
