@@ -6,7 +6,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import mean_absolute_error, mean_squared_error
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, Input
 from tensorflow.keras.optimizers import Adam
@@ -15,7 +15,7 @@ from hyperopt import fmin, tpe, hp, Trials, STATUS_OK
 from hyperopt.pyll.base import scope
 
 # Define the model-building function
-def build_model(units1, dropout1, units2, dropout2, learning_rate, input_dim):
+def build_model(input_dim, units1, dropout1, units2, dropout2, learning_rate):
     model = Sequential()
     model.add(Input(shape=(input_dim,)))
     model.add(Dense(units1, activation='relu'))
