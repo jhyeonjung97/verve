@@ -15,16 +15,27 @@ from hyperopt import fmin, tpe, hp, Trials, STATUS_OK
 from hyperopt.pyll.base import scope
 
 # Define the model-building function
-def build_model(input_dim, units1, dropout1, units2, dropout2, learning_rate):
+def build_model(input_dim, units1, dropout1, units2, dropout2, units3, dropout3, activation, last_linear, learning_rate, optimizer):
     model = Sequential()
     model.add(Input(shape=(input_dim,)))
-    model.add(Dense(units1, activation='relu'))
+    model.add(Dense(units1, activation=activation))
     model.add(Dropout(dropout1))
-    model.add(Dense(units2, activation='relu'))
+    model.add(Dense(units2, activation=activation))
     model.add(Dropout(dropout2))
-    model.add(Dense(1, activation='linear'))
-    optimizer = Adam(learning_rate=learning_rate)
-    model.compile(loss='mean_squared_error', optimizer=optimizer)
+    if units3 > 0:
+        model.add(Dense(units3, activation=activation))
+        model.add(Dropout(dropout3))
+    if last_linear:
+        model.add(Dense(1, activation='linear'))
+    else:
+        model.add(Dense(1))
+    if optimizer == 'Adam':
+        opt = Adam(learning_rate=learning_rate)
+    elif optimizer == 'SGD':
+        opt = SGD(learning_rate=learning_rate)
+    elif optimizer == 'RMSprop':
+        opt = RMSprop(learning_rate=learning_rate)
+    model.compile(loss='mean_absolute_error', optimizer=opt)
     return model
 
 def main():
@@ -107,38 +118,53 @@ def main():
     L = df_combined['Metal']
     C = df_combined['Coordination']
 
-    # Standardize the data
-    scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(X)
-
     # Split the data into training and test sets
     overall_start_time = time.time()
-    X_train, X_test, Y_train, Y_test = train_test_split(X_scaled, Y, test_size=0.2, random_state=42)
+    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=42)
 
     # Define the search space for HyperOpt
     search_space = {
+        'scaler': hp.choice('scaler', ['standard', 'minmax']),
         'units1': scope.int(hp.quniform('units1', 32, 128, 1)),
         'dropout1': hp.uniform('dropout1', 0.0, 0.5),
         'units2': scope.int(hp.quniform('units2', 32, 128, 1)),
         'dropout2': hp.uniform('dropout2', 0.0, 0.5),
+        'units3': scope.int(hp.quniform('units3', 0, 128, 1)),  # 0 means no third layer
+        'dropout3': hp.uniform('dropout3', 0.0, 0.5),
+        'activation': hp.choice('activation', ['relu', 'tanh', 'sigmoid']),
+        'last_linear': hp.choice('last_linear', [True, False]),
         'learning_rate': hp.loguniform('learning_rate', -5, -2),
+        'optimizer': hp.choice('optimizer', ['Adam', 'SGD', 'RMSprop']),
         'batch_size': scope.int(hp.quniform('batch_size', 16, 128, 1)),
         'epochs': scope.int(hp.quniform('epochs', 10, 100, 1))
     }
 
     # Define the objective function for HyperOpt
     def objective(params):
-        model = KerasRegressor(model=build_model, 
-                               input_dim=X_train.shape[1],
-                               units1=params['units1'], 
-                               dropout1=params['dropout1'], 
-                               units2=params['units2'], 
-                               dropout2=params['dropout2'], 
-                               learning_rate=params['learning_rate'],
-                               epochs=params['epochs'],
-                               batch_size=params['batch_size'],
-                               verbose=0)
-        scores = cross_val_score(model, X_train, Y_train, cv=5, scoring='neg_mean_absolute_error')
+        if params['scaler'] == 'standard':
+            scaler = StandardScaler()
+        else:
+            scaler = MinMaxScaler()
+        X_scaled = scaler.fit_transform(X_train)
+        
+        model = KerasRegressor(
+            model=build_model,
+            input_dim=X_train.shape[1],
+            units1=params['units1'], 
+            dropout1=params['dropout1'], 
+            units2=params['units2'], 
+            dropout2=params['dropout2'], 
+            units3=params['units3'], 
+            dropout3=params['dropout3'], 
+            activation=params['activation'],
+            last_linear=params['last_linear'],
+            learning_rate=params['learning_rate'],
+            optimizer=params['optimizer'],
+            epochs=params['epochs'],
+            batch_size=params['batch_size'],
+            verbose=0
+        )
+        scores = cross_val_score(model, X_scaled, Y_train, cv=5, scoring='neg_mean_absolute_error')
         mae = -np.mean(scores)
         return {'loss': mae, 'status': STATUS_OK}
 
@@ -147,7 +173,7 @@ def main():
     
     # Run the optimization with HyperOpt
     start_time = time.time()
-    max_evals = 1000  # Number of evaluations
+    max_evals = 10  # Number of evaluations
     best_params = fmin(fn=objective,
                        space=search_space,
                        algo=tpe.suggest,
@@ -159,22 +185,39 @@ def main():
     # Extract the best parameters
     best_params['units1'] = int(best_params['units1'])
     best_params['units2'] = int(best_params['units2'])
+    best_params['units3'] = int(best_params['units3'])
     best_params['batch_size'] = int(best_params['batch_size'])
     best_params['epochs'] = int(best_params['epochs'])
-
+    
+    # Re-scale the entire dataset using the best scaler
+    if best_params['scaler'] == 'standard':
+        scaler = StandardScaler()
+    else:
+        scaler = MinMaxScaler()
+    X_scaled = scaler.fit_transform(X)
+    X_train_scaled = scaler.transform(X_train)
+    X_test_scaled = scaler.transform(X_test)
+    
     # Create and train the best model
-    best_model = KerasRegressor(model=build_model, 
-                                input_dim=X_train.shape[1],
-                                units1=best_params['units1'], 
-                                dropout1=best_params['dropout1'], 
-                                units2=best_params['units2'], 
-                                dropout2=best_params['dropout2'], 
-                                learning_rate=best_params['learning_rate'],
-                                epochs=best_params['epochs'],
-                                batch_size=best_params['batch_size'],
-                                verbose=1)
+    best_model = KerasRegressor(
+        model=build_model, 
+        input_dim=X_train.shape[1],
+        units1=best_params['units1'], 
+        dropout1=best_params['dropout1'], 
+        units2=best_params['units2'], 
+        dropout2=best_params['dropout2'], 
+        units3=best_params['units3'], 
+        dropout3=best_params['dropout3'], 
+        activation=best_params['activation'],
+        last_linear=best_params['last_linear'],
+        learning_rate=best_params['learning_rate'],
+        optimizer=best_params['optimizer'],
+        epochs=best_params['epochs'],
+        batch_size=best_params['batch_size'],
+        verbose=1
+    )
     start_time = time.time()
-    best_model.fit(X_train, Y_train)
+    best_model.fit(X_train_scaled, Y_train)
     end_time = time.time()
     fitting_time = end_time - start_time
 
@@ -185,8 +228,6 @@ def main():
 
     # Predict on the entire set using the final model
     Y_pred = best_model.predict(X_scaled)
-
-    # Compute and print MAE and MSE for the entire set
     mae = mean_absolute_error(Y, Y_pred)
     mse = mean_squared_error(Y, Y_pred)
     with open(log_filename, 'a') as file:
@@ -194,7 +235,7 @@ def main():
         file.write(f"Entire\t{mae:.4f}\t{mse:.4f}\n")
 
     # Predict on the test set using the final model
-    Y_pred_test = best_model.predict(X_test)
+    Y_pred_test = best_model.predict(X_test_scaled)
     mae_test = mean_absolute_error(Y_test, Y_pred_test)
     mse_test = mean_squared_error(Y_test, Y_pred_test)
     with open(log_filename, 'a') as file:

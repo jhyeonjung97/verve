@@ -121,7 +121,7 @@ def main():
     # Create the Optuna study and optimize
     start_time = time.time()
     study = optuna.create_study(direction='minimize')
-    study.optimize(objective, n_trials=100)
+    study.optimize(objective, n_trials=10)
     end_time = time.time()
     optimization_time = end_time - start_time
 

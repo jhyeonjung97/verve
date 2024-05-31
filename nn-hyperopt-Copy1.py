@@ -168,12 +168,13 @@ def main():
         mae = -np.mean(scores)
         return {'loss': mae, 'status': STATUS_OK}
 
+
     # Create a Trials object to store the results of the optimization
     trials = Trials()
     
     # Run the optimization with HyperOpt
     start_time = time.time()
-    max_evals = 10  # Number of evaluations
+    max_evals = 1000  # Number of evaluations
     best_params = fmin(fn=objective,
                        space=search_space,
                        algo=tpe.suggest,
@@ -188,16 +189,7 @@ def main():
     best_params['units3'] = int(best_params['units3'])
     best_params['batch_size'] = int(best_params['batch_size'])
     best_params['epochs'] = int(best_params['epochs'])
-    
-    # Re-scale the entire dataset using the best scaler
-    if best_params['scaler'] == 'standard':
-        scaler = StandardScaler()
-    else:
-        scaler = MinMaxScaler()
-    X_scaled = scaler.fit_transform(X)
-    X_train_scaled = scaler.transform(X_train)
-    X_test_scaled = scaler.transform(X_test)
-    
+
     # Create and train the best model
     best_model = KerasRegressor(
         model=build_model, 
@@ -211,13 +203,12 @@ def main():
         activation=best_params['activation'],
         last_linear=best_params['last_linear'],
         learning_rate=best_params['learning_rate'],
-        optimizer=best_params['optimizer'],
         epochs=best_params['epochs'],
         batch_size=best_params['batch_size'],
         verbose=1
     )
     start_time = time.time()
-    best_model.fit(X_train_scaled, Y_train)
+    best_model.fit(X_train, Y_train)
     end_time = time.time()
     fitting_time = end_time - start_time
 
@@ -235,7 +226,7 @@ def main():
         file.write(f"Entire\t{mae:.4f}\t{mse:.4f}\n")
 
     # Predict on the test set using the final model
-    Y_pred_test = best_model.predict(X_test_scaled)
+    Y_pred_test = best_model.predict(X_test)
     mae_test = mean_absolute_error(Y_test, Y_pred_test)
     mse_test = mean_squared_error(Y_test, Y_pred_test)
     with open(log_filename, 'a') as file:
