@@ -15,7 +15,6 @@ from hyperopt import fmin, tpe, hp, Trials, STATUS_OK
 from hyperopt.pyll.base import scope
 
 # Define the model-building function
-@tf.function(reduce_retracing=True)
 def build_model(units1, dropout1, units2, dropout2, learning_rate, input_dim):
     model = Sequential()
     model.add(Input(shape=(input_dim,)))
