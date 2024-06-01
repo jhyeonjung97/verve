@@ -156,14 +156,15 @@ def main():
             model__dropout2=params['dropout2'], 
             model__units3=params['units3'], 
             model__dropout3=params['dropout3'], 
-            model__activation=params['activation'],
+            model__activation=['relu', 'tanh', 'sigmoid'][params['activation']],
             model__last_linear=params['last_linear'],
             model__learning_rate=params['learning_rate'],
-            model__optimizer=params['optimizer'],
+            model__optimizer=['Adam', 'SGD', 'RMSprop'][params['optimizer']],
             epochs=params['epochs'],
             batch_size=params['batch_size'],
             verbose=0
         )
+        
         scores = cross_val_score(model, X_scaled, Y_train, cv=5, scoring='neg_mean_absolute_error')
         mae = -np.mean(scores)
         return {'loss': mae, 'status': STATUS_OK}
@@ -208,10 +209,10 @@ def main():
         model__dropout2=best_params['dropout2'], 
         model__units3=best_params['units3'], 
         model__dropout3=best_params['dropout3'], 
-        model__activation=best_params['activation'],
+        model__activation=['relu', 'tanh', 'sigmoid'][best_params['activation']],
         model__last_linear=best_params['last_linear'],
         model__learning_rate=best_params['learning_rate'],
-        model__optimizer=best_params['optimizer'],
+        model__optimizer=['Adam', 'SGD', 'RMSprop'][best_params['optimizer']],
         epochs=best_params['epochs'],
         batch_size=best_params['batch_size'],
         verbose=1
