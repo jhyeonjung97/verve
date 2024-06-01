@@ -16,7 +16,7 @@ from hyperopt.pyll.base import scope
 
 # Define the model-building function
 def build_model(input_dim, units1, dropout1, units2, dropout2, units3, dropout3, activation, last_linear, learning_rate, optimizer):
-    print(optimizer)
+    print(f"Building model with optimizer: {optimizer}")  # Debug print
     model = Sequential()
     model.add(Input(shape=(input_dim,)))
     model.add(Dense(units1, activation=activation))
@@ -144,6 +144,7 @@ def main():
 
     # Define the objective function for HyperOpt
     def objective(params):
+        print(f"Trying params: {params}")  # Debug print
         if params['scaler'] == 'standard':
             scaler = StandardScaler()
         else:
