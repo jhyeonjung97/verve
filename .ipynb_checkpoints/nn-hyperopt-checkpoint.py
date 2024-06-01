@@ -29,12 +29,14 @@ def build_model(input_dim, units1, dropout1, units2, dropout2, units3, dropout3,
         model.add(Dense(1, activation='linear'))
     else:
         model.add(Dense(1))
+        
     if optimizer == 'Adam':
         opt = Adam(learning_rate=learning_rate)
     elif optimizer == 'SGD':
         opt = SGD(learning_rate=learning_rate)
     elif optimizer == 'RMSprop':
         opt = RMSprop(learning_rate=learning_rate)
+        
     model.compile(loss='mean_absolute_error', optimizer=opt)
     return model
 
