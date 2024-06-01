@@ -146,7 +146,7 @@ def main():
     # Log the best parameters
     with open(log_filename, 'w') as file:
         file.write(f"Optimized poly: {best_poly_degree}\n")
-        file.write(f"Optimized alpha: {best_alpha:.4f}\n")
+        file.write(f"Optimized alpha: {best_alpha:.4f}\n\n")
     
     # Cross-validate the pipeline and print CV scores for GPR
     start_time = time.time()
