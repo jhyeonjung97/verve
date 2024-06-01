@@ -15,7 +15,7 @@ from hyperopt import fmin, tpe, hp, Trials, STATUS_OK
 from hyperopt.pyll.base import scope
 
 # Define the model-building function
-def build_model(input_dim, units1, dropout1, units2, dropout2, units3, dropout3, activation, last_linear, learning_rate, optimizer):
+def build_model(input_dim, units1, dropout1, units2, dropout2, units3, dropout3, activation, last_linear, optimizer, learning_rate):
     print(f"Building model with optimizer: {optimizer}")  # Debug print
     model = Sequential()
     model.add(Input(shape=(input_dim,)))
@@ -153,17 +153,17 @@ def main():
         
         model = KerasRegressor(
             model=build_model,
-            input_dim=X_train.shape[1],
-            units1=params['units1'], 
-            dropout1=params['dropout1'], 
-            units2=params['units2'], 
-            dropout2=params['dropout2'], 
-            units3=params['units3'], 
-            dropout3=params['dropout3'], 
-            activation=params['activation'],
-            last_linear=params['last_linear'],
-            learning_rate=params['learning_rate'],
-            optimizer=params['optimizer'],
+            model__input_dim=X_train.shape[1],
+            model__units1=params['units1'], 
+            model__dropout1=params['dropout1'], 
+            model__units2=params['units2'], 
+            model__dropout2=params['dropout2'], 
+            model__units3=params['units3'], 
+            model__dropout3=params['dropout3'], 
+            model__activation=params['activation'],
+            model__last_linear=params['last_linear'],
+            model__learning_rate=params['learning_rate'],
+            model__optimizer=params['optimizer'],
             epochs=params['epochs'],
             batch_size=params['batch_size'],
             verbose=0
