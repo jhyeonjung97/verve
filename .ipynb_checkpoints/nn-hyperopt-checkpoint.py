@@ -16,7 +16,6 @@ from hyperopt.pyll.base import scope
 
 # Define the model-building function
 def build_model(input_dim, units1, dropout1, units2, dropout2, units3, dropout3, activation, last_linear, optimizer, learning_rate):
-    print(f"Building model with optimizer: {optimizer}")  # Debug print
     model = Sequential()
     model.add(Input(shape=(input_dim,)))
     model.add(Dense(units1, activation=activation))
@@ -30,14 +29,12 @@ def build_model(input_dim, units1, dropout1, units2, dropout2, units3, dropout3,
         model.add(Dense(1, activation='linear'))
     else:
         model.add(Dense(1))
-        
     if optimizer == 'Adam':
         opt = Adam(learning_rate=learning_rate)
     elif optimizer == 'SGD':
         opt = SGD(learning_rate=learning_rate)
     elif optimizer == 'RMSprop':
         opt = RMSprop(learning_rate=learning_rate)
-        
     model.compile(loss='mean_absolute_error', optimizer=opt)
     return model
 
@@ -144,7 +141,6 @@ def main():
 
     # Define the objective function for HyperOpt
     def objective(params):
-        print(f"Trying params: {params}")  # Debug print
         if params['scaler'] == 'standard':
             scaler = StandardScaler()
         else:
@@ -177,7 +173,7 @@ def main():
     
     # Run the optimization with HyperOpt
     start_time = time.time()
-    max_evals = 10  # Number of evaluations
+    max_evals = 2  # Number of evaluations
     best_params = fmin(fn=objective,
                        space=search_space,
                        algo=tpe.suggest,
@@ -186,6 +182,9 @@ def main():
     end_time = time.time()
     optimization_time = end_time - start_time
 
+    print(best_params)
+    print(best_params['optimizer'].type)
+    
     # Extract the best parameters
     best_params['units1'] = int(best_params['units1'])
     best_params['units2'] = int(best_params['units2'])
