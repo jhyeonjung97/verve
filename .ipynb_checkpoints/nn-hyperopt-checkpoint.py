@@ -174,7 +174,7 @@ def main():
     
     # Run the optimization with HyperOpt
     start_time = time.time()
-    max_evals = 2  # Number of evaluations
+    max_evals = 500  # Number of evaluations
     best_params = fmin(fn=objective,
                        space=search_space,
                        algo=tpe.suggest,
