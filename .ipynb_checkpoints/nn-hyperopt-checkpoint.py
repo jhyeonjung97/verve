@@ -181,9 +181,6 @@ def main():
                        trials=trials)
     end_time = time.time()
     optimization_time = end_time - start_time
-
-    print(best_params)
-    print(best_params['optimizer'].type)
     
     # Extract the best parameters
     best_params['units1'] = int(best_params['units1'])
@@ -204,17 +201,17 @@ def main():
     # Create and train the best model
     best_model = KerasRegressor(
         model=build_model, 
-        input_dim=X_train.shape[1],
-        units1=best_params['units1'], 
-        dropout1=best_params['dropout1'], 
-        units2=best_params['units2'], 
-        dropout2=best_params['dropout2'], 
-        units3=best_params['units3'], 
-        dropout3=best_params['dropout3'], 
-        activation=best_params['activation'],
-        last_linear=best_params['last_linear'],
-        learning_rate=best_params['learning_rate'],
-        optimizer=best_params['optimizer'],
+        model__input_dim=X_train.shape[1],
+        model__units1=best_params['units1'], 
+        model__dropout1=best_params['dropout1'], 
+        model__units2=best_params['units2'], 
+        model__dropout2=best_params['dropout2'], 
+        model__units3=best_params['units3'], 
+        model__dropout3=best_params['dropout3'], 
+        model__activation=best_params['activation'],
+        model__last_linear=best_params['last_linear'],
+        model__learning_rate=best_params['learning_rate'],
+        model__optimizer=best_params['optimizer'],
         epochs=best_params['epochs'],
         batch_size=best_params['batch_size'],
         verbose=1
