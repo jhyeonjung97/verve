@@ -16,6 +16,7 @@ from hyperopt.pyll.base import scope
 
 # Define the model-building function
 def build_model(input_dim, units1, dropout1, units2, dropout2, units3, dropout3, activation, last_linear, learning_rate, optimizer):
+    print(optimizer)
     model = Sequential()
     model.add(Input(shape=(input_dim,)))
     model.add(Dense(units1, activation=activation))
