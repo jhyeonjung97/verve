@@ -16,13 +16,13 @@ adaptor = AseAtomsAdaptor()
 with MPRester(api_key) as mpr:
     for id in args.ids:
         try:
-            material_data = mpr.get_structure_by_material_id(f'mp-{id}')
+            material_data = mpr.get_structure_by_material_id(f'{id}')
             if material_data:
                 atoms = adaptor.get_atoms(material_data)
-                filename = os.path.join("./", f'mp-{id}.traj')
+                filename = os.path.join("./", f'{id}.traj')
                 write(filename, atoms)
                 print(f"Saved mp-{id}.traj")
             else:
-                print(f"No data found for material ID: mp-{id}")
+                print(f"No data found for material ID: {id}")
         except Exception as e:
-            print(f"Error fetching data for material ID mp-{id}: {e}")
+            print(f"Error fetching data for material ID {id}: {e}")

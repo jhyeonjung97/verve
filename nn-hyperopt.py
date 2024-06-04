@@ -15,7 +15,7 @@ from hyperopt import fmin, tpe, hp, Trials, STATUS_OK
 from hyperopt.pyll.base import scope
 
 # Define the model-building function
-def build_model(input_dim, units1, dropout1, units2, dropout2, activation, last_linear, optimizer, learning_rate):
+def build_model(input_dim, units1, dropout1, units2, dropout2, activation, last_linear, learning_rate):
     model = Sequential()
     model.add(Input(shape=(input_dim,)))
     model.add(Dense(units1, activation=activation))
@@ -26,12 +26,13 @@ def build_model(input_dim, units1, dropout1, units2, dropout2, activation, last_
         model.add(Dense(1, activation='linear'))
     else:
         model.add(Dense(1))
-    if optimizer == 'Adam':
-        opt = Adam(learning_rate=learning_rate)
-    elif optimizer == 'SGD':
-        opt = SGD(learning_rate=learning_rate)
-    elif optimizer == 'RMSprop':
-        opt = RMSprop(learning_rate=learning_rate)
+    # if optimizer == 'Adam':
+    #     opt = Adam(learning_rate=learning_rate)
+    # elif optimizer == 'SGD':
+    #     opt = SGD(learning_rate=learning_rate)
+    # elif optimizer == 'RMSprop':
+    #     opt = RMSprop(learning_rate=learning_rate)
+    opt = Adam(learning_rate=learning_rate)
     model.compile(loss='mean_absolute_error', optimizer=opt)
     return model
 
@@ -129,7 +130,7 @@ def main():
         'activation': hp.choice('activation', ['relu', 'tanh', 'sigmoid']),
         'last_linear': hp.choice('last_linear', [True, False]),
         'learning_rate': hp.loguniform('learning_rate', -5, -2),
-        'optimizer': hp.choice('optimizer', ['Adam', 'SGD', 'RMSprop']),
+        # 'optimizer': hp.choice('optimizer', ['Adam', 'SGD', 'RMSprop']),
         'batch_size': scope.int(hp.quniform('batch_size', 16, 128, 1)),
         'epochs': scope.int(hp.quniform('epochs', 10, 1000, 1))
     }
@@ -152,7 +153,8 @@ def main():
             model__activation=params['activation'],
             model__last_linear=params['last_linear'],
             model__learning_rate=params['learning_rate'],
-            model__optimizer=params['optimizer'],
+            # model__optimizer=params['optimizer'],
+            model__optimizer='Adam',
             epochs=params['epochs'],
             batch_size=params['batch_size'],
             verbose=0
@@ -202,7 +204,8 @@ def main():
         model__activation=['relu', 'tanh', 'sigmoid'][best_params['activation']],
         model__last_linear=best_params['last_linear'],
         model__learning_rate=best_params['learning_rate'],
-        model__optimizer=['Adam', 'SGD', 'RMSprop'][best_params['optimizer']],
+        # model__optimizer=['Adam', 'SGD', 'RMSprop'][best_params['optimizer']],
+        model__optimizer='Adam',
         epochs=best_params['epochs'],
         batch_size=best_params['batch_size'],
         verbose=1
