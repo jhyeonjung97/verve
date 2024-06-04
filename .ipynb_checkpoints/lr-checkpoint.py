@@ -101,9 +101,9 @@ def main():
         file.write(f"\nIntercept: {model.intercept_}\n\n")
         for i, coef in enumerate(model.coef_):
             file.write(f"Coefficient ({index[i]}): {coef:.2f}\n")
-        file.write(f"\nR-squared: {model.score(X, Y)}\n")
-        file.write(f"Mean Absolute Error: {mae}\n")
-        file.write(f"Mean Squared Error: {mse}\n\n")
+        file.write(f"\nR-squared: {model.score(X, Y):.4f}\n")
+        file.write(f"Mean Absolute Error: {mae:.4f}\n")
+        file.write(f"Mean Squared Error: {mse:.4f}\n\n")
     
     df_combined['Predicted E_form'] = Y_pred
     df_combined['Residuals'] = Y - Y_pred
