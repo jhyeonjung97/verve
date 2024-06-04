@@ -15,16 +15,13 @@ from hyperopt import fmin, tpe, hp, Trials, STATUS_OK
 from hyperopt.pyll.base import scope
 
 # Define the model-building function
-def build_model(input_dim, units1, dropout1, units2, dropout2, units3, dropout3, activation, last_linear, optimizer, learning_rate):
+def build_model(input_dim, units1, dropout1, units2, dropout2, activation, last_linear, optimizer, learning_rate):
     model = Sequential()
     model.add(Input(shape=(input_dim,)))
     model.add(Dense(units1, activation=activation))
     model.add(Dropout(dropout1))
     model.add(Dense(units2, activation=activation))
     model.add(Dropout(dropout2))
-    if units3 > 0:
-        model.add(Dense(units3, activation=activation))
-        model.add(Dropout(dropout3))
     if last_linear:
         model.add(Dense(1, activation='linear'))
     else:
@@ -125,18 +122,16 @@ def main():
     # Define the search space for HyperOpt
     search_space = {
         'scaler': hp.choice('scaler', ['standard', 'minmax']),
-        'units1': scope.int(hp.quniform('units1', 32, 128, 1)),
-        'dropout1': hp.uniform('dropout1', 0.0, 0.5),
-        'units2': scope.int(hp.quniform('units2', 32, 128, 1)),
-        'dropout2': hp.uniform('dropout2', 0.0, 0.5),
-        'units3': scope.int(hp.quniform('units3', 0, 128, 1)),  # 0 means no third layer
-        'dropout3': hp.uniform('dropout3', 0.0, 0.5),
+        'units1': scope.int(hp.quniform('units1', 2, 128, 1)),
+        'dropout1': hp.uniform('dropout1', 0.0, 0.1),
+        'units2': scope.int(hp.quniform('units2', 2, 128, 1)),
+        'dropout2': hp.uniform('dropout2', 0.0, 0.1),
         'activation': hp.choice('activation', ['relu', 'tanh', 'sigmoid']),
         'last_linear': hp.choice('last_linear', [True, False]),
         'learning_rate': hp.loguniform('learning_rate', -5, -2),
         'optimizer': hp.choice('optimizer', ['Adam', 'SGD', 'RMSprop']),
         'batch_size': scope.int(hp.quniform('batch_size', 16, 128, 1)),
-        'epochs': scope.int(hp.quniform('epochs', 10, 100, 1))
+        'epochs': scope.int(hp.quniform('epochs', 10, 1000, 1))
     }
 
     # Define the objective function for HyperOpt
@@ -154,8 +149,6 @@ def main():
             model__dropout1=params['dropout1'], 
             model__units2=params['units2'], 
             model__dropout2=params['dropout2'], 
-            model__units3=params['units3'], 
-            model__dropout3=params['dropout3'], 
             model__activation=params['activation'],
             model__last_linear=params['last_linear'],
             model__learning_rate=params['learning_rate'],
@@ -186,7 +179,6 @@ def main():
     # Extract the best parameters
     best_params['units1'] = int(best_params['units1'])
     best_params['units2'] = int(best_params['units2'])
-    best_params['units3'] = int(best_params['units3'])
     best_params['batch_size'] = int(best_params['batch_size'])
     best_params['epochs'] = int(best_params['epochs'])
     
@@ -207,8 +199,6 @@ def main():
         model__dropout1=best_params['dropout1'], 
         model__units2=best_params['units2'], 
         model__dropout2=best_params['dropout2'], 
-        model__units3=best_params['units3'], 
-        model__dropout3=best_params['dropout3'], 
         model__activation=['relu', 'tanh', 'sigmoid'][best_params['activation']],
         model__last_linear=best_params['last_linear'],
         model__learning_rate=best_params['learning_rate'],
