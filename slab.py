@@ -2,6 +2,7 @@ import os
 import glob
 import argparse
 from ase.io import read, write
+from ase.build import surface
 from ase.build.tools import sort
 from ase.constraints import FixAtoms
 from ase.io.vasp import read_vasp_xdatcar, write_vasp_xdatcar
@@ -16,6 +17,8 @@ parser.add_argument('-s', '--sort', action='store_true', default=False)
 parser.add_argument('-w', '--wrap', action='store_true', default=False)
 parser.add_argument('-c', '--center', action='store_true', default=False)
 parser.add_argument('--facet', type=str, default='0,0,1')
+parser.add_argument('-l', '--layers', type=int, default=1)
+parser.add_argument('-v', '--vacuum', type=float, default=0)
 parser.add_argument('-r', '--repeat', type=str, default='1,1,1')
 
 args = parser.parse_args()
@@ -34,8 +37,10 @@ pattern = os.path.join('./', f'{filename}*.{type}')
 matching_files = glob.glob(pattern)
 for file in matching_files:
     atoms = read(f'{file}')
-    l = atoms.cell.lengths()[2]
-    atoms.positions += (0, 0, -l/4)
+    # l = atoms.cell.lengths()[2]
+    # atoms.positions += (0, 0, -l/4)
+    if facet:
+        atoms = surface(lattice=atoms, indices=(x,y,z), layers=args.layers, vacuum=args.vacuum)
     if repeat:
         atoms = atoms.repeat((a,b,c))
     if args.wrap:
