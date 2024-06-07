@@ -31,7 +31,6 @@ vacuum = args.vacuum
 
 facet = args.facet
 repeat = args.repeat
-a, b, c = map(int, args.repeat.split(','))
 
 pattern = os.path.join('./', f'{filename}*.{type}')
 matching_files = glob.glob(pattern)
