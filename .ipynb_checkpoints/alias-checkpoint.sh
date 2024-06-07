@@ -57,7 +57,8 @@ alias gather='sh ~/bin/verve/gather.sh'
 alias rename='sh ~/bin/verve/rename.sh'
 alias slab='python ~/bin/verve/slab.py'
 alias ext='python ~/bin/verve/ext.py'
-alias xc='python ~/bin/pyband/xcell.py'
+alias xc='python ~/bin/pyband/xcell.py
+mv out_1x1x1.vasp POSCAR'
 
 # Analysis
 alias dp='display'
