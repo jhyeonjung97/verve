@@ -19,7 +19,7 @@ parser.add_argument('-c', '--center', action='store_true', default=False)
 parser.add_argument('--facet', type=str, default=None)
 parser.add_argument('-l', '--layers', type=int, default=1)
 parser.add_argument('-v', '--vacuum', type=float, default=None)
-parser.add_argument('-r', '--repeat', type=str, default='1,1,1')
+parser.add_argument('-r', '--repeat', type=str, default=None)
 
 args = parser.parse_args()
 filename = args.filename
@@ -29,9 +29,9 @@ add = args.add
 height = args.height
 vacuum = args.vacuum
 
+facet = args.facet
 repeat = args.repeat
-x, y, z = map(int, facet.split(','))
-a, b, c = map(int, repeat.split(','))
+a, b, c = map(int, args.repeat.split(','))
 
 pattern = os.path.join('./', f'{filename}*.{type}')
 matching_files = glob.glob(pattern)
@@ -39,10 +39,11 @@ for file in matching_files:
     atoms = read(f'{file}')
     # l = atoms.cell.lengths()[2]
     # atoms.positions += (0, 0, -l/4)
-    if args.facet:
-        x, y, z = map(int, args.facet.split(','))
+    if facet:
+        x, y, z = map(int, facet.split(','))
         atoms = surface(lattice=atoms, indices=(x,y,z), layers=args.layers)
     if repeat:
+        a, b, c = map(int, repeat.split(','))
         atoms = atoms.repeat((a,b,c))
     if args.wrap:
         atoms.wrap()
