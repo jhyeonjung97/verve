@@ -56,6 +56,7 @@ alias mpi='python ~/bin/verve/mpi.py'
 alias gather='sh ~/bin/verve/gather.sh'
 alias rename='sh ~/bin/verve/rename.sh'
 alias slab='python ~/bin/verve/slab.py'
+alias ext='python ~/bin/verve/ext.py'
 
 # Analysis
 alias dp='display'
