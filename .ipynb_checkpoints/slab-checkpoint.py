@@ -18,7 +18,7 @@ parser.add_argument('-w', '--wrap', action='store_true', default=False)
 parser.add_argument('-c', '--center', action='store_true', default=False)
 parser.add_argument('--facet', type=str, default='0,0,1')
 parser.add_argument('-l', '--layers', type=int, default=1)
-parser.add_argument('-v', '--vacuum', type=float, default=0)
+parser.add_argument('-v', '--vacuum', type=float, default=None)
 parser.add_argument('-r', '--repeat', type=str, default='1,1,1')
 
 args = parser.parse_args()
@@ -27,6 +27,7 @@ type = args.type
 
 add = args.add
 height = args.height
+vacuum = args.vacuum
 
 facet = args.facet
 repeat = args.repeat
@@ -40,7 +41,7 @@ for file in matching_files:
     # l = atoms.cell.lengths()[2]
     # atoms.positions += (0, 0, -l/4)
     if facet:
-        atoms = surface(lattice=atoms, indices=(x,y,z), layers=args.layers, vacuum=args.vacuum)
+        atoms = surface(lattice=atoms, indices=(x,y,z), layers=args.layers, vacuum=0)
     if repeat:
         atoms = atoms.repeat((a,b,c))
     if args.wrap:
@@ -53,6 +54,10 @@ for file in matching_files:
         a2 = atoms.cell.angles()[1]
         a3 = atoms.cell.angles()[2]
         atoms.cell = (l1, l2, l3+add, a1, a2, a3)
+    if vacuum:
+        max = max([atom.z for atom in atoms])
+        min = min([atom.z for atom in atoms])
+        height = max - min + vacuum
     if height:
         l1 = atoms.cell.lengths()[0]
         l2 = atoms.cell.lengths()[1]
