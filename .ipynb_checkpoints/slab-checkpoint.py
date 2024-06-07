@@ -55,9 +55,9 @@ for file in matching_files:
         a3 = atoms.cell.angles()[2]
         atoms.cell = (l1, l2, l3+add, a1, a2, a3)
     if vacuum:
-        max = max([atom.z for atom in atoms])
-        min = min([atom.z for atom in atoms])
-        height = max - min + vacuum
+        min_z = atoms.positions[:,2].min()
+        max_z = atoms.positions[:,2].max()
+        height = max_z - min_z + vacuum
     if height:
         l1 = atoms.cell.lengths()[0]
         l2 = atoms.cell.lengths()[1]
