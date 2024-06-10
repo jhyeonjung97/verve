@@ -1,4 +1,6 @@
-from ase.io import read, write
+from ase.io import read
+from statistics import mean
+
 
 atoms = read('CONTCAR')
 
