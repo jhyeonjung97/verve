@@ -140,29 +140,30 @@ elif [[ ${here} == 'nersc' ]]; then
     # python ~/bin/verve/sum.py -r 4d -x "Metal (MO)" -y "E_form - ICOHP - E_Madelung (eV/M-O)" -p merged_norm_formation_4d.tsv -m merged_ICOHP_4d.tsv merged_norm_MadelungL_4d.tsv -o cfse_4d
     # python ~/bin/verve/sum.py -r 5d -x "Metal (MO)" -y "E_form - ICOHP - E_Madelung (eV/M-O)" -p merged_norm_formation_5d.tsv -m merged_ICOHP_5d.tsv merged_norm_MadelungL_5d.tsv -o cfse_5d
     
-    # python ~/bin/verve/concat.py -o norm_formation --X *_*/merged_norm_formation.tsv
-    # python ~/bin/verve/concat.py -o ICOHP --X *_*/merged_ICOHP.tsv
-    # python ~/bin/verve/concat.py -o ICOBI --X *_*/merged_ICOBI.tsv
-    # python ~/bin/verve/concat.py -o wICOHP --X *_*/merged_weighted_ICOHP.tsv
-    # python ~/bin/verve/concat.py -o norm_MadelungL --X *_*/merged_norm_MadelungL.tsv
-    # python ~/bin/verve/concat.py -o norm_wMadelungL --X *_*/merged_weighted_norm_MadelungL.tsv
-    # python ~/bin/verve/concat.py -o cfse --X *_*/merged_cfse.tsv
-    # python ~/bin/verve/concat.py -o IE1 --X *_*/merged_IE1.tsv
-    # python ~/bin/verve/concat.py -o IE2 --X *_*/merged_IE2.tsv
-    # python ~/bin/verve/concat.py -o IE3 --X *_*/merged_IE3.tsv
-    # python ~/bin/verve/concat.py -o IE12 --X *_*/merged_IE12.tsv
-    # python ~/bin/verve/concat.py -o sub --X *_*/merged_sub.tsv
-    # python ~/bin/verve/concat.py -o coord --X *_*/merged_coord.tsv
-    # python ~/bin/verve/concat.py -o row --X *_*/merged_row.tsv
-    # python ~/bin/verve/concat.py -o group --X *_*/merged_group.tsv
-    # python ~/bin/verve/concat.py -o element --X *_*/merged_element.tsv
-    # python ~/bin/verve/concat.py -o redoxP --X *_*/merged_redoxP.tsv
-    # python ~/bin/verve/concat.py -o redoxP_clean --X *_*/merged_redoxP_clean.tsv
-    # python ~/bin/verve/concat.py -o norm_volume --X *_*/merged_norm_volume.tsv
-    # python ~/bin/verve/concat.py -o mag --X *_*/merged_mag_M.tsv
-    # python ~/bin/verve/concat.py -o GP_L --X *_*/merged_GP_Loewdin_M.tsv
-    # python ~/bin/verve/concat.py -o chg --X *_*/merged_chg.tsv
-    # python ~/bin/verve/concat.py -o bond --X *_*/merged_bond.tsv
+    python ~/bin/verve/concat.py -o norm_formation --X *_*/merged_norm_formation.tsv
+    python ~/bin/verve/concat.py -o norm_formation_rel --X *_*/summed_norm_formation_rel.tsv
+    python ~/bin/verve/concat.py -o ICOHP --X *_*/merged_ICOHP.tsv
+    python ~/bin/verve/concat.py -o ICOBI --X *_*/merged_ICOBI.tsv
+    python ~/bin/verve/concat.py -o wICOHP --X *_*/merged_weighted_ICOHP.tsv
+    python ~/bin/verve/concat.py -o norm_MadelungL --X *_*/merged_norm_MadelungL.tsv
+    python ~/bin/verve/concat.py -o norm_wMadelungL --X *_*/merged_weighted_norm_MadelungL.tsv
+    python ~/bin/verve/concat.py -o cfse --X *_*/merged_cfse.tsv
+    python ~/bin/verve/concat.py -o IE1 --X *_*/merged_IE1.tsv
+    python ~/bin/verve/concat.py -o IE2 --X *_*/merged_IE2.tsv
+    python ~/bin/verve/concat.py -o IE3 --X *_*/merged_IE3.tsv
+    python ~/bin/verve/concat.py -o IE12 --X *_*/merged_IE12.tsv
+    python ~/bin/verve/concat.py -o sub --X *_*/merged_sub.tsv
+    python ~/bin/verve/concat.py -o coord --X *_*/merged_coord.tsv
+    python ~/bin/verve/concat.py -o row --X *_*/merged_row.tsv
+    python ~/bin/verve/concat.py -o group --X *_*/merged_group.tsv
+    python ~/bin/verve/concat.py -o element --X *_*/merged_element.tsv
+    python ~/bin/verve/concat.py -o redoxP --X *_*/merged_redoxP.tsv
+    python ~/bin/verve/concat.py -o redoxP_clean --X *_*/merged_redoxP_clean.tsv
+    python ~/bin/verve/concat.py -o norm_volume --X *_*/merged_norm_volume.tsv
+    python ~/bin/verve/concat.py -o mag --X *_*/merged_mag_M.tsv
+    python ~/bin/verve/concat.py -o GP_L --X *_*/merged_GP_Loewdin_M.tsv
+    python ~/bin/verve/concat.py -o chg --X *_*/merged_chg.tsv
+    python ~/bin/verve/concat.py -o bond --X *_*/merged_bond.tsv
         
     # python ~/bin/verve/lr.py -i wICOHP MadelungL CFSE IE12 --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv 
     # python ~/bin/verve/lr.py -r 3 -i wICOHP MadelungL CFSE IE12 --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv 
