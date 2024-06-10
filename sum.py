@@ -59,7 +59,7 @@ def process_files(add_files, subtract_files, output,
             coordination = 'ZB'
             markers = ['v'] * len(summed_df.columns)
             colors = plt.cm.Oranges(np.linspace(0.1, 0.9, len(summed_df.columns)))
-        elif '3_Tetragonal_LT' in os.getcwd():
+        elif '3_Pyramidal_LT' in os.getcwd():
             coordination = 'LT'
             markers = ['^'] * len(summed_df.columns)
             colors = plt.cm.Wistia(np.linspace(0.1, 0.9, len(summed_df.columns)))
