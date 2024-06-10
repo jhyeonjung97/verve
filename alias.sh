@@ -59,6 +59,7 @@ alias slab='python ~/bin/verve/slab.py'
 alias ext='python ~/bin/verve/ext.py'
 alias xc='python ~/bin/pyband/xcell.py
 mv out_1x1x1.vasp POSCAR'
+alias dz='python ~/bin/verve/dz.py'
 
 # Analysis
 alias dp='display'
