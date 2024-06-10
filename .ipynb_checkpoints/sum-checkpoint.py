@@ -103,7 +103,7 @@ def plot_data(summed_df, png_filename, xlabel, ylabel, labels, row, a, b, fontsi
     if 'hexa_ratio' in summed_df.columns:
         plt.plot(x, [1.633]*len(x), linestyle=':', label='hexa_ratio0', color='black')
         
-    if 'norm_formation' in png_filename:
+    if 'norm_formation' in png_filename and 'rel' not in png_filename:
         exp_path = '/pscratch/sd/j/jiuy97/3_V_shape/monoxides.tsv'
         exp_df = pd.read_csv(exp_path, delimiter='\t')
         exp_df['dH_form'] = exp_df['dH_form'] / 96.48
