@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 # Load the data from CSV files
-X = pd.read_csv('merged_norm_ICOHP.tsv', delimiter='\t', index_col=0)
+X = pd.read_csv('merged_ICOHP.tsv', delimiter='\t', index_col=0)
 Y = pd.read_csv('merged_ICOBI.tsv', delimiter='\t', index_col=0)
 
 # Perform element-wise division
