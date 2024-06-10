@@ -9,7 +9,8 @@ print(f"\033[92m{os.getcwd()}\033[0m")
 
 
 def process_files(add_files, subtract_files, output,
-                 xlabel, ylabel, labels, row, a, b, fontsize):
+                  xlabel, ylabel, labels, 
+                  row, a, b, fontsize):
 
     metal_rows = {
         '3d': ['Ca', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn', 'Ga', 'Ge'],
@@ -151,9 +152,16 @@ def main():
     args = parser.parse_args()
 
     # Execute file processing
-    process_files(args.plus, args.minus, args.output, 
-                  args.xlabel, args.ylabel, args.labels, 
-                  args.row, args.a, args.b, args.fontsize)
-
+    process_files(add_files=args.plus, 
+                  subtract_files=args.minus, 
+                  output=args.output, 
+                  xlabel=args.xlabel, 
+                  ylabel=args.ylabel, 
+                  labels=args.labels, 
+                  row=args.row, 
+                  a=args.a, 
+                  b=args.b, 
+                  fontsize=args.fontsize)
+    
 if __name__ == "__main__":
     main()
