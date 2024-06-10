@@ -6,7 +6,7 @@ X = pd.read_csv('merged_norm_ICOHP.tsv', delimiter='\t', index_col=0)
 Y = pd.read_csv('merged_ICOBI.tsv', delimiter='\t', index_col=0)
 
 # Perform element-wise division
-Z = X * Y
+Z = X / Y
 
 # Ensure the index of Z matches the index of X
 Z.index = X.index
