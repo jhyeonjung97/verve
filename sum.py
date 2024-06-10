@@ -140,7 +140,7 @@ def main():
     parser = argparse.ArgumentParser(description='Process and plot TSV files.')
     parser.add_argument('-p', '--plus', nargs='+', help='Files to sum', default=[])
     parser.add_argument('-m', '--minus', nargs='+', help='Files to subtract', default=[])
-    parser.add_argument('-o', '--output', help='Output file name', default='output')
+    parser.add_argument('-o', '--output', type=str, help='Output file name', default='output')
     parser.add_argument('-x', '--xlabel', type=str, default='Element or Lattice parameter (Å)', help="xlabel")
     parser.add_argument('-y', '--ylabel', type=str, default='Energy (eV) or Charge (e)', help="ylabel")
     parser.add_argument('-l', '--labels', nargs='+', default=['Tetrahedral_WZ', 'Tetrahedral_ZB', 'Tetragonal_LT', 'Square_planar_TN', 'Square_planar_33', 'Octahedral_RS'])
