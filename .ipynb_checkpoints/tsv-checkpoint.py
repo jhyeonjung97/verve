@@ -30,7 +30,7 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, a
             coordination = 'ZB'
             markers = ['v'] * l
             colors = plt.cm.Oranges(np.linspace(0.4, 0.9, l))
-        elif '3_Tetragonal_LT' in os.getcwd():
+        elif '3_Pyramidal_LT' in os.getcwd():
             coordination = 'LT'
             markers = ['^'] * l
             colors = plt.cm.Wistia(np.linspace(0.4, 0.9, l))
