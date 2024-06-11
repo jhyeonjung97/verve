@@ -110,8 +110,8 @@ def main():
 
     plt.figure(figsize=(10, 8), dpi=300)
     colors = ['red', 'green', 'blue']
-    markers = ['v', '^', 's', 'D', 'o']
-    # markers = ['v', 'v', '^', 's', 's', 'o']
+    # markers = ['v', '^', 's', 'D', 'o']
+    markers = ['v', 'v', '^', 's', 's', 'o']
     for i, row in enumerate([3, 4, 5]):
         sub = df_combined[df_combined['Row'] == row]
         # for j, coordination in enumerate(['WZ', 'ZB', 'TN', '33', 'RS']):
