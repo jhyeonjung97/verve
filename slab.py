@@ -5,6 +5,7 @@ from ase.io import read, write
 from ase.build import surface
 from ase.build.tools import sort
 from ase.constraints import FixAtoms
+from ase.geometry.cell import get_duplicate_atoms
 from ase.io.vasp import read_vasp_xdatcar, write_vasp_xdatcar
 
 parser = argparse.ArgumentParser(description='Command-line options example')
@@ -70,11 +71,10 @@ for file in matching_files:
         min_z = atoms.positions[:,2].min()
         max_z = atoms.positions[:,2].max()
         mid_z = (max_z - min_z) / 3 + min_z
-        print(mid_z)
         fixed = FixAtoms(indices=[atom.index for atom in atoms if atom.position[2] < mid_z])
-        atoms.set_constraint(fixed)
     if args.center:
         atoms.center()
     if args.sort:
         atoms = sort(atoms)
+    get_duplicate_atoms(atoms, cutoff=1.0, delete=True)
     write(f'{file}',atoms)
