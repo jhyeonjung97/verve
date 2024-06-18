@@ -1,9 +1,11 @@
 import os
 import glob
 import argparse
+import numpy as np
 from ase.io import read, write
 from ase.build import surface
 from ase.build.tools import sort
+from ase.build import make_supercell, cut
 from ase.constraints import FixAtoms
 from ase.geometry.geometry import get_duplicate_atoms
 from ase.io.vasp import read_vasp_xdatcar, write_vasp_xdatcar
@@ -20,6 +22,7 @@ parser.add_argument('-c', '--center', action='store_true', default=False)
 parser.add_argument('--facet', type=str, default=None)
 parser.add_argument('-l', '--layers', type=int, default=1)
 parser.add_argument('-v', '--vacuum', type=float, default=None)
+parser.add_argument('--vector', action='store_true', default=False)
 parser.add_argument('-r', '--repeat', type=str, default=None)
 
 args = parser.parse_args()
@@ -77,9 +80,11 @@ for file in matching_files:
         atoms.center()
     if args.sort:
         atoms = sort(atoms)
-    V = [[-1, 1, 1],
-         [1, -1, 1],
-         [1, 1, -1]
-    atoms = make_supercell(atoms, V)
+    if args.vector:
+        V = [[-1, 1, 1],
+             [1, -1, 1],
+             [1, 1, -1]]
+        atoms = make_supercell(atoms, V)
+        atoms = make_supercell(atoms, V)
     get_duplicate_atoms(atoms, cutoff=0.1, delete=True)
     write(f'{file}',atoms)
