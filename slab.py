@@ -68,7 +68,7 @@ for file in matching_files:
         # l3 = atoms.cell.lengths()[2]
         a1 = atoms.cell.angles()[0]
         a2 = atoms.cell.angles()[1]
-        a3 = atoms.cell.angles()[2]
+        a3 = atoms.cell.angles()[2]Loveontop2017
         atoms.cell = (l1, l2, height, a1, a2, a3)
     if args.fix:
         min_z = atoms.positions[:,2].min()
