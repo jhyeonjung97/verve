@@ -17,6 +17,7 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, a
     
     if row:
         indice = metal_rows[row]
+        l = 6
         markers = ['v', 'v', '^', 's', 's', 'o']
         colors = ['#d62728', '#ff7f0e', '#ffd70e', '#2ca02c', '#279ff2', '#9467bd']
     else:
