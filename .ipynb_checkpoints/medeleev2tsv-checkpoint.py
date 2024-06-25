@@ -20,6 +20,10 @@ def get_data(element_symbol, atomic_property):
         return getattr(element(element_symbol), atomic_property)
     except AttributeError:
         return None
+    
+# Generate the repeating index pattern
+index_pattern = list(range(13)) * 5
+index_pattern = index_pattern[:65]
 
 # Process each specified pattern
 for pattern in args.patterns:
@@ -32,8 +36,11 @@ for pattern in args.patterns:
 
     # Since we need exactly 65 rows, let's slice the data
     df = pd.DataFrame(data).iloc[:65]
+    
+    # Set the index
+    df.index = index_pattern
 
     # Save the DataFrame as a TSV file
-    df.to_csv(f'concat_{pattern}.tsv', sep='\t', index=False)
+    df.to_csv(f'concat_{pattern}.tsv', sep='\t', index=True)
 
     print(f"DataFrame saved as concat_{pattern}.tsv")
