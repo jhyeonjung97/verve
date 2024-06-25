@@ -153,7 +153,8 @@ def main():
             model__activation=params['activation'],
             model__last_linear=params['last_linear'],
             model__learning_rate=params['learning_rate'],
-            model__optimizer='Adam',
+            # model__optimizer=params['optimizer'],
+            # model__optimizer='Adam',
             epochs=params['epochs'],
             batch_size=params['batch_size'],
             verbose=0
@@ -203,7 +204,8 @@ def main():
         model__activation=['relu', 'tanh', 'sigmoid'][best_params['activation']],
         model__last_linear=best_params['last_linear'],
         model__learning_rate=best_params['learning_rate'],
-        model__optimizer='Adam',
+        # model__optimizer=['Adam', 'SGD', 'RMSprop'][best_params['optimizer']],
+        # model__optimizer='Adam',
         epochs=best_params['epochs'],
         batch_size=best_params['batch_size'],
         verbose=1
