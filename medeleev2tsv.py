@@ -4,7 +4,7 @@ import argparse
 
 # Define the argument parser
 parser = argparse.ArgumentParser(description='Generate TSV files with specified atomic properties.')
-parser.add_argument('-p', '--patterns', required=True, nargs='+', default=['en_pauling'], help='List of atomic properties to retrieve.')
+parser.add_argument('-p', '--patterns', required=True, nargs='+', help='List of atomic properties to retrieve.')
 
 # Parse the arguments
 args = parser.parse_args()
