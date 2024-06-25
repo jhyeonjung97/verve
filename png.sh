@@ -297,7 +297,7 @@ ICOHP \
 volume \
 chg \
 atomic_number \
-group_id \
+atomic_volume \
 ionenergies1 \
 ionenergies3 \
 electron_affinity \
@@ -310,7 +310,7 @@ concat_ICOHP.tsv \
 concat_norm_volume.tsv \
 concat_chg.tsv \
 concat_atomic_number.tsv \
-concat_group_id.tsv \
+concat_atomic_volume.tsv \
 concat_ionenergies_1.tsv \
 concat_ionenergies_3.tsv \
 concat_electron_affinity.tsv \

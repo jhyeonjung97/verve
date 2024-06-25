@@ -138,7 +138,7 @@ def main():
     correlation_matrix = M.corr()
     abs_correlation_matrix = correlation_matrix.abs()
     
-    plt.figure(figsize=(6, 5), dpi=200) # Set the figure size as needed
+    plt.figure(figsize=(4, 3), dpi=200) # Set the figure size as needed
     
     # Create the heatmap
     ax = sns.heatmap(correlation_matrix, annot=True, fmt=".2f", annot_kws={"size": 5}, cmap='coolwarm')
@@ -163,7 +163,7 @@ def main():
     plt.gcf().savefig(f'covariance_matrix{str(filename)}.png', bbox_inches="tight")
     plt.close()
     
-    plt.figure(figsize=(6, 5), dpi=200) # Set the figure size as needed
+    plt.figure(figsize=(4, 3), dpi=200) # Set the figure size as needed
     
     # Create the heatmap
     ax = sns.heatmap(abs_correlation_matrix, annot=True, fmt=".2f", annot_kws={"size": 5},
