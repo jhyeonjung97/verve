@@ -138,7 +138,7 @@ def main():
     correlation_matrix = M.corr()
     abs_correlation_matrix = correlation_matrix.abs()
     
-    plt.figure(figsize=(10, 8), dpi=100) # Set the figure size as needed
+    plt.figure(figsize=(10, 8), dpi=300) # Set the figure size as needed
     sns.heatmap(correlation_matrix, annot=True, fmt=".2f", annot_kws={"size": 8}, cmap='coolwarm')
     plt.xticks(np.arange(M.shape[1]) + 0.5, M.columns, rotation=90, ha='right')
     plt.yticks(np.arange(M.shape[1]) + 0.5, M.columns, rotation=0, va='center')
