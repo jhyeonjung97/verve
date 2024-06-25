@@ -154,11 +154,11 @@ def main():
 
     # Set x-ticks with custom labels, rotation, alignment, and font size
     ax.set_xticks(np.arange(M.shape[1]) + 0.5)
-    ax.set_xticklabels(M.columns, rotation=90, ha='right', fontsize=5)
+    ax.set_xticklabels(M.columns, rotation=90, ha='right', fontsize=6)
 
     # Set y-ticks with custom labels, alignment, and font size
     ax.set_yticks(np.arange(M.shape[1]) + 0.5)
-    ax.set_yticklabels(M.columns, rotation=0, va='center', fontsize=5)
+    ax.set_yticklabels(M.columns, rotation=0, va='center', fontsize=6)
 
     # Move the x-ticks to the top
     ax.xaxis.set_ticks_position('top')
@@ -166,7 +166,7 @@ def main():
     
     # Adjust the font size of the color bar
     cbar = ax.collections[0].colorbar
-    cbar.ax.tick_params(labelsize=5)
+    cbar.ax.tick_params(labelsize=6)
 
     plt.tight_layout()
     plt.gcf().savefig(f'abs_covariance_matrix{str(filename)}.png', bbox_inches="tight")
