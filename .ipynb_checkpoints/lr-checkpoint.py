@@ -141,8 +141,7 @@ def main():
     plt.figure(figsize=(8, 6), dpi=200) # Set the figure size as needed
     
     # Create the heatmap
-    ax = sns.heatmap(correlation_matrix, annot=True, fmt=".2f", annot_kws={"size": 5},
-                     cmap='coolwarm', center=0, vmin=0, vmax=1)
+    ax = sns.heatmap(correlation_matrix, annot=True, fmt=".2f", annot_kws={"size": 5}, cmap='coolwarm')
 
     # Set x-ticks with custom labels, rotation, alignment, and font size
     ax.set_xticks(np.arange(M.shape[1]) + 0.5)
