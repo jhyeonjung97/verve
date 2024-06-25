@@ -166,7 +166,7 @@ def main():
     
     # Adjust the font size of the color bar
     cbar = ax.collections[0].colorbar
-    cbar.ax.tick_params(labelsize=6)
+    cbar.ax.tick_params(labelsize=5)
 
     plt.tight_layout()
     plt.gcf().savefig(f'abs_covariance_matrix{str(filename)}.png', bbox_inches="tight")
