@@ -148,12 +148,23 @@ def main():
     
     plt.figure(dpi=200) # Set the figure size as needed
     # plt.figure(figsize=(8, 6), dpi=200) # Set the figure size as needed
-    sns.heatmap(abs_correlation_matrix, annot=True, fmt=".2f", annot_kws={"size": 4},
-                cmap='coolwarm', center=0, vmin=0, vmax=1)
-    plt.xticks(np.arange(M.shape[1]) + 0.5, M.columns, rotation=90, ha='right', fontsize=8)
-    plt.yticks(np.arange(M.shape[1]) + 0.5, M.columns, rotation=0, va='center', fontsize=8)
-    plt.xaxis.set_ticks_position('top')
-    plt.xaxis.set_label_position('top')
+    
+    # Create the heatmap
+    ax = sns.heatmap(abs_correlation_matrix, annot=True, fmt=".2f", annot_kws={"size": 4},
+                     cmap='coolwarm', center=0, vmin=0, vmax=1)
+
+    # Set x-ticks with custom labels, rotation, alignment, and font size
+    ax.set_xticks(np.arange(M.shape[1]) + 0.5)
+    ax.set_xticklabels(M.columns, rotation=90, ha='right', fontsize=8)
+
+    # Set y-ticks with custom labels, alignment, and font size
+    ax.set_yticks(np.arange(M.shape[1]) + 0.5)
+    ax.set_yticklabels(M.columns, rotation=0, va='center', fontsize=8)
+
+    # Move the x-ticks to the top
+    ax.xaxis.set_ticks_position('top')
+    ax.xaxis.set_label_position('top')
+
     plt.tight_layout()
     plt.gcf().savefig(f'abs_covariance_matrix{str(filename)}.png', bbox_inches="tight")
     plt.close()
