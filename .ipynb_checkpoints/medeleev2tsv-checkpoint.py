@@ -17,8 +17,16 @@ elements_5d = ['La', 'Hf', 'Ta', 'W', 'Re', 'Os', 'Ir', 'Pt', 'Au', 'Hg', 'Tl', 
 # Function to get the specified atomic property
 def get_data(element_symbol, atomic_property):
     try:
-        return getattr(element(element_symbol), atomic_property)
+        elem = element(element_symbol)
+        if 'ionenergies' in atomic_property:
+            # Handle ionenergies property
+            ion_index = int(atomic_property.split('[')[1].strip(']'))
+            return elem.ionenergies[ion_index]
+        else:
+            return getattr(elem, atomic_property)
     except AttributeError:
+        return None
+    except (KeyError, IndexError):
         return None
     
 # Generate the repeating index pattern
@@ -27,6 +35,13 @@ index_pattern = index_pattern[:65]
 
 # Process each specified pattern
 for pattern in args.patterns:
+    # Handle file naming for ionenergies
+    if 'ionenergies' in pattern:
+        ion_index = int(pattern.split('[')[1].strip(']'))
+        filname = f'ionenergies_{ion_index}'
+    else:
+        filname = pattern
+    
     # Create the DataFrame
     data = {
         '3d': [get_data(e, pattern) for e in elements_3d] * 5,
@@ -41,6 +56,6 @@ for pattern in args.patterns:
     df.index = index_pattern
 
     # Save the DataFrame as a TSV file
-    df.to_csv(f'concat_{pattern}.tsv', sep='\t', index=True)
+    df.to_csv(f'concat_{filname}.tsv', sep='\t', index=True)
 
-    print(f"DataFrame saved as concat_{pattern}.tsv")
+    print(f"DataFrame saved as concat_{filname}.tsv")
