@@ -146,8 +146,7 @@ def main():
     plt.gcf().savefig(f'covariance_matrix{str(filename)}.png', bbox_inches="tight")
     plt.close()
     
-    plt.figure(dpi=300) # Set the figure size as needed
-    # plt.figure(figsize=(8, 6), dpi=200) # Set the figure size as needed
+    plt.figure(figsize=(8, 6), dpi=300) # Set the figure size as needed
     
     # Create the heatmap
     ax = sns.heatmap(abs_correlation_matrix, annot=True, fmt=".2f", annot_kws={"size": 4},
