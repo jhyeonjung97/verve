@@ -146,7 +146,7 @@ def main():
     plt.gcf().savefig(f'covariance_matrix{str(filename)}.png', bbox_inches="tight")
     plt.close()
     
-    plt.figure(dpi=200) # Set the figure size as needed
+    plt.figure(dpi=300) # Set the figure size as needed
     # plt.figure(figsize=(8, 6), dpi=200) # Set the figure size as needed
     
     # Create the heatmap
@@ -155,11 +155,11 @@ def main():
 
     # Set x-ticks with custom labels, rotation, alignment, and font size
     ax.set_xticks(np.arange(M.shape[1]) + 0.5)
-    ax.set_xticklabels(M.columns, rotation=90, ha='right', fontsize=8)
+    ax.set_xticklabels(M.columns, rotation=90, ha='right', fontsize=6)
 
     # Set y-ticks with custom labels, alignment, and font size
     ax.set_yticks(np.arange(M.shape[1]) + 0.5)
-    ax.set_yticklabels(M.columns, rotation=0, va='center', fontsize=8)
+    ax.set_yticklabels(M.columns, rotation=0, va='center', fontsize=6)
 
     # Move the x-ticks to the top
     ax.xaxis.set_ticks_position('top')
