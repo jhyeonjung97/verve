@@ -130,7 +130,7 @@ def main():
         'activation': hp.choice('activation', ['relu', 'tanh', 'sigmoid']),
         'last_linear': hp.choice('last_linear', [True, False]),
         'learning_rate': hp.loguniform('learning_rate', -5, -2),
-        # 'optimizer': hp.choice('optimizer', ['Adam', 'SGD', 'RMSprop']),
+        'optimizer': hp.choice('optimizer', ['Adam', 'SGD', 'RMSprop']),
         'batch_size': scope.int(hp.quniform('batch_size', 16, 128, 1)),
         'epochs': scope.int(hp.quniform('epochs', 10, 1000, 1))
     }
@@ -153,7 +153,7 @@ def main():
             model__activation=params['activation'],
             model__last_linear=params['last_linear'],
             model__learning_rate=params['learning_rate'],
-            # model__optimizer=params['optimizer'],
+            model__optimizer=params['optimizer'],
             model__optimizer='Adam',
             epochs=params['epochs'],
             batch_size=params['batch_size'],
@@ -204,7 +204,7 @@ def main():
         model__activation=['relu', 'tanh', 'sigmoid'][best_params['activation']],
         model__last_linear=best_params['last_linear'],
         model__learning_rate=best_params['learning_rate'],
-        # model__optimizer=['Adam', 'SGD', 'RMSprop'][best_params['optimizer']],
+        model__optimizer=['Adam', 'SGD', 'RMSprop'][best_params['optimizer']],
         model__optimizer='Adam',
         epochs=best_params['epochs'],
         batch_size=best_params['batch_size'],
