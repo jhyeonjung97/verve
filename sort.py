@@ -17,6 +17,10 @@ def main(input_file, output_file):
                              cell=atoms.get_cell(),
                              pbc=atoms.get_pbc())
     
+    # Transfer constraints from the original atoms object
+    if atoms.constraints:
+        sorted_atoms_obj.set_constraint(atoms.constraints)
+    
     # Write the sorted atoms back to a POSCAR file
     write(output_file, sorted_atoms_obj, format='vasp')
     print(f"Sorted POSCAR file has been saved as {output_file}")
