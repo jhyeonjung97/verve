@@ -29,6 +29,7 @@ def main(input_file, output_file):
     
     # Apply the displacement to all atoms
     sorted_atoms_obj.translate(displacement)
+    sorted_atoms_obj.wrap()
     
     # Write the sorted and shifted atoms back to a POSCAR file
     write(output_file, sorted_atoms_obj, format='vasp')
