@@ -24,8 +24,13 @@ def main(input_file, output_file):
     # Get the position of the first atom
     first_atom_position = sorted_atoms_obj.positions[0]
     
-    # Calculate the displacement to set the first atom's x and y to zero
-    displacement = [-first_atom_position[0], -first_atom_position[1], 0]
+    # Calculate the center of the x and y axes of the unit cell
+    cell = sorted_atoms_obj.get_cell()
+    center_x = cell[0, 0] / 2
+    center_y = cell[1, 1] / 2
+    
+    # Calculate the displacement to move the first atom to the center of the x and y axes
+    displacement = [center_x - first_atom_position[0], center_y - first_atom_position[1], 0]
     
     # Apply the displacement to all atoms
     sorted_atoms_obj.translate(displacement)
@@ -36,6 +41,6 @@ def main(input_file, output_file):
     print(f"Sorted and shifted POSCAR file has been saved as {output_file}")
 
 if __name__ == "__main__":
-    input_file = 'POSCAR'  # Replace with your input file name
+    input_file = 'POSCAR_xcell'  # Replace with your input file name
     output_file = 'POSCAR_sorted'  # Replace with your desired output file name
     main(input_file, output_file)
