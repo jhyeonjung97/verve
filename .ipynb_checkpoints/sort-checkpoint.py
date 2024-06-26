@@ -1,4 +1,5 @@
 from ase.io import read, write
+from ase import Atoms
 
 def main(input_file, output_file):
     # Read the POSCAR file
@@ -12,12 +13,12 @@ def main(input_file, output_file):
     sorted_atoms = metal_atoms + oxygen_atoms
     
     # Create a new Atoms object with the sorted atoms
-    # sorted_atoms_obj = atoms.copy()
-    # sorted_atoms_obj.set_positions([atom.position for atom in sorted_atoms])
-    # sorted_atoms_obj.set_chemical_symbols([atom.symbol for atom in sorted_atoms])
+    sorted_atoms_obj = Atoms([atom for atom in sorted_atoms],
+                             cell=atoms.get_cell(),
+                             pbc=atoms.get_pbc())
     
     # Write the sorted atoms back to a POSCAR file
-    write(output_file, sorted_atoms, format='vasp')
+    write(output_file, sorted_atoms_obj, format='vasp')
     print(f"Sorted POSCAR file has been saved as {output_file}")
 
 if __name__ == "__main__":
