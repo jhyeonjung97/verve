@@ -21,9 +21,18 @@ def main(input_file, output_file):
     if atoms.constraints:
         sorted_atoms_obj.set_constraint(atoms.constraints)
     
-    # Write the sorted atoms back to a POSCAR file
+    # Get the position of the first atom
+    first_atom_position = sorted_atoms_obj.positions[0]
+    
+    # Calculate the displacement to set the first atom's x and y to zero
+    displacement = [-first_atom_position[0], -first_atom_position[1], 0]
+    
+    # Apply the displacement to all atoms
+    sorted_atoms_obj.translate(displacement)
+    
+    # Write the sorted and shifted atoms back to a POSCAR file
     write(output_file, sorted_atoms_obj, format='vasp')
-    print(f"Sorted POSCAR file has been saved as {output_file}")
+    print(f"Sorted and shifted POSCAR file has been saved as {output_file}")
 
 if __name__ == "__main__":
     input_file = 'POSCAR'  # Replace with your input file name
