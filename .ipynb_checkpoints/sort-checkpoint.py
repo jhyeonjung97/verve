@@ -6,6 +6,7 @@ def main(input_file, output_file):
     atoms = read(input_file, format='vasp')
     
     # Separate metals and oxygens
+    # lanthanum_atoms = [atom for atom in atoms if atom.symbol != 'O']
     metal_atoms = [atom for atom in atoms if atom.symbol != 'O']
     oxygen_atoms = [atom for atom in atoms if atom.symbol == 'O']
     
