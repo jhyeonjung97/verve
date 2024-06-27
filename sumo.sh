@@ -12,8 +12,8 @@ sumo-dosplot \
     --format png \
     --dpi 100 \
     --column 1 \
-    --width 8 \
-    --height 6 \
+    --width 6 \
+    --height 4 \
     --yscale 1 \
     --zero-line \
     --prefix $prefix \
