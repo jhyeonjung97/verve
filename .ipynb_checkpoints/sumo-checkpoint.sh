@@ -7,7 +7,8 @@ else
 fi
 
 sumo-dosplot \
-    --legend-frame \
+    # --legend-frame \
+    --no-legend \
     --elements La.f,Cr.d,Mn.d,Fe.d,Co.d,Ni.d,O.p \
     --config ~/bin/verve/orbital_colours.conf \
     --format png \
