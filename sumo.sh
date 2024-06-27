@@ -8,7 +8,6 @@ fi
 
 sumo-dosplot \
     --legend-frame \
-    --legend-cutoff 0 \
     --config ~/bin/verve/orbital_colours.conf \
     --format png \
     --dpi 100 \
