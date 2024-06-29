@@ -77,6 +77,7 @@ for file in matching_files:
         atoms = make_supercell(atoms, V)
         # atoms = make_supercell(atoms, V)
     if args.fix:
+        del atoms[[0,9,10,11]]
         min_z = atoms.positions[:,2].min()
         max_z = atoms.positions[:,2].max()
         mid_z = (max_z - min_z) / 2 + min_z
