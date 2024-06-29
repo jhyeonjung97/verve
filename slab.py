@@ -81,10 +81,10 @@ for file in matching_files:
     if args.sort:
         atoms = sort(atoms)
     if args.vector:
-        V = [[-1, 1, 1],
-             [1, -1, 1],
-             [1, 1, -1]]
+        V = [[1, 0, 0],
+             [-1, 1, 0],
+             [0, 0, 1]]
         atoms = make_supercell(atoms, V)
-        atoms = make_supercell(atoms, V)
+        # atoms = make_supercell(atoms, V)
     get_duplicate_atoms(atoms, cutoff=0.1, delete=True)
     write(f'{file}',atoms)
