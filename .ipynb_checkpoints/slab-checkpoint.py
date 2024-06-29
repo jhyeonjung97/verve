@@ -43,14 +43,18 @@ for file in matching_files:
     # l = atoms.cell.lengths()[2]
     # atoms.positions += (0, 0, -l/4)
     if facet:
+        print('facet')
         x, y, z = map(int, facet.split(','))
         atoms = surface(lattice=atoms, indices=(x,y,z), layers=args.layers)
     if repeat:
+        print('repeat')
         a, b, c = map(int, repeat.split(','))
         atoms = atoms.repeat((a,b,c))
     if args.wrap:
+        print('wrap')
         atoms.wrap()
     if add:
+        print('add')
         l1 = atoms.cell.lengths()[0]
         l2 = atoms.cell.lengths()[1]
         l3 = atoms.cell.lengths()[2]
@@ -59,10 +63,12 @@ for file in matching_files:
         a3 = atoms.cell.angles()[2]
         atoms.cell = (l1, l2, l3+add, a1, a2, a3)
     if vacuum:
+        print('vacuum')
         min_z = atoms.positions[:,2].min()
         max_z = atoms.positions[:,2].max()
         height = max_z - min_z + vacuum
     if height:
+        print('height')
         l1 = atoms.cell.lengths()[0]
         l2 = atoms.cell.lengths()[1]
         # l3 = atoms.cell.lengths()[2]
@@ -71,12 +77,13 @@ for file in matching_files:
         a3 = atoms.cell.angles()[2]
         atoms.cell = (l1, l2, height, a1, a2, a3)
     if args.vector:
+        print('vector')
         V = [[1, 1, 0],
              [0, 1, 0],
              [0, 0, 1]]
         atoms = make_supercell(atoms, V)
-        # atoms = make_supercell(atoms, V)
     if args.fix:
+        print('fix')
         del atoms[[0,9,10,11]]
         min_z = atoms.positions[:,2].min()
         max_z = atoms.positions[:,2].max()
@@ -84,8 +91,10 @@ for file in matching_files:
         fixed = FixAtoms(indices=[atom.index for atom in atoms if atom.position[2] < mid_z])
         atoms.set_constraint(fixed)
     if args.center:
+        print('center')
         atoms.center()
     if args.sort:
+        print('sort')
         atoms = sort(atoms)
     get_duplicate_atoms(atoms, cutoff=0.1, delete=True)
     write(f'{file}',atoms)
