@@ -60,6 +60,19 @@ alias ext='python ~/bin/verve/ext.py'
 alias xc='python ~/bin/pyband/xcell.py
 mv out_1x1x1.vasp POSCAR'
 alias dz='python ~/bin/verve/dz.py'
+alias spreada='mv *00.vasp 00*/
+mv *01.vasp 01*/
+mv *02.vasp 02*/
+mv *03.vasp 03*/
+mv *04.vasp 04*/
+mv *05.vasp 05*/
+mv *06.vasp 06*/
+mv *07.vasp 07*/
+mv *08.vasp 08*/
+mv *09.vasp 09*/
+mv *10.vasp 10*/
+mv *11.vasp 11*/
+mv *12.vasp 12*/'
 
 # Analysis
 alias dp='display'
