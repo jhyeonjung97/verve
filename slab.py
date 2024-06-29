@@ -70,6 +70,12 @@ for file in matching_files:
         a2 = atoms.cell.angles()[1]
         a3 = atoms.cell.angles()[2]
         atoms.cell = (l1, l2, height, a1, a2, a3)
+    if args.vector:
+        V = [[1, 0, 0],
+             [-1, 1, 0],
+             [0, 0, 1]]
+        atoms = make_supercell(atoms, V)
+        # atoms = make_supercell(atoms, V)
     if args.fix:
         min_z = atoms.positions[:,2].min()
         max_z = atoms.positions[:,2].max()
@@ -80,11 +86,5 @@ for file in matching_files:
         atoms.center()
     if args.sort:
         atoms = sort(atoms)
-    if args.vector:
-        V = [[1, 0, 0],
-             [-1, 1, 0],
-             [0, 0, 1]]
-        atoms = make_supercell(atoms, V)
-        # atoms = make_supercell(atoms, V)
     get_duplicate_atoms(atoms, cutoff=0.1, delete=True)
     write(f'{file}',atoms)
