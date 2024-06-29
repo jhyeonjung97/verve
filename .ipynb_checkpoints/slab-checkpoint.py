@@ -71,8 +71,8 @@ for file in matching_files:
         a3 = atoms.cell.angles()[2]
         atoms.cell = (l1, l2, height, a1, a2, a3)
     if args.vector:
-        V = [[1, 0, 0],
-             [-1, 1, 0],
+        V = [[1, 1, 0],
+             [0, 1, 0],
              [0, 0, 1]]
         atoms = make_supercell(atoms, V)
         # atoms = make_supercell(atoms, V)
