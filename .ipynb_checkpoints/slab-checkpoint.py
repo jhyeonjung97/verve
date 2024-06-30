@@ -17,6 +17,7 @@ parser.add_argument('-a', '--add', type=float, default=0)
 parser.add_argument('-z', '--height', type=float, default=None)
 parser.add_argument('-f', '--fix', action='store_true', default=False)
 parser.add_argument('-s', '--sort', action='store_true', default=False)
+parser.add_argument('--shift', type=float, default=None)
 parser.add_argument('-w', '--wrap', action='store_true', default=False)
 parser.add_argument('-c', '--center', action='store_true', default=False)
 parser.add_argument('--facet', type=str, default=None)
@@ -62,6 +63,9 @@ for file in matching_files:
         a2 = atoms.cell.angles()[1]
         a3 = atoms.cell.angles()[2]
         atoms.cell = (l1, l2, l3+add, a1, a2, a3)
+    if args.shift:
+        # print('shift')
+        atoms.position[:2] += args.shift
     if vacuum:
         # print('vacuum')
         min_z = atoms.positions[:,2].min()
