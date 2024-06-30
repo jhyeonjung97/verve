@@ -35,8 +35,8 @@ def main(input_file, output_file):
     # displacement = [center_x - first_atom_position[0], center_y - first_atom_position[1], 0]
     
     # Apply the displacement to all atoms
-    # sorted_atoms_obj.translate(displacement)
-    sorted_atoms_obj.center()
+    sorted_atoms_obj.translate(displacement)
+    # sorted_atoms_obj.center()
     sorted_atoms_obj.wrap()
     
     # Write the sorted and shifted atoms back to a POSCAR file
