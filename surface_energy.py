@@ -44,10 +44,10 @@ for i in range(6):
             surface_df = pd.DataFrame(index=bulk_df.index, columns=bulk_df.columns)
 
             for k in range(len(bulk_df.columns)):
-                if not (slab_df.iloc[:, k].isna().any() or bulk_df.iloc[:, k].isna().any() or area_df.iloc[:, k].isna().any()):
-                    surface_df.iloc[:, k] = (slab_df.iloc[:, k] - stochiometry * bulk_df.iloc[:, k]) / (2 * area_df.iloc[:, k])
-                else:
+                if slab_df.iloc[:, k].isna().any() or bulk_df.iloc[:, k].isna().any() or area_df.iloc[:, k].isna().any():
                     surface_df.iloc[:, k] = np.nan
+                else:
+                    surface_df.iloc[:, k] = (slab_df.iloc[:, k] - stochiometry * bulk_df.iloc[:, k]) / (2 * area_df.iloc[:, k])
 
             print(slab_df)
             print(bulk_df)
