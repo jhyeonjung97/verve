@@ -48,6 +48,14 @@ for i in range(6):
             bulk_df = pd.read_csv(bulk_e_path, delimiter='\t').iloc[:, 1:]
             slab_df = pd.read_csv(slab_e_path, delimiter='\t').iloc[:, 1:]
             area_df = pd.read_csv(area_e_path, delimiter='\t').iloc[:, 1:]
+            
+            if coord == '33' and row == '3d':
+                print(bulk_e_path)
+                print(slab_e_path)
+                print(area_e_path)
+                print(bulk_df)
+                print(slab_df)
+                print(area_df)
 
             surface_df = pd.DataFrame(index=bulk_df.index, columns=bulk_df.columns)
             
@@ -59,6 +67,7 @@ for i in range(6):
                         surface_df.iloc[k, 0] = (slab_df.iloc[k, 0] - stochiometry * bulk_df.iloc[k, 0]) / (2 * area_df.iloc[k, 0])
                 else:
                     surface_df.iloc[k, 0] = np.nan
+            
             
             max_value = surface_df.max().max()
             min_value = surface_df.min().min()
