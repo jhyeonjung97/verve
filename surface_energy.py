@@ -7,6 +7,12 @@ coords = ['WZ', 'ZB', 'LT', 'TN', '33', 'RS']
 coord_dirs = ['1_Tetrahedral_WZ', '2_Tetrahedral_ZB', '3_Pyramidal_LT',
               '4_Square_Planar_TN', '5_Square_Planar_33', '6_Octahedral_RS']
 colors = ['#d62728', '#ff7f0e', '#ffd70e', '#2ca02c', '#279ff2', '#9467bd']
+color_ranges = [plt.cm.Reds(np.linspace(0.4, 0.9, 3)),
+                plt.cm.Oranges(np.linspace(0.4, 0.9, 3)),
+                plt.cm.Wistia(np.linspace(0.4, 0.9, 3)),
+                plt.cm.Greens(np.linspace(0.4, 0.9, 3)),
+                plt.cm.Blues(np.linspace(0.4, 0.9, 3)),
+                plt.cm.Purples(np.linspace(0.4, 0.9, 3))]
 markers = ['s', 'd', 'p', 'o', '>', '<', 'D']
 stochiometries = [6, 6, 6, 8, 12, 8]
 
@@ -24,8 +30,10 @@ for i in range(6):
     coord = coords[i]
     coord_dir = coord_dirs[i]
     color = colors[i]
+    color_range = color_ranges[i]
     marker = markers[i]
     stochiometry = stochiometries[i]
+    combined_df = pd.DataFrame()
     
     for j in range(3):
         row_key = list(rows.keys())[j]
@@ -42,28 +50,27 @@ for i in range(6):
             area_df = pd.read_csv(area_e_path, delimiter='\t').iloc[:, 1:]
 
             surface_df = pd.DataFrame(index=bulk_df.index, columns=bulk_df.columns)
-
+            
             for k in range(len(bulk_df)):
                 if not (pd.isna(slab_df.iloc[k, 0]) or pd.isna(bulk_df.iloc[k, 0]) or pd.isna(area_df.iloc[k, 0])):
                     surface_df.iloc[k, 0] = (slab_df.iloc[k, 0] - stochiometry * bulk_df.iloc[k, 0]) / (2 * area_df.iloc[k, 0])
                 else:
                     surface_df.iloc[k, 0] = np.nan
-                    
+            
             max_value = surface_df.max().max()
             min_value = surface_df.min().min()
-            print(f"max, min: {max_value}, {min_value}")
-        
+            print(f"Max, Min for {coord}_{row_key}: {max_value}, {min_value}")
+
+            combined_df = pd.concat([combined_df, surface_df.rename(columns={'energy': f'{coord}_{row_key}'})], axis=1)
+            
             png_filename = f"surface_{coord}_{row_key}.png"
             tsv_filename = f"surface_{coord}_{row_key}.tsv"
 
             plt.figure(figsize=(8, 6))
-        
             x = range(len(surface_df['energy']))
-            plt.plot(x, surface_df['energy'], marker=marker, color=color, label='energy')
-
+            plt.plot(x, surface_df['energy'], marker=marker, color=color, label=f'{coord}_{row_key}')
             surface_df.to_csv(tsv_filename, sep='\t')
             print(f"Merged data saved to {tsv_filename}")
-
             plt.xticks(np.arange(len(row)), row)
             plt.xlabel('Metal (MO)')
             plt.ylabel('Surface energy (eV/A^2)')
@@ -72,3 +79,21 @@ for i in range(6):
             plt.gcf().savefig(png_filename, bbox_inches="tight")
             print(f"Figure saved as {png_filename}")
             plt.close()
+
+    png_filename_combined = f"surface_{coord}.png"
+    tsv_filename_combined = f"surface_{coord}.tsv"
+    
+    plt.figure(figsize=(8, 6))
+    for m, column in enumerate(combined_df.columns):
+        x = range(len(combined_df[column]))
+        plt.plot(x, combined_df[column], marker=marker, color=color_range[m], label=column)
+    combined_df.to_csv(tsv_filename_combined, sep='\t')
+    print(f"Combined data saved to {tsv_filename_combined}")
+    plt.xticks(np.arange(len(row)), row)
+    plt.xlabel('Metal (MO)')
+    plt.ylabel('Surface energy (eV/A^2)')
+    plt.legend()
+    plt.tight_layout()
+    plt.gcf().savefig(png_filename_combined, bbox_inches="tight")
+    print(f"Figure saved as {png_filename_combined}")
+    plt.close()
