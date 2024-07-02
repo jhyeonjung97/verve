@@ -42,9 +42,14 @@ for i in range(6):
             area_df = pd.read_csv(area_e_path, delimiter='\t').iloc[:, 1:]
 
             surface_df = (slab_df - stochiometry * bulk_df) / (2 * area_df)
+            
+            print(slab_df)
+            print(bulk_df)
+            print(area_df)
+            print(surface_df)
 
-            png_filename = f"formation_{coord}_{row_key}.png"
-            tsv_filename = f"formation_{coord}_{row_key}.tsv"
+            png_filename = f"surface_{coord}_{row_key}.png"
+            tsv_filename = f"surface_{coord}_{row_key}.tsv"
 
             plt.figure(figsize=(8, 6))
 
