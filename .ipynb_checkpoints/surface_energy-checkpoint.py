@@ -48,7 +48,11 @@ for i in range(6):
                     surface_df.iloc[k, 0] = (slab_df.iloc[k, 0] - stochiometry * bulk_df.iloc[k, 0]) / (2 * area_df.iloc[k, 0])
                 else:
                     surface_df.iloc[k, 0] = np.nan
-
+                    
+            max_value = surface_df.max().max()
+            min_value = surface_df.min().min()
+            print(f"max, min: {max_value}, {min_value}")
+        
             png_filename = f"surface_{coord}_{row_key}.png"
             tsv_filename = f"surface_{coord}_{row_key}.tsv"
 
