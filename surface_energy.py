@@ -28,7 +28,7 @@ for i in range(6):
     marker = markers[i]
     stochiometry = stochiometries[i]
                  
-    for j in rang(3):
+    for j in range(3):
         row_key = list(rows.keys())[j]
         row = rows[row_key]
         row_dir = row_dirs[j]
