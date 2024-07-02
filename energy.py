@@ -353,6 +353,13 @@ def extract_values(directory, patterns, norm, dir_range):
                 values.setdefault('volume', []).append(atoms.get_volume()/norm_numb)
             else:
                 values.setdefault('volume', []).append(np.nan)
+        if 'area' in specific_patterns:
+            if atoms:
+                l1 = atoms.cell[0]
+                l2 = atoms.cell[1]
+                values.setdefault('area', []).append(np.linalg.norm(np.cross(l1, l2)))
+            else:
+                values.setdefault('area', []).append(np.nan)
         if 'energy' in specific_patterns:
             if atoms:
                 values.setdefault('energy', []).append(atoms.get_total_energy()/norm_numb)
