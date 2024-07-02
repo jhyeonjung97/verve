@@ -36,33 +36,34 @@ for i in range(6):
         slab_e_path = os.path.join(slab_path, dir_path, 'energy_energy.tsv')
         area_e_path = os.path.join(slab_path, dir_path, 'energy_area.tsv')
         
-        bulk_df = pd.read_csv(bulk_e_path, delimiter='\t').iloc[:, 1:]
-        slab_df = pd.read_csv(slab_e_path, delimiter='\t').iloc[:, 1:]
-        area_df = pd.read_csv(area_e_path, delimiter='\t').iloc[:, 1:]
-        
-        surface_df = (slab_df - stochiometry * bulk_df) / (2 * area_df)
-        
-        png_filename = f"formation_{coord}_{row_key}.png"
-        tsv_filename = f"formation_{coord}_{row_key}.tsv"
-        
-        plt.figure(figsize=(8, 6))
-        
-        for column in surface_df.columns:
-            x = range(len(surface_df[column]))
-            filtered_df = surface_df[column].dropna()
-            if filtered_df.empty:
-                print(f"No values found for pattern: {column}")
-                continue
-            plt.plot(x, filtered_df, marker=marker, color=color, label=column)
-        
-        surface_df.to_csv(tsv_filename, sep='\t')
-        print(f"Merged data saved to {tsv_filename}")
-        
-        plt.xticks(np.arange(len(row)), row)
-        plt.xlabel('Metal (MO)')
-        plt.ylabel('Surface energy (eV/A^2)')
-        plt.legend()
-        plt.tight_layout()
-        plt.gcf().savefig(png_filename, bbox_inches="tight")
-        print(f"Figure saved as {png_filename}")
-        plt.close()
+        if os.path.exists(bulk_e_path) and os.path.exists(slab_e_path) and os.path.exists(area_e_path):
+            bulk_df = pd.read_csv(bulk_e_path, delimiter='\t').iloc[:, 1:]
+            slab_df = pd.read_csv(slab_e_path, delimiter='\t').iloc[:, 1:]
+            area_df = pd.read_csv(area_e_path, delimiter='\t').iloc[:, 1:]
+
+            surface_df = (slab_df - stochiometry * bulk_df) / (2 * area_df)
+
+            png_filename = f"formation_{coord}_{row_key}.png"
+            tsv_filename = f"formation_{coord}_{row_key}.tsv"
+
+            plt.figure(figsize=(8, 6))
+
+            for column in surface_df.columns:
+                x = range(len(surface_df[column]))
+                filtered_df = surface_df[column].dropna()
+                if filtered_df.empty:
+                    print(f"No values found for pattern: {column}")
+                    continue
+                plt.plot(x, filtered_df, marker=marker, color=color, label=column)
+
+            surface_df.to_csv(tsv_filename, sep='\t')
+            print(f"Merged data saved to {tsv_filename}")
+
+            plt.xticks(np.arange(len(row)), row)
+            plt.xlabel('Metal (MO)')
+            plt.ylabel('Surface energy (eV/A^2)')
+            plt.legend()
+            plt.tight_layout()
+            plt.gcf().savefig(png_filename, bbox_inches="tight")
+            print(f"Figure saved as {png_filename}")
+            plt.close()
