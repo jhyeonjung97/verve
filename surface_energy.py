@@ -49,8 +49,8 @@ for i in range(6):
                 else:
                     surface_df.iloc[k, 0] = np.nan
 
-            png_filename = f"surface_{i}{coord}_{row_key}.png"
-            tsv_filename = f"surface_{i}{coord}_{row_key}.tsv"
+            png_filename = f"surface_{coord}_{row_key}.png"
+            tsv_filename = f"surface_{coord}_{row_key}.tsv"
 
             plt.figure(figsize=(8, 6))
         
