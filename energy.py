@@ -46,7 +46,7 @@ def main():
     if args.all:
         patterns = {'PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
                     'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung', 'ICOHP', 'ICOBI', 
-                    'mag', 'chg', 'GP', 'bond', 'ZPE', 'TS', 'hexa', 'volume'}
+                    'mag', 'chg', 'GP', 'bond', 'ZPE', 'TS', 'hexa', 'volume', 'area'}
     else:
         patterns = set(args.patterns)
     if 'Madelung' in patterns:
@@ -93,7 +93,7 @@ def main():
 
     patterns_order = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting', 
                       'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'energy', 'Madelung_Mulliken', 'Madelung_Loewdin', 
-                      'ICOHP', 'ICOBI', 'bond', 'ZPE', 'TS', 'hexa_ratio', 'volume',
+                      'ICOHP', 'ICOBI', 'bond', 'ZPE', 'TS', 'hexa_ratio', 'volume', 'area',
                       'GP_Mulliken_M', 'GP_Mulliken_O', 'GP_Loewdin_M', 'GP_Loewdin_O',
                       'mag_M', 'mag_O', 'chg_M', 'chg_O']
     filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
@@ -144,7 +144,7 @@ def extract_values(directory, patterns, norm, dir_range):
     
     specific_patterns = set()
     for pattern in ['Madelung_Mulliken', 'Madelung_Loewdin', 'GP_Mulliken', 'GP_Loewdin', 'ICOHP', 'ICOBI', 
-                    'hexa_ratio', 'volume', 'bond', 'energy', 'metals', 'mag', 'chg', 'ZPE', 'TS']:
+                    'hexa_ratio', 'volume', 'area', 'bond', 'energy', 'metals', 'mag', 'chg', 'ZPE', 'TS']:
         if pattern in patterns:
             patterns.discard(pattern)
             specific_patterns.add(pattern)            
@@ -441,7 +441,7 @@ def adjust_values(values_dict, ref, norm):
     adjusted_values_dict = {}
     quantitives = ['PSCENC', 'TEWEN', 'DENC', 'EXHF', 'XCENC', 'PAW_double_counting',
                    'EENTRO', 'EBANDS', 'EATOM', 'TOTEN', 'Madelung_Mulliken', 'Madelung_Loewdin',
-                   'ICOHP', 'ICOBI', 'bond', 'ZPE', 'TS', 'hexa_ratio', 'volume']
+                   'ICOHP', 'ICOBI', 'bond', 'ZPE', 'TS', 'hexa_ratio', 'volume', 'area']
     if norm == 'm' or norm == 'n':
         norm = 1
     else:
