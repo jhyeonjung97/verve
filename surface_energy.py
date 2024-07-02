@@ -5,19 +5,18 @@ import os
 
 coords = ['WZ', 'ZB', 'LT', 'TN', '33', 'RS']
 coord_dirs = ['1_Tetrahedral_WZ', '2_Tetrahedral_ZB', '3_Pyramidal_LT',
-                 '4_Square_Planar_TN', '5_Square_Planar_33', '6_Octahedral_RS']
+              '4_Square_Planar_TN', '5_Square_Planar_33', '6_Octahedral_RS']
 colors = ['#d62728', '#ff7f0e', '#2ca02c', '#279ff2', '#9467bd']
 markers = ['s', 'd', 'p', 'o', '>', '<', 'D']
 stochiometries = [6, 6, 6, 8, 12, 8]
-                 
+
 rows = {
     '3d': ['Ca', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn', 'Ga', 'Ge'],
     '4d': ['Sr', 'Y', 'Zr', 'Nb', 'Mo', 'Tc', 'Ru', 'Rh', 'Pd', 'Ag', 'Cd', 'In', 'Sn'],
     '5d': ['Ba', 'La', 'Hf', 'Ta', 'W', 'Re', 'Os', 'Ir', 'Pt', 'Au', 'Hg', 'Tl', 'Pb']
-    }
+}
 row_dirs = ['1_afm', '4d', '5d']
 
-        
 bulk_path = '/pscratch/sd/j/jiuy97/3_V_shape'
 slab_path = '/pscratch/sd/j/jiuy97/4_V_slab'
 
@@ -27,7 +26,7 @@ for i in range(6):
     color = colors[i]
     marker = markers[i]
     stochiometry = stochiometries[i]
-                 
+    
     for j in range(3):
         row_key = list(rows.keys())[j]
         row = rows[row_key]
@@ -47,7 +46,7 @@ for i in range(6):
         tsv_filename = f"formation_{coord}_{row_key}.tsv"
         
         plt.figure(figsize=(8, 6))
-
+        
         for column in surface_df.columns:
             x = range(len(surface_df[column]))
             filtered_df = surface_df[column].dropna()
