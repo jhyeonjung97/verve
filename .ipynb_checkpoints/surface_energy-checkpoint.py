@@ -55,11 +55,7 @@ for i in range(6):
             plt.figure(figsize=(8, 6))
         
             x = range(len(surface_df['energy']))
-            filtered_df = surface_df['energy'].dropna()
-            if filtered_df.empty:
-                print(f"No values found for pattern: 'energy'")
-                continue
-            plt.plot(x, filtered_df, marker=marker, color=color, label='energy')
+            plt.plot(x, surface_df['energy'], marker=marker, color=color, label='energy')
 
             surface_df.to_csv(tsv_filename, sep='\t')
             print(f"Merged data saved to {tsv_filename}")
