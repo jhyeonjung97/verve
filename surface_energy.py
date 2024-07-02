@@ -8,7 +8,7 @@ coord_dirs = ['1_Tetrahedral_WZ', '2_Tetrahedral_ZB', '3_Pyramidal_LT',
                  '4_Square_Planar_TN', '5_Square_Planar_33', '6_Octahedral_RS']
 colors = ['#d62728', '#ff7f0e', '#2ca02c', '#279ff2', '#9467bd']
 markers = ['s', 'd', 'p', 'o', '>', '<', 'D']
-stochiometris = [6, 6, 6, 8, 12, 8]
+stochiometries = [6, 6, 6, 8, 12, 8]
                  
 rows = {
     '3d': ['Ca', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn', 'Ga', 'Ge'],
