@@ -7,12 +7,12 @@ coords = ['WZ', 'ZB', 'LT', 'TN', '33', 'RS']
 coord_dirs = ['1_Tetrahedral_WZ', '2_Tetrahedral_ZB', '3_Pyramidal_LT',
               '4_Square_Planar_TN', '5_Square_Planar_33', '6_Octahedral_RS']
 colors = ['#d62728', '#ff7f0e', '#ffd70e', '#2ca02c', '#279ff2', '#9467bd']
-color_ranges = [plt.cm.Reds(np.linspace(0.4, 0.9, 3)),
-                plt.cm.Oranges(np.linspace(0.4, 0.9, 3)),
-                plt.cm.Wistia(np.linspace(0.4, 0.9, 3)),
-                plt.cm.Greens(np.linspace(0.4, 0.9, 3)),
-                plt.cm.Blues(np.linspace(0.4, 0.9, 3)),
-                plt.cm.Purples(np.linspace(0.4, 0.9, 3))]
+color_ranges = [plt.cm.Reds(np.linspace(0.3, 0.9, 3)),
+                plt.cm.Oranges(np.linspace(0.3, 0.9, 3)),
+                plt.cm.Wistia(np.linspace(0.3, 0.9, 3)),
+                plt.cm.Greens(np.linspace(0.3, 0.9, 3)),
+                plt.cm.Blues(np.linspace(0.3, 0.9, 3)),
+                plt.cm.Purples(np.linspace(0.3, 0.9, 3))]
 markers = ['s', 'd', 'p', 'o', '>', '<', 'D']
 stochiometries = [6, 6, 6, 8, 6, 8]
 
@@ -72,6 +72,7 @@ for i in range(6):
 
             plt.figure(figsize=(8, 6))
             x = range(len(surface_df['energy']))
+            plt.axhline(y=0, color='gray', linestyle='--')
             plt.plot(x, surface_df['energy'], marker=marker, color=color, label=f'{coord}_{row_key}')
             surface_df.to_csv(tsv_filename, sep='\t')
             print(f"Merged data saved to {tsv_filename}")
@@ -90,6 +91,7 @@ for i in range(6):
     plt.figure(figsize=(8, 6))
     for m, column in enumerate(combined_df.columns):
         x = range(len(combined_df[column]))
+        plt.axhline(y=0, color='gray', linestyle='--')
         plt.plot(x, combined_df[column], marker=marker, color=color_range[m], label=column)
     combined_df.to_csv(tsv_filename_combined, sep='\t')
     print(f"Combined data saved to {tsv_filename_combined}")
