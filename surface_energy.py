@@ -49,20 +49,11 @@ for i in range(6):
             slab_df = pd.read_csv(slab_e_path, delimiter='\t').iloc[:, 1:]
             area_df = pd.read_csv(area_e_path, delimiter='\t').iloc[:, 1:]
             
-            print(coord, row)
-            if coord == '33' and row == '3d':
-                print(bulk_e_path)
-                print(slab_e_path)
-                print(area_e_path)
-                print(bulk_df)
-                print(slab_df)
-                print(area_df)
-
             surface_df = pd.DataFrame(index=bulk_df.index, columns=bulk_df.columns)
             
             for k in range(len(bulk_df)):
                 if not (pd.isna(slab_df.iloc[k, 0]) or pd.isna(bulk_df.iloc[k, 0]) or pd.isna(area_df.iloc[k, 0])):
-                    if coord == '33' and row == '3d':
+                    if coord == '33' and row_key == '3d':
                         surface_df.iloc[k, 0] = (slab_df.iloc[k, 0] - 12 * bulk_df.iloc[k, 0]) / (2 * area_df.iloc[k, 0])
                     else:
                         surface_df.iloc[k, 0] = (slab_df.iloc[k, 0] - stochiometry * bulk_df.iloc[k, 0]) / (2 * area_df.iloc[k, 0])
