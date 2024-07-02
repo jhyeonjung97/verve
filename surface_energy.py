@@ -59,7 +59,7 @@ for i in range(6):
             if filtered_df.empty:
                 print(f"No values found for pattern: 'energy'")
                 continue
-            plt.plot(x, filtered_df, marker=marker, color=color, label=column)
+            plt.plot(x, filtered_df, marker=marker, color=color, label='energy')
 
             surface_df.to_csv(tsv_filename, sep='\t')
             print(f"Merged data saved to {tsv_filename}")
