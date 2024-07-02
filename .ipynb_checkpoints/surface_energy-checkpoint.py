@@ -58,13 +58,13 @@ for i in range(6):
             tsv_filename = f"surface_{coord}_{row_key}.tsv"
 
             plt.figure(figsize=(8, 6))
-
+        
             for column in surface_df.columns:
-                x = range(len(surface_df[column]))
                 filtered_df = surface_df[column].dropna()
                 if filtered_df.empty:
                     print(f"No values found for pattern: {column}")
                     continue
+                x = range(len(filtered_df))
                 plt.plot(x, filtered_df, marker=marker, color=color, label=column)
 
             surface_df.to_csv(tsv_filename, sep='\t')
