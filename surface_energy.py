@@ -49,6 +49,7 @@ for i in range(6):
             slab_df = pd.read_csv(slab_e_path, delimiter='\t').iloc[:, 1:]
             area_df = pd.read_csv(area_e_path, delimiter='\t').iloc[:, 1:]
             
+            print(coord, row)
             if coord == '33' and row == '3d':
                 print(bulk_e_path)
                 print(slab_e_path)
