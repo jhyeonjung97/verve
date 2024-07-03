@@ -24,10 +24,10 @@ for metal_row in ['3d', '4d', '5d']:
             index1 = i * j
             index2 = 6 * j
             if not pd.isna(df.at[index1, metal_row]) and not pd.isna(df.at[index2, metal_row]):
-                print(df[index1, metal_row])
-                print(df[index2, metal_row])
+                print(df[metal_row, index1])
+                print(df[metal_row, index2])
                 df.at[index1, metal_row] = df.at[index1, metal_row] - df.at[index2, metal_row]
-                print(df[index1, metal_row])
+                print(df[metal_row, index1])
 
 index_pattern = list(range(13)) * 6
 index_pattern = index_pattern[:78]
