@@ -55,11 +55,10 @@ for pattern in args.patterns:
     # Since we need exactly m rows, let's slice the data
     df = pd.DataFrame(data).iloc[:m]
     
-    print(data[1][2])
-    print(data[2][1])
+    print(data['4d'][12])
     # if pattern == 'boiling_point' or pattern == 'melting_point':
     #     for i in range(n):
-    #         df[i][2]=df[i][2]['gray']
+    #         df['4d'][]=df[i][2]['gray']
         
     # Set the index
     df.index = index_pattern
