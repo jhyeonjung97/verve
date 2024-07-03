@@ -24,8 +24,7 @@ for metal_row in ['3d', '4d', '5d']:
         for j in range(13):
             index1 = 13 * i + j
             index2 = 13 * 5 + j
-            print(f"{df.at[index2, metal_row]}")
-
+            print(index1, index2, metal_row)
             if index1 < len(df) and index2 < len(df):
                 if not pd.isna(df.at[index1, metal_row]) and not pd.isna(df.at[index2, metal_row]):
                     # print(f"Before: {df.at[index1, metal_row]} - {df.at[index2, metal_row]}")
