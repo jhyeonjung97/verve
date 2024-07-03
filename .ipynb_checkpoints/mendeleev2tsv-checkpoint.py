@@ -52,9 +52,13 @@ for pattern in args.patterns:
         '5d': [get_data(e, pattern) for e in elements_5d] * n
     }
 
-    # Since we need exactly 65 rows, let's slice the data
+    # Since we need exactly m rows, let's slice the data
     df = pd.DataFrame(data).iloc[:m]
     
+    if pattern == 'boiling_point' or pattern == 'melting_point':
+        for i in range(n):
+            df[i][2]=df[i][2]['gray']
+        
     # Set the index
     df.index = index_pattern
 

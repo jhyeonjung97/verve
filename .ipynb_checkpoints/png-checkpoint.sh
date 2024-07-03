@@ -146,6 +146,8 @@ elif [[ ${here} == 'nersc' ]]; then
     
 python ~/bin/verve/concat.py -o norm_formation --X *_*/merged_norm_formation.tsv
 python ~/bin/verve/concat.py -o norm_formation_rel --X *_*/summed_norm_formation_rel.tsv
+python ~/bin/verve/concat.py -o coord --X *_*/merged_coord.tsv
+python ~/bin/verve/concat.py -o element --X *_*/merged_element.tsv
 python ~/bin/verve/concat.py -o ICOHP --X *_*/merged_ICOHP.tsv
 python ~/bin/verve/concat.py -o ICOHP_per_MO --X *_*/merged_ICOHP_per_MO.tsv
 python ~/bin/verve/concat.py -o ICOHP_per_bond --X *_*/merged_ICOHP_per_bond.tsv
@@ -192,7 +194,7 @@ heat_of_formation \
 sublimation_heat \
 evaporation_heat \
 fusion_heat \
---Y concat_norm_formation_rel.tsv \
+--Y concat_norm_formation.tsv \
 --X \
 concat_ICOHP_per_bond.tsv \
 concat_ICOHP_per_MO.tsv \
