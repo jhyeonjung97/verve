@@ -13,7 +13,7 @@ data = sys.argv[1]
 
 # Read the data
 df = read(data)
-print(df['3d'][0])
+print(df)
 
 # Split filename and extension correctly
 filename, ext = data.rsplit('.', 1)
