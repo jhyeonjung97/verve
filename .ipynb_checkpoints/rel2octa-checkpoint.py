@@ -23,7 +23,7 @@ for metal_row in ['3d', '4d', '5d']:
     for i in range(5):
         for j in range(13):
             index1 = i * j
-            index2 = 6 * j
+            index2 = 65+ j
             print(f"{df.at[index2, metal_row]}")
 
             if index1 < len(df) and index2 < len(df):
