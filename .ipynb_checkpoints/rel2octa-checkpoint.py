@@ -20,7 +20,7 @@ filename, ext = data.rsplit('.', 1)
 
 # Iterate over the specified rows and modify the DataFrame
 for metal_row in ['3d', '4d', '5d']:
-    for i in range(5):
+    for i in range(6):
         for j in range(13):
             index1 = 13 * i + j
             index2 = 13 * 5 + j
