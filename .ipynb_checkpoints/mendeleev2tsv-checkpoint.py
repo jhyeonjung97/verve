@@ -59,7 +59,6 @@ for pattern in args.patterns:
         for i in range(n):
             j = 13 * i + 12
             df['4d'][j] = df['4d'][j]['gray']
-            print(df['4d'][j])
         
     # Set the index
     df.index = index_pattern
