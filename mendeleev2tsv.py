@@ -5,9 +5,12 @@ import argparse
 # Define the argument parser
 parser = argparse.ArgumentParser(description='Generate TSV files with specified atomic properties.')
 parser.add_argument('-p', '--patterns', required=True, nargs='+', help='List of atomic properties to retrieve.')
+parser.add_argument('-n', '--number', default=6, type=int, help='Number of repeat')
 
 # Parse the arguments
 args = parser.parse_args()
+n = args.number
+m = n*13
 
 # Define the d-block elements for 3d, 4d, and 5d series
 elements_3d = ['Ca', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn', 'Ga', 'Ge']
@@ -30,8 +33,8 @@ def get_data(element_symbol, atomic_property):
         return None
     
 # Generate the repeating index pattern
-index_pattern = list(range(13)) * 6
-index_pattern = index_pattern[:78]
+index_pattern = list(range(13)) * n
+index_pattern = index_pattern[:m]
 
 # Process each specified pattern
 for pattern in args.patterns:
@@ -44,13 +47,13 @@ for pattern in args.patterns:
     
     # Create the DataFrame
     data = {
-        '3d': [get_data(e, pattern) for e in elements_3d] * 6,
-        '4d': [get_data(e, pattern) for e in elements_4d] * 6,
-        '5d': [get_data(e, pattern) for e in elements_5d] * 6
+        '3d': [get_data(e, pattern) for e in elements_3d] * n,
+        '4d': [get_data(e, pattern) for e in elements_4d] * n,
+        '5d': [get_data(e, pattern) for e in elements_5d] * n
     }
 
     # Since we need exactly 65 rows, let's slice the data
-    df = pd.DataFrame(data).iloc[:78]
+    df = pd.DataFrame(data).iloc[:m]
     
     # Set the index
     df.index = index_pattern
