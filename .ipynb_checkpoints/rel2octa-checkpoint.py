@@ -13,6 +13,7 @@ data = sys.argv[1]
 
 # Read the data
 df = read(data)
+print(df['3d'][0])
 
 # Split filename and extension correctly
 filename, ext = data.rsplit('.', 1)
@@ -21,8 +22,11 @@ filename, ext = data.rsplit('.', 1)
 for metal_row in ['3d', '4d', '5d']:
     for i in range(5):
         for j in range(13):
-            if i * j < len(df) and 6 * j < len(df):
-                df.loc[i * j, metal_row] = df.loc[i * j, metal_row] - df.loc[6 * j, metal_row]
+            index1 = i * j
+            index2 = 6 * j
+            if index1 < len(df) and index2 < len(df):
+                if not pd.isna(df.loc[index1, metal_row]) and not pd.isna(df.loc[index2, metal_row]):
+                    df.loc[index1, metal_row] = df.loc[index1, metal_row] - df.loc[index2, metal_row]
 
 # Print the DataFrame (optional)
 print(df)
