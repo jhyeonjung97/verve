@@ -22,8 +22,8 @@ filename, ext = data.rsplit('.', 1)
 for metal_row in ['3d', '4d', '5d']:
     for i in range(5):
         for j in range(13):
-            index1 = i * j
-            index2 = 65+ j
+            index1 = 13 * i + j
+            index2 = 13 * 5 + j
             print(f"{df.at[index2, metal_row]}")
 
             if index1 < len(df) and index2 < len(df):
