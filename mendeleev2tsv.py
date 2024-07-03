@@ -30,7 +30,7 @@ def get_data(element_symbol, atomic_property):
         return None
     
 # Generate the repeating index pattern
-index_pattern = list(range(13)) * 5
+index_pattern = list(range(13)) * 6
 index_pattern = index_pattern[:65]
 
 # Process each specified pattern
