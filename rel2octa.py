@@ -27,9 +27,9 @@ for metal_row in ['3d', '4d', '5d']:
             print(index1, index2, metal_row)
             if index1 < len(df) and index2 < len(df):
                 if not pd.isna(df.at[index1, metal_row]) and not pd.isna(df.at[index2, metal_row]):
-                    # print(f"Before: {df.at[index1, metal_row]} - {df.at[index2, metal_row]}")
+                    print(f"Before: {df.at[index1, metal_row]} - {df.at[index2, metal_row]}")
                     df.at[index1, metal_row] = df.at[index1, metal_row] - df.at[index2, metal_row]
-                    # print(f"After: {df.at[index1, metal_row]}")
+                    print(f"After: {df.at[index1, metal_row]}")
 
 # Generate the new index pattern
 index_pattern = np.tile(np.arange(13), len(df) // 13 + 1)[:len(df)]
