@@ -38,4 +38,5 @@ index_pattern = np.tile(np.arange(13), len(df) // 13 + 1)[:len(df)]
 df.index = index_pattern
 
 # Write the modified DataFrame to a new file
-write(df, filename=f'{filename}_rel.{ext}')
+df.to_csv(f'{filename}_rel.{ext}', sep='\t', index=True)
+print(f"DataFrame saved as {filename}_rel.{ext}")
