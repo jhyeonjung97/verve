@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import sys
 
 # Example read and write functions (replace these with your actual implementation)
@@ -23,14 +24,16 @@ for metal_row in ['3d', '4d', '5d']:
         for j in range(13):
             index1 = i * j
             index2 = 6 * j
-            if not pd.isna(df.at[index1, metal_row]) and not pd.isna(df.at[index2, metal_row]):
-                print(df[metal_row, index1])
-                print(df[metal_row, index2])
-                df.at[index1, metal_row] = df.at[index1, metal_row] - df.at[index2, metal_row]
-                print(df[metal_row, index1])
+            if index1 < len(df) and index2 < len(df):
+                if not pd.isna(df.at[index1, metal_row]) and not pd.isna(df.at[index2, metal_row]):
+                    print(f"Before: {df.at[index1, metal_row]} - {df.at[index2, metal_row]}")
+                    df.at[index1, metal_row] = df.at[index1, metal_row] - df.at[index2, metal_row]
+                    print(f"After: {df.at[index1, metal_row]}")
 
-index_pattern = list(range(13)) * 6
-index_pattern = index_pattern[:78]
+# Generate the new index pattern
+index_pattern = np.tile(np.arange(13), len(df) // 13 + 1)[:len(df)]
+
+# Set the new index
 df.index = index_pattern
 
 # Print the DataFrame (optional)
