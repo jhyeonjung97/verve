@@ -25,6 +25,7 @@ for metal_row in ['3d', '4d', '5d']:
             index1 = i * j
             index2 = 6 * j
             print(df[metal_row][index1])
+            print(df[metal_row][index2])
             if index1 < len(df) and index2 < len(df):
                 if not pd.isna(df.loc[df.index[index1], metal_row]) and not pd.isna(df.loc[df.index[index2], metal_row]):
                     df.loc[df.index[index1], metal_row] = df.loc[df.index[index1], metal_row] - df.loc[df.index[index2], metal_row]
