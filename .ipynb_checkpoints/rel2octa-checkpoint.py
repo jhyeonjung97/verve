@@ -4,7 +4,7 @@ import sys
 
 # Example read and write functions (replace these with your actual implementation)
 def read(data):
-    return pd.read_csv(data, delimiter='\t', index=False)
+    return pd.read_csv(data, delimiter='\t')
 
 def write(df, filename):
     df.to_csv(filename, sep='\t', index=False)
