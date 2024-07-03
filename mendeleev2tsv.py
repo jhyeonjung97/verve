@@ -31,7 +31,7 @@ def get_data(element_symbol, atomic_property):
     
 # Generate the repeating index pattern
 index_pattern = list(range(13)) * 6
-index_pattern = index_pattern[:65]
+index_pattern = index_pattern[:78]
 
 # Process each specified pattern
 for pattern in args.patterns:
@@ -50,7 +50,7 @@ for pattern in args.patterns:
     }
 
     # Since we need exactly 65 rows, let's slice the data
-    df = pd.DataFrame(data).iloc[:65]
+    df = pd.DataFrame(data).iloc[:78]
     
     # Set the index
     df.index = index_pattern
