@@ -13,6 +13,7 @@ data = sys.argv[1]
 
 # Read the data, keeping the first column as the index
 df = read(data)
+print(df)
 
 # Split filename and extension correctly
 filename, ext = data.rsplit('.', 1)
