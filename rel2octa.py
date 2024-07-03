@@ -37,8 +37,5 @@ index_pattern = np.tile(np.arange(13), len(df) // 13 + 1)[:len(df)]
 # Set the new index
 df.index = index_pattern
 
-# Print the DataFrame (optional)
-print(df)
-
 # Write the modified DataFrame to a new file
 write(df, filename=f'{filename}_rel.{ext}')
