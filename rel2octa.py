@@ -27,6 +27,10 @@ for metal_row in ['3d', '4d', '5d']:
                 if not pd.isna(df.at[index1, metal_row]) and not pd.isna(df.at[index2, metal_row]):
                     df.at[index1, metal_row] = df.at[index1, metal_row] - df.at[index2, metal_row]
 
+index_pattern = list(range(13)) * 5
+index_pattern = index_pattern[:m]
+df.index = index_pattern
+
 # Print the DataFrame (optional)
 print(df)
 
