@@ -44,9 +44,9 @@ for pattern in args.patterns:
     
     # Create the DataFrame
     data = {
-        '3d': [get_data(e, pattern) for e in elements_3d] * 5,
-        '4d': [get_data(e, pattern) for e in elements_4d] * 5,
-        '5d': [get_data(e, pattern) for e in elements_5d] * 5
+        '3d': [get_data(e, pattern) for e in elements_3d] * 6,
+        '4d': [get_data(e, pattern) for e in elements_4d] * 6,
+        '5d': [get_data(e, pattern) for e in elements_5d] * 6
     }
 
     # Since we need exactly 65 rows, let's slice the data
