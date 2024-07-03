@@ -57,9 +57,9 @@ for pattern in args.patterns:
     
     if pattern == 'boiling_point' or pattern == 'melting_point':
         for i in range(n):
-            j=12+i*13
-            print(j)
-            # df['4d'][]=df[i][2]['gray']
+            j = 13 * i + 12
+            df['4d'][j] = df['4d'][j]['gray']
+            print(df['4d'][j])
         
     # Set the index
     df.index = index_pattern
