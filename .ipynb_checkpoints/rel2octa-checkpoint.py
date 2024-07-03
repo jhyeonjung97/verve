@@ -12,8 +12,7 @@ def write(df, filename):
 data = sys.argv[1]
 
 # Read the data
-df = read(data)
-print(df)
+df = pd.read_csv(data, delimiter='\t').iloc[:, 1:]
 
 # Split filename and extension correctly
 filename, ext = data.rsplit('.', 1)
