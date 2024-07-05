@@ -144,91 +144,22 @@ elif [[ ${here} == 'nersc' ]]; then
     # python ~/bin/verve/sum.py -r 4d -x "Metal (MO)" -y "E_form - ICOHP - E_Madelung (eV/M-O)" -p merged_norm_formation_4d.tsv -m merged_ICOHP_4d.tsv merged_norm_MadelungL_4d.tsv -o cfse_4d
     # python ~/bin/verve/sum.py -r 5d -x "Metal (MO)" -y "E_form - ICOHP - E_Madelung (eV/M-O)" -p merged_norm_formation_5d.tsv -m merged_ICOHP_5d.tsv merged_norm_MadelungL_5d.tsv -o cfse_5d
     
-    # python ~/bin/verve/concat.py -o norm_formation --X *_*/merged_norm_formation.tsv
-    # python ~/bin/verve/concat.py -o norm_formation_rel --X *_*/summed_norm_formation_rel.tsv
-    # python ~/bin/verve/concat.py -o ICOHP --X *_*/merged_ICOHP.tsv
-    python ~/bin/verve/concat.py -o ICOHP_per_MO --X *_*/merged_ICOHP_per_MO.tsv
-    python ~/bin/verve/concat.py -o ICOHP_per_bond --X *_*/merged_ICOHP_per_bond.tsv
-    # python ~/bin/verve/concat.py -o ICOBI --X *_*/merged_ICOBI.tsv
-    # python ~/bin/verve/concat.py -o wICOHP --X *_*/merged_weighted_ICOHP.tsv
-    # python ~/bin/verve/concat.py -o norm_MadelungL --X *_*/merged_norm_MadelungL.tsv
-    # python ~/bin/verve/concat.py -o norm_wMadelungL --X *_*/merged_weighted_norm_MadelungL.tsv
-    # python ~/bin/verve/concat.py -o cfse --X *_*/merged_cfse.tsv
-    # python ~/bin/verve/concat.py -o IE1 --X *_*/merged_IE1.tsv
-    # python ~/bin/verve/concat.py -o IE2 --X *_*/merged_IE2.tsv
-    # python ~/bin/verve/concat.py -o IE3 --X *_*/merged_IE3.tsv
-    # python ~/bin/verve/concat.py -o IE12 --X *_*/merged_IE12.tsv
-    # python ~/bin/verve/concat.py -o sub --X *_*/merged_sub.tsv
-    # python ~/bin/verve/concat.py -o coord --X *_*/merged_coord.tsv
-    # python ~/bin/verve/concat.py -o row --X *_*/merged_row.tsv
-    # python ~/bin/verve/concat.py -o group --X *_*/merged_group.tsv
-    # python ~/bin/verve/concat.py -o element --X *_*/merged_element.tsv
-    # python ~/bin/verve/concat.py -o redoxP --X *_*/merged_redoxP.tsv
-    # python ~/bin/verve/concat.py -o redoxP_clean --X *_*/merged_redoxP_clean.tsv
-    # python ~/bin/verve/concat.py -o norm_volume --X *_*/merged_norm_volume.tsv
-    # python ~/bin/verve/concat.py -o mag --X *_*/merged_mag_M.tsv
-    # python ~/bin/verve/concat.py -o GP_L --X *_*/merged_GP_Loewdin_M.tsv
-    # python ~/bin/verve/concat.py -o chg --X *_*/merged_chg.tsv
-    # python ~/bin/verve/concat.py -o bond --X *_*/merged_bond.tsv
-    # python ~/bin/verve/concat.py -o melting --X *_*/merged_melting.tsv
-    # python ~/bin/verve/concat.py -o boiling --X *_*/merged_boiling.tsv
-    # python ~/bin/verve/concat.py -o neg --X *_*/merged_neg.tsv
-    # python ~/bin/verve/concat.py -o mass --X *_*/merged_mass.tsv
-    # python ~/bin/verve/concat.py -o number --X *_*/merged_number.tsv
-    # python ~/bin/verve/concat.py -o density --X *_*/merged_density.tsv
-
-    # python ~/bin/verve/lr.py -i wICOHP MadelungL CFSE IE12 --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv 
-    # python ~/bin/verve/lr.py -r 3 -i wICOHP MadelungL CFSE IE12 --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv 
-    # python ~/bin/verve/lr.py -r 4 -i wICOHP MadelungL CFSE IE12 --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv 
-    # python ~/bin/verve/lr.py -r 5 -i wICOHP MadelungL CFSE IE12 --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv 
-    
-    # python ~/bin/verve/lr.py -i wICOHP MadelungL CFSE IE12 --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv 
-    # python ~/bin/verve/lr.py -r 3 -i wICOHP MadelungL CFSE IE12 --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv 
-    # python ~/bin/verve/lr.py -r 4 -i wICOHP MadelungL CFSE IE12 --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv 
-    # python ~/bin/verve/lr.py -r 5 -i wICOHP MadelungL CFSE IE12 --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv 
-
-    # python ~/bin/verve/lr.py -i ICOHP MadelungL CFSE IE1 IE2 IE3 E_sub --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv 
-    # python ~/bin/verve/lr.py -o w -i wICOHP MadelungL CFSE IE1 IE2 IE3 E_sub --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv
-
-    # python ~/bin/verve/lr.py -o wICOHP -i MadelungL CFSE IE1 IE2 IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv   
-    # python ~/bin/verve/lr.py -o MadelungL -i wICOHP CFSE IE1 IE2 IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
-    # python ~/bin/verve/lr.py -o CFSE -i wICOHP MadelungL IE1 IE2 IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
-    # python ~/bin/verve/lr.py -o IE1 -i wICOHP MadelungL CFSE IE2 IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
-    # python ~/bin/verve/lr.py -o IE2 -i wICOHP MadelungL CFSE IE1 IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
-    # python ~/bin/verve/lr.py -o IE3 -i wICOHP MadelungL CFSE IE1 IE2 E_sub row group --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
-    # python ~/bin/verve/lr.py -o E_sub -i wICOHP MadelungL CFSE IE1 IE2 IE3 row group --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_row.tsv concat_group.tsv
-    # python ~/bin/verve/lr.py -o row -i wICOHP MadelungL CFSE IE1 IE2 IE3 E_sub group --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv concat_group.tsv
-    # python ~/bin/verve/lr.py -o group -i wICOHP MadelungL CFSE IE1 IE2 IE3 E_sub row --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv
-    # python ~/bin/verve/lr.py -i wICOHP MadelungL CFSE IE12 IE3 E_sub row --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE12.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv
-    
-    # python ~/bin/verve/lr.py -i ICOHP MadelungL CFSE IE1 IE2 IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
-    # python ~/bin/verve/lr.py -o wICOHP -i wICOHP MadelungL CFSE IE1 IE2 IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
-    # python ~/bin/verve/lr.py -o wICOHP_wMadelung -i wICOHP wMadelungL CFSE IE1 IE2 IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_wMadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
-    
-    # python ~/bin/verve/lr.py -r 3 -i ICOHP MadelungL CFSE IE1 IE2 IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
-    # python ~/bin/verve/lr.py -r 4 -i ICOHP MadelungL CFSE IE1 IE2 IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
-    # python ~/bin/verve/lr.py -r 5 -i ICOHP MadelungL CFSE IE1 IE2 IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
-    # python ~/bin/verve/lr.py -c WZ -i ICOHP MadelungL CFSE IE1 IE2 IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
-    # python ~/bin/verve/lr.py -c ZB -i ICOHP MadelungL CFSE IE1 IE2 IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
-    # python ~/bin/verve/lr.py -c TN -i ICOHP MadelungL CFSE IE1 IE2 IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
-    # python ~/bin/verve/lr.py -c 33 -i ICOHP MadelungL CFSE IE1 IE2 IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
-    # python ~/bin/verve/lr.py -c RS -i ICOHP MadelungL CFSE IE1 IE2 IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
-    # python ~/bin/verve/lr.py -z -i ICOHP MadelungL CFSE IE1 IE2 IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
-    # python ~/bin/verve/lr.py -z -r 3 -i ICOHP MadelungL CFSE IE1 IE2 IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
-    # python ~/bin/verve/lr.py -z -r 4 -i ICOHP MadelungL CFSE IE1 IE2 IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
-    # python ~/bin/verve/lr.py -z -r 5 -i ICOHP MadelungL CFSE IE1 IE2 IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
-    
-    # python ~/bin/verve/lr.py -i wICOHP MadelungL CFSE IE1 IE2 IE3 E_sub row group redoxP --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv concat_redoxP.tsv
-    # python ~/bin/verve/lr.py -o IE12 -i ICOHP MadelungL CFSE IE12 IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_IE12.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv
-    # python ~/bin/verve/lr.py -o redoxP_clean -i ICOHP MadelungL CFSE redoxP IE3 E_sub row group --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_cfse.tsv concat_redoxP_clean.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv 
-
-    # python ~/bin/verve/lr.py -i ICOHP wICOHP ICOBI MadelungL volume bond chg GP_L CFSE IE1 IE2 IE12 redoxP IE3 E_sub row group number negativity melting boiling density mass --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_ICOBI.tsv concat_norm_MadelungL.tsv concat_norm_volume.tsv concat_bond.tsv concat_chg.tsv concat_GP_L.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv concat_number.tsv concat_neg.tsv concat_melting.tsv concat_boiling.tsv concat_density.tsv concat_mass.tsv
-    python ~/bin/verve/lr.py -i ICOHP wICOHP ICOBI MadelungL volume bond chg GP_L CFSE IE1 IE2 IE12 IE3 E_sub row group number negativity melting boiling density mass --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_ICOBI.tsv concat_norm_MadelungL.tsv concat_norm_volume.tsv concat_bond.tsv concat_chg.tsv concat_GP_L.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv concat_number.tsv concat_neg.tsv concat_melting.tsv concat_boiling.tsv concat_density.tsv concat_mass.tsv
-    # python ~/bin/verve/lr.py -i wICOHP MadelungL volume chg CFSE redoxP number --Y concat_norm_formation.tsv --X concat_wICOHP.tsv concat_norm_MadelungL.tsv concat_norm_volume.tsv concat_chg.tsv concat_cfse.tsv concat_redoxP.tsv concat_number.tsv
-    # python ~/bin/verve/lr.py -z -i ICOHP wICOHP ICOBI MadelungL volume bond chg GP_L CFSE IE1 IE2 IE12 redoxP_clean IE3 E_sub row group number negativity melting boiling density mass --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_ICOBI.tsv concat_norm_MadelungL.tsv concat_norm_volume.tsv concat_bond.tsv concat_chg.tsv concat_GP_L.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP_clean.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv concat_number.tsv concat_neg.tsv concat_melting.tsv concat_boiling.tsv concat_density.tsv concat_mass.tsv
-    # python ~/bin/verve/lr.py -i ICOHP wICOHP ICOBI MadelungL volume bond chg GP_L CFSE IE1 IE2 IE12 IE3 E_sub row group number negativity melting boiling density mass --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_ICOBI.tsv concat_norm_MadelungL.tsv concat_norm_volume.tsv concat_bond.tsv concat_chg.tsv concat_GP_L.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv concat_number.tsv concat_neg.tsv concat_melting.tsv concat_boiling.tsv concat_density.tsv concat_mass.tsv
-    # python ~/bin/verve/lr.py -o clean -i ICOHP wICOHP ICOBI MadelungL volume bond chg GP_L CFSE IE1 IE2 IE12 redoxP_clean IE3 E_sub row group number negativity melting boiling density mass --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_ICOBI.tsv concat_norm_MadelungL.tsv concat_norm_volume.tsv concat_bond.tsv concat_chg.tsv concat_GP_L.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP_clean.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv concat_number.tsv concat_neg.tsv concat_melting.tsv concat_boiling.tsv concat_density.tsv concat_mass.tsv
-    # python ~/bin/verve/lr.py -i ICOHP wICOHP ICOBI MadelungL volume bond chg GP_L IE1 IE2 IE12 redoxP IE3 E_sub row group number negativity melting boiling density mass --Y concat_norm_formation_rel.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_ICOBI.tsv concat_norm_MadelungL.tsv concat_norm_volume.tsv concat_bond.tsv concat_chg.tsv concat_GP_L.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv concat_number.tsv concat_neg.tsv concat_melting.tsv concat_boiling.tsv concat_density.tsv concat_mass.tsv
+python ~/bin/verve/concat.py -o norm_formation --X *_*_*/merged_norm_formation.tsv
+python ~/bin/verve/concat.py -o norm_formation_rel --X *_*_*/summed_norm_formation_rel.tsv
+python ~/bin/verve/concat.py -o ICOHP --X *_*_*/merged_ICOHP.tsv
+python ~/bin/verve/concat.py -o ICOHP_per_MO --X *_*_*/merged_ICOHP_per_MO.tsv
+python ~/bin/verve/concat.py -o ICOHP_per_bond --X *_*_*/merged_ICOHP_per_bond.tsv
+python ~/bin/verve/concat.py -o ICOBI --X *_*_*/merged_ICOBI.tsv
+python ~/bin/verve/concat.py -o wICOHP --X *_*_*/merged_weighted_ICOHP.tsv
+python ~/bin/verve/concat.py -o norm_MadelungL --X *_*_*/merged_norm_MadelungL.tsv
+python ~/bin/verve/concat.py -o norm_wMadelungL --X *_*_*/merged_weighted_norm_MadelungL.tsv
+python ~/bin/verve/concat.py -o GrossPopulationL --X *_*_*/merged_GP_Loewdin_M.tsv
+python ~/bin/verve/concat.py -o norm_volume --X *_*_*/merged_norm_volume.tsv
+python ~/bin/verve/concat.py -o bond --X *_*_*/merged_bond.tsv
+python ~/bin/verve/concat.py -o chg --X *_*_*/merged_chg.tsv
+python ~/bin/verve/concat.py -o redoxP --X *_*_*/merged_redoxP.tsv
+python ~/bin/verve/concat.py -o redoxP_clean --X *_*_*/merged_redoxP_clean.tsv
+python ~/bin/verve/concat.py -o sub --X *_*_*/merged_sub.tsv
 
 python ~/bin/verve/lr.py -i \
 ICOHP_per_bond \
@@ -291,27 +222,6 @@ concat_heat_of_formation.tsv \
 concat_sublimation.tsv \
 concat_evaporation_heat.tsv \
 concat_fusion_heat.tsv
-
-
-python ~/bin/verve/lr.py -i \
-ICOHP \
-volume \
-chg \
-atomic_number \
-ionenergies3 \
-en_pauling \
-density \
-evaporation_heat \
---Y concat_norm_formation_rel.tsv \
---X \
-concat_ICOHP.tsv \
-concat_norm_volume.tsv \
-concat_chg.tsv \
-concat_atomic_number.tsv \
-concat_ionenergies_3.tsv \
-concat_en_pauling.tsv \
-concat_density.tsv \
-concat_evaporation_heat.tsv
 
     # python ~/bin/verve/gpr.py -i ICOHP wICOHP ICOBI MadelungL volume bond chg GP_L CFSE IE1 IE2 IE12 redoxP IE3 E_sub row group number negativity melting boiling density mass --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_ICOBI.tsv concat_norm_MadelungL.tsv concat_norm_volume.tsv concat_bond.tsv concat_chg.tsv concat_GP_L.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv concat_number.tsv concat_neg.tsv concat_melting.tsv concat_boiling.tsv concat_density.tsv concat_mass.tsv
     # python ~/bin/verve/gpr-optuna.py -i ICOHP wICOHP ICOBI MadelungL volume bond chg GP_L CFSE IE1 IE2 IE12 redoxP IE3 E_sub row group number negativity melting boiling density mass --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_ICOBI.tsv concat_norm_MadelungL.tsv concat_norm_volume.tsv concat_bond.tsv concat_chg.tsv concat_GP_L.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv concat_number.tsv concat_neg.tsv concat_melting.tsv concat_boiling.tsv concat_density.tsv concat_mass.tsv
