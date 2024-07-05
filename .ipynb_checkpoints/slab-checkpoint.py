@@ -83,8 +83,8 @@ for file in matching_files:
         atoms.cell = (l1, l2, height, a1, a2, a3)
     if args.vector:
         # print('vector')
-        V = [[1, 1, 0],
-             [0, 1, 0],
+        V = [[1, -1, 0],
+             [1, 1, 0],
              [0, 0, 1]]
         atoms = make_supercell(atoms, V)
     if args.fix:
