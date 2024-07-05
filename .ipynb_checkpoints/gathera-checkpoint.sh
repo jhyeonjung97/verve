@@ -1,0 +1,13 @@
+cp 00*/CONTCAR $100.vasp
+cp 01*/CONTCAR $101.vasp
+cp 02*/CONTCAR $102.vasp
+cp 03*/CONTCAR $103.vasp
+cp 04*/CONTCAR $104.vasp
+cp 05*/CONTCAR $105.vasp
+cp 06*/CONTCAR $106.vasp
+cp 07*/CONTCAR $107.vasp
+cp 08*/CONTCAR $108.vasp
+cp 09*/CONTCAR $109.vasp
+cp 10*/CONTCAR $110.vasp
+cp 11*/CONTCAR $111.vasp
+cp 12*/CONTCAR $112.vasp
