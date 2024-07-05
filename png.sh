@@ -145,7 +145,12 @@ elif [[ ${here} == 'nersc' ]]; then
     # python ~/bin/verve/sum.py -r 5d -x "Metal (MO)" -y "E_form - ICOHP - E_Madelung (eV/M-O)" -p merged_norm_formation_5d.tsv -m merged_ICOHP_5d.tsv merged_norm_MadelungL_5d.tsv -o cfse_5d
     
 python ~/bin/verve/concat.py -o norm_formation --X *_*_*/merged_norm_formation.tsv
+<<<<<<< HEAD
 python ~/bin/verve/concat.py -o norm_formation_rel --X *_*_*/summed_norm_formation_rel.tsv
+=======
+python ~/bin/verve/concat.py -o coord --X *_*_*/merged_coord.tsv
+python ~/bin/verve/concat.py -o element --X *_*_*/merged_element.tsv
+>>>>>>> e5d86dffd6f3938c04c338cc41a557303a3ece54
 python ~/bin/verve/concat.py -o ICOHP --X *_*_*/merged_ICOHP.tsv
 python ~/bin/verve/concat.py -o ICOHP_per_MO --X *_*_*/merged_ICOHP_per_MO.tsv
 python ~/bin/verve/concat.py -o ICOHP_per_bond --X *_*_*/merged_ICOHP_per_bond.tsv
@@ -160,6 +165,10 @@ python ~/bin/verve/concat.py -o chg --X *_*_*/merged_chg.tsv
 python ~/bin/verve/concat.py -o redoxP --X *_*_*/merged_redoxP.tsv
 python ~/bin/verve/concat.py -o redoxP_clean --X *_*_*/merged_redoxP_clean.tsv
 python ~/bin/verve/concat.py -o sub --X *_*_*/merged_sub.tsv
+<<<<<<< HEAD
+=======
+
+>>>>>>> e5d86dffd6f3938c04c338cc41a557303a3ece54
 
 python ~/bin/verve/lr.py -i \
 ICOHP_per_bond \
@@ -191,7 +200,7 @@ heat_of_formation \
 sublimation_heat \
 evaporation_heat \
 fusion_heat \
---Y concat_norm_formation_rel.tsv \
+--Y concat_norm_formation.tsv \
 --X \
 concat_ICOHP_per_bond.tsv \
 concat_ICOHP_per_MO.tsv \

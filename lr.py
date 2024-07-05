@@ -138,10 +138,10 @@ def main():
     correlation_matrix = M.corr()
     abs_correlation_matrix = correlation_matrix.abs()
     
-    plt.figure(figsize=(4, 3), dpi=200) # Set the figure size as needed
+    plt.figure(dpi=numb*10) # Set the figure size as needed
     
     # Create the heatmap
-    ax = sns.heatmap(correlation_matrix, annot=True, fmt=".2f", annot_kws={"size": 5}, cmap='coolwarm')
+    ax = sns.heatmap(correlation_matrix, annot=True, fmt=".2f", annot_kws={"size": 4}, cmap='coolwarm')
 
     # Set x-ticks with custom labels, rotation, alignment, and font size
     ax.set_xticks(np.arange(M.shape[1]) + 0.5)
@@ -163,31 +163,31 @@ def main():
     plt.gcf().savefig(f'covariance_matrix{str(filename)}.png', bbox_inches="tight")
     plt.close()
     
-    plt.figure(figsize=(4, 3), dpi=200) # Set the figure size as needed
+    plt.figure(dpi=numb*10) # Set the figure size as needed
     
     # Create the heatmap
-    ax = sns.heatmap(abs_correlation_matrix, annot=True, fmt=".2f", annot_kws={"size": 5},
-                     cmap='coolwarm', center=0, vmin=0, vmax=1)
+#     ax = sns.heatmap(abs_correlation_matrix, annot=True, fmt=".2f", annot_kws={"size": 5},
+#                      cmap='coolwarm', center=0, vmin=0, vmax=1)
 
-    # Set x-ticks with custom labels, rotation, alignment, and font size
-    ax.set_xticks(np.arange(M.shape[1]) + 0.5)
-    ax.set_xticklabels(M.columns, rotation=90, ha='right', fontsize=6)
+#     # Set x-ticks with custom labels, rotation, alignment, and font size
+#     ax.set_xticks(np.arange(M.shape[1]) + 0.5)
+#     ax.set_xticklabels(M.columns, rotation=90, ha='right', fontsize=6)
 
-    # Set y-ticks with custom labels, alignment, and font size
-    ax.set_yticks(np.arange(M.shape[1]) + 0.5)
-    ax.set_yticklabels(M.columns, rotation=0, va='center', fontsize=6)
+#     # Set y-ticks with custom labels, alignment, and font size
+#     ax.set_yticks(np.arange(M.shape[1]) + 0.5)
+#     ax.set_yticklabels(M.columns, rotation=0, va='center', fontsize=6)
 
-    # Move the x-ticks to the top
-    ax.xaxis.set_ticks_position('top')
-    ax.xaxis.set_label_position('top')
+#     # Move the x-ticks to the top
+#     ax.xaxis.set_ticks_position('top')
+#     ax.xaxis.set_label_position('top')
     
-    # Adjust the font size of the color bar
-    cbar = ax.collections[0].colorbar
-    cbar.ax.tick_params(labelsize=6)
+#     # Adjust the font size of the color bar
+#     cbar = ax.collections[0].colorbar
+#     cbar.ax.tick_params(labelsize=6)
 
-    plt.tight_layout()
-    plt.gcf().savefig(f'abs_covariance_matrix{str(filename)}.png', bbox_inches="tight")
-    plt.close()
+#     plt.tight_layout()
+#     plt.gcf().savefig(f'abs_covariance_matrix{str(filename)}.png', bbox_inches="tight")
+#     plt.close()
     
 if __name__ == "__main__":
     main()
