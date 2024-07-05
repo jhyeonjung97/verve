@@ -61,7 +61,7 @@ alias xc='python ~/bin/pyband/xcell.py
 mv out_1x1x1.vasp POSCAR'
 alias dz='python ~/bin/verve/dz.py'
 alias spreada='sh ~/bin/verve/spreada.sh'
-alias gathera='sh ~/bin/verve/gather.sh'
+alias gathera='sh ~/bin/verve/gathera.sh'
 
 # Analysis
 alias dp='display'
