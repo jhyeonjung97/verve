@@ -23,7 +23,7 @@ def main(input_file, output_file):
         sorted_atoms_obj.set_constraint(atoms.constraints)
     
     # Get the position of the first atom
-    first_atom_position = sorted_atoms_obj.positions[8]
+    first_atom_position = sorted_atoms_obj.positions[0]
     
     # Calculate the center of the x and y axes of the unit cell
     cell = sorted_atoms_obj.get_cell()
@@ -31,7 +31,7 @@ def main(input_file, output_file):
     center_y = cell[1, 1] / 2
     
     # Calculate the displacement to move the first atom to the center of the x and y axes
-    displacement = [-first_atom_position[0], -first_atom_position[1], 0]
+    displacement = [-first_atom_position[0], -first_atom_position[1]+0.2, 0]
     # displacement = [center_x - first_atom_position[0], center_y - first_atom_position[1], 0]
     
     # Apply the displacement to all atoms

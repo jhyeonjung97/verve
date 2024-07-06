@@ -89,8 +89,17 @@ for file in matching_files:
         # V = np.array([[1, -1, 1],
         #               [-1, 1, 1],
         #               [-1, -1, 1]])
-        V = np.array([[1, 1, 0],
-                      [-1, 1, 0],
+        # V = np.array([[1, 1, 0],
+        #               [-1, 1, 0],
+        #               [0, 0, 1]])
+        # V = np.array([[0, 1, 0],
+        #               [1, 0, 0],
+        # #               [0, 0, -1]])
+        # V = np.array([[3, -1, -1],
+        #               [-1, 3, -1],
+        #               [-1, -1, 3]])
+        V = np.array([[1, 0, 0],
+                      [1, 1, 0],
                       [0, 0, 1]])
         atoms = make_supercell(atoms, V)
     if args.fix:
