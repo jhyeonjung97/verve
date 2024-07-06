@@ -157,9 +157,16 @@ python ~/bin/verve/rel2octa.py concat_redoxP.tsv
 python ~/bin/verve/rel2octa.py concat_redoxP_clean.tsv
 
 python ~/bin/verve/concat.py -o norm_formation --X *_*_*/merged_norm_formation.tsv
+<<<<<<< HEAD
 python ~/bin/verve/concat.py -o norm_formation_rel --X *_*_*/summed_norm_formation_rel.tsv
+=======
+<<<<<<< HEAD
+python ~/bin/verve/concat.py -o norm_formation_rel --X *_*_*/summed_norm_formation_rel.tsv
+=======
+>>>>>>> 131cc4c1e8b23ac931110d55b367032c6c76fdee
 python ~/bin/verve/concat.py -o coord --X *_*_*/merged_coord.tsv
 python ~/bin/verve/concat.py -o element --X *_*_*/merged_element.tsv
+>>>>>>> e5d86dffd6f3938c04c338cc41a557303a3ece54
 python ~/bin/verve/concat.py -o ICOHP --X *_*_*/merged_ICOHP.tsv
 python ~/bin/verve/concat.py -o ICOHP_per_MO --X *_*_*/merged_ICOHP_per_MO.tsv
 python ~/bin/verve/concat.py -o ICOHP_per_bond --X *_*_*/merged_ICOHP_per_bond.tsv
@@ -168,6 +175,25 @@ python ~/bin/verve/concat.py -o wICOHP --X *_*_*/merged_weighted_ICOHP.tsv
 python ~/bin/verve/concat.py -o norm_MadelungL --X *_*_*/merged_norm_MadelungL.tsv
 python ~/bin/verve/concat.py -o norm_wMadelungL --X *_*_*/merged_weighted_norm_MadelungL.tsv
 python ~/bin/verve/concat.py -o GrossPopulationL --X *_*_*/merged_GP_Loewdin_M.tsv
+<<<<<<< HEAD
+python ~/bin/verve/concat.py -o bond --X *_*_*/merged_bond.tsv
+python ~/bin/verve/concat.py -o norm_volume --X *_*_*/merged_norm_volume.tsv
+python ~/bin/verve/concat.py -o chg --X *_*_*/merged_chg.tsv
+python ~/bin/verve/concat.py -o sub --X *_*_*/merged_sub.tsv
+python ~/bin/verve/concat.py -o coord --X *_*_*/merged_coord.tsv
+python ~/bin/verve/concat.py -o row --X *_*_*/merged_row.tsv
+python ~/bin/verve/concat.py -o group --X *_*_*/merged_group.tsv
+python ~/bin/verve/concat.py -o element --X *_*_*/merged_element.tsv
+python ~/bin/verve/concat.py -o redoxP --X *_*_*/merged_redoxP.tsv
+python ~/bin/verve/concat.py -o redoxP_clean --X *_*_*/merged_redoxP_clean.tsv
+python ~/bin/verve/concat.py -o mag --X *_*_*/merged_mag_M.tsv
+python ~/bin/verve/concat.py -o melting --X *_*_*/merged_melting.tsv
+python ~/bin/verve/concat.py -o boiling --X *_*_*/merged_boiling.tsv
+python ~/bin/verve/concat.py -o neg --X *_*_*/merged_neg.tsv
+python ~/bin/verve/concat.py -o mass --X *_*_*/merged_mass.tsv
+python ~/bin/verve/concat.py -o number --X *_*_*/merged_number.tsv
+python ~/bin/verve/concat.py -o density --X *_*_*/merged_density.tsv
+=======
 python ~/bin/verve/concat.py -o norm_volume --X *_*_*/merged_norm_volume.tsv
 python ~/bin/verve/concat.py -o bond --X *_*_*/merged_bond.tsv
 python ~/bin/verve/concat.py -o chg --X *_*_*/merged_chg.tsv
@@ -176,6 +202,7 @@ python ~/bin/verve/concat.py -o redoxP_clean --X *_*_*/merged_redoxP_clean.tsv
 python ~/bin/verve/concat.py -o sublimation --X *_*_*/merged_sub.tsv
 python ~/bin/verve/concat.py -o row --X *_*_*/merged_row.tsv
 
+<<<<<<< HEAD
 python ~/bin/verve/lr.py -i \
 ICOHP_per_bond \
 ICOHP_per_MO \
@@ -235,6 +262,9 @@ concat_melting_point.tsv \
 concat_boiling_point.tsv \
 concat_sublimation.tsv \
 concat_fusion_heat.tsv
+=======
+>>>>>>> e5d86dffd6f3938c04c338cc41a557303a3ece54
+>>>>>>> 131cc4c1e8b23ac931110d55b367032c6c76fdee
 
 python ~/bin/verve/lr.py -i \
 ICOHP_per_bond \
