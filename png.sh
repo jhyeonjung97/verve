@@ -143,8 +143,21 @@ elif [[ ${here} == 'nersc' ]]; then
     # python ~/bin/verve/sum.py -r 3d -x "Metal (MO)" -y "E_form - ICOHP - E_Madelung (eV/M-O)" -p merged_norm_formation_3d.tsv -m merged_ICOHP_3d.tsv merged_norm_MadelungL_3d.tsv -o cfse_3d
     # python ~/bin/verve/sum.py -r 4d -x "Metal (MO)" -y "E_form - ICOHP - E_Madelung (eV/M-O)" -p merged_norm_formation_4d.tsv -m merged_ICOHP_4d.tsv merged_norm_MadelungL_4d.tsv -o cfse_4d
     # python ~/bin/verve/sum.py -r 5d -x "Metal (MO)" -y "E_form - ICOHP - E_Madelung (eV/M-O)" -p merged_norm_formation_5d.tsv -m merged_ICOHP_5d.tsv merged_norm_MadelungL_5d.tsv -o cfse_5d
-    
+
+python ~/bin/verve/rel2octa.py concat_norm_formation.tsv
+python ~/bin/verve/rel2octa.py concat_ICOHP_per_MO.tsv
+python ~/bin/verve/rel2octa.py concat_ICOHP_per_bond.tsv
+python ~/bin/verve/rel2octa.py concat_ICOBI.tsv
+python ~/bin/verve/rel2octa.py concat_norm_MadelungL.tsv
+python ~/bin/verve/rel2octa.py concat_GrossPopulationL.tsv
+python ~/bin/verve/rel2octa.py concat_norm_volume.tsv
+python ~/bin/verve/rel2octa.py concat_bond.tsv
+python ~/bin/verve/rel2octa.py concat_chg.tsv
+python ~/bin/verve/rel2octa.py concat_redoxP.tsv
+python ~/bin/verve/rel2octa.py concat_redoxP_clean.tsv
+
 python ~/bin/verve/concat.py -o norm_formation --X *_*_*/merged_norm_formation.tsv
+python ~/bin/verve/concat.py -o norm_formation_rel --X *_*_*/summed_norm_formation_rel.tsv
 python ~/bin/verve/concat.py -o coord --X *_*_*/merged_coord.tsv
 python ~/bin/verve/concat.py -o element --X *_*_*/merged_element.tsv
 python ~/bin/verve/concat.py -o ICOHP --X *_*_*/merged_ICOHP.tsv
@@ -160,8 +173,68 @@ python ~/bin/verve/concat.py -o bond --X *_*_*/merged_bond.tsv
 python ~/bin/verve/concat.py -o chg --X *_*_*/merged_chg.tsv
 python ~/bin/verve/concat.py -o redoxP --X *_*_*/merged_redoxP.tsv
 python ~/bin/verve/concat.py -o redoxP_clean --X *_*_*/merged_redoxP_clean.tsv
-python ~/bin/verve/concat.py -o sub --X *_*_*/merged_sub.tsv
+python ~/bin/verve/concat.py -o sublimation --X *_*_*/merged_sub.tsv
+python ~/bin/verve/concat.py -o row --X *_*_*/merged_row.tsv
 
+python ~/bin/verve/lr.py -i \
+ICOHP_per_bond \
+ICOHP_per_MO \
+ICOBI \
+MadelungL \
+GrossPopulationL \
+volume \
+bond \
+chg \
+atomic_number \
+group_id \
+row \
+mass \
+atomic_volume \
+redoxP \
+ionenergies1 \
+ionenergies2 \
+ionenergies12 \
+ionenergies3 \
+dipole_polarizability \
+en_pauling \
+density \
+covalent_radius \
+metallic_radius \
+vdw_radius \
+melting_point \
+boiling_point \
+sublimation_heat \
+fusion_heat \
+--Y concat_norm_formation.tsv \
+--X \
+concat_ICOHP_per_bond.tsv \
+concat_ICOHP_per_MO.tsv \
+concat_ICOBI.tsv \
+concat_norm_MadelungL.tsv \
+concat_GrossPopulationL.tsv \
+concat_norm_volume.tsv \
+concat_bond.tsv \
+concat_chg.tsv \
+concat_atomic_number.tsv \
+concat_group_id.tsv \
+concat_row.tsv \
+concat_mass.tsv \
+concat_atomic_volume.tsv \
+concat_redoxP.tsv \
+concat_ionenergies_1.tsv \
+concat_ionenergies_2.tsv \
+concat_ionenergies_12.tsv \
+concat_ionenergies_3.tsv \
+concat_dipole_polarizability.tsv \
+concat_en_pauling.tsv \
+concat_density.tsv \
+concat_covalent_radius.tsv \
+concat_metallic_radius.tsv \
+concat_vdw_radius.tsv \
+concat_melting_point.tsv \
+concat_boiling_point.tsv \
+concat_sublimation.tsv \
+concat_fusion_heat.tsv
 
 python ~/bin/verve/lr.py -i \
 ICOHP_per_bond \
@@ -189,9 +262,7 @@ metallic_radius \
 vdw_radius \
 melting_point \
 boiling_point \
-heat_of_formation \
 sublimation_heat \
-evaporation_heat \
 fusion_heat \
 --Y concat_norm_formation.tsv \
 --X \
@@ -199,7 +270,7 @@ concat_ICOHP_per_bond.tsv \
 concat_ICOHP_per_MO.tsv \
 concat_ICOBI.tsv \
 concat_norm_MadelungL.tsv \
-concat_GrossPoluationL.tsv \
+concat_GrossPopulationL.tsv \
 concat_norm_volume.tsv \
 concat_bond.tsv \
 concat_chg.tsv \
@@ -220,9 +291,123 @@ concat_metallic_radius.tsv \
 concat_vdw_radius.tsv \
 concat_melting_point.tsv \
 concat_boiling_point.tsv \
-concat_heat_of_formation.tsv \
 concat_sublimation.tsv \
-concat_evaporation_heat.tsv \
+concat_fusion_heat.tsv
+
+python ~/bin/verve/lr.py -i \
+ICOHP_per_bond \
+ICOHP_per_MO \
+ICOBI \
+MadelungL \
+GrossPopulationL \
+volume \
+bond \
+chg \
+atomic_number \
+group_id \
+row \
+mass \
+atomic_volume \
+ionenergies1 \
+ionenergies2 \
+ionenergies12 \
+ionenergies3 \
+dipole_polarizability \
+en_pauling \
+density \
+covalent_radius \
+metallic_radius \
+vdw_radius \
+melting_point \
+boiling_point \
+sublimation_heat \
+fusion_heat \
+--Y concat_norm_formation_rel.tsv \
+--X \
+concat_ICOHP_per_bond.tsv \
+concat_ICOHP_per_MO.tsv \
+concat_ICOBI.tsv \
+concat_norm_MadelungL.tsv \
+concat_GrossPopulationL.tsv \
+concat_norm_volume.tsv \
+concat_bond.tsv \
+concat_chg.tsv \
+concat_atomic_number.tsv \
+concat_group_id.tsv \
+concat_row.tsv \
+concat_mass.tsv \
+concat_atomic_volume.tsv \
+concat_ionenergies_1.tsv \
+concat_ionenergies_2.tsv \
+concat_ionenergies_12.tsv \
+concat_ionenergies_3.tsv \
+concat_dipole_polarizability.tsv \
+concat_en_pauling.tsv \
+concat_density.tsv \
+concat_covalent_radius.tsv \
+concat_metallic_radius.tsv \
+concat_vdw_radius.tsv \
+concat_melting_point.tsv \
+concat_boiling_point.tsv \
+concat_sublimation.tsv \
+concat_fusion_heat.tsv
+
+python ~/bin/verve/lr.py -o rel -i \
+ICOHP_per_bond_rel \
+ICOHP_per_MO_rel \
+ICOBI_rel \
+MadelungL_rel \
+GrossPopulationL_rel \
+volume_rel \
+bond_rel \
+chg_rel \
+atomic_number \
+group_id \
+row \
+mass \
+atomic_volume \
+ionenergies1 \
+ionenergies2 \
+ionenergies12 \
+ionenergies3 \
+dipole_polarizability \
+en_pauling \
+density \
+covalent_radius \
+metallic_radius \
+vdw_radius \
+melting_point \
+boiling_point \
+sublimation_heat \
+fusion_heat \
+--Y concat_norm_formation_rel.tsv \
+--X \
+concat_ICOHP_per_bond_rel.tsv \
+concat_ICOHP_per_MO_rel.tsv \
+concat_ICOBI_rel.tsv \
+concat_norm_MadelungL_rel.tsv \
+concat_GrossPopulationL_rel.tsv \
+concat_norm_volume_rel.tsv \
+concat_bond_rel.tsv \
+concat_chg_rel.tsv \
+concat_atomic_number.tsv \
+concat_group_id.tsv \
+concat_row.tsv \
+concat_mass.tsv \
+concat_atomic_volume.tsv \
+concat_ionenergies_1.tsv \
+concat_ionenergies_2.tsv \
+concat_ionenergies_12.tsv \
+concat_ionenergies_3.tsv \
+concat_dipole_polarizability.tsv \
+concat_en_pauling.tsv \
+concat_density.tsv \
+concat_covalent_radius.tsv \
+concat_metallic_radius.tsv \
+concat_vdw_radius.tsv \
+concat_melting_point.tsv \
+concat_boiling_point.tsv \
+concat_sublimation.tsv \
 concat_fusion_heat.tsv
 
     # python ~/bin/verve/gpr.py -i ICOHP wICOHP ICOBI MadelungL volume bond chg GP_L CFSE IE1 IE2 IE12 redoxP IE3 E_sub row group number negativity melting boiling density mass --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_ICOBI.tsv concat_norm_MadelungL.tsv concat_norm_volume.tsv concat_bond.tsv concat_chg.tsv concat_GP_L.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv concat_number.tsv concat_neg.tsv concat_melting.tsv concat_boiling.tsv concat_density.tsv concat_mass.tsv
