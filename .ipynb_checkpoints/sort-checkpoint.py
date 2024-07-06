@@ -23,7 +23,7 @@ def main(input_file, output_file):
         sorted_atoms_obj.set_constraint(atoms.constraints)
     
     # Get the position of the first atom
-    first_atom_position = sorted_atoms_obj.positions[16]
+    first_atom_position = sorted_atoms_obj.positions[8]
     
     # Calculate the center of the x and y axes of the unit cell
     cell = sorted_atoms_obj.get_cell()
