@@ -38,10 +38,10 @@ else:
     print("No band gap found.")
 
 # Plotting the DOS
-# plt.plot(energies, spin_up_dos, label="Spin Up DOS")
-# plt.plot(energies, spin_down_dos, label="Spin Down DOS")
-# plt.axvline(x=0, color='r', linestyle='--', label="Fermi Level")
-# plt.xlabel("Energy (eV)")
-# plt.ylabel("DOS")
-# plt.legend()
-# plt.show()
+plt.plot(energies, spin_up_dos, label="Spin Up DOS")
+plt.plot(energies, spin_down_dos, label="Spin Down DOS")
+plt.axvline(x=0, color='r', linestyle='--', label="Fermi Level")
+plt.xlabel("Energy (eV)")
+plt.ylabel("DOS")
+plt.legend()
+plt.show()
