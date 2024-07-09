@@ -16,21 +16,15 @@ def generate_symmetries(comb):
     
     # Define the indices for each rotation
     rotation_indices = [
-        # 90-degree rotations around x-axis
         [0, 1, 5, 4, 3, 2, 6, 7], [0, 1, 6, 7, 4, 5, 2, 3], [0, 1, 2, 3, 4, 5, 6, 7],
-        # 90-degree rotations around y-axis
         [4, 0, 3, 7, 5, 1, 2, 6], [1, 5, 6, 2, 0, 4, 7, 3], [4, 5, 6, 7, 0, 1, 2, 3],
-        # 90-degree rotations around z-axis
         [1, 2, 6, 5, 0, 3, 7, 4], [3, 2, 6, 7, 0, 1, 5, 4], [0, 3, 7, 4, 1, 2, 6, 5]
     ]
     
     # Define the indices for each reflection
     reflection_indices = [
-        # Reflections across the xy-plane
         [4, 5, 6, 7, 0, 1, 2, 3],
-        # Reflections across the yz-plane
         [1, 0, 3, 2, 5, 4, 7, 6],
-        # Reflections across the xz-plane
         [2, 3, 0, 1, 6, 7, 4, 5]
     ]
     
@@ -85,7 +79,7 @@ def has_minimal_duplicates(combination):
 # Check if a combination contains the specific subset
 def contains_specific_subset(comb, subset):
     comb_counts = {metal: comb.count(metal) for metal in metals}
-    subset_counts = {metal: subset.count(metal) for metal in metals}
+    subset_counts = {metal: subset.count(metal) for metal in subset}
     return all(comb_counts[metal] >= subset_counts[metal] for metal in subset_counts)
 
 filtered_combinations = []
@@ -98,9 +92,7 @@ for comb in combinations:
     if (has_minimal_duplicates(comb) and has_no_neighbor_duplicates(comb) and 
         has_valid_facets(comb) and has_no_diagonal_duplicates(comb)):
         symmetries = generate_symmetries(comb)
-        valid = True
-        if any(sym in seen_combinations for sym in symmetries):
-            valid = False
+        valid = not any(sym in seen_combinations for sym in symmetries)
         if valid:
             filtered_combinations.append(comb)
             seen_combinations.update(symmetries)
