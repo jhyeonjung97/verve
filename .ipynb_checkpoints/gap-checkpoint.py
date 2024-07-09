@@ -28,6 +28,7 @@ for i, energy in enumerate(energies):
     elif (spin_up_dos[i] > 0 or spin_down_dos[i] > 0) and energy > 0 and conduction_band_min is None:
         conduction_band_min = energy
 
+print(valence_band_max, conduction_band_min)
 if valence_band_max is not None and conduction_band_min is not None:
     band_gap = conduction_band_min - valence_band_max
     if band_gap <= dos_grid_resolution:
@@ -36,12 +37,3 @@ if valence_band_max is not None and conduction_band_min is not None:
         print(f"Band Gap: {band_gap:.3f} eV")
 else:
     print("No band gap found.")
-
-# Plotting the DOS
-plt.plot(energies, spin_up_dos, label="Spin Up DOS")
-plt.plot(energies, spin_down_dos, label="Spin Down DOS")
-plt.axvline(x=0, color='r', linestyle='--', label="Fermi Level")
-plt.xlabel("Energy (eV)")
-plt.ylabel("DOS")
-plt.legend()
-plt.show()
