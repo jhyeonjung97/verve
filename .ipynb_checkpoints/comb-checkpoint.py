@@ -68,6 +68,15 @@ def has_valid_facets(comb):
     ]
     return all(len(set(facet)) >= 3 for facet in facets)
 
+# Function to check if any facet has the same element located diagonally
+def has_no_diagonal_duplicates(comb):
+    diagonals = [
+        (0, 3), (1, 2), (4, 7), (5, 6), # Front and Back faces
+        (0, 5), (1, 4), (2, 7), (3, 6), # Top and Bottom faces
+        (0, 6), (1, 7), (2, 4), (3, 5)  # Left and Right faces
+    ]
+    return all(comb[i] != comb[j] for i, j in diagonals)
+
 # Filter combinations to ensure minimal duplicates and no neighboring duplicates
 def has_minimal_duplicates(combination):
     counts = {metal: combination.count(metal) for metal in metals}
@@ -87,7 +96,7 @@ subset = ['Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cr', 'Mn', 'Fe']
 
 for comb in combinations:
     if (has_minimal_duplicates(comb) and has_no_neighbor_duplicates(comb) and 
-        has_valid_facets(comb)):
+        has_valid_facets(comb) and has_no_diagonal_duplicates(comb)):
         symmetries = generate_symmetries(comb)
         valid = True
         if any(sym in seen_combinations for sym in symmetries):
