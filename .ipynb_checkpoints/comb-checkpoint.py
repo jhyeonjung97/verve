@@ -73,8 +73,17 @@ def has_minimal_duplicates(combination):
     counts = {metal: combination.count(metal) for metal in metals}
     return all(count <= 2 for count in counts.values())
 
+# Check if a combination contains the specific subset
+def contains_specific_subset(comb, subset):
+    comb_counts = {metal: comb.count(metal) for metal in metals}
+    subset_counts = {metal: subset.count(metal) for metal in metals}
+    return all(comb_counts[metal] >= subset_counts[metal] for metal in subset_counts)
+
 filtered_combinations = []
 seen_combinations = set()
+specific_combinations = []
+
+subset = ['Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cr', 'Mn', 'Fe']
 
 for comb in combinations:
     if (has_minimal_duplicates(comb) and has_no_neighbor_duplicates(comb) and 
@@ -86,11 +95,21 @@ for comb in combinations:
         if valid:
             filtered_combinations.append(comb)
             seen_combinations.update(symmetries)
+            if contains_specific_subset(comb, subset):
+                specific_combinations.append(comb)
 
 # Print the filtered combinations
 print("Filtered combinations:")
 for comb in filtered_combinations:
     print(comb)
-    
+
+# Print the specific combinations
+print("\nCombinations that include ['Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cr', 'Mn', 'Fe']:")
+for comb in specific_combinations:
+    print(comb)
+
+# Print the number of specific combinations
+print(f"\nTotal number of specific combinations: {len(specific_combinations)}")
+
 # You can also check the total number of filtered combinations
 print(f"Total number of valid combinations: {len(filtered_combinations)}")
