@@ -1,5 +1,6 @@
 from pymatgen.io.vasp import Vasprun
 from pymatgen.electronic_structure.core import Spin
+import numpy as np
 import matplotlib.pyplot as plt
 
 # Load vasprun.xml file
@@ -14,6 +15,9 @@ energies = complete_dos.energies - complete_dos.efermi
 spin_up_dos = densities[Spin.up]
 spin_down_dos = densities[Spin.down]
 
+# Determine the DOS grid resolution
+dos_grid_resolution = energies[1] - energies[0]
+
 # Find the band gap
 conduction_band_min = None
 valence_band_max = None
@@ -26,6 +30,8 @@ for i, energy in enumerate(energies):
 
 if valence_band_max is not None and conduction_band_min is not None:
     band_gap = conduction_band_min - valence_band_max
+    if band_gap <= dos_grid_resolution:
+        band_gap = 0.0
     print(f"Band Gap: {band_gap:.3f} eV")
 else:
     print("No band gap found.")
