@@ -53,6 +53,7 @@ if [[ -n $DIR ]]; then
     for dir in $DIR
     do
         cd $dir
+        pwd
         sh ~/bin/temp.sh
         cd $dir_now
     done
