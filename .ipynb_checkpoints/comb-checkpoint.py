@@ -99,18 +99,27 @@ for comb in combinations:
             if contains_specific_subset(comb, subset):
                 specific_combinations.append(comb)
 
-# Print the filtered combinations
-print("Filtered combinations:")
-for comb in filtered_combinations:
-    print(comb)
 
-# Print the specific combinations
-print("\nCombinations that include ['Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cr', 'Mn', 'Fe']:")
-for comb in specific_combinations:
-    print(comb)
 
-# Print the number of specific combinations
-print(f"\nTotal number of specific combinations: {len(specific_combinations)}")
+atoms = read('POSCAR')
+for numb, comb in enumerate(filtered_combination):
+    if numb < 10:
+        dir_name = '0'+str(numb)
+    else:
+        dir_name = str(numb)
+    mkdir dir_name
+    
+# # Print the filtered combinations
+# print("Filtered combinations:")
+#     print(comb)
+
+# # Print the specific combinations
+# print("\nCombinations that include ['Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cr', 'Mn', 'Fe']:")
+# for comb in specific_combinations:
+#     print(comb)
+
+# # Print the number of specific combinations
+# print(f"\nTotal number of specific combinations: {len(specific_combinations)}")
 
 # You can also check the total number of filtered combinations
 print(f"Total number of valid combinations: {len(filtered_combinations)}")
