@@ -1,4 +1,8 @@
 import itertools
+from ase.io import read, write
+
+# Path to your POSCAR file
+poscar_path = 'POSCAR'
 
 # Define the metals
 metals = ['Cr', 'Mn', 'Fe', 'Co', 'Ni']
@@ -99,15 +103,33 @@ for comb in combinations:
             if contains_specific_subset(comb, subset):
                 specific_combinations.append(comb)
 
+for numb, comb in enumerate(filtered_combinations):
+    # Format filename with leading zero for single-digit numbers
+    filename = f"{numb:02d}.vasp"
+    
+    # Read atomic structure from POSCAR file
+    try:
+        atoms = read(poscar_path)
+    except Exception as e:
+        print(f"Error reading POSCAR file: {e}")
+        continue
+    
+    # Modify atomic symbols based on the combination
+    try:
+        for i in range(8):
+            atoms[i].symbol = comb[i]
+    except IndexError as e:
+        print(f"Error updating atomic symbols: {e}")
+        continue
+    
+    # Write the modified structure to a new file
+    try:
+        write(filename, atoms)
+        print(f"Written: {filename}")
+    except Exception as e:
+        print(f"Error writing {filename}: {e}")
 
-
-atoms = read('POSCAR')
-for numb, comb in enumerate(filtered_combination):
-    if numb < 10:
-        dir_name = '0'+str(numb)
-    else:
-        dir_name = str(numb)
-    mkdir dir_name
+print("Finished processing all combinations.")
     
 # # Print the filtered combinations
 # print("Filtered combinations:")
