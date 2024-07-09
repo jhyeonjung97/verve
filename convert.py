@@ -19,11 +19,11 @@ elif len(argv) == 4:
     a = float(argv[3])
     b = a
     c = a
-else:
-    print('use default lattice parameter (30 A) for cubic cell...')
-    a = 30.
-    b = a
-    c = a
+# else:
+#     print('use default lattice parameter (30 A) for cubic cell...')
+#     a = 30.
+#     b = a
+#     c = a
 
 # iterating over all files
 for file in os.listdir('./'):
@@ -31,7 +31,7 @@ for file in os.listdir('./'):
         atoms = read(file)
         # del atoms[[atom.symbol == 'Li' for atom in atoms]]
         # atoms = sort(atoms)
-        atoms.set_cell([a, b, c])
+        # atoms.set_cell([a, b, c])
         # atoms.set_cell([30., 30., 30., 90., 90., 90.])
         atoms.center()
         write(file.replace('%s' %argv[1], '%s' %argv[2]), atoms, format='%s' %argv[2])
