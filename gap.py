@@ -27,8 +27,8 @@ for i, energy in enumerate(energies):
         valence_band_max = energy
     elif (spin_up_dos[i] > 0 or spin_down_dos[i] > 0) and energy > 0 and conduction_band_min is None:
         conduction_band_min = energy
+# print(valence_band_max, conduction_band_min)
 
-print(valence_band_max, conduction_band_min)
 if valence_band_max is not None and conduction_band_min is not None:
     band_gap = conduction_band_min - valence_band_max
     if band_gap <= dos_grid_resolution:
