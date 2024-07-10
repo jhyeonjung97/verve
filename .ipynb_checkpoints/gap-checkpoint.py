@@ -37,3 +37,7 @@ if valence_band_max is not None and conduction_band_min is not None:
         print(f"Band Gap: {band_gap:.3f} eV")
 else:
     print("No band gap found.")
+
+# Save the message to gap.txt
+with open("GAP", "w") as file:
+    file.write(message)
