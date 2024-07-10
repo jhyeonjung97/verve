@@ -17,7 +17,7 @@ spin_down_dos = densities[Spin.down]
 
 # Determine the DOS grid resolution
 dos_grid_resolution = energies[1] - energies[0]
-print(dos_grid_resolution)
+# print(dos_grid_resolution)
 
 # Find the band gap
 conduction_band_min = None
