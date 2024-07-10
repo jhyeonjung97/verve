@@ -40,5 +40,5 @@ else:
 print(f'{message}')
 
 # Save the message to gap.txt
-with open("GAP", "w") as file:
+with open("BANDGAP", "w") as file:
     file.write(message)
