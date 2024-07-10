@@ -1,2 +1,6 @@
-sh ~/bin/verve/gather.sh -r -c 2 restart.json $1
-python ~/bin/verve/slab.py -wcsf -r 2,2,2 -a 20 -t json $1
+for i in {0..9}; do
+    mv 0$i "0$i"_
+done
+
+[20, 6, 73, 61, 1]
+[40, 18, 69, 29, 43]
