@@ -32,11 +32,12 @@ for i, energy in enumerate(energies):
 if valence_band_max is not None and conduction_band_min is not None:
     band_gap = conduction_band_min - valence_band_max
     if band_gap <= dos_grid_resolution:
-        print(f"Band gap is zero. It's metallic.")
+        message = "Band gap is zero. It's metallic."
     else:
-        print(f"Band Gap: {band_gap:.3f} eV")
+        message = f"Band Gap: {band_gap:.3f} eV"
 else:
-    print("No band gap found.")
+    message = "No band gap found."
+print(f'{message}')
 
 # Save the message to gap.txt
 with open("GAP", "w") as file:
