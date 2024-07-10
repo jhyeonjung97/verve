@@ -103,7 +103,7 @@ for file in matching_files:
         #               [0, 0, 1]])
         V = np.array([[2, 1, 0],
                       [-1, 2, 0],
-                      [0, 0, 1]])
+                      [0, 0, 1]]) # √5x√5
         atoms = make_supercell(atoms, V)
     if args.fix:
         # print('fix')
