@@ -92,6 +92,7 @@ alias atoms='python ~/bin/verve/atoms.py'
 alias time='grep sec OUTCAR'
 alias formation='python ~/bin/verve/formation.py'
 alias png='sh ~/bin/verve/png.sh'
+alias gap='python ~/bin/verve/gap.py'
 
 #SSH
 alias hi='sh ~/bin/verve/gits.sh orange shoulder verve tools
