@@ -32,7 +32,7 @@ for i, energy in enumerate(energies):
 
 if valence_band_max is not None and conduction_band_min is not None:
     band_gap = conduction_band_min - valence_band_max
-    if band_gap <= dos_grid_resolution:
+    if band_gap <= dos_grid_resolution + 0.001:
         message = "Band Gap: 0.000 eV (metallic)"
     else:
         message = f"Band Gap: {band_gap:.3f} eV"
