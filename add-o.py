@@ -7,3 +7,8 @@ for atom in atoms:
         atoms += Atoms('O', positions=[atom.position + (0, 0, 2.0)])
 
 write('modified_structure_o.json', atoms)
+
+# atoms = read('modified_structure_o.json')
+atoms += Atoms('H', positions=[atoms[-1].position + (0.8, 0, 0.6)])
+
+write('modified_structure_h.json', atoms)
