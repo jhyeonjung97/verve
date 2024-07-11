@@ -6,4 +6,4 @@ for atom in atoms:
     if atom.symbol not in ['C', 'N', 'O', 'H']:
         atoms += Atoms('O', positions=[atom.position + (0, 0, 2.0)])
 
-write('modified_structure.json', atoms)
+write('modified_structure_o.json', atoms)
