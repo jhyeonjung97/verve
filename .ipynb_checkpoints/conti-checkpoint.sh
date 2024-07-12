@@ -10,8 +10,8 @@ done
 mkdir $save
 cp * $save
 
-if [[ ! -d opt ]]; then
-    ase convert -f CONTCAR start.traj
-fi
-ase convert -f CONTCAR restart.json
+# if [[ ! -d opt ]]; then
+#     ase convert -f CONTCAR start.traj
+# fi
+# ase convert -f CONTCAR restart.json
 sh ~/bin/verve/resub.sh
