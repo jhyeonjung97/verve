@@ -44,6 +44,6 @@ def main(input_file, output_file):
     print(f"Sorted and shifted POSCAR file has been saved as {output_file}")
 
 if __name__ == "__main__":
-    input_file = 'POSCAR_xcell'  # Replace with your input file name
+    input_file = 'POSCAR'  # Replace with your input file name
     output_file = 'POSCAR_sorted'  # Replace with your desired output file name
     main(input_file, output_file)
