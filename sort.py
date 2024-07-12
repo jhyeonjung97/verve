@@ -31,13 +31,13 @@ def main(input_file, output_file):
     center_y = cell[1, 1] / 2
     
     # Calculate the displacement to move the first atom to the center of the x and y axes
-    # displacement = [-first_atom_position[0]-0.5, -first_atom_position[1]+0.7, 0]
+    displacement = [-first_atom_position[0], -first_atom_position[1], 0]
     # displacement = [center_x - first_atom_position[0], center_y - first_atom_position[1], 0]
     
     # Apply the displacement to all atoms
-    # sorted_atoms_obj.translate(displacement)
+    sorted_atoms_obj.translate(displacement)
     sorted_atoms_obj.wrap()
-    sorted_atoms_obj.center()
+    # sorted_atoms_obj.center()
 
     # Write the sorted and shifted atoms back to a POSCAR file
     write(output_file, sorted_atoms_obj, format='vasp')
