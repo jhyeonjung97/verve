@@ -3,7 +3,6 @@
 dir_tag=0
 deep_tag=0
 forced_tag=0
-dir_now=$PWD
 r_count=0
 
 while getopts ":rfs:d:" opt; do
@@ -49,6 +48,7 @@ elif [[ $forced_tag == 1 ]]; then
     DIR='*/'
 fi
 
+dir_now=$PWD
 if [[ -n $DIR ]]; then
     for dir in $DIR
     do
