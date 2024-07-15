@@ -93,6 +93,7 @@ alias time='grep sec OUTCAR'
 alias formation='python ~/bin/verve/formation.py'
 alias png='sh ~/bin/verve/png.sh'
 alias gap='python ~/bin/verve/gap.py'
+alias done='python /global/cfs/cdirs/m2997/bin/get_restart3'
 
 #SSH
 alias hi='sh ~/bin/verve/gits.sh orange shoulder verve tools
