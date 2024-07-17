@@ -14,13 +14,10 @@ rows = {
 
 slab_path = '/pscratch/sd/j/jiuy97/4_V_slab'
 
-def parse_rotation(rotation):
-    return tuple(rotation.split(','))
-
 for i in range(6):
     coord = coords[i]
     coord_dir = coord_dirs[i]
-    rotation = parse_rotation(rotations[i])
+    rotation = rotations[i]
     repeat = repeats[i]
     
     for j in range(3):
