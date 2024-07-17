@@ -1,5 +1,6 @@
 from ase.io import read, write
 import os
+from ase.visualize.plot import plot_atoms
 
 coords = ['WZ', 'ZB', 'LT', 'TN', '33', 'RS']
 coord_dirs = ['1_Tetrahedral_WZ', '2_Tetrahedral_ZB', '3_Pyramidal_LT',
@@ -49,7 +50,7 @@ for i in range(6):
             if atoms:
                 try:
                     filename = f'{i}{coord}_{row_dir}_{k:02d}{metal}.png'
-                    write(filename, atoms, rotation=rotation, show_unit_cell=True, show_bonds=True)
+                    plot_atoms(atoms, rotation=rotation, show_unit_cell=True, radii=0.3, format='png', filename=filename)
                     print(f'Written: {filename}')
                 except Exception as e:
                     print(f"Error writing {filename}: {e}")
