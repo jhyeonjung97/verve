@@ -4,7 +4,8 @@ import os
 coords = ['WZ', 'ZB', 'LT', 'TN', '33', 'RS']
 coord_dirs = ['1_Tetrahedral_WZ', '2_Tetrahedral_ZB', '3_Pyramidal_LT',
               '4_Square_Planar_TN', '5_Square_Planar_33', '6_Octahedral_RS']
-
+rotations = ['-90x,-90y,0z', '-90x,0y,0z', '-90x,-90y,0z', '-90x,-90y,0z', '-90x,-45y,0z', '-90x,-90y,0z']
+repeats = [(1,2,1), (2,1,1), (1,2,1), (1,2,1), (1,1,1), (1,1,1)]
 rows = {
     '3d': ['Ca', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn', 'Ga', 'Ge'],
     '4d': ['Sr', 'Y', 'Zr', 'Nb', 'Mo', 'Tc', 'Ru', 'Rh', 'Pd', 'Ag', 'Cd', 'In', 'Sn'],
@@ -13,9 +14,14 @@ rows = {
 
 slab_path = '/pscratch/sd/j/jiuy97/4_V_slab'
 
+def parse_rotation(rotation):
+    return tuple(rotation.split(','))
+
 for i in range(6):
     coord = coords[i]
     coord_dir = coord_dirs[i]
+    rotation = parse_rotation(rotations[i])
+    repeat = repeats[i]
     
     for j in range(3):
         row_dir = list(rows.keys())[j]
@@ -40,11 +46,13 @@ for i in range(6):
             else:
                 print(f'There is no structure file in directory: {dir_path}')
                 continue
+    
+            atoms = atoms.repeat(repeat)
 
             if atoms:
                 try:
-                    filename = f'{i}_{coord}_{row_dir}_{k:02d}_{metal}.png'
-                    write(filename, atoms, rotation=('0x,0y,0z'), show_unit_cell=True)
+                    filename = f'{i}{coord}_{row_dir}_{k:02d}{metal}.png'
+                    write(filename, atoms, rotation=rotation, show_unit_cell=True)
                     print(f'Written: {filename}')
                 except Exception as e:
                     print(f"Error writing {filename}: {e}")
