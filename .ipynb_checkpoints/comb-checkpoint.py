@@ -137,6 +137,7 @@ print("Finished processing all combinations.")
 
 # Print the filtered combinations
 print("Filtered combinations:")
+for comb in filtered_combinations:
     print(comb)
 
 # Print the specific combinations
