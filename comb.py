@@ -75,10 +75,14 @@ def has_no_diagonal_duplicates(comb):
     ]
     return all(comb[i] != comb[j] for i, j in diagonals)
 
-# Filter combinations to ensure minimal duplicates and no neighboring duplicates
+# Filter combinations to ensure no metal is used more than twice
 def has_minimal_duplicates(combination):
     counts = {metal: combination.count(metal) for metal in metals}
     return all(count <= 2 for count in counts.values())
+
+# Ensure combination contains all five metals
+def contains_all_metals(combination):
+    return all(metal in combination for metal in metals)
 
 # Check if a combination contains the specific subset
 def contains_specific_subset(comb, subset):
@@ -93,7 +97,7 @@ specific_combinations = []
 subset = ['Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cr', 'Mn', 'Fe']
 
 for comb in combinations:
-    if (has_minimal_duplicates(comb) and has_no_neighbor_duplicates(comb) and 
+    if (contains_all_metals(comb) and has_minimal_duplicates(comb) and has_no_neighbor_duplicates(comb) and 
         has_valid_facets(comb) and has_no_diagonal_duplicates(comb)):
         symmetries = generate_symmetries(comb)
         valid = not any(sym in seen_combinations for sym in symmetries)
@@ -103,21 +107,21 @@ for comb in combinations:
             if contains_specific_subset(comb, subset):
                 specific_combinations.append(comb)
 
+try:
+    # Read atomic structure from POSCAR file
+    atoms = read(poscar_path)
+except Exception as e:
+    print(f"Error reading POSCAR file: {e}")
+    exit(1)
+
 for numb, comb in enumerate(filtered_combinations):
     # Format filename with leading zero for single-digit numbers
     filename = f"{numb:02d}.vasp"
     
-    # Read atomic structure from POSCAR file
-    try:
-        atoms = read(poscar_path)
-    except Exception as e:
-        print(f"Error reading POSCAR file: {e}")
-        continue
-    
     # Modify atomic symbols based on the combination
     try:
-        for i in range(8,16):
-            atoms[i].symbol = comb[i-8]
+        for i in range(8):
+            atoms[i + 8].symbol = comb[i]  # Adjusting indices to match the combination
     except IndexError as e:
         print(f"Error updating atomic symbols: {e}")
         continue
@@ -130,18 +134,18 @@ for numb, comb in enumerate(filtered_combinations):
         print(f"Error writing {filename}: {e}")
 
 print("Finished processing all combinations.")
-    
-# # Print the filtered combinations
-# print("Filtered combinations:")
-#     print(comb)
 
-# # Print the specific combinations
-# print("\nCombinations that include ['Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cr', 'Mn', 'Fe']:")
-# for comb in specific_combinations:
-#     print(comb)
+# Print the filtered combinations
+print("Filtered combinations:")
+    print(comb)
 
-# # Print the number of specific combinations
-# print(f"\nTotal number of specific combinations: {len(specific_combinations)}")
+# Print the specific combinations
+print("\nCombinations that include ['Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cr', 'Mn', 'Fe']:")
+for comb in specific_combinations:
+    print(comb)
 
-# You can also check the total number of filtered combinations
+# Print the number of specific combinations
+print(f"\nTotal number of specific combinations: {len(specific_combinations)}")
+
+# Print the number of filtered combinations
 print(f"Total number of valid combinations: {len(filtered_combinations)}")
