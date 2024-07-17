@@ -1,7 +1,8 @@
 from ase.io import read, write
 import os
-from ase.io.pov import get_bondpairs, set_high_bondorder_pairs
+from ase.visualize import view
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 
 coords = ['WZ', 'ZB', 'LT', 'TN', '33', 'RS']
 coord_dirs = ['1_Tetrahedral_WZ', '2_Tetrahedral_ZB', '3_Pyramidal_LT',
@@ -16,11 +17,26 @@ rows = {
 
 slab_path = '/pscratch/sd/j/jiuy97/4_V_slab'
 
-def render_pov(filename, atoms, rotation, radii, bondpairs):
-    write(filename + '.pov', atoms, format='pov',
-          radii=radii, rotation=rotation,
-          povray_settings=dict(bondatoms=bondpairs))
-    os.system(f"povray +I{filename}.pov +O{filename}.png +W800 +H600 +D +FN")
+def plot_atoms(atoms, filename, rotation):
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+
+    # Plot atoms
+    for atom in atoms:
+        ax.scatter(atom.position[0], atom.position[1], atom.position[2], s=100, label=atom.symbol)
+
+    # Plot bonds
+    bondpairs = get_bondpairs(atoms, radius=1.1)
+    for (i, j) in bondpairs:
+        ax.plot([atoms[i].position[0], atoms[j].position[0]],
+                [atoms[i].position[1], atoms[j].position[1]],
+                [atoms[i].position[2], atoms[j].position[2]], 'k-')
+
+    # Set rotation
+    ax.view_init(elev=float(rotation.split(',')[0][:-1]), azim=float(rotation.split(',')[1][:-1]))
+
+    plt.savefig(filename)
+    plt.close(fig)
 
 for i in range(6):
     coord = coords[i]
@@ -56,18 +72,8 @@ for i in range(6):
 
             if atoms:
                 try:
-                    filename = f'{i}{coord}_{row_dir}_{k:02d}{metal}'
-                    radii = [{'Ca': 0.5, 'Sc': 0.5, 'Ti': 0.5, 'V': 0.5, 'Cr': 0.5, 'Mn': 0.5, 'Fe': 0.5, 'Co': 0.5, 'Ni': 0.5, 'Cu': 0.5, 'Zn': 0.5, 
-                              'Ga': 0.5, 'Ge': 0.5,
-                              'Sr': 0.5, 'Y': 0.5, 'Zr': 0.5, 'Nb': 0.5, 'Mo': 0.5, 'Tc': 0.5, 'Ru': 0.5, 'Rh': 0.5, 'Pd': 0.5, 'Ag': 0.5, 'Cd': 0.5, 
-                              'In': 0.5, 'Sn': 0.5,
-                              'Ba': 0.5, 'La': 0.5, 'Hf': 0.5, 'Ta': 0.5, 'W': 0.5, 'Re': 0.5, 'Os': 0.5, 'Ir': 0.5, 'Pt': 0.5, 'Au': 0.5, 'Hg': 0.5, 
-                              'Tl': 0.5, 'Pb': 0.5,
-                             'O': 0.5}[at.symbol] for at in atoms]
-                    bondpairs = get_bondpairs(atoms, radius=1.1)
-                    high_bondorder_pairs = {}  # Define your high bond order pairs if needed
-                    bondpairs = set_high_bondorder_pairs(bondpairs, high_bondorder_pairs)
-                    render_pov(filename, atoms, rotation, radii, bondpairs)
-                    print(f'Written: {filename}.png')
+                    filename = f'{i}{coord}_{row_dir}_{k:02d}{metal}.png'
+                    plot_atoms(atoms, filename, rotation)
+                    print(f'Written: {filename}')
                 except Exception as e:
                     print(f"Error writing {filename}: {e}")
