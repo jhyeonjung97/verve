@@ -43,7 +43,7 @@ for i in range(6):
                 x_tag = 'x'
             elif os.path.exists(f'{dir_x_path}/start.traj'):
                 atoms = read(f'{dir_x_path}/start.traj')
-                x_tag = 'z'
+                x_tag = 'x'
             else:
                 print(f'There is no structure file in directory: {dir_path}')
                 continue
