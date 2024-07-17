@@ -36,9 +36,9 @@ for i in range(6):
     combined_df = pd.DataFrame()
     
     for j in range(3):
-        row_key = list(rows.keys())[j]
-        row = rows[row_key]
-        row_dir = row_dirs[j]
+        row_dir = row_key = list(rows.keys())[j]
+        row = rows[row_dir]
+        
         dir_path = f'{coord_dir}/{row_dir}/'
         bulk_e_path = os.path.join(bulk_path, dir_path, 'energy_norm_energy.tsv')
         slab_e_path = os.path.join(slab_path, dir_path, 'energy_energy.tsv')

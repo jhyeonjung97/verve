@@ -491,7 +491,7 @@ def plot_separately(values_dict, dir_names, xlabel, ylabel, save, filenam, marke
         plt.title(f'{pattern} Energy Contribution')
         plt.xlabel(xlabel)
         plt.ylabel(ylabel)
-        plt.xticks(np.arange(len(dir_names)), dir_names, rotation='vertical')
+        plt.xticks(np.arange(len(dir_names)), dir_names)
         plt.grid(True)
         plt.legend()
         plt.tight_layout()
@@ -511,7 +511,7 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, filtered
         colors = plt.cm.rainbow(np.linspace(0, 1, len(filtered_patterns_order))) 
         # viridis, magma, plasma, inferno, cividis, mako, rocket, turbo
 
-    # plt.xticks(np.arange(len(dir_names)), dir_names, rotation='vertical')
+    # plt.xticks(np.arange(len(dir_names)), dir_names)
     for pattern, clr in zip(filtered_patterns_order, colors):
         values = values_dict.get(pattern, [])
         if all(isinstance(v, tuple) for v in values):
@@ -530,7 +530,7 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, filtered
             plt.plot(x, [1.633]*len(x), linestyle=':', label='hexa_ratio0', color=clr)
 
     plt.xlim(-0.5, len(dir_names)-0.5)
-    plt.xticks(np.arange(len(dir_names)), dir_names, rotation='vertical')
+    plt.xticks(np.arange(len(dir_names)), dir_names)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
     
