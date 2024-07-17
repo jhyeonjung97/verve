@@ -5,7 +5,7 @@ coords = ['WZ', 'ZB', 'LT', 'TN', '33', 'RS']
 coord_dirs = ['1_Tetrahedral_WZ', '2_Tetrahedral_ZB', '3_Pyramidal_LT',
               '4_Square_Planar_TN', '5_Square_Planar_33', '6_Octahedral_RS']
 rotations = ['-90x,-90y,0z', '-90x,0y,0z', '-90x,-90y,0z', '-90x,-90y,0z', '-90x,-45y,0z', '-90x,-90y,0z']
-repeats = [(1,2,1), (2,1,1), (1,2,1), (1,2,1), (1,1,1), (1,1,1)]
+repeats = [(1,2,1), (2,1,1), (1,2,1), (1,2,1), (1,1,1), (1,2,1)]
 rows = {
     '3d': ['Ca', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn', 'Ga', 'Ge'],
     '4d': ['Sr', 'Y', 'Zr', 'Nb', 'Mo', 'Tc', 'Ru', 'Rh', 'Pd', 'Ag', 'Cd', 'In', 'Sn'],
