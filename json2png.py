@@ -1,6 +1,6 @@
-from ase.io import read, write
+from ase.io import read
 import os
-from ase.visualize import view
+import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
@@ -17,6 +17,17 @@ rows = {
 
 slab_path = '/pscratch/sd/j/jiuy97/4_V_slab'
 
+def compute_bondpairs(atoms, max_distance=1.1):
+    positions = atoms.get_positions()
+    bondpairs = []
+    for i, pos_i in enumerate(positions):
+        for j, pos_j in enumerate(positions):
+            if i < j:
+                distance = np.linalg.norm(pos_i - pos_j)
+                if distance <= max_distance:
+                    bondpairs.append((i, j))
+    return bondpairs
+
 def plot_atoms(atoms, filename, rotation):
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
@@ -26,14 +37,15 @@ def plot_atoms(atoms, filename, rotation):
         ax.scatter(atom.position[0], atom.position[1], atom.position[2], s=100, label=atom.symbol)
 
     # Plot bonds
-    bondpairs = get_bondpairs(atoms, radius=1.1)
+    bondpairs = compute_bondpairs(atoms)
     for (i, j) in bondpairs:
         ax.plot([atoms[i].position[0], atoms[j].position[0]],
                 [atoms[i].position[1], atoms[j].position[1]],
                 [atoms[i].position[2], atoms[j].position[2]], 'k-')
 
     # Set rotation
-    ax.view_init(elev=float(rotation.split(',')[0][:-1]), azim=float(rotation.split(',')[1][:-1]))
+    elev, azim = map(float, rotation.replace('x', '').split(','))
+    ax.view_init(elev=elev, azim=azim)
 
     plt.savefig(filename)
     plt.close(fig)
