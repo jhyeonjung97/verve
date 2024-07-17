@@ -49,7 +49,7 @@ for i in range(6):
             if atoms:
                 try:
                     filename = f'{i}{coord}_{row_dir}_{k:02d}{metal}.png'
-                    write(filename, atoms, rotation=rotation, show_unit_cell=True)
+                    write(filename, atoms, rotation=rotation, show_unit_cell=True, show_bonds=True, magnetic_moments=True)
                     print(f'Written: {filename}')
                 except Exception as e:
                     print(f"Error writing {filename}: {e}")
