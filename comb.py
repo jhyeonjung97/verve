@@ -135,18 +135,15 @@ for numb, comb in enumerate(filtered_combinations):
 
 print("Finished processing all combinations.")
 
-# Print the filtered combinations
-print("Filtered combinations:")
-for comb in filtered_combinations:
-    print(comb)
+# Save the filtered combinations and specific combinations to comb.txt
+with open('comb.txt', 'w') as file:
+    file.write("Filtered combinations:\n")
+    for comb in filtered_combinations:
+        file.write(f"{comb}\n")
 
-# Print the specific combinations
-print("\nCombinations that include ['Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cr', 'Mn', 'Fe']:")
-for comb in specific_combinations:
-    print(comb)
+    file.write("\nCombinations that include ['Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cr', 'Mn', 'Fe']:\n")
+    for comb in specific_combinations:
+        file.write(f"{comb}\n")
 
-# Print the number of specific combinations
-print(f"\nTotal number of specific combinations: {len(specific_combinations)}")
-
-# Print the number of filtered combinations
-print(f"Total number of valid combinations: {len(filtered_combinations)}")
+    file.write(f"\nTotal number of specific combinations: {len(specific_combinations)}\n")
+    file.write(f"Total number of valid combinations: {len(filtered_combinations)}\n")
