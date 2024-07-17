@@ -117,7 +117,7 @@ for numb, comb in enumerate(filtered_combinations):
     # Modify atomic symbols based on the combination
     try:
         for i in range(8,16):
-            atoms[i].symbol = comb[i]
+            atoms[i].symbol = comb[i-8]
     except IndexError as e:
         print(f"Error updating atomic symbols: {e}")
         continue
