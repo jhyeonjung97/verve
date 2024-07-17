@@ -57,9 +57,13 @@ for i in range(6):
             if atoms:
                 try:
                     filename = f'{i}{coord}_{row_dir}_{k:02d}{metal}'
-                    radii = [{'Ca': 0.5, 'Sc': 0.5, 'Ti': 0.5, 'V': 0.5, 'Cr': 0.5, 'Mn': 0.5, 'Fe': 0.5, 'Co': 0.5, 'Ni': 0.5, 'Cu': 0.5, 'Zn': 0.5, 'Ga': 0.5, 'Ge': 0.5,
-                              'Sr': 0.5, 'Y': 0.5, 'Zr': 0.5, 'Nb': 0.5, 'Mo': 0.5, 'Tc': 0.5, 'Ru': 0.5, 'Rh': 0.5, 'Pd': 0.5, 'Ag': 0.5, 'Cd': 0.5, 'In': 0.5, 'Sn': 0.5,
-                              'Ba': 0.5, 'La': 0.5, 'Hf': 0.5, 'Ta': 0.5, 'W': 0.5, 'Re': 0.5, 'Os': 0.5, 'Ir': 0.5, 'Pt': 0.5, 'Au': 0.5, 'Hg': 0.5, 'Tl': 0.5, 'Pb': 0.5}[at.symbol] for at in atoms]
+                    radii = [{'Ca': 0.5, 'Sc': 0.5, 'Ti': 0.5, 'V': 0.5, 'Cr': 0.5, 'Mn': 0.5, 'Fe': 0.5, 'Co': 0.5, 'Ni': 0.5, 'Cu': 0.5, 'Zn': 0.5, 
+                              'Ga': 0.5, 'Ge': 0.5,
+                              'Sr': 0.5, 'Y': 0.5, 'Zr': 0.5, 'Nb': 0.5, 'Mo': 0.5, 'Tc': 0.5, 'Ru': 0.5, 'Rh': 0.5, 'Pd': 0.5, 'Ag': 0.5, 'Cd': 0.5, 
+                              'In': 0.5, 'Sn': 0.5,
+                              'Ba': 0.5, 'La': 0.5, 'Hf': 0.5, 'Ta': 0.5, 'W': 0.5, 'Re': 0.5, 'Os': 0.5, 'Ir': 0.5, 'Pt': 0.5, 'Au': 0.5, 'Hg': 0.5, 
+                              'Tl': 0.5, 'Pb': 0.5,
+                             'O': 0.5}[at.symbol] for at in atoms]
                     bondpairs = get_bondpairs(atoms, radius=1.1)
                     high_bondorder_pairs = {}  # Define your high bond order pairs if needed
                     bondpairs = set_high_bondorder_pairs(bondpairs, high_bondorder_pairs)
