@@ -57,3 +57,6 @@ for i in range(6):
                     print(f'Written: {filename}')
                 except Exception as e:
                     print(f"Error writing {filename}: {e}")
+                    
+            if coord == '33' and metal == 'Ni':
+                    write(filename, atoms, rotation='-90x,-90y,0z', show_unit_cell=True)
