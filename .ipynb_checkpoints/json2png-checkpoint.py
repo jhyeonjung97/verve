@@ -34,12 +34,16 @@ for i in range(6):
             atoms = None
             if os.path.exists(f'{dir_path}/restart.json'):
                 atoms = read(f'{dir_path}/restart.json')
+                x_tag = ''
             elif os.path.exists(f'{dir_x_path}/restart.json'):
                 atoms = read(f'{dir_x_path}/restart.json')
+                x_tag = 'x'
             elif os.path.exists(f'{dir_x_path}/CONTCAR'):
                 atoms = read(f'{dir_x_path}/CONTCAR')
+                x_tag = 'x'
             elif os.path.exists(f'{dir_x_path}/start.traj'):
                 atoms = read(f'{dir_x_path}/start.traj')
+                x_tag = 'x'
             else:
                 print(f'There is no structure file in directory: {dir_path}')
                 continue
@@ -48,7 +52,7 @@ for i in range(6):
 
             if atoms:
                 try:
-                    filename = f'{i}{coord}_{row_dir}_{k:02d}{metal}.png'
+                    filename = f'{i}{coord}_{row_dir}_{k:02d}{x_tag}{metal}.png'
                     write(filename, atoms, rotation=rotation, show_unit_cell=True)
                     print(f'Written: {filename}')
                 except Exception as e:
