@@ -13,7 +13,7 @@ color_ranges = [plt.cm.Reds(np.linspace(0.3, 0.9, 3)),
                 plt.cm.Greens(np.linspace(0.3, 0.9, 3)),
                 plt.cm.Blues(np.linspace(0.3, 0.9, 3)),
                 plt.cm.Purples(np.linspace(0.3, 0.9, 3))]
-markers = ['s', 'd', 'p', 'o', '>', '<', 'D']
+markers = ['>', '<', 'o', 's', 'p', 'd']
 stochiometries = [8, 8, 8, 8, 12, 8]
 
 rows = {
