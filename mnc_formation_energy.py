@@ -32,15 +32,17 @@ for row_key, metals in rows.items():
                         atoms = read(atoms_path)
                         energy = atoms.get_total_energy()
                         df.at[dz, spin] = energy
+                        print(path, dz, spin, energy)
                     
                 relaxed_path = os.path.join(path, 'relaxed_', 'OUTCAR')
                 if os.path.exists(relaxed_path):
                     atoms = read(relaxed_path)
                     zN = mean([atom.z for atom in atoms if atom.symbol == 'N'])
                     zM = mean([atom.z for atom in atoms if atom.symbol not in ['N', 'C', 'O', 'H']])
-                    dz = abs(zN - zM)
+                    dz_relaxed = abs(zN - zM)
                     energy = atoms.get_total_energy()
-                    df_relaxed.at[dz, spin] = energy
+                    df_relaxed.at[dz_relaxed, spin] = energy
+                    print(relaxed_path, dz_relaxed, spin, energy)
         
         plt.figure(figsize=(8, 6))
         
