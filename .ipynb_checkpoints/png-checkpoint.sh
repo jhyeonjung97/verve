@@ -62,6 +62,7 @@ elif [[ ${here} == 'nersc' ]]; then
         cd $dir
         # python ~/bin/verve/tsv.py -l 3d_AFM 3d_FM -x "Metal (MO)" -y "Formation energy (eV/MO)" -o AFMvsFM 1_afm/energy_norm_formation.tsv 2_fm/energy_norm_formation.tsv
         # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Formation energy (eV/MO)" -o norm_formation 1_afm/energy_norm_formation.tsv 4d/energy_norm_formation.tsv 5d/energy_norm_formation.tsv
+        # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Cohesive energy (eV/MO)" -o norm_cohesive 1_afm/energy_norm_cohesive.tsv 4d/energy_norm_cohesive.tsv 5d/energy_norm_cohesive.tsv
         # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "ICOHP (eV/MO)" -o ICOHP_per_MO 1_afm/energy_ICOHP.tsv 4d/energy_ICOHP.tsv 5d/energy_ICOHP.tsv
         # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "ICOHP (eV/MO)" -o ICOHP_per_bond 1_afm/energy_norm_ICOHP.tsv 4d/energy_norm_ICOHP.tsv 5d/energy_norm_ICOHP.tsv
         # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "ICOBI (eV/MO)" -o ICOBI 1_afm/energy_ICOBI.tsv 4d/energy_ICOBI.tsv 5d/energy_ICOBI.tsv
@@ -175,34 +176,15 @@ python ~/bin/verve/concat.py -o wICOHP --X *_*_*/merged_weighted_ICOHP.tsv
 python ~/bin/verve/concat.py -o norm_MadelungL --X *_*_*/merged_norm_MadelungL.tsv
 python ~/bin/verve/concat.py -o norm_wMadelungL --X *_*_*/merged_weighted_norm_MadelungL.tsv
 python ~/bin/verve/concat.py -o GrossPopulationL --X *_*_*/merged_GP_Loewdin_M.tsv
+python ~/bin/verve/concat.py -o norm_volume --X *_*_*/merged_norm_volume.tsv
+python ~/bin/verve/concat.py -o bond --X *_*_*/merged_bond.tsv
+python ~/bin/verve/concat.py -o chg --X *_*_*/merged_chg.tsv
+python ~/bin/verve/concat.py -o redoxP --X *_*_*/merged_redoxP.tsv
+python ~/bin/verve/concat.py -o redoxP_clean --X *_*_*/merged_redoxP_clean.tsv
 <<<<<<< HEAD
-python ~/bin/verve/concat.py -o bond --X *_*_*/merged_bond.tsv
-python ~/bin/verve/concat.py -o norm_volume --X *_*_*/merged_norm_volume.tsv
-python ~/bin/verve/concat.py -o chg --X *_*_*/merged_chg.tsv
-python ~/bin/verve/concat.py -o sub --X *_*_*/merged_sub.tsv
-python ~/bin/verve/concat.py -o coord --X *_*_*/merged_coord.tsv
-python ~/bin/verve/concat.py -o row --X *_*_*/merged_row.tsv
-python ~/bin/verve/concat.py -o group --X *_*_*/merged_group.tsv
-python ~/bin/verve/concat.py -o element --X *_*_*/merged_element.tsv
-python ~/bin/verve/concat.py -o redoxP --X *_*_*/merged_redoxP.tsv
-python ~/bin/verve/concat.py -o redoxP_clean --X *_*_*/merged_redoxP_clean.tsv
-python ~/bin/verve/concat.py -o mag --X *_*_*/merged_mag_M.tsv
-python ~/bin/verve/concat.py -o melting --X *_*_*/merged_melting.tsv
-python ~/bin/verve/concat.py -o boiling --X *_*_*/merged_boiling.tsv
-python ~/bin/verve/concat.py -o neg --X *_*_*/merged_neg.tsv
-python ~/bin/verve/concat.py -o mass --X *_*_*/merged_mass.tsv
-python ~/bin/verve/concat.py -o number --X *_*_*/merged_number.tsv
-python ~/bin/verve/concat.py -o density --X *_*_*/merged_density.tsv
-=======
-python ~/bin/verve/concat.py -o norm_volume --X *_*_*/merged_norm_volume.tsv
-python ~/bin/verve/concat.py -o bond --X *_*_*/merged_bond.tsv
-python ~/bin/verve/concat.py -o chg --X *_*_*/merged_chg.tsv
-python ~/bin/verve/concat.py -o redoxP --X *_*_*/merged_redoxP.tsv
-python ~/bin/verve/concat.py -o redoxP_clean --X *_*_*/merged_redoxP_clean.tsv
 python ~/bin/verve/concat.py -o sublimation --X *_*_*/merged_sub.tsv
 python ~/bin/verve/concat.py -o row --X *_*_*/merged_row.tsv
 
-<<<<<<< HEAD
 python ~/bin/verve/lr.py -i \
 ICOHP_per_bond \
 ICOHP_per_MO \
@@ -263,6 +245,10 @@ concat_boiling_point.tsv \
 concat_sublimation.tsv \
 concat_fusion_heat.tsv
 =======
+python ~/bin/verve/concat.py -o sub --X *_*_*/merged_sub.tsv
+<<<<<<< HEAD
+=======
+
 >>>>>>> e5d86dffd6f3938c04c338cc41a557303a3ece54
 >>>>>>> 131cc4c1e8b23ac931110d55b367032c6c76fdee
 
