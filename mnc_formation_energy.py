@@ -31,7 +31,7 @@ for row_key, metals in rows.items():
             for path in matching_paths:
                 print(path)
                 for i, dz in enumerate(dzs):
-                    atoms_path = os.path.join(path, f'{i}_', 'restart.json')
+                    atoms_path = os.path.join(path, f'{i}_', 'moments.json')
                     if os.path.exists(atoms_path):
                         atoms = read(atoms_path)
                         df.at[dz, spin] = atoms.get_total_energy()
@@ -39,7 +39,7 @@ for row_key, metals in rows.items():
                         if magnetic_moments:
                             df_mag.at[dz, spin] = mean(magnetic_moments)
                     
-                relaxed_path = os.path.join(path, 'relaxed_', 'restart.json')
+                relaxed_path = os.path.join(path, 'relaxed_', 'moments.json')
                 if os.path.exists(relaxed_path):
                     atoms = read(relaxed_path)
                     zN = mean([atom.z for atom in atoms if atom.symbol == 'N'])
