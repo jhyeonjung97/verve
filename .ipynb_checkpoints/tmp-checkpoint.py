@@ -26,5 +26,5 @@ Ec_metal = pd.read_csv('energy_sub.tsv', delimiter='\t', index_col=0)
 Ec_oxygen = 5.1614  # eV
 Ec_oxide = Ec_metal + Ec_oxygen - Ef_oxide
 
-Ec_oxide.to_csv('concat_norm_cohesive.tsv', sep='\t', index=True)
+Ec_oxide.to_csv('energy_norm_cohesive.tsv', sep='\t', index=True)
 print("Cohesive energies of oxides calculated and saved to 'concat_norm_cohesive.tsv'.")
