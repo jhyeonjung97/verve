@@ -111,17 +111,19 @@ def plotting(df, df_relaxed, dzs, spins, ylabel, png_filename, color=None):
             y = filtered_df.values
             if color:
                 plot_smooth_line(x, y, color, f'{column} (fixed)')
+                plt.plot(x, y, marker='o', color=color, label=f'{column} (fixed)')
             else:
                 plot_smooth_line(x, y, spins[column], f'{column} (fixed)')
+                plt.plot(x, y, marker='o', color=spins[column], label=f'{column} (fixed)')
     for column in df_relaxed.columns:
         filtered_df = df_relaxed[column].dropna()
         if not filtered_df.empty:
             x = filtered_df.index
             y = filtered_df.values
             if color:
-                plot_smooth_line(x, y, color, f'{column} (relaxed)')
+                plt.plot(x, y, marker='x', color=color, label=f'{column} (relaxed)')
             else:
-                plot_smooth_line(x, y, spins[column], f'{column} (relaxed)')
+                plt.plot(x, y, marker='x', color=spins[column], label=f'{column} (relaxed)')
     plt.xticks(dzs)
     plt.xlabel('dz')
     plt.ylabel(ylabel)
