@@ -14,7 +14,7 @@ color_ranges = [plt.cm.Reds(np.linspace(0.3, 0.9, 3)),
                 plt.cm.Blues(np.linspace(0.3, 0.9, 3)),
                 plt.cm.Purples(np.linspace(0.3, 0.9, 3))]
 markers = ['s', 'd', 'p', 'o', '>', '<', 'D']
-stochiometries = [6, 6, 6, 8, 6, 8]
+stochiometries = [8, 8, 8, 8, 12, 8]
 
 rows = {
     '3d': ['Ca', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn', 'Ga', 'Ge'],
@@ -54,7 +54,7 @@ for i in range(6):
             for k in range(len(bulk_df)):
                 if not (pd.isna(slab_df.iloc[k, 0]) or pd.isna(bulk_df.iloc[k, 0]) or pd.isna(area_df.iloc[k, 0])):
                     if coord == '33' and row_key == '3d':
-                        surface_df.iloc[k, 0] = (slab_df.iloc[k, 0] - 12 * bulk_df.iloc[k, 0]) / (2 * area_df.iloc[k, 0])
+                        surface_df.iloc[k, 0] = (slab_df.iloc[k, 0] - 24 * bulk_df.iloc[k, 0]) / (2 * area_df.iloc[k, 0])
                     else:
                         surface_df.iloc[k, 0] = (slab_df.iloc[k, 0] - stochiometry * bulk_df.iloc[k, 0]) / (2 * area_df.iloc[k, 0])
                 else:
