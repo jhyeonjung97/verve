@@ -67,6 +67,9 @@ for row_key, metals in rows.items():
                     else:
                         df_relaxed_mag.at[dz, spin] = 0
 
+        print(df)
+        print(df_relaxed)
+        
         df_rel['HS-LS'] = df['HS'] - df['LS']
         df_relaxed_rel['HS-LS'] = df_relaxed['HS'] - df_relaxed['LS']
 
