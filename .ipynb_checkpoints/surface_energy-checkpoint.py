@@ -97,10 +97,10 @@ for i in range(6):
     for m, column in enumerate(combined_df.columns):
         x = range(len(combined_df[column]))
         plt.axhline(y=0, color='gray', linestyle='--')
-        plt.plot(x, combined_df[column], marker=marker, color=color_range[m], label=indice)
+        plt.plot(x, combined_df[column], marker=marker, color=color_range[m], label=column)
     combined_df.to_csv(tsv_filename_combined, sep='\t', float_format='%.4f')
     print(f"Combined data saved to {tsv_filename_combined}")
-    plt.xticks(np.arange(len(row)), row)
+    plt.xticks(np.arange(len(indice)), indice)
     plt.xlabel('Metal (MO)')
     plt.ylabel('Surface energy (eV/A^2)')
     plt.legend()
