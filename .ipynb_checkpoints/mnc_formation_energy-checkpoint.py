@@ -44,7 +44,7 @@ for row_key, metals in rows.items():
                         df.at[dz, spin] = energy
 
                         magnetic_moments = atoms.get_magnetic_moments()
-                        if magnetic_moments:
+                        if len(magnetic_moments) > 0:
                             for atom in atoms:
                                 if atom.symbol not in ['N', 'C', 'O', 'H']:
                                     df_mag.at[dz, spin] = abs(magnetic_moments[atom.index])
@@ -60,7 +60,7 @@ for row_key, metals in rows.items():
                     energy = atoms.get_total_energy()
                     df_relaxed.at[dz_relaxed, spin] = energy
                     magnetic_moments = atoms.get_magnetic_moments()
-                    if magnetic_moments:
+                    if len(magnetic_moments) > 0:
                         for atom in atoms:
                             if atom.symbol not in ['N', 'C', 'O', 'H']:
                                 df_relaxed_mag.at[dz, spin] = abs(magnetic_moments[atom.index])
