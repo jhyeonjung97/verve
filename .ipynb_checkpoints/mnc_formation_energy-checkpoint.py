@@ -43,6 +43,9 @@ for row_key, metals in rows.items():
                     energy = atoms.get_total_energy()
                     df_relaxed.at[dz_relaxed, spin] = energy
                     print(relaxed_path, dz_relaxed, spin, energy)
+
+        print(df)
+        print(df_relaxed)
         
         plt.figure(figsize=(8, 6))
         
