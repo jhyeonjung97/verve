@@ -12,7 +12,7 @@ Ec_oxygen = 5.1614  # eV
 
 # Calculate cohesive energy of oxides
 # Note: Conversion from kJ/mol to eV (1 eV = 96.485 kJ/mol)
-Ec_oxide = Ec_metal + Ec_oxygen - Ef_oxide / 96.485
+Ec_oxide = Ec_metal / 96.485 + Ec_oxygen - Ef_oxide
 
 # Save the result to a TSV file
 Ec_oxide.to_csv('concat_norm_cohesive.tsv', sep='\t', index=True)
