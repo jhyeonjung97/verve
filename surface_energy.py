@@ -36,13 +36,13 @@ for i in range(6):
     combined_df = pd.DataFrame()
     
     for j in range(3):
-        row_dir = row_key = list(rows.keys())[j]
-        row = rows[row_dir]
+        row_key = list(rows.keys())[j]
+        row = rows[row_key]
+        row_dir = row_dirs[j]
         
-        dir_path = f'{coord_dir}/{row_dir}/'
-        bulk_e_path = os.path.join(bulk_path, dir_path, 'energy_norm_energy.tsv')
-        slab_e_path = os.path.join(slab_path, dir_path, 'energy_energy.tsv')
-        area_e_path = os.path.join(slab_path, dir_path, 'energy_area.tsv')
+        bulk_e_path = os.path.join(bulk_path, coord_dir, row_dir, 'energy_norm_energy.tsv')
+        slab_e_path = os.path.join(slab_path, coord_dir, row_key, 'energy_energy.tsv')
+        area_e_path = os.path.join(slab_path, coord_dir, row_key, 'energy_area.tsv')
         
         if os.path.exists(bulk_e_path) and os.path.exists(slab_e_path) and os.path.exists(area_e_path):
             bulk_df = pd.read_csv(bulk_e_path, delimiter='\t').iloc[:, 1:]
@@ -55,6 +55,8 @@ for i in range(6):
                 if not (pd.isna(slab_df.iloc[k, 0]) or pd.isna(bulk_df.iloc[k, 0]) or pd.isna(area_df.iloc[k, 0])):
                     if coord == '33' and row_key == '3d':
                         surface_df.iloc[k, 0] = (slab_df.iloc[k, 0] - 24 * bulk_df.iloc[k, 0]) / (2 * area_df.iloc[k, 0])
+                    elif coord == 'WZ' and row_key == '3d':
+                        
                     else:
                         surface_df.iloc[k, 0] = (slab_df.iloc[k, 0] - stochiometry * bulk_df.iloc[k, 0]) / (2 * area_df.iloc[k, 0])
                 else:
