@@ -120,9 +120,9 @@ def plotting(df, df_relaxed, dzs, spins, ylabel, png_filename, color=None):
             x = filtered_df.index
             y = filtered_df.values
             if color:
-                plt.scatter(x, y, marker='x', color, label=f'{column} (relaxed)')
+                plt.scatter(x, y, marker='x', color=color, label=f'{column} (relaxed)')
             else:
-                plt.scatter(x, y, marker='x', spins[column], label=f'{column} (relaxed)')
+                plt.scatter(x, y, marker='x', color=spins[column], label=f'{column} (relaxed)')
     plt.xticks(dzs)
     plt.xlabel('dz')
     plt.ylabel(ylabel)
