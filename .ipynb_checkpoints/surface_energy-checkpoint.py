@@ -23,6 +23,8 @@ rows = {
 }
 row_dirs = ['1_afm', '4d', '5d']
 
+indice = [f'{a}\n{b}\n{c}' for a, b, c in zip(metal_rows['3d'], metal_rows['4d'], metal_rows['5d'])]
+
 bulk_path = '/pscratch/sd/j/jiuy97/3_V_shape'
 slab_path = '/pscratch/sd/j/jiuy97/4_V_slab'
 
@@ -95,7 +97,7 @@ for i in range(6):
     for m, column in enumerate(combined_df.columns):
         x = range(len(combined_df[column]))
         plt.axhline(y=0, color='gray', linestyle='--')
-        plt.plot(x, combined_df[column], marker=marker, color=color_range[m], label=column)
+        plt.plot(x, combined_df[column], marker=marker, color=color_range[m], label=indice)
     combined_df.to_csv(tsv_filename_combined, sep='\t', float_format='%.4f')
     print(f"Combined data saved to {tsv_filename_combined}")
     plt.xticks(np.arange(len(row)), row)
