@@ -6,9 +6,9 @@ import os
 import pandas as pd
 
 rows = {
-    '3d': ['Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu'],
-    '4d': ['Y', 'Zr', 'Nb', 'Mo', 'Tc', 'Ru', 'Rh', 'Pd', 'Ag'],
-    '5d': ['La', 'Hf', 'Ta', 'W', 'Re', 'Os', 'Ir', 'Pt', 'Au']
+    '3d': ['Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu'],
+    '4d': ['Zr', 'Nb', 'Mo', 'Tc', 'Ru', 'Rh', 'Pd'],
+    '5d': ['Hf', 'Ta', 'W', 'Re', 'Os', 'Ir', 'Pt']
 }
 spins = {'LS': '#ff7f0e', 'IS': '#279ff2', 'HS': '#9467bd'}
 dzs = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2]
