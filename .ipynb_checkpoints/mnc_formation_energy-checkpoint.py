@@ -25,6 +25,7 @@ for row_key, metals in rows.items():
             matching_paths = glob.glob(path_pattern)
             
             for path in matching_paths:
+                print(path)
                 for i, dz in enumerate(dzs):
                     atoms_path = os.path.join(path, f'{i}_', 'restart.json')
                     if os.path.exists(atoms_path):
