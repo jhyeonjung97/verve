@@ -23,7 +23,7 @@ rows = {
 }
 row_dirs = ['1_afm', '4d', '5d']
 
-indice = [f'{a}\n{b}\n{c}' for a, b, c in zip(metal_rows['3d'], metal_rows['4d'], metal_rows['5d'])]
+indice = [f'{a}\n{b}\n{c}' for a, b, c in zip(rows['3d'], rows['4d'], rows['5d'])]
 
 bulk_path = '/pscratch/sd/j/jiuy97/3_V_shape'
 slab_path = '/pscratch/sd/j/jiuy97/4_V_slab'
