@@ -51,11 +51,11 @@ for row_key, metals in rows.items():
                         df_relaxed_mag.at[dz_relaxed, spin] = mean(magnetic_moments_relaxed)
 
         combined_df = pd.concat([df, df_relaxed])
-        combined_df.to_csv(tsv_filename, sep='\t', float_format='.4f')
+        combined_df.to_csv(tsv_filename, sep='\t', float_format='%.4f')
         print(f"Data saved to {tsv_filename}")
         
         combined_df_mag = pd.concat([df_mag, df_relaxed_mag])
-        combined_df_mag.to_csv(tsv_mag_filename, sep='\t', float_format='.4f')
+        combined_df_mag.to_csv(tsv_mag_filename, sep='\t', float_format='%.4f')
         print(f"Data saved to {tsv_mag_filename}")
         
         plt.figure(figsize=(8, 6))
