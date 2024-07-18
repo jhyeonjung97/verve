@@ -16,9 +16,13 @@ dzs = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2]
 for row_key, metals in rows.items():
     for metal in metals:
         df = pd.DataFrame()
+        df_mag = pd.DataFrame()
         df_relaxed = pd.DataFrame()
+        df_relaxed_mag = pd.DataFrame()
         tsv_filename = f'{row_key}_{metal}.tsv'
         png_filename = f'{row_key}_{metal}.png'
+        tsv_mag_filename = f'{row_key}_{metal}_mag.tsv'
+        png_mag_filename = f'{row_key}_{metal}_mag.png'
         
         for spin in spins.keys():
             path_pattern = f'/scratch/x2755a09/3_MNC/{row_key}/*_{metal}/*_{spin}'
@@ -27,25 +31,32 @@ for row_key, metals in rows.items():
             for path in matching_paths:
                 print(path)
                 for i, dz in enumerate(dzs):
-                    atoms_path = os.path.join(path, f'{i}_', 'OUTCAR')
+                    atoms_path = os.path.join(path, f'{i}_', 'restart.json')
                     if os.path.exists(atoms_path):
                         atoms = read(atoms_path)
-                        energy = atoms.get_total_energy()
-                        df.at[dz, spin] = energy
-                        print(path, dz, spin, energy)
+                        df.at[dz, spin] = atoms.get_total_energy()
+                        magnetic_moments = [atom.magmom for atom in atoms if atom.symbol not in ['N', 'C', 'O', 'H']]
+                        if magnetic_moments:
+                            df_mag.at[dz, spin] = mean(magnetic_moments)
                     
-                relaxed_path = os.path.join(path, 'relaxed_', 'OUTCAR')
+                relaxed_path = os.path.join(path, 'relaxed_', 'restart.json')
                 if os.path.exists(relaxed_path):
                     atoms = read(relaxed_path)
                     zN = mean([atom.z for atom in atoms if atom.symbol == 'N'])
                     zM = mean([atom.z for atom in atoms if atom.symbol not in ['N', 'C', 'O', 'H']])
                     dz_relaxed = abs(zN - zM)
-                    energy = atoms.get_total_energy()
-                    df_relaxed.at[dz_relaxed, spin] = energy
-                    print(relaxed_path, dz_relaxed, spin, energy)
+                    df_relaxed.at[dz_relaxed, spin] = atoms.get_total_energy()
+                    magnetic_moments_relaxed = [atom.magmom for atom in atoms if atom.symbol not in ['N', 'C', 'O', 'H']]
+                    if magnetic_moments_relaxed:
+                        df_relaxed_mag.at[dz_relaxed, spin] = mean(magnetic_moments_relaxed)
 
-        print(df)
-        print(df_relaxed)
+        combined_df = pd.concat([df, df_relaxed])
+        combined_df.to_csv(tsv_filename, sep='\t', float_format='.4f')
+        print(f"Data saved to {tsv_filename}")
+        
+        combined_df_mag = pd.concat([df_mag, df_relaxed_mag])
+        combined_df_mag.to_csv(tsv_mag_filename, sep='\t', float_format='.4f')
+        print(f"Data saved to {tsv_mag_filename}")
         
         plt.figure(figsize=(8, 6))
         
@@ -54,7 +65,7 @@ for row_key, metals in rows.items():
             if not filtered_df.empty:
                 x = filtered_df.index
                 y = filtered_df.values
-                plt.plot(x, y, marker='o', color=spins[column], label=f'{column} (unrelaxed)')
+                plt.plot(x, y, marker='o', color=spins[column], label=f'{column} (fixed)')
             
         for column in df_relaxed.columns:
             filtered_df_relaxed = df_relaxed[column].dropna()
@@ -72,6 +83,27 @@ for row_key, metals in rows.items():
         print(f"Figure saved as {png_filename}")
         plt.close()
 
-        combined_df = pd.concat([df, df_relaxed], keys=['unrelaxed', 'relaxed'])
-        combined_df.to_csv(tsv_filename, sep='\t')
-        print(f"Data saved to {tsv_filename}")
+        plt.figure(figsize=(8, 6))
+        
+        for column in df_mag.columns:
+            filtered_df = df_mag[column].dropna()
+            if not filtered_df.empty:
+                x = filtered_df.index
+                y = filtered_df.values
+                plt.plot(x, y, marker='o', color=spins[column], label=f'{column} (fixed)')
+            
+        for column in df_relaxed_mag.columns:
+            filtered_df_relaxed_mag = df_relaxed_mag[column].dropna()
+            if not filtered_df_relaxed_mag.empty:
+                x = filtered_df_relaxed_mag.index
+                y = filtered_df_relaxed_mag.values
+                plt.plot(x, y, marker='x', color=spins[column], label=f'{column} (relaxed)')
+        
+        plt.xticks(dzs)
+        plt.xlabel('dz')
+        plt.ylabel('Magnetic Moments')
+        plt.legend()
+        plt.tight_layout()
+        plt.savefig(png_mag_filename, bbox_inches="tight")
+        print(f"Figure saved as {png_mag_filename}")
+        plt.close()
