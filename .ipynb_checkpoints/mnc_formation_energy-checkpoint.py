@@ -101,6 +101,7 @@ def plot_smooth_line(x, y, color, label):
     spl = make_interp_spline(x, y, k=3)  # Smoothing spline
     y_smooth = spl(x_new)
     plt.plot(x_new, y_smooth, color=color, label=label)
+    plt.scatter(x, y, color=color)  # Add markers without label
 
 def plotting(df, df_relaxed, dzs, spins, ylabel, png_filename, color=None):
     plt.figure(figsize=(8, 6))
@@ -111,19 +112,17 @@ def plotting(df, df_relaxed, dzs, spins, ylabel, png_filename, color=None):
             y = filtered_df.values
             if color:
                 plot_smooth_line(x, y, color, f'{column} (fixed)')
-                plt.plot(x, y, marker='o', color=color, label=f'{column} (fixed)')
             else:
                 plot_smooth_line(x, y, spins[column], f'{column} (fixed)')
-                plt.plot(x, y, marker='o', color=spins[column], label=f'{column} (fixed)')
     for column in df_relaxed.columns:
         filtered_df = df_relaxed[column].dropna()
         if not filtered_df.empty:
             x = filtered_df.index
             y = filtered_df.values
             if color:
-                plt.plot(x, y, marker='x', color=color, label=f'{column} (relaxed)')
+                plt.scatter(x, y, marker='x', color, label=f'{column} (relaxed)')
             else:
-                plt.plot(x, y, marker='x', color=spins[column], label=f'{column} (relaxed)')
+                plt.scatter(x, y, marker='x', spins[column], label=f'{column} (relaxed)')
     plt.xticks(dzs)
     plt.xlabel('dz')
     plt.ylabel(ylabel)
