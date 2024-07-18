@@ -64,7 +64,8 @@ for i in range(6):
             
             max_value = surface_df.max().max()
             min_value = surface_df.min().min()
-            print(f"Max, Min for {coord}_{row_key}: {max_value}, {min_value}")
+            # print(f"Max, Min for {coord}_{row_key}: {max_value}, {min_value}")
+            print("Max, Min for {}_{}: {:.4f}, {:.4f}".format(coord, row_key, max_value, min_value))
 
             combined_df = pd.concat([combined_df, surface_df.rename(columns={'energy': f'{coord}_{row_key}'})], axis=1)
             
