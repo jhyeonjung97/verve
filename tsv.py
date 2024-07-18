@@ -18,22 +18,22 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, a
     if row:
         indice = metal_rows[row]
         l = 6
-        markers = ['v', 'v', '^', 's', 's', 'o']
+        markers = ['>', '<', 'o', 's', 'p', 'd']
         colors = ['#d62728', '#ff7f0e', '#ffd70e', '#2ca02c', '#279ff2', '#9467bd']
     else:
         indice = [f'{a}\n{b}\n{c}' for a, b, c in zip(metal_rows['3d'], metal_rows['4d'], metal_rows['5d'])]
         l = len(filenames)
         if '1_Tetrahedral_WZ' in os.getcwd():
             coordination = 'WZ'
-            markers = ['v'] * l
+            markers = ['>'] * l
             colors = plt.cm.Reds(np.linspace(0.4, 0.9, l))
         elif '2_Tetrahedral_ZB' in os.getcwd():
             coordination = 'ZB'
-            markers = ['v'] * l
+            markers = ['<'] * l
             colors = plt.cm.Oranges(np.linspace(0.4, 0.9, l))
         elif '3_Pyramidal_LT' in os.getcwd():
             coordination = 'LT'
-            markers = ['^'] * l
+            markers = ['o'] * l
             colors = plt.cm.Wistia(np.linspace(0.4, 0.9, l))
         elif '4_Square_Planar_TN' in os.getcwd():
             coordination = 'TN'
@@ -41,11 +41,11 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, a
             colors = plt.cm.Greens(np.linspace(0.4, 0.9, l))
         elif '5_Square_Planar_33' in os.getcwd():
             coordination = '33'
-            markers = ['s'] * l
+            markers = ['p'] * l
             colors = plt.cm.Blues(np.linspace(0.4, 0.9, l))
         elif '6_Octahedral_RS' in os.getcwd():
             coordination = 'RS'
-            markers = ['o'] * l
+            markers = ['d'] * l
             colors = plt.cm.Purples(np.linspace(0.4, 0.9, l))
 
     merged_df = None    
@@ -85,7 +85,7 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, a
         exp_df = pd.read_csv(exp_path, delimiter='\t')
         exp_df['dH_form'] = exp_df['dH_form'] / 96.48
         exp_colors = {'WZ': '#d62728', 'ZB': '#ff7f0e', 'LT': '#ffd70e', 'TN': '#2ca02c', '33': '#279ff2', 'RS': '#9467bd'}
-        exp_markers = {'WZ': 'v', 'ZB': 'v', 'LT': '^', 'TN': 's', '33': 's', 'RS': 'o'}
+        exp_markers = {'WZ': '>', 'ZB': '<', 'LT': 'o', 'TN': 's', '33': 'p', 'RS': 'd'}
         if row:
             for i in exp_df.index:
                 if exp_df['row'][i] == row:
@@ -132,6 +132,5 @@ if __name__ == "__main__":
     parser.add_argument('--font', type=float, default=10)
     
     args = parser.parse_args()        
-    plot_patterns_from_multiple_tsv(args.files, args.output, args.xlabel, args.ylabel, args.labels, 
-                                    args.a, args.b, args.row, fontsize=args.font)
+    plot_patterns_from_multiple_tsv(args.files, args.output, args.xlabel, args.ylabel, args.labels, args.a, args.b, args.row, fontsize=args.font)
 
