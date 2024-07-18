@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
-coords = ['WZ', 'ZB', 'LT', 'TN', '33', 'RS']
+coords = ['WZ', 'ZB', 'LT', 'TN', 'NB', 'RS']
 coord_dirs = ['1_Tetrahedral_WZ', '2_Tetrahedral_ZB', '3_Pyramidal_LT',
               '4_Square_Planar_TN', '5_Square_Planar_33', '6_Octahedral_RS']
 colors = ['#d62728', '#ff7f0e', '#ffd70e', '#2ca02c', '#279ff2', '#9467bd']
@@ -60,7 +60,7 @@ for i in range(6):
                         surface_df.iloc[k, 0] = (slab_df.iloc[k, 0] - stochiometry * bulk_df.iloc[k, 0]) / (2 * area_df.iloc[k, 0])
                 else:
                     surface_df.iloc[k, 0] = np.nan
-            
+                    
             surface_df['energy'] = surface_df['energy'].astype(float)
             
             max_value = surface_df.max().max()
@@ -70,8 +70,8 @@ for i in range(6):
 
             combined_df = pd.concat([combined_df, surface_df.rename(columns={'energy': f'{coord}_{row_key}'})], axis=1)
             
-            png_filename = f"surface_{coord}_{row_key}.png"
-            tsv_filename = f"surface_{coord}_{row_key}.tsv"
+            png_filename = f"surface_{i}{coord}_{row_key}.png"
+            tsv_filename = f"surface_{i}{coord}_{row_key}.tsv"
 
             plt.figure(figsize=(8, 6))
             x = range(len(surface_df['energy']))
