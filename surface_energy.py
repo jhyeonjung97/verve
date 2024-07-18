@@ -61,6 +61,7 @@ for i in range(6):
                 else:
                     surface_df.iloc[k, 0] = np.nan
             
+            surface_df['energy'] = surface_df['energy'].astype(float)
             
             max_value = surface_df.max().max()
             min_value = surface_df.min().min()
