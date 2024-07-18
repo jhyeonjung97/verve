@@ -15,8 +15,8 @@ dzs = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2]
 
 for row_key, metals in rows.items():
     for metal in metals:
-        df = pd.DataFrame(index=dzs, columns=spins.keys())
-        df_relaxed = pd.DataFrame(index=dzs, columns=spins.keys())
+        df = pd.DataFrame()
+        df_relaxed = pd.DataFrame()
         tsv_filename = f'{row_key}_{metal}.tsv'
         png_filename = f'{row_key}_{metal}.png'
         
