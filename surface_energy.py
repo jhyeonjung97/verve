@@ -53,7 +53,7 @@ for i in range(6):
             
             for k in range(len(bulk_df)):
                 if not (pd.isna(slab_df.iloc[k, 0]) or pd.isna(bulk_df.iloc[k, 0]) or pd.isna(area_df.iloc[k, 0])):
-                    if coord == '33' and row_key == '3d':
+                    if coord == 'NB' and row_key == '3d':
                         surface_df.iloc[k, 0] = (slab_df.iloc[k, 0] - 24 * bulk_df.iloc[k, 0]) / (2 * area_df.iloc[k, 0])
                     # elif coord == 'WZ' and row_key == '3d':                        
                     else:
@@ -88,8 +88,8 @@ for i in range(6):
             print(f"Figure saved as {png_filename}")
             plt.close()
 
-    png_filename_combined = f"surface_{coord}.png"
-    tsv_filename_combined = f"surface_{coord}.tsv"
+    png_filename_combined = f"surface_{i}{coord}.png"
+    tsv_filename_combined = f"surface_{i}{coord}.tsv"
     
     plt.figure(figsize=(8, 6))
     for m, column in enumerate(combined_df.columns):
