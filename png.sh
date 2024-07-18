@@ -145,6 +145,11 @@ elif [[ ${here} == 'nersc' ]]; then
     # python ~/bin/verve/sum.py -r 4d -x "Metal (MO)" -y "E_form - ICOHP - E_Madelung (eV/M-O)" -p merged_norm_formation_4d.tsv -m merged_ICOHP_4d.tsv merged_norm_MadelungL_4d.tsv -o cfse_4d
     # python ~/bin/verve/sum.py -r 5d -x "Metal (MO)" -y "E_form - ICOHP - E_Madelung (eV/M-O)" -p merged_norm_formation_5d.tsv -m merged_ICOHP_5d.tsv merged_norm_MadelungL_5d.tsv -o cfse_5d
 
+
+python ~/bin/verve/tsv.py -r 3d -x "Metal (MO)" -y "Cohesive energy (eV/MO)" -o norm_cohesive_3d */1_afm/energy_norm_cohesive.tsv
+python ~/bin/verve/tsv.py -r 4d -x "Metal (MO)" -y "Cohesive energy (eV/MO)" -o norm_cohesive_4d */4d/energy_norm_cohesive.tsv
+python ~/bin/verve/tsv.py -r 5d -x "Metal (MO)" -y "Cohesive energy (eV/MO)" -o norm_cohesive_5d */5d/energy_norm_cohesive.tsv
+    
 python ~/bin/verve/rel2octa.py concat_norm_formation.tsv
 python ~/bin/verve/rel2octa.py concat_ICOHP_per_MO.tsv
 python ~/bin/verve/rel2octa.py concat_ICOHP_per_bond.tsv
@@ -156,18 +161,8 @@ python ~/bin/verve/rel2octa.py concat_bond.tsv
 python ~/bin/verve/rel2octa.py concat_chg.tsv
 python ~/bin/verve/rel2octa.py concat_redoxP.tsv
 python ~/bin/verve/rel2octa.py concat_redoxP_clean.tsv
+python ~/bin/verve/rel2octa.py concat_norm_cohesive.tsv
 
-python ~/bin/verve/concat.py -o norm_formation --X *_*_*/merged_norm_formation.tsv
-<<<<<<< HEAD
-python ~/bin/verve/concat.py -o norm_formation_rel --X *_*_*/summed_norm_formation_rel.tsv
-=======
-<<<<<<< HEAD
-python ~/bin/verve/concat.py -o norm_formation_rel --X *_*_*/summed_norm_formation_rel.tsv
-=======
->>>>>>> 131cc4c1e8b23ac931110d55b367032c6c76fdee
-python ~/bin/verve/concat.py -o coord --X *_*_*/merged_coord.tsv
-python ~/bin/verve/concat.py -o element --X *_*_*/merged_element.tsv
->>>>>>> e5d86dffd6f3938c04c338cc41a557303a3ece54
 python ~/bin/verve/concat.py -o ICOHP --X *_*_*/merged_ICOHP.tsv
 python ~/bin/verve/concat.py -o ICOHP_per_MO --X *_*_*/merged_ICOHP_per_MO.tsv
 python ~/bin/verve/concat.py -o ICOHP_per_bond --X *_*_*/merged_ICOHP_per_bond.tsv
@@ -181,9 +176,7 @@ python ~/bin/verve/concat.py -o bond --X *_*_*/merged_bond.tsv
 python ~/bin/verve/concat.py -o chg --X *_*_*/merged_chg.tsv
 python ~/bin/verve/concat.py -o redoxP --X *_*_*/merged_redoxP.tsv
 python ~/bin/verve/concat.py -o redoxP_clean --X *_*_*/merged_redoxP_clean.tsv
-<<<<<<< HEAD
-python ~/bin/verve/concat.py -o sublimation --X *_*_*/merged_sub.tsv
-python ~/bin/verve/concat.py -o row --X *_*_*/merged_row.tsv
+python ~/bin/verve/concat.py -o norm_cohesive --X *_*_*/merged_norm_cohesive.tsv
 
 python ~/bin/verve/lr.py -i \
 ICOHP_per_bond \
@@ -244,15 +237,8 @@ concat_melting_point.tsv \
 concat_boiling_point.tsv \
 concat_sublimation.tsv \
 concat_fusion_heat.tsv
-=======
-python ~/bin/verve/concat.py -o sub --X *_*_*/merged_sub.tsv
-<<<<<<< HEAD
-=======
 
->>>>>>> e5d86dffd6f3938c04c338cc41a557303a3ece54
->>>>>>> 131cc4c1e8b23ac931110d55b367032c6c76fdee
-
-python ~/bin/verve/lr.py -i \
+python ~/bin/verve/lr.py -o Ec -i \
 ICOHP_per_bond \
 ICOHP_per_MO \
 ICOBI \
@@ -280,7 +266,7 @@ melting_point \
 boiling_point \
 sublimation_heat \
 fusion_heat \
---Y concat_norm_formation.tsv \
+--Y concat_norm_cohesive.tsv \
 --X \
 concat_ICOHP_per_bond.tsv \
 concat_ICOHP_per_MO.tsv \
@@ -310,7 +296,7 @@ concat_boiling_point.tsv \
 concat_sublimation.tsv \
 concat_fusion_heat.tsv
 
-python ~/bin/verve/lr.py -i \
+python ~/bin/verve/lr.py -o Ec -i \
 ICOHP_per_bond \
 ICOHP_per_MO \
 ICOBI \
@@ -338,7 +324,7 @@ melting_point \
 boiling_point \
 sublimation_heat \
 fusion_heat \
---Y concat_norm_formation_rel.tsv \
+--Y concat_norm_cohesive.tsv \
 --X \
 concat_ICOHP_per_bond.tsv \
 concat_ICOHP_per_MO.tsv \
@@ -368,7 +354,7 @@ concat_boiling_point.tsv \
 concat_sublimation.tsv \
 concat_fusion_heat.tsv
 
-python ~/bin/verve/lr.py -o rel -i \
+python ~/bin/verve/lr.py -o Ec_rel -i \
 ICOHP_per_bond_rel \
 ICOHP_per_MO_rel \
 ICOBI_rel \
@@ -396,7 +382,7 @@ melting_point \
 boiling_point \
 sublimation_heat \
 fusion_heat \
---Y concat_norm_formation_rel.tsv \
+--Y concat_norm_cohesive_rel.tsv \
 --X \
 concat_ICOHP_per_bond_rel.tsv \
 concat_ICOHP_per_MO_rel.tsv \
