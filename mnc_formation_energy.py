@@ -67,11 +67,15 @@ for row_key, metals in rows.items():
                     else:
                         df_relaxed_mag.at[dz, spin] = 0
 
-        print(df)
-        print(df_relaxed)
-        
-        df_rel['HS-LS'] = df['HS'] - df['LS']
-        df_relaxed_rel['HS-LS'] = df_relaxed['HS'] - df_relaxed['LS']
+        if 'HS' in df.columns and 'LS' in df.columns:
+            df_rel['HS-LS'] = df['HS'] - df['LS']
+        else:
+            print(f"Warning: 'HS' or 'LS' column not found in df for {row_key}_{metal}")
+
+        if 'HS' in df_relaxed.columns and 'LS' in df_relaxed.columns:
+            df_relaxed_rel['HS-LS'] = df_relaxed['HS'] - df_relaxed['LS']
+        else:
+            print(f"Warning: 'HS' or 'LS' column not found in df_relaxed for {row_key}_{metal}")
 
         combined_df = pd.concat([df, df_relaxed])
         combined_df.to_csv(tsv_filename, sep='\t', float_format='%.2f')
