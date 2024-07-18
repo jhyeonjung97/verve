@@ -55,8 +55,7 @@ for i in range(6):
                 if not (pd.isna(slab_df.iloc[k, 0]) or pd.isna(bulk_df.iloc[k, 0]) or pd.isna(area_df.iloc[k, 0])):
                     if coord == '33' and row_key == '3d':
                         surface_df.iloc[k, 0] = (slab_df.iloc[k, 0] - 24 * bulk_df.iloc[k, 0]) / (2 * area_df.iloc[k, 0])
-                    elif coord == 'WZ' and row_key == '3d':
-                        
+                    # elif coord == 'WZ' and row_key == '3d':                        
                     else:
                         surface_df.iloc[k, 0] = (slab_df.iloc[k, 0] - stochiometry * bulk_df.iloc[k, 0]) / (2 * area_df.iloc[k, 0])
                 else:
