@@ -15,7 +15,8 @@ def main():
         X_dataframes.append(df_X)
         
     df_X_combined = pd.concat(X_dataframes, axis=0)
-    df_X_combined.to_csv(f'concat_{filename}.tsv', sep='\t', index=True)
+    # df_X_combined = df_X_combined.astype(float)
+    df_X_combined.to_csv(f'concat_{filename}.tsv', sep='\t', index=True, float_format='%.4f')
 
 if __name__ == "__main__":
     main()

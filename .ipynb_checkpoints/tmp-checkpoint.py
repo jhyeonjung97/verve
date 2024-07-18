@@ -1,17 +1,20 @@
-#!/bin/bash
+import numpy as np
+import pandas as pd
 
-# Get the current working directory
-current_dir=$(pwd)
+# Load the data from TSV files
+# concat_norm_formation.tsv contains formation energies
+# concat_sublimation_heat.tsv contains sublimation heats (or cohesive energies) of metals
+Ef_oxide = pd.read_csv('concat_norm_formation.tsv', delimiter='\t', index_col=0)
+Ec_metal = pd.read_csv('concat_sublimation_heat.tsv', delimiter='\t', index_col=0)
 
-# Split the path into components
-IFS='/' read -r -a path_components <<< "$current_dir"
+# Cohesive energy of O2 molecule (converted to eV/atom)
+Ec_oxygen = 5.1614  # eV
 
-# Extract the required parts and split by '_'
-metal=$(echo "${path_components[-3]}" | cut -d'_' -f2)
-spin=$(echo "${path_components[-2]}" | cut -d'_' -f2)
-dz=$(echo "${path_components[-1]}" | cut -d'_' -f1)
+# Calculate cohesive energy of oxides
+# Note: Conversion from kJ/mol to eV (1 eV = 96.485 kJ/mol)
+Ec_oxide = Ec_metal + Ec_oxygen - Ef_oxide / 96.485
 
-# Print the results
-echo "Metal part: $metal"
-echo "Spin part: $spin"
-echo "DZ part: $dz"
+# Save the result to a TSV file
+Ec_oxide.to_csv('concat_norm_cohesive.tsv', sep='\t', index=True)
+
+print("Cohesive energies of oxides calculated and saved to 'concat_norm_cohesive.tsv'.")
