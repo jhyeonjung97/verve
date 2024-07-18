@@ -35,9 +35,9 @@ for row_key, metals in rows.items():
                     if os.path.exists(atoms_path):
                         atoms = read(atoms_path)
                         df.at[dz, spin] = atoms.get_total_energy()
-                        magnetic_moments = [atom.magmom for atom in atoms if atom.symbol not in ['N', 'C', 'O', 'H']]
-                        if magnetic_moments:
-                            df_mag.at[dz, spin] = mean(magnetic_moments)
+                        for atom in atoms:
+                            if atom.symbol not in ['N', 'C', 'O', 'H']:
+                                df_mag.at[dz, spin] = atoms.get_magnetic_moments()[atom.index]
                     
                 relaxed_path = os.path.join(path, 'relaxed_', 'moments.json')
                 if os.path.exists(relaxed_path):
@@ -46,16 +46,16 @@ for row_key, metals in rows.items():
                     zM = mean([atom.z for atom in atoms if atom.symbol not in ['N', 'C', 'O', 'H']])
                     dz_relaxed = abs(zN - zM)
                     df_relaxed.at[dz_relaxed, spin] = atoms.get_total_energy()
-                    magnetic_moments_relaxed = [atom.magmom for atom in atoms if atom.symbol not in ['N', 'C', 'O', 'H']]
-                    if magnetic_moments_relaxed:
-                        df_relaxed_mag.at[dz_relaxed, spin] = mean(magnetic_moments_relaxed)
+                    for atom in atoms:
+                        if atom.symbol not in ['N', 'C', 'O', 'H']:
+                            df_relaxed_mag.at[dz, spin] = atoms.get_magnetic_moments()[atom.index]
 
         combined_df = pd.concat([df, df_relaxed])
-        combined_df.to_csv(tsv_filename, sep='\t', float_format='%.4f')
+        combined_df.to_csv(tsv_filename, sep='\t', float_format='%.2f')
         print(f"Data saved to {tsv_filename}")
         
         combined_df_mag = pd.concat([df_mag, df_relaxed_mag])
-        combined_df_mag.to_csv(tsv_mag_filename, sep='\t', float_format='%.4f')
+        combined_df_mag.to_csv(tsv_mag_filename, sep='\t', float_format='%.2f')
         print(f"Data saved to {tsv_mag_filename}")
         
         plt.figure(figsize=(8, 6))
