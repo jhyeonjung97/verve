@@ -27,13 +27,13 @@ for row_key, metals in rows.items():
             for path in matching_paths:
                 print(path)
                 for i, dz in enumerate(dzs):
-                    atoms_path = os.path.join(path, f'{i}_', 'restart.json')
+                    atoms_path = os.path.join(path, f'{i}_', 'OUTCAR')
                     if os.path.exists(atoms_path):
                         atoms = read(atoms_path)
                         energy = atoms.get_total_energy()
                         df.at[dz, spin] = energy
                     
-                relaxed_path = os.path.join(path, 'relaxed_', 'restart.json')
+                relaxed_path = os.path.join(path, 'relaxed_', 'OUTCAR')
                 if os.path.exists(relaxed_path):
                     atoms = read(relaxed_path)
                     zN = mean([atom.z for atom in atoms if atom.symbol == 'N'])
