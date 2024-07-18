@@ -21,7 +21,7 @@ rows = {
     '4d': ['Sr', 'Y', 'Zr', 'Nb', 'Mo', 'Tc', 'Ru', 'Rh', 'Pd', 'Ag', 'Cd', 'In', 'Sn'],
     '5d': ['Ba', 'La', 'Hf', 'Ta', 'W', 'Re', 'Os', 'Ir', 'Pt', 'Au', 'Hg', 'Tl', 'Pb']
 }
-row_dirs = ['3d', '4d', '5d']
+row_dirs = ['1_afm', '4d', '5d']
 
 bulk_path = '/pscratch/sd/j/jiuy97/3_V_shape'
 slab_path = '/pscratch/sd/j/jiuy97/4_V_slab'
