@@ -60,7 +60,6 @@ def main():
                             # formation_energy = energy - metal_df.at[metal, 'energy'] - numb_C * carbon - numb_N * nitrogen
                             formation_energy = energy - metal_df.at[metal, 'energy'] - 26 * carbon - 4 * nitrogen
                             df.at[dz, spin] = formation_energy
-                            
                             try:
                                 magmoms = atoms.get_magnetic_moments()[atom.index]
                                 for atom in atoms:
@@ -81,13 +80,13 @@ def main():
                         # formation_energy = energy - metal_df.at[metal, 'energy'] - numb_C * carbon - numb_N * nitrogen
                         formation_energy = energy - metal_df.at[metal, 'energy'] - 26 * carbon - 4 * nitrogen
                         df_relaxed.at[dz_relaxed, spin] = formation_energy
-
-                        magnetic_moments_relaxed = atoms.get_magnetic_moments()
-                        if magnetic_moments_relaxed is not None:
-                            magmoms_relaxed = [abs(magnetic_moments_relaxed[atom.index]) for atom in atoms if atom.symbol not in ['N', 'C', 'O', 'H']]
-                            df_relaxed_mag.at[dz_relaxed, spin] = mean(magmoms_relaxed) if magmoms_relaxed else 0
-                        else:
-                            df_relaxed_mag.at[dz_relaxed, spin] = 0
+                        try:
+                            magmoms = atoms.get_magnetic_moments()[atom.index]
+                            for atom in atoms:
+                                if atom.symbol not in ['N', 'C', 'O', 'H']:
+                                    df_relaxed_mag.at[i, metal] = abs(magmoms[atom.index]) 
+                        except:
+                            df_relaxed_mag.at[dz, spin] = 0
 
             if 'HS' in df.columns and 'LS' in df.columns:
                 df_rel['HS-LS'] = df['HS'] - df['LS']
