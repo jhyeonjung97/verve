@@ -51,7 +51,7 @@ def main():
                 for path in matching_paths:
                     print(path)
                     for i, dz in enumerate(dzs):
-                        atoms_path = os.path.join(path, f'{i}_', 'restart.json')
+                        atoms_path = os.path.join(path, f'{i}_', 'moments.json')
                         if os.path.exists(atoms_path):
                             atoms = read(atoms_path)
                             energy = atoms.get_total_energy()
@@ -67,7 +67,7 @@ def main():
                             else:
                                 df_mag.at[dz, spin] = 0
 
-                    relaxed_path = os.path.join(path, 'relaxed_', 'restart.json')
+                    relaxed_path = os.path.join(path, 'relaxed_', 'moments.json')
                     if os.path.exists(relaxed_path):
                         atoms = read(relaxed_path)
                         zN = mean([atom.z for atom in atoms if atom.symbol == 'N'])
