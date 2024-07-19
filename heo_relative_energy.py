@@ -17,10 +17,12 @@ png_filename = 'heo_relative_energy.png'
 tsv_mag_filename = 'heo_magnetic_moments.tsv'
 png_mag_filename = 'heo_magnetic_moments.png'
 
-def plotting_bar(df, ylabel, png_filename):
-    df.transpose().plot(kind='bar', figsize=(12, 8))
-    plt.xlabel('Index')
-    plt.ylabel(ylabel)
+def histogram(df, xlabel, png_filename):
+    plt.figure(figsize=(12, 8))
+    for column in df.columns:
+        plt.hist(df[column].dropna(), bins=20, alpha=0.5, label=str(column))
+    plt.xlabel(xlabel)
+    plt.ylabel('Frequency')
     plt.legend(title="Metals")
     plt.savefig(png_filename)
     plt.show()
@@ -42,11 +44,13 @@ def main():
 
     # Save data to TSV files
     df.to_csv(tsv_filename, sep='\t')
+    print(f"Data saved to {tsv_filename}")
     df_mag.to_csv(tsv_mag_filename, sep='\t')
+    print(f"Data saved to {tsv_mag_filename}")
 
     # Plotting the data
-    plotting_bar(df=df, ylabel='Relative energy (eV)', png_filename=png_filename)
-    plotting_bar(df=df_mag, ylabel='Magnetic Moments', png_filename=png_mag_filename)
+    histogram(df=df, xlabel='Relative energy (eV)', png_filename=png_filename)
+    histogram(df=df_mag, xlabel='Magnetic Moments', png_filename=png_mag_filename)
 
 if __name__ == "__main__":
     main()
