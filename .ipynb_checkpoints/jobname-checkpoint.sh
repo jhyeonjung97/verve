@@ -51,10 +51,14 @@ if [[ -n $DIR ]]; then
         i=${dir:0:$cut}
         echo -n -e "$dir\t"
         sed -i "/#SBATCH -J/c\#SBATCH -J ${name}$i" "$dir/submit.sh"
+        sed -i "/#PBS -N/c\#PBS -N ${name}$i" "$dir/submit.sh"
         grep '#SBATCH -J' "$dir/submit.sh"
+        grep '#PBS -N' "$dir/submit.sh"
     done
 else
     sed -i "/#SBATCH -J/c\#SBATCH -J $name" submit.sh
+    sed -i "/#PBS -N/c\#PBS -N $name" submit.sh
     grep '#SBATCH -J' submit.sh
+    grep '#PBS -N' submit.sh
     exit 0
 fi
