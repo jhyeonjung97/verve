@@ -39,7 +39,7 @@ df_mag.to_csv(tsv_mag_filename, sep='\t', float_format='%.2f')
 print(f"Data saved to {tsv_mag_filename}")
 
 # Plotting the data
-plt.figure(figsize=(12, 8))
+plt.figure(figsize=(8, 6))
 plt.hist(df['energy'].dropna(), bins=np.arange(-2.0, 0.1, 0.1), alpha=0.5, width=0.09)
 plt.xlabel('Relative energy (eV)')
 plt.ylabel('Frequency')
@@ -50,7 +50,7 @@ plt.close()
 
 # Plotting the magnetic moments histogram
 for column in df_mag.columns:
-    plt.figure(figsize=(12, 8))
+    plt.figure(figsize=(8, 6))
     plt.hist(df_mag[column].dropna(), bins=np.arange(0, 6, 0.1), alpha=0.5, label=str(column), width=0.09)
     plt.xlabel('Magnetic Moments')
     plt.ylabel('Frequency')
@@ -60,9 +60,9 @@ for column in df_mag.columns:
     print(f"Figure saved as heo_magnetic_moments_{column}.png")
     plt.close()
 
-plt.figure(figsize=(12, 8))
-bins = np.arange(0, 6, 0.1)
-bin_width = 0.1 / (len(df_mag.columns) + 1)  # Calculate new width for each bar
+plt.figure(figsize=(8, 6))
+bins = np.arange(0, 6, 0.2)
+bin_width = 0.2 / (len(df_mag.columns) + 1)  # Calculate new width for each bar
 for idx, column in enumerate(df_mag.columns):
     plt.hist(df_mag[column].dropna(), bins=bins + idx * bin_width, alpha=0.5, label=str(column), width=bin_width)
 plt.xlabel('Magnetic Moments')

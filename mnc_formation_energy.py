@@ -49,10 +49,10 @@ def main():
                 matching_paths = glob.glob(path_pattern)
 
                 for path in matching_paths:
-                    print(path)
                     for i, dz in enumerate(dzs):
                         atoms_path = os.path.join(path, f'{i}_', 'moments.json')
                         if os.path.exists(atoms_path):
+                            print(atoms_path)
                             atoms = read(atoms_path)
                             energy = atoms.get_total_energy()
                             # numb_N = len([atom for atom in atoms if atom.symbol == 'N'])
@@ -60,11 +60,12 @@ def main():
                             # formation_energy = energy - metal_df.at[metal, 'energy'] - numb_C * carbon - numb_N * nitrogen
                             formation_energy = energy - metal_df.at[metal, 'energy'] - 26 * carbon - 4 * nitrogen
                             df.at[dz, spin] = formation_energy
-
-                            magnetic_moments = atoms.get_magnetic_moments()
-                            if magnetic_moments is not None:
-                                magmoms = [abs(magnetic_moments[atom.index]) for atom in atoms if atom.symbol not in ['N', 'C', 'O', 'H']]
-                                df_mag.at[dz, spin] = mean(magmoms) if magmoms else 0
+                            
+                            try:
+                                magmoms = atoms.get_magnetic_moments()[atom.index]
+                                for atom in atoms:
+                                    if atom.symbol not in ['N', 'C', 'O', 'H']]:
+                                    df_mag.at[i, metal] = abs(magmoms[atom.index]) 
                             else:
                                 df_mag.at[dz, spin] = 0
 
