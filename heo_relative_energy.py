@@ -7,7 +7,7 @@ import numpy as np
 import os
 
 # Define the metals and initialize dataframes
-prvs = ['Cr': -329.68518914, 'Mn': -317.97145238, 'Fe':-306.60147094, 'Co': -286.30355237, 'Ni': -279.92522654]
+prvs = {'Cr': -329.68518914, 'Mn': -317.97145238, 'Fe': -306.60147094, 'Co': -286.30355237, 'Ni': -279.92522654}
 df = pd.DataFrame()
 df_mag = pd.DataFrame()
 numb = [0] * 5
@@ -40,21 +40,12 @@ def main():
             continue
         atoms = read(path)
         energy = atoms.get_total_energy()
-        for j in range(5):
-            metal = prvs.keys()[j]
+        for j, metal in enumerate(pure_perovskites.keys()):
             numb[j] = len([atom for atom in atoms if atom.symbol == metal])
             magmom = mean([atoms.get_magnetic_moments()[atom.index] for atom in atoms if atom.symbol == metal])
             df_mag.at[metal, i] = magmom
-        relative_energy = energy - sum(numb[j] * prvs[j] / 8 for j in range(5))
-        df.at['energy', i] = relative_energy
+        relative_energy = energy - sum(numb[j] * prvs[metal] / 8 for j, metal in enumerate(prvs.keys()))
+        df.at[i, 'energy'] = relative_energy
 
     # Save data to TSV files
-    df.to_csv(tsv_filename, sep='\t')
-    df_mag.to_csv(tsv_mag_filename, sep='\t')
-
-    # Plotting the data
-    plotting(df=df, ylabel='Relative energy (eV)', png_filename=png_filename)
-    plotting(df=df_mag, ylabel='Magnetic Moments', png_filename=png_mag_filename)
-
-if __name__ == "__main__":
-    main()
+    df
