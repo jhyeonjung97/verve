@@ -40,23 +40,22 @@ def main():
 
     # Plotting the data
     plt.figure(figsize=(12, 8))
-    plt.hist(df['energy'].dropna(), bins=np.arange(-2.0, 0.1, 0.1), alpha=0.5)
+    plt.hist(df['energy'].dropna(), bins=np.arange(-2.0, 0.1, 0.1), alpha=0.5, width=0.09)
     plt.xlabel('Relative energy (eV)')
     plt.ylabel('Frequency')
-    plt.legend(title="Metals")
     plt.savefig(png_filename, bbox_inches="tight")
     print(f"Figure saved as {png_filename}")
-    plt.show()
+    plt.close()
 
     plt.figure(figsize=(12, 8))
     for column in df_mag.columns:
-        plt.hist(df[column].dropna(), bins=np.arange(0, 6, 1), alpha=0.5, label=str(column))
+        plt.hist(df_mag[column].dropna(), bins=np.arange(0, 6, 0.1), alpha=0.5, label=str(column), width=0.09)
     plt.xlabel('Magnetic Moments')
     plt.ylabel('Frequency')
     plt.legend(title="Metals")
     plt.savefig(png_mag_filename, bbox_inches="tight")
-    print(f"Figure saved as {png_filename}")
-    plt.show()
+    print(f"Figure saved as {png_mag_filename}")
+    plt.close()
 
 if __name__ == "__main__":
     main()
