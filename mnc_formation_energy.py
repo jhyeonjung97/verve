@@ -16,6 +16,17 @@ rows = {
 spins = {'LS': '#ff7f0e', 'IS': '#279ff2', 'HS': '#9467bd'}
 dzs = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2]
 
+# Energies and corrections
+nitrogen_E = -16.64503942 # eV, DFT
+nitrogen_TS = 0.635139 # eV, at 298.15 K, 1 atm
+nitrogen_ZPE = 0.096279 # eV, at 298.15 K, 1 atm
+nitrogen = (nitrogen_E - nitrogen_TS + nitrogen_ZPE) / 2
+
+carbon = -9.357363435 # eV, DFT
+
+metal_path = '/pscratch/sd/j/jiuy97/6_MNC/gas/metals.tsv'
+metal_df = pd.read_csv(metal_path, delimiter='\t', index_col=0)
+
 def main():
     for row_key, metals in rows.items():
         for metal in metals:
@@ -40,35 +51,40 @@ def main():
                 for path in matching_paths:
                     print(path)
                     for i, dz in enumerate(dzs):
-                        atoms_path = os.path.join(path, f'{i}_', 'moments.json')
+                        atoms_path = os.path.join(path, f'{i}_', 'restart.json')
                         if os.path.exists(atoms_path):
                             atoms = read(atoms_path)
                             energy = atoms.get_total_energy()
-                            df.at[dz, spin] = energy
+                            numb_N = len([atom for atom in atoms if atom.symbol == 'N'])
+                            numb_C = len([atom for atom in atoms if atom.symbol == 'C'])
+                            formation_energy = energy - metal_df.at[metal, 'energy'] - numb_C * carbon - numb_N * nitrogen
+                            df.at[dz, spin] = formation_energy
 
                             magnetic_moments = atoms.get_magnetic_moments()
-                            if len(magnetic_moments) > 0:
-                                for atom in atoms:
-                                    if atom.symbol not in ['N', 'C', 'O', 'H']:
-                                        df_mag.at[dz, spin] = abs(magnetic_moments[atom.index])
+                            if magnetic_moments is not None:
+                                non_H_magnetic_moments = [abs(magnetic_moments[atom.index]) for atom in atoms if atom.symbol not in ['N', 'C', 'O', 'H']]
+                                df_mag.at[dz, spin] = mean(non_H_magnetic_moments) if non_H_magnetic_moments else 0
                             else:
                                 df_mag.at[dz, spin] = 0
 
-                    relaxed_path = os.path.join(path, 'relaxed_', 'moments.json')
+                    relaxed_path = os.path.join(path, 'relaxed_', 'restart.json')
                     if os.path.exists(relaxed_path):
                         atoms = read(relaxed_path)
                         zN = mean([atom.z for atom in atoms if atom.symbol == 'N'])
                         zM = mean([atom.z for atom in atoms if atom.symbol not in ['N', 'C', 'O', 'H']])
                         dz_relaxed = abs(zN - zM)
                         energy = atoms.get_total_energy()
-                        df_relaxed.at[dz_relaxed, spin] = energy
-                        magnetic_moments = atoms.get_magnetic_moments()
-                        if len(magnetic_moments) > 0:
-                            for atom in atoms:
-                                if atom.symbol not in ['N', 'C', 'O', 'H']:
-                                    df_relaxed_mag.at[dz, spin] = abs(magnetic_moments[atom.index])
+                        numb_N = len([atom for atom in atoms if atom.symbol == 'N'])
+                        numb_C = len([atom for atom in atoms if atom.symbol == 'C'])
+                        formation_energy = energy - metal_df.at[metal, 'energy'] - numb_C * carbon - numb_N * nitrogen
+                        df_relaxed.at[dz_relaxed, spin] = formation_energy
+
+                        magnetic_moments_relaxed = atoms.get_magnetic_moments()
+                        if magnetic_moments_relaxed is not None:
+                            non_H_magnetic_moments_relaxed = [abs(magnetic_moments_relaxed[atom.index]) for atom in atoms if atom.symbol not in ['N', 'C', 'O', 'H']]
+                            df_relaxed_mag.at[dz_relaxed, spin] = mean(non_H_magnetic_moments_relaxed) if non_H_magnetic_moments_relaxed else 0
                         else:
-                            df_relaxed_mag.at[dz, spin] = 0
+                            df_relaxed_mag.at[dz_relaxed, spin] = 0
 
             if 'HS' in df.columns and 'LS' in df.columns:
                 df_rel['HS-LS'] = df['HS'] - df['LS']
