@@ -48,4 +48,12 @@ def main():
         df.at[i, 'energy'] = relative_energy
 
     # Save data to TSV files
-    df
+    df.to_csv(tsv_filename, sep='\t')
+    df_mag.to_csv(tsv_mag_filename, sep='\t')
+
+    # Plotting the data
+    plotting(df=df, ylabel='Relative energy (eV)', png_filename=png_filename)
+    plotting(df=df_mag, ylabel='Magnetic Moments', png_filename=png_mag_filename)
+
+if __name__ == "__main__":
+    main()
