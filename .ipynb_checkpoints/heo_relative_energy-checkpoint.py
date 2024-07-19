@@ -40,7 +40,7 @@ def main():
             continue
         atoms = read(path)
         energy = atoms.get_total_energy()
-        for j, metal in enumerate(pure_perovskites.keys()):
+        for j, metal in enumerate(prvs.keys()):
             numb[j] = len([atom for atom in atoms if atom.symbol == metal])
             magmom = mean([atoms.get_magnetic_moments()[atom.index] for atom in atoms if atom.symbol == metal])
             df_mag.at[metal, i] = magmom
