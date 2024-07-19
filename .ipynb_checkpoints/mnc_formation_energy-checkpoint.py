@@ -66,7 +66,7 @@ def main():
                                 for atom in atoms:
                                     if atom.symbol not in ['N', 'C', 'O', 'H']:
                                         df_mag.at[i, metal] = abs(magmoms[atom.index]) 
-                            else:
+                            except:
                                 df_mag.at[dz, spin] = 0
 
                     relaxed_path = os.path.join(path, 'relaxed_', 'moments.json')
