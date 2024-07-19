@@ -64,7 +64,7 @@ def main():
                             try:
                                 magmoms = atoms.get_magnetic_moments()[atom.index]
                                 for atom in atoms:
-                                    if atom.symbol not in ['N', 'C', 'O', 'H']]:
+                                    if atom.symbol not in ['N', 'C', 'O', 'H']:
                                     df_mag.at[i, metal] = abs(magmoms[atom.index]) 
                             else:
                                 df_mag.at[dz, spin] = 0
