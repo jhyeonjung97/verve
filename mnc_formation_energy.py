@@ -24,7 +24,7 @@ nitrogen = (nitrogen_E - nitrogen_TS + nitrogen_ZPE) / 2
 
 carbon = -9.357363435 # eV, DFT
 
-metal_path = '/pscratch/sd/j/jiuy97/6_MNC/gas/metals.tsv'
+metal_path = '/scratch/x2755a09/3_MNC/gas/metals.tsv'
 metal_df = pd.read_csv(metal_path, delimiter='\t', index_col=0)
 
 def main():
@@ -62,8 +62,8 @@ def main():
 
                             magnetic_moments = atoms.get_magnetic_moments()
                             if magnetic_moments is not None:
-                                non_H_magnetic_moments = [abs(magnetic_moments[atom.index]) for atom in atoms if atom.symbol not in ['N', 'C', 'O', 'H']]
-                                df_mag.at[dz, spin] = mean(non_H_magnetic_moments) if non_H_magnetic_moments else 0
+                                magmoms = [abs(magnetic_moments[atom.index]) for atom in atoms if atom.symbol not in ['N', 'C', 'O', 'H']]
+                                df_mag.at[dz, spin] = mean(magmoms) if magmoms else 0
                             else:
                                 df_mag.at[dz, spin] = 0
 
@@ -81,8 +81,8 @@ def main():
 
                         magnetic_moments_relaxed = atoms.get_magnetic_moments()
                         if magnetic_moments_relaxed is not None:
-                            non_H_magnetic_moments_relaxed = [abs(magnetic_moments_relaxed[atom.index]) for atom in atoms if atom.symbol not in ['N', 'C', 'O', 'H']]
-                            df_relaxed_mag.at[dz_relaxed, spin] = mean(non_H_magnetic_moments_relaxed) if non_H_magnetic_moments_relaxed else 0
+                            magmoms_relaxed = [abs(magnetic_moments_relaxed[atom.index]) for atom in atoms if atom.symbol not in ['N', 'C', 'O', 'H']]
+                            df_relaxed_mag.at[dz_relaxed, spin] = mean(magmoms_relaxed) if magmoms_relaxed else 0
                         else:
                             df_relaxed_mag.at[dz_relaxed, spin] = 0
 
