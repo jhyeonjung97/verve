@@ -4,9 +4,10 @@ from statistics import mean
 import pandas as pd
 from scipy.interpolate import make_interp_spline
 import numpy as np
+import os
 
 # Define the metals and initialize dataframes
-metals = ['Cr', 'Mn', 'Fe', 'Co', 'Ni']
+prvs = ['Cr': -329.68518914, 'Mn': -317.97145238, 'Fe':-306.60147094, 'Co': -286.30355237, 'Ni': -279.92522654]
 df = pd.DataFrame()
 df_mag = pd.DataFrame()
 numb = [0] * 5
@@ -17,30 +18,6 @@ png_filename = 'heo_relative_energy.png'
 tsv_mag_filename = 'heo_magnetic_moments.tsv'
 png_mag_filename = 'heo_magnetic_moments.png'
 
-# Placeholder for pure perovskite energies (example values, replace with actual values)
-pure_perovskite = [1.0, 1.1, 1.2, 1.3, 1.4]
-
-def main():
-    for i in range(60):
-        path = f'/scratch/x2755a09/4_HEO/{i:02d}_/final_with_calculator.json'
-        atoms = read(path)
-        energy = atoms.get_total_energy()
-        for j in range(5):
-            metal = metals[j]
-            numb[j] = len([atom for atom in atoms if atom.symbol == metal])
-            magmom = mean([atoms.get_magnetic_moments()[atom.index] for atom in atoms if atom.symbol == metal])
-            df_mag.at[metal, i] = magmom
-        relative_energy = energy - sum(numb[j] * pure_perovskite[j] for j in range(5))
-        df.at['energy', i] = relative_energy
-
-    # Save data to TSV files
-    df.to_csv(tsv_filename, sep='\t')
-    df_mag.to_csv(tsv_mag_filename, sep='\t')
-
-    # Plotting the data
-    plotting(df=df, ylabel='Relative energy (eV)', png_filename=png_filename)
-    plotting(df=df_mag, ylabel='Magnetic moments', png_filename=png_mag_filename)
-    
 def plotting(df, ylabel, png_filename):
     plt.figure(figsize=(10, 6))
     for col in df.columns:
@@ -54,6 +31,30 @@ def plotting(df, ylabel, png_filename):
     plt.legend()
     plt.savefig(png_filename)
     plt.show()
+
+def main():
+    for i in range(60):
+        path = f'/scratch/x2755a09/4_HEO/{i:02d}_/final_with_calculator.json'
+        if not os.path.exists(path):
+            print(f"Path does not exist: {path}")
+            continue
+        atoms = read(path)
+        energy = atoms.get_total_energy()
+        for j in range(5):
+            metal = prvs.keys()[j]
+            numb[j] = len([atom for atom in atoms if atom.symbol == metal])
+            magmom = mean([atoms.get_magnetic_moments()[atom.index] for atom in atoms if atom.symbol == metal])
+            df_mag.at[metal, i] = magmom
+        relative_energy = energy - sum(numb[j] * prvs[j] / 8 for j in range(5))
+        df.at['energy', i] = relative_energy
+
+    # Save data to TSV files
+    df.to_csv(tsv_filename, sep='\t')
+    df_mag.to_csv(tsv_mag_filename, sep='\t')
+
+    # Plotting the data
+    plotting(df=df, ylabel='Relative energy (eV)', png_filename=png_filename)
+    plotting(df=df_mag, ylabel='Magnetic Moments', png_filename=png_mag_filename)
 
 if __name__ == "__main__":
     main()
