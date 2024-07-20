@@ -29,7 +29,7 @@ metal_df = pd.read_csv(metal_path, delimiter='\t', index_col=0)
 
 def main():
     for row_key, metals in rows.items():
-        for metal in metals:
+        for i, metal in enumerate(metals):
             df = pd.DataFrame()
             df_rel = pd.DataFrame()
             df_mag = pd.DataFrame()
@@ -37,8 +37,8 @@ def main():
             df_relaxed_rel = pd.DataFrame()
             df_relaxed_mag = pd.DataFrame()
 
-            tsv_filename = f'{row_key}_{metal}.tsv'
-            png_filename = f'{row_key}_{metal}.png'
+            tsv_filename = f'{row_key}_{metal}_Ef.tsv'
+            png_filename = f'{row_key}_{metal}_Ef.png'
             tsv_rel_filename = f'{row_key}_{metal}_rel.tsv'
             png_rel_filename = f'{row_key}_{metal}_rel.png'
             tsv_mag_filename = f'{row_key}_{metal}_mag.tsv'
@@ -49,8 +49,8 @@ def main():
                 matching_paths = glob.glob(path_pattern)
 
                 for path in matching_paths:
-                    for i, dz in enumerate(dzs):
-                        atoms_path = os.path.join(path, f'{i}_', 'moments.json')
+                    for k, dz in enumerate(dzs):
+                        atoms_path = os.path.join(path, f'{k}_', 'moments.json')
                         if os.path.exists(atoms_path):
                             print(atoms_path)
                             atoms = read(atoms_path)
@@ -64,7 +64,7 @@ def main():
                                 magmoms = atoms.get_magnetic_moments()
                                 for atom in atoms:
                                     if atom.symbol not in ['N', 'C', 'O', 'H']:
-                                        df_mag.at[i, metal] = abs(magmoms[atom.index]) 
+                                        df_mag.at[dz, spin] = abs(magmoms[atom.index]) 
                             except:
                                 df_mag.at[dz, spin] = 0
 
@@ -84,9 +84,9 @@ def main():
                             magmoms = atoms.get_magnetic_moments()[atom.index]
                             for atom in atoms:
                                 if atom.symbol not in ['N', 'C', 'O', 'H']:
-                                    df_relaxed_mag.at[i, metal] = abs(magmoms[atom.index]) 
+                                    df_relaxed_mag.at[dz_relaxed, spin] = abs(magmoms[atom.index]) 
                         except:
-                            df_relaxed_mag.at[dz, spin] = 0
+                            df_relaxed_mag.at[dz_relaxed, spin] = 0
 
             if 'HS' in df.columns and 'LS' in df.columns:
                 df_rel['HS-LS'] = df['HS'] - df['LS']
