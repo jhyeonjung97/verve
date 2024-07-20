@@ -37,12 +37,12 @@ def main():
             df_relaxed_rel = pd.DataFrame()
             df_relaxed_mag = pd.DataFrame()
             
-            tsv_filename = f'{row_key}_{metal}_Ef.tsv'
-            png_filename = f'{row_key}_{metal}_Ef.png'
-            tsv_rel_filename = f'{row_key}_{metal}_rel.tsv'
-            png_rel_filename = f'{row_key}_{metal}_rel.png'
-            tsv_mag_filename = f'{row_key}_{metal}_mag.tsv'
-            png_mag_filename = f'{row_key}_{metal}_mag.png'
+            tsv_filename = f'{row_key}_{i}{metal}_Ef.tsv'
+            png_filename = f'{row_key}_{i}{metal}_Ef.png'
+            tsv_rel_filename = f'{row_key}_{i}{metal}_rel.tsv'
+            png_rel_filename = f'{row_key}_{i}{metal}_rel.png'
+            tsv_mag_filename = f'{row_key}_{i}{metal}_mag.tsv'
+            png_mag_filename = f'{row_key}_{i}{metal}_mag.png'
 
             for spin in spins.keys():
                 path_pattern = f'/scratch/x2755a09/3_MNC/{row_key}/*_{metal}/*_{spin}'
