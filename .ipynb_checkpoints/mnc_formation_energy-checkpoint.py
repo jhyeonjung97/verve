@@ -9,9 +9,9 @@ import numpy as np
 
 # Define the rows and spins
 rows = {
-    '3d': ['Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu'],
-    '4d': ['Zr', 'Nb', 'Mo', 'Tc', 'Ru', 'Rh', 'Pd'],
-    '5d': ['Hf', 'Ta', 'W', 'Re', 'Os', 'Ir', 'Pt']
+    '3d': ['Ca', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu'],
+    '4d': ['Sr', 'Y', 'Zr', 'Nb', 'Mo', 'Tc', 'Ru', 'Rh', 'Pd', 'Ag'],
+    '5d': ['Ba', 'La', 'Hf', 'Ta', 'W', 'Re', 'Os', 'Ir', 'Pt', 'Au']
 }
 spins = {'LS': '#ff7f0e', 'IS': '#279ff2', 'HS': '#9467bd'}
 dzs = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2]
@@ -36,7 +36,7 @@ def main():
             df_relaxed = pd.DataFrame()
             df_relaxed_rel = pd.DataFrame()
             df_relaxed_mag = pd.DataFrame()
-
+            
             tsv_filename = f'{row_key}_{metal}_Ef.tsv'
             png_filename = f'{row_key}_{metal}_Ef.png'
             tsv_rel_filename = f'{row_key}_{metal}_rel.tsv'
