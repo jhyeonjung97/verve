@@ -52,7 +52,6 @@ def main():
                     for j, dz in enumerate(dzs):
                         atoms_path = os.path.join(path, f'{j}_', 'moments.json')
                         if os.path.exists(atoms_path):
-                            print(atoms_path)
                             atoms = read(atoms_path)
                             energy = atoms.get_total_energy()
                             # numb_N = len([atom for atom in atoms if atom.symbol == 'N'])
