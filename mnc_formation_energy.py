@@ -9,9 +9,9 @@ import numpy as np
 
 # Define the rows and spins
 rows = {
-    '3d': ['Ca', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu'],
-    '4d': ['Sr', 'Y', 'Zr', 'Nb', 'Mo', 'Tc', 'Ru', 'Rh', 'Pd', 'Ag'],
-    '5d': ['Ba', 'La', 'Hf', 'Ta', 'W', 'Re', 'Os', 'Ir', 'Pt', 'Au']
+    '3d': ['Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu'],
+    '4d': ['Zr', 'Nb', 'Mo', 'Tc', 'Ru', 'Rh', 'Pd'],
+    '5d': ['Hf', 'Ta', 'W', 'Re', 'Os', 'Ir', 'Pt']
 }
 spins = {'LS': '#ff7f0e', 'IS': '#279ff2', 'HS': '#9467bd'}
 dzs = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2]
@@ -37,20 +37,20 @@ def main():
             df_relaxed_rel = pd.DataFrame()
             df_relaxed_mag = pd.DataFrame()
             
-            tsv_filename = f'{row_key}_{i}{metal}_Ef.tsv'
-            png_filename = f'{row_key}_{i}{metal}_Ef.png'
-            tsv_rel_filename = f'{row_key}_{i}{metal}_rel.tsv'
-            png_rel_filename = f'{row_key}_{i}{metal}_rel.png'
-            tsv_mag_filename = f'{row_key}_{i}{metal}_mag.tsv'
-            png_mag_filename = f'{row_key}_{i}{metal}_mag.png'
+            tsv_filename = f'{row_key}_{i+2}{metal}_Ef.tsv'
+            png_filename = f'{row_key}_{i+2}{metal}_Ef.png'
+            tsv_rel_filename = f'{row_key}_{i+2}{metal}_rel.tsv'
+            png_rel_filename = f'{row_key}_{i+2}{metal}_rel.png'
+            tsv_mag_filename = f'{row_key}_{i+2}{metal}_mag.tsv'
+            png_mag_filename = f'{row_key}_{i+2}{metal}_mag.png'
 
             for spin in spins.keys():
                 path_pattern = f'/scratch/x2755a09/3_MNC/{row_key}/*_{metal}/*_{spin}'
                 matching_paths = glob.glob(path_pattern)
 
                 for path in matching_paths:
-                    for k, dz in enumerate(dzs):
-                        atoms_path = os.path.join(path, f'{k}_', 'moments.json')
+                    for j, dz in enumerate(dzs):
+                        atoms_path = os.path.join(path, f'{j}_', 'moments.json')
                         if os.path.exists(atoms_path):
                             print(atoms_path)
                             atoms = read(atoms_path)
