@@ -102,12 +102,12 @@ def main():
             combining(df=df_rel, df_relaxed=df_relaxed_rel, tsv_filename=tsv_rel_filename)
             combining(df=df_mag, df_relaxed=df_relaxed_mag, tsv_filename=tsv_mag_filename)
 
-            plotting(df=df, df_relaxed=df_relaxed, dzs=dzs, spins=spins, 
-                     ylabel='Formation energy (eV)', png_filename=png_filename)
-            plotting(df=df_rel, df_relaxed=df_relaxed_rel, dzs=dzs, spins=spins, color='black', 
-                     ylabel='Spin crossover energy (eV)', png_filename=png_rel_filename)
-            plotting(df=df_mag, df_relaxed=df_relaxed_mag, dzs=dzs, spins=spins, 
-                     ylabel='Magnetic Moments', png_filename=png_mag_filename)
+            # plotting(df=df, df_relaxed=df_relaxed, dzs=dzs, spins=spins, 
+            #          ylabel='Formation energy (eV)', png_filename=png_filename)
+            # plotting(df=df_rel, df_relaxed=df_relaxed_rel, dzs=dzs, spins=spins, color='black', 
+            #          ylabel='Spin crossover energy (eV)', png_filename=png_rel_filename)
+            # plotting(df=df_mag, df_relaxed=df_relaxed_mag, dzs=dzs, spins=spins, 
+            #          ylabel='Magnetic Moments', png_filename=png_mag_filename)
 
 def combining(df, df_relaxed, tsv_filename):
     combined_df = pd.concat([df, df_relaxed])
