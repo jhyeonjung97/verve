@@ -61,7 +61,7 @@ def main():
                             formation_energy = energy - metal_df.at[metal, 'energy'] - 26 * carbon - 4 * nitrogen
                             df.at[dz, spin] = formation_energy
                             try:
-                                magmoms = atoms.get_magnetic_moments()[atom.index]
+                                magmoms = atoms.get_magnetic_moments()
                                 for atom in atoms:
                                     if atom.symbol not in ['N', 'C', 'O', 'H']:
                                         df_mag.at[i, metal] = abs(magmoms[atom.index]) 
