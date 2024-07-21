@@ -26,6 +26,7 @@ do
     i=${i%/}
     cd $i*
     ~/bin/shoulder/rm_mv *.*.log
+    ~/bin/shoulder/rm_mv *.e* *.o*
     sbatch submit.sh
     cd ..
 done
