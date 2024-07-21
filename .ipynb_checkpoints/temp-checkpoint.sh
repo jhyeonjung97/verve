@@ -38,7 +38,8 @@ elif [[ -n $range ]]; then
     DIR=$(seq "${range_arr[0]}" "${range_arr[1]}")
     # DIR=$(seq -f "%g/" "${range_arr[0]}" "${range_arr[1]}")
 elif [[ $r_count -eq 1 ]]; then
-    DIR='*_*/'
+    # DIR='*_*/'
+    DIR='*_*/*_*S/relaxed_'
 elif [[ $r_count -gt 1 ]]; then
     DIR=''
     for ((i=0; i<r_count; i++)); do

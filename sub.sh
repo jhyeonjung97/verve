@@ -51,7 +51,11 @@ if [[ -n $DIR ]]; then
     do
         cd $dir
         if [[ -s submit.sh ]]; then
-            sbatch submit.sh
+            if [[ ${here} == 'kisti' ]]; then
+                qsub submit.sh
+            else
+                sbatch submit.sh
+            fi
         fi
         cd $dir_now
     done
