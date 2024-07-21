@@ -7,7 +7,8 @@ function usage_error {
 
 if [[ -z $1 ]]; then
     ~/bin/shoulder/rm_mv *.*.log
-    sbatch submit.sh
+    ~/bin/shoulder/rm_mv *.e* *.o*
+    sh ~/bin/verve/sub.sh
     exit 0
 else
     if [[ $1 == '-r' ]]; then
@@ -27,6 +28,6 @@ do
     cd $i*
     ~/bin/shoulder/rm_mv *.*.log
     ~/bin/shoulder/rm_mv *.e* *.o*
-    sbatch submit.sh
+    sh ~/bin/verve/sub.sh
     cd ..
 done
