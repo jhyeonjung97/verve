@@ -68,6 +68,9 @@ def main():
                                         df_mag.at[dz, spin] = magmoms[atom.index]
                             except:
                                 df_mag.at[dz, spin] = 0
+                        else:
+                            df.at[dz, spin] = np.nan
+                            df_mag.at[dz, spin] = np.nan
 
                     relaxed_path = os.path.join(path, 'relaxed_', 'moments.json')
                     if os.path.exists(relaxed_path):
