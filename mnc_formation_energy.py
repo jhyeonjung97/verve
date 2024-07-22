@@ -89,9 +89,9 @@ def main():
                             magmoms = atoms.get_magnetic_moments()
                             for atom in atoms:
                                 if atom.symbol not in ['N', 'C', 'O', 'H']:
-                                    df_relaxed_mag.at[dz, spin] = magmoms[atom.index]
+                                    df_relaxed_mag.at[dz_relaxed, spin] = magmoms[atom.index]
                         except:
-                            df_relaxed_mag.at[dz, spin] = 0
+                            df_relaxed_mag.at[dz_relaxed, spin] = 0
 
             if 'HS' in df.columns and 'LS' in df.columns:
                 df_rel['HS-LS'] = df['HS'] - df['LS']
