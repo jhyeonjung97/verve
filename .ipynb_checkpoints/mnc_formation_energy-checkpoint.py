@@ -29,7 +29,7 @@ metal_df = pd.read_csv(metal_path, delimiter='\t', index_col=0)
 
 def main():
     for row_key, metals in rows.items():
-        for metal in metals:
+        for m, metal in enumerate(metals):
             df = pd.DataFrame()
             df_rel = pd.DataFrame()
             df_mag = pd.DataFrame()
@@ -37,12 +37,12 @@ def main():
             df_relaxed_rel = pd.DataFrame()
             df_relaxed_mag = pd.DataFrame()
 
-            tsv_filename = f'{row_key}_{metal}.tsv'
-            png_filename = f'{row_key}_{metal}.png'
-            tsv_rel_filename = f'{row_key}_{metal}_rel.tsv'
-            png_rel_filename = f'{row_key}_{metal}_rel.png'
-            tsv_mag_filename = f'{row_key}_{metal}_mag.tsv'
-            png_mag_filename = f'{row_key}_{metal}_mag.png'
+            tsv_filename = f'{row_key}_{m+2}{metal}_Ef.tsv'
+            png_filename = f'{row_key}_{m+2}{metal}_Ef.png'
+            tsv_rel_filename = f'{row_key}_{m+2}{metal}_rel.tsv'
+            png_rel_filename = f'{row_key}_{m+2}{metal}_rel.png'
+            tsv_mag_filename = f'{row_key}_{m+2}{metal}_mag.tsv'
+            png_mag_filename = f'{row_key}_{m+2}{metal}_mag.png'
 
             for spin in spins.keys():
                 path_pattern = f'/scratch/x2755a09/3_MNC/{row_key}/*_{metal}/*_{spin}'
