@@ -31,6 +31,13 @@ if [[ ${here} == 'nersc' ]] || [[ ${here} == 's3df' ]] || [[ ${here} == 'kisti' 
     for i in $@
     do
         gits_nersc $i
+        if [[ ${here} == 'nersc' ]] && [[ $i == 'tools' ]]; then
+            cp ~/bin/tools/mnc/* /pscratch/sd/j/jiuy97/6_MNC/scripts
+            cp ~/bin/tools/heo/* /pscratch/sd/j/jiuy97/5_HEO/scripts
+        elif [[ ${here} == 'kisti' ]] && [[ $i == 'tools' ]]; then
+            cp ~/bin/tools/mnc/* /scratch/x2755a09/3_MNC/scripts
+            cp ~/bin/tools/heo/* /scratch/x2755a09/4_HEO/scripts
+        fi
     done
 else
     for i in $@
