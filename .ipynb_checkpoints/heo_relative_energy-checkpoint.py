@@ -49,9 +49,9 @@ print(f"Figure saved as {png_filename}")
 plt.close()
 
 # Plotting the magnetic moments histogram
-for column in df_mag.columns:
+for k, column in enumerate(df_mag.columns):
     plt.figure(figsize=(8, 6))
-    plt.hist(df_mag[column].dropna(), bins=np.arange(0, 6, 0.1), alpha=0.5, label=str(column), width=0.09)
+    plt.hist(df_mag[column].dropna(), bins=np.arange(0, 6, 0.1), alpha=0.5, color=clrs[k], label=str(column), width=0.09)
     plt.xlabel('Magnetic Moments')
     plt.ylabel('Frequency')
     plt.xticks(np.arange(0, 6, 1))
