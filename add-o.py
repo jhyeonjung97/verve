@@ -16,7 +16,7 @@ for atom in atoms:
     if atom.symbol not in ['C', 'N', 'O', 'H']:
         new_atom = Atoms('O', positions=[atom.position + (0, 0, 2.0)])
         new_atoms.append(new_atom)
-        new_magmoms.append(0)
+        new_magmoms.append(5)
 
 # Add the new atoms to the original atoms object
 for new_atom in new_atoms:
@@ -34,7 +34,7 @@ new_h_atom = Atoms('H', positions=[last_atom_position + (0.8, 0, 0.6)])
 atoms += new_h_atom
 
 # Update the magnetic moments list and set it again
-new_magmoms.append(0)
+new_magmoms.append(5)
 atoms.set_initial_magnetic_moments(new_magmoms)
 
 # Write the final modified structure with the added hydrogen atom to another JSON file
