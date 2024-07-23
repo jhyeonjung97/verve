@@ -7,18 +7,14 @@ if [[ ${here} == 'slac' ]]; then
      jiuy97@perlmutter.nersc.gov:/pscratch/sd/j/jiuy97/3_V_shape .
 elif [[ ${here} == 'nersc' ]]; then
     dir_now='/pscratch/sd/j/jiuy97/3_V_shape'
-    cd $dir_now
-    for dir in metal/*/; do
-        cd $dir
+    for dir in /pscratch/sd/j/jiuy97/3_V_shape/metal/*d*/; do
         python ~/bin/verve/energy.py --save -x "Metal (M)" -y "Total energy (eV/M)" -n m
-        cd $dir_now
     done
     cd /pscratch/sd/j/jiuy97/3_V_shape/metal
-    python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Volume (A^3/MO)" -o norm_energy *fm/energy_norm_energy.tsv *d/energy_norm_energy.tsv
+    python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Volume (A^3/MO)" -o norm_energy *d*/energy_norm_energy.tsv
     cd /pscratch/sd/j/jiuy97/3_V_shape/oxide/0_min
     python ~/bin/verve/energy.py --save -x "Metal (MxOy)" -y "Total energy (eV/M)" -n m
-    cd $dir_now
-    for dir in *_*/*/; do
+    for dir in /pscratch/sd/j/jiuy97/3_V_shape/*_*/*/; do
         if [[ $dir != *'save'* ]] && [[ $dir != *'rhom'* ]] && [[ $dir != *'bin'* ]] && [[ $dir != *'cubic'* ]]; then
             cd $dir
             python ~/bin/verve/energy.py --save -p energy -x "Metal (MO)" -y "Total energy (eV)"
@@ -31,7 +27,7 @@ elif [[ ${here} == 'nersc' ]]; then
             python ~/bin/verve/energy.py --save -p ICOBI -x "Metal (MO)" -y "ICOBI (/M-O)"
             python ~/bin/verve/energy.py --save -p GP_L -e M  -x "Metal (MO)" -y "Gross population (Loewdin)"
             python ~/bin/verve/energy.py --save -p Madelung_L -x "Metal (MO)" -y "Madelugn energy (Loewdin, eV/MO)" -n m
-            python ~/bin/verve/formation.py
+            # python ~/bin/verve/formation.py
             
             # python ~/bin/verve/energy.py --save -p area -x "Metal (MO)" -y "Area (A^2)"
             # python ~/bin/verve/energy.py --save -p PSCENC -x "Metal (MO)" -y "PSCENC (eV/MO)" -n m
