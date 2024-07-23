@@ -30,90 +30,89 @@ metal_df = pd.read_csv(metal_path, delimiter='\t', index_col=0)
 def main():
     for row_key, metals in rows.items():
         for m, metal in enumerate(metals):
-            if metal == 'Re':
-                df = pd.DataFrame()
-                df_rel = pd.DataFrame()
-                df_mag = pd.DataFrame()
-                df_relaxed = pd.DataFrame()
-                df_relaxed_rel = pd.DataFrame()
-                df_relaxed_mag = pd.DataFrame()
-    
-                tsv_filename = f'{row_key}_{m+2}{metal}_Ef.tsv'
-                png_filename = f'{row_key}_{m+2}{metal}_Ef.png'
-                tsv_rel_filename = f'{row_key}_{m+2}{metal}_rel.tsv'
-                png_rel_filename = f'{row_key}_{m+2}{metal}_rel.png'
-                tsv_mag_filename = f'{row_key}_{m+2}{metal}_mag.tsv'
-                png_mag_filename = f'{row_key}_{m+2}{metal}_mag.png'
-    
-                for spin in spins.keys():
-                    path_pattern = f'/scratch/x2755a09/3_MNC/{row_key}/*_{metal}/*_{spin}'
-                    matching_paths = glob.glob(path_pattern)
-    
-                    for path in matching_paths:
-                        print(path)
-                        for i, dz in enumerate(dzs):
-                            atoms_path = os.path.join(path, f'{i}_', 'moments.json')
-                            if os.path.exists(atoms_path):
-                                atoms = read(atoms_path)
-                                energy = atoms.get_total_energy()
-                                # numb_N = len([atom for atom in atoms if atom.symbol == 'N'])
-                                # numb_C = len([atom for atom in atoms if atom.symbol == 'C'])
-                                # formation_energy = energy - metal_df.at[metal, 'energy'] - numb_C * carbon - numb_N * nitrogen
-                                formation_energy = energy - metal_df.at[metal, 'energy'] - 26 * carbon - 4 * nitrogen
-                                df.at[dz, spin] = formation_energy
-                                
-                                try:
-                                    magmoms = atoms.get_magnetic_moments()
-                                    for atom in atoms:
-                                        if atom.symbol not in ['N', 'C', 'O', 'H']:
-                                            df_mag.at[dz, spin] = magmoms[atom.index]
-                                except:
-                                    df_mag.at[dz, spin] = 0
-                            else:
-                                df.at[dz, spin] = np.nan
-                                df_mag.at[dz, spin] = np.nan
-    
-                        relaxed_path = os.path.join(path, 'relaxed_', 'moments.json')
-                        if os.path.exists(relaxed_path):
-                            atoms = read(relaxed_path)
-                            zN = mean([atom.z for atom in atoms if atom.symbol == 'N'])
-                            zM = mean([atom.z for atom in atoms if atom.symbol not in ['N', 'C', 'O', 'H']])
-                            dz_relaxed = abs(zN - zM)
+            df = pd.DataFrame()
+            df_rel = pd.DataFrame()
+            df_mag = pd.DataFrame()
+            df_relaxed = pd.DataFrame()
+            df_relaxed_rel = pd.DataFrame()
+            df_relaxed_mag = pd.DataFrame()
+
+            tsv_filename = f'{row_key}_{m+2}{metal}_Ef.tsv'
+            png_filename = f'{row_key}_{m+2}{metal}_Ef.png'
+            tsv_rel_filename = f'{row_key}_{m+2}{metal}_rel.tsv'
+            png_rel_filename = f'{row_key}_{m+2}{metal}_rel.png'
+            tsv_mag_filename = f'{row_key}_{m+2}{metal}_mag.tsv'
+            png_mag_filename = f'{row_key}_{m+2}{metal}_mag.png'
+
+            for spin in spins.keys():
+                path_pattern = f'/scratch/x2755a09/3_MNC/{row_key}/*_{metal}/*_{spin}'
+                matching_paths = glob.glob(path_pattern)
+
+                for path in matching_paths:
+                    print(path)
+                    for i, dz in enumerate(dzs):
+                        atoms_path = os.path.join(path, f'{i}_', 'moments.json')
+                        if os.path.exists(atoms_path):
+                            atoms = read(atoms_path)
                             energy = atoms.get_total_energy()
                             # numb_N = len([atom for atom in atoms if atom.symbol == 'N'])
                             # numb_C = len([atom for atom in atoms if atom.symbol == 'C'])
                             # formation_energy = energy - metal_df.at[metal, 'energy'] - numb_C * carbon - numb_N * nitrogen
                             formation_energy = energy - metal_df.at[metal, 'energy'] - 26 * carbon - 4 * nitrogen
-                            df_relaxed.at[dz_relaxed, spin] = formation_energy
+                            df.at[dz, spin] = formation_energy
                             
                             try:
                                 magmoms = atoms.get_magnetic_moments()
                                 for atom in atoms:
                                     if atom.symbol not in ['N', 'C', 'O', 'H']:
-                                        df_relaxed_mag.at[dz_relaxed, spin] = magmoms[atom.index]
+                                        df_mag.at[dz, spin] = magmoms[atom.index]
                             except:
-                                df_relaxed_mag.at[dz_relaxed, spin] = 0
+                                df_mag.at[dz, spin] = 0
+                        else:
+                            df.at[dz, spin] = np.nan
+                            df_mag.at[dz, spin] = np.nan
 
-                if 'HS' in df.columns and 'LS' in df.columns:
-                    df_rel['HS-LS'] = df['HS'] - df['LS']
-                else:
-                    print(f"Warning: 'HS' or 'LS' column not found in df for {row_key}_{metal}")
-    
-                if 'HS' in df_relaxed.columns and 'LS' in df_relaxed.columns:
-                    df_relaxed_rel['HS-LS'] = df_relaxed['HS'] - df_relaxed['LS']
-                else:
-                    print(f"Warning: 'HS' or 'LS' column not found in df_relaxed for {row_key}_{metal}")
-    
-                combining(df=df, df_relaxed=df_relaxed, tsv_filename=tsv_filename)
-                combining(df=df_rel, df_relaxed=df_relaxed_rel, tsv_filename=tsv_rel_filename)
-                combining(df=df_mag, df_relaxed=df_relaxed_mag, tsv_filename=tsv_mag_filename)
-    
-                plotting(df=df, df_relaxed=df_relaxed, dzs=dzs, spins=spins, 
-                         ylabel='Formation energy (eV)', png_filename=png_filename)
-                plotting(df=df_rel, df_relaxed=df_relaxed_rel, dzs=dzs, spins=spins, color='black', 
-                         ylabel='Spin crossover energy (eV)', png_filename=png_rel_filename)
-                plotting(df=df_mag, df_relaxed=df_relaxed_mag, dzs=dzs, spins=spins, 
-                         ylabel='Magnetic Moments', png_filename=png_mag_filename)
+                    relaxed_path = os.path.join(path, 'relaxed_', 'moments.json')
+                    if os.path.exists(relaxed_path):
+                        atoms = read(relaxed_path)
+                        zN = mean([atom.z for atom in atoms if atom.symbol == 'N'])
+                        zM = mean([atom.z for atom in atoms if atom.symbol not in ['N', 'C', 'O', 'H']])
+                        dz_relaxed = abs(zN - zM)
+                        energy = atoms.get_total_energy()
+                        # numb_N = len([atom for atom in atoms if atom.symbol == 'N'])
+                        # numb_C = len([atom for atom in atoms if atom.symbol == 'C'])
+                        # formation_energy = energy - metal_df.at[metal, 'energy'] - numb_C * carbon - numb_N * nitrogen
+                        formation_energy = energy - metal_df.at[metal, 'energy'] - 26 * carbon - 4 * nitrogen
+                        df_relaxed.at[dz_relaxed, spin] = formation_energy
+                        
+                        try:
+                            magmoms = atoms.get_magnetic_moments()
+                            for atom in atoms:
+                                if atom.symbol not in ['N', 'C', 'O', 'H']:
+                                    df_relaxed_mag.at[dz_relaxed, spin] = magmoms[atom.index]
+                        except:
+                            df_relaxed_mag.at[dz_relaxed, spin] = 0
+
+            if 'HS' in df.columns and 'LS' in df.columns:
+                df_rel['HS-LS'] = df['HS'] - df['LS']
+            else:
+                print(f"Warning: 'HS' or 'LS' column not found in df for {row_key}_{metal}")
+
+            if 'HS' in df_relaxed.columns and 'LS' in df_relaxed.columns:
+                df_relaxed_rel['HS-LS'] = df_relaxed['HS'] - df_relaxed['LS']
+            else:
+                print(f"Warning: 'HS' or 'LS' column not found in df_relaxed for {row_key}_{metal}")
+
+            combining(df=df, df_relaxed=df_relaxed, tsv_filename=tsv_filename)
+            combining(df=df_rel, df_relaxed=df_relaxed_rel, tsv_filename=tsv_rel_filename)
+            combining(df=df_mag, df_relaxed=df_relaxed_mag, tsv_filename=tsv_mag_filename)
+
+            plotting(df=df, df_relaxed=df_relaxed, dzs=dzs, spins=spins, 
+                     ylabel='Formation energy (eV)', png_filename=png_filename)
+            plotting(df=df_rel, df_relaxed=df_relaxed_rel, dzs=dzs, spins=spins, color='black', 
+                     ylabel='Spin crossover energy (eV)', png_filename=png_rel_filename)
+            plotting(df=df_mag, df_relaxed=df_relaxed_mag, dzs=dzs, spins=spins, 
+                     ylabel='Magnetic Moments', png_filename=png_mag_filename)
 
 def combining(df, df_relaxed, tsv_filename):
     combined_df = pd.concat([df, df_relaxed])
