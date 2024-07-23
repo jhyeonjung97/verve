@@ -3,11 +3,6 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-    if row:
-        indice = metal_rows[row]
-        l = 6
-        markers = ['>', '<', 'o', 's', 'p', 'd']
-        
 print(f"\033[92m{os.getcwd()}\033[0m")
 if '1_Tetrahedral_WZ' in os.getcwd():
     marker = '>'; color = '#d62728'; coordination = 'WZ'
@@ -41,17 +36,17 @@ nist = {
     'Cu': {'M': 1, 'O': 1, 'H_form': -156.063, 'G_form': -128.292}, # 620 735 mp-704645 Copper Monoxide
     }
 
-exp_path = '/pscratch/sd/j/jiuy97/3_V_shape/monoxides.tsv'
-metal_path = '/pscratch/sd/j/jiuy97/3_V_shape/metal/0_min/energy_norm.tsv'
-oxide_path = '/pscratch/sd/j/jiuy97/3_V_shape/oxide/0_min/energy_norm.tsv'
+# exp_path = '/pscratch/sd/j/jiuy97/3_V_shape/monoxides.tsv'
+metal_path = '/pscratch/sd/j/jiuy97/3_V_shape/metal/0_min/energy_norm_energy.tsv'
+oxide_path = '/pscratch/sd/j/jiuy97/3_V_shape/oxide/0_min/energy_norm_energy.tsv'
 path = '/pscratch/sd/j/jiuy97/3_V_shape/metal/merged_norm_energy.tsv'
 
-exp_df = pd.read_csv(exp_path, delimiter='\t')
+# exp_df = pd.read_csv(exp_path, delimiter='\t')
 metal_df = pd.read_csv(metal_path, delimiter='\t').iloc[:, 1:]
 oxide_df = pd.read_csv(oxide_path, delimiter='\t').iloc[:, 1:]
 df = pd.read_csv(path, delimiter='\t').iloc[:, 1:]
 
-exp_df['dH_form'] = exp_df['dH_form'] / 96.48
+# exp_df['dH_form'] = exp_df['dH_form'] / 96.48
 metal_df.index = list(nist.keys())
 oxide_df.index = list(nist.keys())
 df.index = metal_rows['3d']
@@ -59,24 +54,18 @@ df.index = metal_rows['3d']
 min_values = df.iloc[:, :3].min(axis=1)
 df = df.iloc[:, 3:]
 
-# E_O2 = -8.7702210 # eV, DFT
-# TS_O2 = 0.635139 # eV, at 298.15 K, 1 atm
-# ZPE_O2 = 0.096279 # eV, at 298.15 K, 1 atm
-# E_oxygen = E_O2 /2
-# G_oxygen = (E_O2 - TS_O2 + ZPE_O2) / 2
-
 E_H2O = -14.23919983
 E_H2 = -6.77409008
 
-ZPE_H2O = 0.558 #NIST
-ZPE_H2 = 0.273 #NIST
+ZPE_H2O = 0.558
+ZPE_H2 = 0.273
 
-Cp_H2O = 0.10 #NIST
-Cp_H2 = 0.09 #NIST
+Cp_H2O = 0.10
+Cp_H2 = 0.09
 
 Ref_H2 = E_H2 + ZPE_H2 + Cp_H2
 Ref_H2O = E_H2O + ZPE_H2O + Cp_H2O
-Ref_O = Ref_H2O - Ref_H2 + 2.506  #dH fitting relative to -241.81/kjmol
+Ref_O = Ref_H2O - Ref_H2 + 2.506
 
 for element, data in nist.items():
     # data['G_form'] = data['G_form'] / data['M'] / 96.48
@@ -106,38 +95,40 @@ for row in metal_rows:
         formation = energy_df.sub(df[row].values, axis=0) - Ref_O # G_oxygen
         break
 
-plt.figure(figsize=(8, 6))
-png_filename = f"energy_norm_formation.png"   
-tsv_filename = f"energy_norm_formation.tsv"
+print(formation)
 
-for j, column in enumerate(formation.columns):
-    filtered_x = []
-    filtered_values = []
-    x = formation.index
-    values = formation[column]
-    for i, v in enumerate(values):
-        if not np.isnan(v):
-            filtered_x.append(i)
-            filtered_values.append(v)
-    if not filtered_values:
-        print(f"No values found for pattern: {column}")
-        continue
-    plt.plot(filtered_x, filtered_values, marker=marker, color=color, label=column)
+# plt.figure(figsize=(8, 6))
+# png_filename = f"energy_norm_formation.png"   
+# tsv_filename = f"energy_norm_formation.tsv"
 
-for i in exp_df.index:
-    if exp_df['row'][i] == row and exp_df['Coordination'][i] == coordination:
-        plt.scatter(exp_df['numb'][i], exp_df['dH_form'][i], 
-                    marker=marker, color=color, edgecolors=color, facecolors='white')
+# for j, column in enumerate(formation.columns):
+#     filtered_x = []
+#     filtered_values = []
+#     x = formation.index
+#     values = formation[column]
+#     for i, v in enumerate(values):
+#         if not np.isnan(v):
+#             filtered_x.append(i)
+#             filtered_values.append(v)
+#     if not filtered_values:
+#         print(f"No values found for pattern: {column}")
+#         continue
+#     plt.plot(filtered_x, filtered_values, marker=marker, color=color, label=column)
 
-formation.to_csv(tsv_filename, sep='\t')
-print(f"Merged data saved to {tsv_filename}")
+# # for i in exp_df.index:
+# #     if exp_df['row'][i] == row and exp_df['Coordination'][i] == coordination:
+# #         plt.scatter(exp_df['numb'][i], exp_df['dH_form'][i], 
+# #                     marker=marker, color=color, edgecolors=color, facecolors='white')
 
-plt.xlim(-0.5, len(x)-0.5)
-plt.xticks(np.arange(len(x)), x)
-plt.xlabel('Metal (MO)')
-plt.ylabel('Formation energy (eV/MO)')
-plt.legend()
-plt.tight_layout()
-plt.gcf().savefig(png_filename, bbox_inches="tight")
-print(f"Figure saved as {png_filename}")
-plt.close()
+# formation.to_csv(tsv_filename, sep='\t')
+# print(f"Merged data saved to {tsv_filename}")
+
+# plt.xlim(-0.5, len(x)-0.5)
+# plt.xticks(np.arange(len(x)), x)
+# plt.xlabel('Metal (MO)')
+# plt.ylabel('Formation energy (eV/MO)')
+# plt.legend()
+# plt.tight_layout()
+# plt.gcf().savefig(png_filename, bbox_inches="tight")
+# print(f"Figure saved as {png_filename}")
+# plt.close()
