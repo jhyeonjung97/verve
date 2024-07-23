@@ -1,16 +1,17 @@
+import matplotlib.pyplot as plt
 from mendeleev import element
 import pandas as pd
 import argparse
 
 # Define the argument parser
-parser = argparse.ArgumentParser(description='Generate TSV files with specified atomic properties.')
+parser = argparse.ArgumentParser(description='Generate TSV files with specified atomic properties and plot if n=1.')
 parser.add_argument('-p', '--patterns', required=True, nargs='+', help='List of atomic properties to retrieve.')
-parser.add_argument('-n', '--number', default=6, type=int, help='Number of repeat')
+parser.add_argument('-n', '--number', default=1, type=int, help='Number of repeat')
 
 # Parse the arguments
 args = parser.parse_args()
 n = args.number
-m = n*13
+m = n * 13
 
 # Define the d-block elements for 3d, 4d, and 5d series
 elements_3d = ['Ca', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn', 'Ga', 'Ge']
@@ -31,7 +32,7 @@ def get_data(element_symbol, atomic_property):
         return None
     except (KeyError, IndexError):
         return None
-    
+
 # Generate the repeating index pattern
 index_pattern = list(range(13)) * n
 index_pattern = index_pattern[:m]
@@ -41,10 +42,10 @@ for pattern in args.patterns:
     # Handle file naming for ionenergies
     if 'ionenergies' in pattern:
         ion_index = int(pattern.split('[')[1].strip(']'))
-        filname = f'ionenergies_{ion_index}'
+        filename = f'ionenergies_{ion_index}'
     else:
-        filname = pattern
-    
+        filename = pattern
+
     # Create the DataFrame
     data = {
         '3d': [get_data(e, pattern) for e in elements_3d] * n,
@@ -58,13 +59,25 @@ for pattern in args.patterns:
     if pattern == 'boiling_point' or pattern == 'melting_point':
         for i in range(n):
             j = 13 * i + 12
-            # df['4d'][j] = df['4d'][j]['gray']
             df.loc[j, '4d'] = df.loc[j, '4d']['gray']
         
     # Set the index
     df.index = index_pattern
 
     # Save the DataFrame as a TSV file
-    df.to_csv(f'concat_{filname}.tsv', sep='\t', index=True)
+    df.to_csv(f'concat_{filename}.tsv', sep='\t', index=True)
 
-    print(f"DataFrame saved as concat_{filname}.tsv")
+    print(f"DataFrame saved as concat_{filename}.tsv")
+
+    # Plot if n=1
+    if n == 1:
+        plt.figure()
+        plt.plot(df.index, df['3d'], label='3d')
+        plt.plot(df.index, df['4d'], label='4d')
+        plt.plot(df.index, df['5d'], label='5d')
+        plt.xlabel('Element Index')
+        plt.ylabel(pattern.replace('_', ' ').title())
+        plt.title(f'{pattern.replace("_", " ").title()} of d-block Elements')
+        plt.legend()
+        plt.savefig(f'{filename}.png')
+        plt.show()
