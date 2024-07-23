@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 from mendeleev import element
 import pandas as pd
 import argparse
+import os
 
 print(f"\033[92m{os.getcwd()}\033[0m")
 parser = argparse.ArgumentParser(description='Generate TSV files with specified atomic properties and plot if n=1.')
