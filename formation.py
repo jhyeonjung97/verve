@@ -114,7 +114,7 @@ for j, column in enumerate(formation.columns):
     if not filtered_values:
         print(f"No values found for pattern: {column}")
         continue
-    plt.plot(filtered_x, filtered_values, marker=marker, color=color, label=column)
+    plt.plot(filtered_x, filtered_values, marker=marker, color=color)
 
 for i in exp_df.index:
     if exp_df['row'][i] == row and exp_df['Coordination'][i] == coordination:

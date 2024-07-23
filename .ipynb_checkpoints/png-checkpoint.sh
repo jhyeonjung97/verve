@@ -28,7 +28,7 @@ elif [[ ${here} == 'nersc' ]]; then
             python ~/bin/verve/energy.py --save -p ICOBI -x "Metal (MO)" -y "ICOBI (/M-O)"
             python ~/bin/verve/energy.py --save -p GP_L -e M  -x "Metal (MO)" -y "Gross population (Loewdin)"
             python ~/bin/verve/energy.py --save -p Madelung_L -x "Metal (MO)" -y "Madelugn energy (Loewdin, eV/MO)" -n m
-            # python ~/bin/verve/formation.py
+            python ~/bin/verve/formation.py
             
             # python ~/bin/verve/energy.py --save -p area -x "Metal (MO)" -y "Area (A^2)"
             # python ~/bin/verve/energy.py --save -p PSCENC -x "Metal (MO)" -y "PSCENC (eV/MO)" -n m
