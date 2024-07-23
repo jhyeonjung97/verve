@@ -20,7 +20,7 @@ metal_rows = {
     '5d': ['Ba', 'La', 'Hf', 'Ta', 'W', 'Re', 'Os', 'Ir', 'Pt', 'Au', 'Hg', 'Tl', 'Pb']
     }
 indice = [f'{a}\n{b}\n{c}' for a, b, c in zip(metal_rows['3d'], metal_rows['4d'], metal_rows['5d'])]
-colors = plt.cm.Blues(np.linspace(0.4, 0.9, 3))
+colors = plt.cm.Purples(np.linspace(0.4, 0.9, 3))
 
 def get_data(element_symbol, atomic_property):
     try:
@@ -73,5 +73,5 @@ for pattern in args.patterns:
         plt.legend()
         plt.tight_layout()
         plt.savefig(f'concat_{filename}.png', bbox_inches="tight")
-        print(f"Figure saved as {png_filename}")
+        print(f"Figure saved as concat_{filename}.png")
         plt.close()
