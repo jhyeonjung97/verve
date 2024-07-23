@@ -47,7 +47,10 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, a
             coordination = 'RS'
             markers = ['d'] * l
             colors = plt.cm.Purples(np.linspace(0.4, 0.9, l))
-
+        else:
+            markers = ['o'] * l
+            colors = plt.cm.Blues(np.linspace(0.4, 0.9, l))
+            
     merged_df = None    
     plt.figure(figsize=(a, b))
     

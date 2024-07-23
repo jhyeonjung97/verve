@@ -12,7 +12,7 @@ elif [[ ${here} == 'nersc' ]]; then
         python ~/bin/verve/energy.py --save -x "Metal (M)" -y "Total energy (eV/M)" -n m
     done
     cd /pscratch/sd/j/jiuy97/3_V_shape/metal
-    python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Volume (A^3/MO)" -o norm_energy *d*/energy_norm_energy.tsv
+    python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Total energy (eV)" -o norm_energy *fm/energy_norm_energy.tsv *d/energy_norm_energy.tsv
     cd /pscratch/sd/j/jiuy97/3_V_shape/oxide/0_min
     python ~/bin/verve/energy.py --save -x "Metal (MxOy)" -y "Total energy (eV/M)" -n m
     for dir in /pscratch/sd/j/jiuy97/3_V_shape/*_*/*/; do
