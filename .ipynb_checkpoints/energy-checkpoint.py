@@ -494,7 +494,6 @@ def plot_separately(values_dict, dir_names, xlabel, ylabel, save, filenam, marke
         plt.xlabel(xlabel)
         plt.ylabel(ylabel)
         plt.xticks(np.arange(len(dir_names)), dir_names)
-        plt.legend()
         plt.tight_layout()
         if save:
             png_filename = f"{filename}_{pattern}.png"            
