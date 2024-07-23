@@ -7,7 +7,7 @@ if [[ ${here} == 'slac' ]]; then
      jiuy97@perlmutter.nersc.gov:/pscratch/sd/j/jiuy97/3_V_shape .
 elif [[ ${here} == 'nersc' ]]; then
     dir_now='/pscratch/sd/j/jiuy97/3_V_shape'
-    for dir in /pscratch/sd/j/jiuy97/3_V_shape/metal/*d*/; do
+    for dir in /pscratch/sd/j/jiuy97/3_V_shape/metal/*/; do
         cd $dir
         python ~/bin/verve/energy.py --save -x "Metal (M)" -y "Total energy (eV/M)" -n m
     done
