@@ -20,7 +20,7 @@ elif [[ ${here} == 'nersc' ]]; then
             cd $dir
             python ~/bin/verve/energy.py --save -p energy -x "Metal (MO)" -y "Total energy (eV)"
             python ~/bin/verve/energy.py --save -p energy -x "Metal (MO)" -y "Total energy (eV/MO)" -n m
-            python ~/bin/verve/energy.py --save -p bond  -x "Metal (M-O)" -y "Bond length (A)"
+            python ~/bin/verve/energy.py --save -p bond  -x "Metal (MO)" -y "Bond length (A)"
             python ~/bin/verve/energy.py --save -p volume -x "Metal (MO)" -y "Volume (A^3/MO)" -n m
             python ~/bin/verve/energy.py --save -p chg -e M  -x "Metal (MO)" -y "Bader charge (e-)"
             python ~/bin/verve/energy.py --save -p mag -e M -x "Metal (MO)" -y "|Magnetization|"
@@ -46,8 +46,7 @@ elif [[ ${here} == 'nersc' ]]; then
             elif [[ $dir == *'Pyramidal'* ]] || [[ $dir == *'Tetragonal'* ]] || [[ $dir == *'Square_Planar'* ]]; then
                 n=4; python ~/bin/verve/energy.py --save -p hexa -x "Metal (MO)" -y "Square prism ratio [c/a]"
             elif [[ $dir == *'Octahedral'* ]]; then
-                n=6; python ~/bin/mendeleev2tsv.py atomic_number atomic_volume boiling_point covalent_radius density dipole_polarizability en_pauling evaporation_heat fusion_heat group_id heat_of_formation ionenergies[1] ionenergies[2] ionenergies[3] mass melting_point metallic_radius vdw_radius
-
+                n=6
             fi
             
             python ~/bin/verve/energy.py --save -p bond -x "Metal (MO)" -y "Bond length (A/M-O)" -n $n
@@ -91,7 +90,9 @@ elif [[ ${here} == 'nersc' ]]; then
         python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Cohesive energy (eV/MO)" \
         -o norm_cohesive 1_afm/energy_norm_cohesive.tsv 4d/energy_norm_cohesive.tsv 5d/energy_norm_cohesive.tsv
 
-
+        if [[ $dir == *'Octahedral'* ]]; then
+            python ~/bin/mendeleev2tsv.py atomic_number atomic_volume boiling_point covalent_radius density dipole_polarizability en_pauling evaporation_heat fusion_heat group_id heat_of_formation ionenergies[1] ionenergies[2] ionenergies[3] mass melting_point metallic_radius vdw_radius
+        fi
         
         # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "PSCENC (eV/MO)" \
         # -o norm_PSCENC 1_afm/energy_norm_PSCENC.tsv 4d/energy_norm_PSCENC.tsv 5d/energy_norm_PSCENC.tsv
