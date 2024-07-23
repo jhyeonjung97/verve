@@ -91,8 +91,9 @@ elif [[ ${here} == 'nersc' ]]; then
         -o norm_cohesive 1_afm/energy_norm_cohesive.tsv 4d/energy_norm_cohesive.tsv 5d/energy_norm_cohesive.tsv
 
         if [[ $dir == *'Octahedral'* ]]; then
-            python ~/bin/mendeleev2tsv.py atomic_number atomic_volume boiling_point covalent_radius density dipole_polarizability en_pauling evaporation_heat fusion_heat group_id heat_of_formation ionenergies[1] ionenergies[2] ionenergies[3] mass melting_point metallic_radius vdw_radius
+            python ~/bin/verve/mendeleev2tsv.py -p atomic_number atomic_volume boiling_point covalent_radius density dipole_polarizability en_pauling evaporation_heat fusion_heat group_id heat_of_formation ionenergies[1] ionenergies[2] ionenergies[3] mass melting_point metallic_radius vdw_radius
         fi
+        
         # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "PSCENC (eV/MO)" \
         # -o norm_PSCENC 1_afm/energy_norm_PSCENC.tsv 4d/energy_norm_PSCENC.tsv 5d/energy_norm_PSCENC.tsv
         # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "TEWEN (eV/MO)" \
