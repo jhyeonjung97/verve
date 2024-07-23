@@ -20,7 +20,7 @@ elif '5_Square_Planar_NB' in os.getcwd():
 elif '6_Octahedral_RS' in os.getcwd():
     marker = 'd'; color = '#9467bd'; coordination = 'RS'
 else:
-    marker = 'x'; color = 'k'
+    marker = 'x'; color = 'k'; coordination = 'XX'
 
 metal_rows = {
     '3d': ['Ca', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn', 'Ga', 'Ge'],
