@@ -7,55 +7,55 @@ if [[ ${here} == 'slac' ]]; then
      jiuy97@perlmutter.nersc.gov:/pscratch/sd/j/jiuy97/3_V_shape .
 elif [[ ${here} == 'nersc' ]]; then
     dir_now='/pscratch/sd/j/jiuy97/3_V_shape'
-    for dir in /pscratch/sd/j/jiuy97/3_V_shape/metal/*d*/; do
-        cd $dir
-        python ~/bin/verve/energy.py --save -x "Metal (M)" -y "Total energy (eV/M)" -n m
-    done
-    cd /pscratch/sd/j/jiuy97/3_V_shape/metal
-    python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Total energy (eV)" -o norm_energy *fm/energy_norm_energy.tsv *d/energy_norm_energy.tsv
-    cd /pscratch/sd/j/jiuy97/3_V_shape/oxide/0_min
-    python ~/bin/verve/energy.py --save -x "Metal (MxOy)" -y "Total energy (eV/M)" -n m
-    # for dir in /pscratch/sd/j/jiuy97/3_V_shape/*_*/*/; do
-    #     if [[ $dir != *'save'* ]] && [[ $dir != *'rhom'* ]] && [[ $dir != *'bin'* ]] && [[ $dir != *'cubic'* ]]; then
-    #         cd $dir
-    #         python ~/bin/verve/energy.py --save -p energy -x "Metal (MO)" -y "Total energy (eV)"
-    #         python ~/bin/verve/energy.py --save -p energy -x "Metal (MO)" -y "Total energy (eV/MO)" -n m
-    #         python ~/bin/verve/energy.py --save -p bond  -x "Metal (M-O)" -y "Bond length (A)"
-    #         python ~/bin/verve/energy.py --save -p volume -x "Metal (MO)" -y "Volume (A^3/MO)" -n m
-    #         python ~/bin/verve/energy.py --save -p chg -e M  -x "Metal (MO)" -y "Bader charge (e-)"
-    #         python ~/bin/verve/energy.py --save -p mag -e M -x "Metal (MO)" -y "|Magnetization|"
-    #         python ~/bin/verve/energy.py --save -p ICOHP -x "Metal (MO)" -y "ICOHP (eV/MO)"
-    #         python ~/bin/verve/energy.py --save -p ICOBI -x "Metal (MO)" -y "ICOBI (/M-O)"
-    #         python ~/bin/verve/energy.py --save -p GP_L -e M  -x "Metal (MO)" -y "Gross population (Loewdin)"
-    #         python ~/bin/verve/energy.py --save -p Madelung_L -x "Metal (MO)" -y "Madelugn energy (Loewdin, eV/MO)" -n m
-    #         # python ~/bin/verve/formation.py
-            
-    #         # python ~/bin/verve/energy.py --save -p area -x "Metal (MO)" -y "Area (A^2)"
-    #         # python ~/bin/verve/energy.py --save -p PSCENC -x "Metal (MO)" -y "PSCENC (eV/MO)" -n m
-    #         # python ~/bin/verve/energy.py --save -p TEWEN -x "Metal (MO)" -y "TEWEN (eV/MO)" -n m
-    #         # python ~/bin/verve/energy.py --save -p DENC -x "Metal (MO)" -y "DENC (eV/MO)" -n m
-    #         # python ~/bin/verve/energy.py --save -p EXHF -x "Metal (MO)" -y "EXHF (eV/MO)" -n m
-    #         # python ~/bin/verve/energy.py --save -p XCENC -x "Metal (MO)" -y "XCENC (eV/MO)" -n m
-    #         # python ~/bin/verve/energy.py --save -p PAW_double_counting -x "Metal (MO)" -y "PAW_double_counting (eV/MO)" -n m
-    #         # python ~/bin/verve/energy.py --save -p EENTRO -x "Metal (MO)" -y "EENTRO (eV/MO)" -n m
-    #         # python ~/bin/verve/energy.py --save -p EBANDS -x "Metal (MO)" -y "EBANDS (eV/MO)" -n m
-    #         # python ~/bin/verve/energy.py --save -p EATOM -x "Metal (MO)" -y "EATOM (eV/MO)" -n m
-            
-    #         if [[ $dir == *'Tetrahedral'* ]]; then
-    #             n=4; python ~/bin/verve/energy.py --save -p hexa -x "Metal (MO)" -y "Hexagonal ratio [c/a]"
-    #         elif [[ $dir == *'Pyramidal'* ]] || [[ $dir == *'Tetragonal'* ]] || [[ $dir == *'Square_Planar'* ]]; then
-    #             n=4; python ~/bin/verve/energy.py --save -p hexa -x "Metal (MO)" -y "Square prism ratio [c/a]"
-    #         elif [[ $dir == *'Octahedral'* ]]; then
-    #             n=6
-    #         fi
-            
-    #         python ~/bin/verve/energy.py --save -p bond -x "Metal (MO)" -y "Bond length (A/M-O)" -n $n
-    #         python ~/bin/verve/energy.py --save -p ICOHP -x "Metal (MO)" -y "ICOHP (eV/M-O)" -n $n
-    #         python ~/bin/verve/energy.py --save -p ICOBI -x "Metal (MO)" -y "ICOBI (eV/M-O)" -n $n
-    #         sed -i 's/\x0//g' *.tsv
-    #         cd $dir_now
-    #     fi
+    # for dir in /pscratch/sd/j/jiuy97/3_V_shape/metal/*d*/; do
+    #     cd $dir
+    #     python ~/bin/verve/energy.py --save -x "Metal (M)" -y "Total energy (eV/M)" -n m
     # done
+    # cd /pscratch/sd/j/jiuy97/3_V_shape/metal
+    # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Total energy (eV)" -o norm_energy *fm/energy_norm_energy.tsv *d/energy_norm_energy.tsv
+    # cd /pscratch/sd/j/jiuy97/3_V_shape/oxide/0_min
+    # python ~/bin/verve/energy.py --save -x "Metal (MxOy)" -y "Total energy (eV/M)" -n m
+    for dir in /pscratch/sd/j/jiuy97/3_V_shape/*_*/*/; do
+        if [[ $dir != *'save'* ]] && [[ $dir != *'rhom'* ]] && [[ $dir != *'bin'* ]] && [[ $dir != *'cubic'* ]]; then
+            cd $dir
+            python ~/bin/verve/energy.py --save -p energy -x "Metal (MO)" -y "Total energy (eV)"
+            python ~/bin/verve/energy.py --save -p energy -x "Metal (MO)" -y "Total energy (eV/MO)" -n m
+            python ~/bin/verve/energy.py --save -p bond  -x "Metal (M-O)" -y "Bond length (A)"
+            python ~/bin/verve/energy.py --save -p volume -x "Metal (MO)" -y "Volume (A^3/MO)" -n m
+            python ~/bin/verve/energy.py --save -p chg -e M  -x "Metal (MO)" -y "Bader charge (e-)"
+            python ~/bin/verve/energy.py --save -p mag -e M -x "Metal (MO)" -y "|Magnetization|"
+            python ~/bin/verve/energy.py --save -p ICOHP -x "Metal (MO)" -y "ICOHP (eV/MO)"
+            python ~/bin/verve/energy.py --save -p ICOBI -x "Metal (MO)" -y "ICOBI (/M-O)"
+            python ~/bin/verve/energy.py --save -p GP_L -e M  -x "Metal (MO)" -y "Gross population (Loewdin)"
+            python ~/bin/verve/energy.py --save -p Madelung_L -x "Metal (MO)" -y "Madelugn energy (Loewdin, eV/MO)" -n m
+            # python ~/bin/verve/formation.py
+            
+            # python ~/bin/verve/energy.py --save -p area -x "Metal (MO)" -y "Area (A^2)"
+            # python ~/bin/verve/energy.py --save -p PSCENC -x "Metal (MO)" -y "PSCENC (eV/MO)" -n m
+            # python ~/bin/verve/energy.py --save -p TEWEN -x "Metal (MO)" -y "TEWEN (eV/MO)" -n m
+            # python ~/bin/verve/energy.py --save -p DENC -x "Metal (MO)" -y "DENC (eV/MO)" -n m
+            # python ~/bin/verve/energy.py --save -p EXHF -x "Metal (MO)" -y "EXHF (eV/MO)" -n m
+            # python ~/bin/verve/energy.py --save -p XCENC -x "Metal (MO)" -y "XCENC (eV/MO)" -n m
+            # python ~/bin/verve/energy.py --save -p PAW_double_counting -x "Metal (MO)" -y "PAW_double_counting (eV/MO)" -n m
+            # python ~/bin/verve/energy.py --save -p EENTRO -x "Metal (MO)" -y "EENTRO (eV/MO)" -n m
+            # python ~/bin/verve/energy.py --save -p EBANDS -x "Metal (MO)" -y "EBANDS (eV/MO)" -n m
+            # python ~/bin/verve/energy.py --save -p EATOM -x "Metal (MO)" -y "EATOM (eV/MO)" -n m
+            
+            if [[ $dir == *'Tetrahedral'* ]]; then
+                n=4; python ~/bin/verve/energy.py --save -p hexa -x "Metal (MO)" -y "Hexagonal ratio [c/a]"
+            elif [[ $dir == *'Pyramidal'* ]] || [[ $dir == *'Tetragonal'* ]] || [[ $dir == *'Square_Planar'* ]]; then
+                n=4; python ~/bin/verve/energy.py --save -p hexa -x "Metal (MO)" -y "Square prism ratio [c/a]"
+            elif [[ $dir == *'Octahedral'* ]]; then
+                n=6
+            fi
+            
+            python ~/bin/verve/energy.py --save -p bond -x "Metal (MO)" -y "Bond length (A/M-O)" -n $n
+            python ~/bin/verve/energy.py --save -p ICOHP -x "Metal (MO)" -y "ICOHP (eV/M-O)" -n $n
+            python ~/bin/verve/energy.py --save -p ICOBI -x "Metal (MO)" -y "ICOBI (eV/M-O)" -n $n
+            sed -i 's/\x0//g' *.tsv
+            cd $dir_now
+        fi
+    done
     # for dir in *_*/; do
     #     cd $dir
     #     python ~/bin/verve/tsv.py -l 3d_AFM 3d_FM -x "Metal (MO)" -y "Formation energy (eV/MO)" -o AFMvsFM 1_afm/energy_norm_formation.tsv 2_fm/energy_norm_formation.tsv
