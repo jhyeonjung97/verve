@@ -99,14 +99,14 @@ def main():
     filtered_patterns_order = [pattern for pattern in patterns_order if values_dict.get(pattern)]
 
     if '1_Tetrahedral_WZ' in os.getcwd():
-        marker = '>'; color = '#d62728'
+    marker = '>'; color = '#d62728'
     elif '2_Tetrahedral_ZB' in os.getcwd():
         marker = '<'; color = '#ff7f0e'
-    elif '3_Pyramidal_LT' in os.getcwd():
+    elif '3_Tetragonal_LT' in os.getcwd():
         marker = 'o'; color = '#ffd70e'
     elif '4_Square_Planar_TN' in os.getcwd():
         marker = 's'; color = '#2ca02c'
-    elif '5_Square_Planar_33' in os.getcwd():
+    elif '5_Square_Planar_NB' in os.getcwd():
         marker = 'p'; color = '#279ff2'
     elif '6_Octahedral_RS' in os.getcwd():
         marker = 'd'; color = '#9467bd'

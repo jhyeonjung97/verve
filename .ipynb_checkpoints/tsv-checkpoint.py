@@ -39,8 +39,8 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, a
             coordination = 'TN'
             markers = ['s'] * l
             colors = plt.cm.Greens(np.linspace(0.4, 0.9, l))
-        elif '5_Square_Planar_33' in os.getcwd():
-            coordination = '33'
+        elif '5_Square_Planar_NB' in os.getcwd():
+            coordination = 'NB'
             markers = ['p'] * l
             colors = plt.cm.Blues(np.linspace(0.4, 0.9, l))
         elif '6_Octahedral_RS' in os.getcwd():
@@ -87,8 +87,8 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, a
         exp_path = '/pscratch/sd/j/jiuy97/3_V_shape/monoxides.tsv'
         exp_df = pd.read_csv(exp_path, delimiter='\t')
         exp_df['dH_form'] = exp_df['dH_form'] / 96.48
-        exp_colors = {'WZ': '#d62728', 'ZB': '#ff7f0e', 'LT': '#ffd70e', 'TN': '#2ca02c', '33': '#279ff2', 'RS': '#9467bd'}
-        exp_markers = {'WZ': '>', 'ZB': '<', 'LT': 'o', 'TN': 's', '33': 'p', 'RS': 'd'}
+        exp_colors = {'WZ': '#d62728', 'ZB': '#ff7f0e', 'LT': '#ffd70e', 'TN': '#2ca02c', 'NB': '#279ff2', 'RS': '#9467bd'}
+        exp_markers = {'WZ': '>', 'ZB': '<', 'LT': 'o', 'TN': 's', 'NB': 'p', 'RS': 'd'}
         if row:
             for i in exp_df.index:
                 if exp_df['row'][i] == row:
@@ -128,7 +128,7 @@ if __name__ == "__main__":
     parser.add_argument('-o', '--output', type=str, default='', help="The filename for the output PNG file.")
     parser.add_argument('-x', '--xlabel', type=str, default='Element or Lattice parameter (Å)', help="xlabel")
     parser.add_argument('-y', '--ylabel', type=str, default='Energy (eV) or Charge (e)', help="ylabel")
-    parser.add_argument('-l', '--labels', nargs='+', default=['Tetrahedral_WZ', 'Tetrahedral_ZB', 'Tetragonal_LT', 'Square_planar_TN', 'Square_planar_33', 'Octahedral_RS'])
+    parser.add_argument('-l', '--labels', nargs='+', default=['Tetrahedral_WZ', 'Tetrahedral_ZB', 'Pyramidal_LT', 'Square_Planar_TN', 'Square_Planar_NB', 'Octahedral_RS'])
     parser.add_argument('-r', '--row', type=str, default=None)
     parser.add_argument('-a', type=float, default=8)
     parser.add_argument('-b', type=float, default=6)

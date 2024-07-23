@@ -3,19 +3,24 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
+    if row:
+        indice = metal_rows[row]
+        l = 6
+        markers = ['>', '<', 'o', 's', 'p', 'd']
+        
 print(f"\033[92m{os.getcwd()}\033[0m")
 if '1_Tetrahedral_WZ' in os.getcwd():
-    marker = 'v'; color = '#d62728'; coordination = 'WZ'
+    marker = '>'; color = '#d62728'; coordination = 'WZ'
 elif '2_Tetrahedral_ZB' in os.getcwd():
-    marker = 'v'; color = '#ff7f0e'; coordination = 'ZB'
+    marker = '<'; color = '#ff7f0e'; coordination = 'ZB'
 elif '3_Tetragonal_LT' in os.getcwd():
-    marker = '^'; color = '#ffd70e'; coordination = 'LT'
+    marker = 'o'; color = '#ffd70e'; coordination = 'LT'
 elif '4_Square_Planar_TN' in os.getcwd():
     marker = 's'; color = '#2ca02c'; coordination = 'TN'
-elif '5_Square_Planar_33' in os.getcwd():
-    marker = 's'; color = '#279ff2'; coordination = '33'
+elif '5_Square_Planar_NB' in os.getcwd():
+    marker = 'p'; color = '#279ff2'; coordination = 'NB'
 elif '6_Octahedral_RS' in os.getcwd():
-    marker = 'o'; color = '#9467bd'; coordination = 'RS'
+    marker = 'd'; color = '#9467bd'; coordination = 'RS'
 else:
     marker = 'x'; color = 'k'
 
