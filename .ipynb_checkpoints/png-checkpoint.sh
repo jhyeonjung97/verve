@@ -75,9 +75,9 @@ elif [[ ${here} == 'nersc' ]]; then
         # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "ICOBI (/M-O)" \
         # -o ICOBI 1_afm/energy_ICOBI.tsv 4d/energy_norm_ICOBI.tsv 5d/energy_norm_ICOBI.tsv
         python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Gross population (Loewdin)" \
-        -o GP_L_M 1_afm/energy_GP_L_M.tsv 4d/energy_GP_L_M.tsv 5d/energy_GP_L_M.tsv
+        -o GP_L_M 1_afm/energy_GP_Loewdin_M.tsv 4d/energy_GP_Loewdin_M.tsv 5d/energy_GP_Loewdin_M.tsv
         python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Madelung energy (Loewdin, eV/MO)" \
-        -o norm_Madelung_L 1_afm/energy_norm_Madelung_L.tsv 4d/energy_norm_Madelung_L.tsv 5d/energy_norm_Madelung_L.tsv
+        -o norm_Madelung_L 1_afm/energy_norm_Madelung_Loewdin.tsv 4d/energy_norm_Madelung_Loewdin.tsv 5d/energy_norm_Madelung_Loewdin.tsv
         
         # python ~/bin/verve/tsv.py -l 3d_AFM 3d_FM -x "Metal (MO)" -y "Formation energy (eV/MO)" -o AFMvsFM *_*fm/energy_norm_formation.tsv
         python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Formation energy (eV/MO)" \
