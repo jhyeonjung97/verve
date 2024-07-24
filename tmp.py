@@ -10,12 +10,10 @@ GrossPopulationL \
 bond \
 volume \
 chg \
-mag \
 atomic_number \
 group_id \
 mass \
 atomic_volume \
-redoxP \
 ionenergies1 \
 ionenergies2 \
 ionenergies12 \
@@ -42,12 +40,10 @@ concat_GrossPopulationL.tsv \
 concat_bond.tsv \
 concat_norm_volume.tsv \
 concat_chg.tsv \
-concat_mag.tsv \
 concat_atomic_number.tsv \
 concat_group_id.tsv \
 concat_mass.tsv \
 concat_atomic_volume.tsv \
-concat_redoxP.tsv \
 concat_ionenergies_1.tsv \
 concat_ionenergies_2.tsv \
 concat_ionenergies_12.tsv \

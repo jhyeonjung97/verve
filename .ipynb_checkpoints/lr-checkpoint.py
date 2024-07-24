@@ -88,6 +88,9 @@ def main():
 
     Y_pred = model.predict(X)
     
+    print(Y)
+    print(Y_pred)
+    
     mae = mean_absolute_error(Y, Y_pred)
     mse = mean_squared_error(Y, Y_pred)
 
@@ -110,11 +113,9 @@ def main():
 
     plt.figure(figsize=(10, 8), dpi=100)
     colors = ['red', 'green', 'blue']
-    # markers = ['v', '^', 's', 'D', 'o']
-    markers = ['v', 'v', '^', 's', 's', 'o']
+    markers = ['>', '<', 'o', 's', 'p', 'd']
     for i, row in enumerate([3, 4, 5]):
         sub = df_combined[df_combined['Row'] == row]
-        # for j, coordination in enumerate(['WZ', 'ZB', 'TN', 'NB', 'RS']):
         for j, coordination in enumerate(['WZ', 'ZB', 'LT', 'TN', 'NB', 'RS']):
             subset = sub[sub['Coordination'] == coordination]
             LL = subset['Metal']
@@ -129,7 +130,7 @@ def main():
     plt.ylabel('Predicted Formation Energy (eV)')
     plt.legend()
     plt.tight_layout()
-    plt.gcf().savefig(png_filename, bbox_inches="tight")
+    plt.savefig(png_filename, bbox_inches="tight")
     # print(f"Figure saved as {png_filename}")
     plt.close()
 
@@ -160,34 +161,10 @@ def main():
     cbar.ax.tick_params(labelsize=6)
 
     plt.tight_layout()
-    plt.gcf().savefig(f'covariance_matrix{str(filename)}.png', bbox_inches="tight")
+    plt.savefig(f'covariance_matrix{str(filename)}.png', bbox_inches="tight")
     plt.close()
     
     plt.figure(dpi=numb*10) # Set the figure size as needed
-    
-    # Create the heatmap
-#     ax = sns.heatmap(abs_correlation_matrix, annot=True, fmt=".2f", annot_kws={"size": 5},
-#                      cmap='coolwarm', center=0, vmin=0, vmax=1)
-
-#     # Set x-ticks with custom labels, rotation, alignment, and font size
-#     ax.set_xticks(np.arange(M.shape[1]) + 0.5)
-#     ax.set_xticklabels(M.columns, rotation=90, ha='right', fontsize=6)
-
-#     # Set y-ticks with custom labels, alignment, and font size
-#     ax.set_yticks(np.arange(M.shape[1]) + 0.5)
-#     ax.set_yticklabels(M.columns, rotation=0, va='center', fontsize=6)
-
-#     # Move the x-ticks to the top
-#     ax.xaxis.set_ticks_position('top')
-#     ax.xaxis.set_label_position('top')
-    
-#     # Adjust the font size of the color bar
-#     cbar = ax.collections[0].colorbar
-#     cbar.ax.tick_params(labelsize=6)
-
-#     plt.tight_layout()
-#     plt.gcf().savefig(f'abs_covariance_matrix{str(filename)}.png', bbox_inches="tight")
-#     plt.close()
     
 if __name__ == "__main__":
     main()
