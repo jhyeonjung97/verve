@@ -72,9 +72,9 @@ for pattern in args.patterns:
 
     if n == 1:
         plt.figure()
-        plt.plot(df.index, df['3d'], marker='o', color=colors[0], label='3d')
-        plt.plot(df.index, df['4d'], marker='o', color=colors[1], label='4d')
-        plt.plot(df.index, df['5d'], marker='o', color=colors[2], label='5d')
+        plt.plot(df.index, df['3d'], marker='d', color=colors[0], label='3d')
+        plt.plot(df.index, df['4d'], marker='d', color=colors[1], label='4d')
+        plt.plot(df.index, df['5d'], marker='d', color=colors[2], label='5d')
         plt.xticks(np.arange(len(indice)), indice)
         plt.xlabel('Metal (MO)')
         plt.ylabel(pattern.replace('_', ' ').title())
