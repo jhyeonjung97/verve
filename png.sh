@@ -17,9 +17,9 @@ elif [[ ${here} == 'nersc' ]]; then
     # cd /pscratch/sd/j/jiuy97/3_V_shape/oxide/0_min
     # python ~/bin/verve/energy.py --save -x "Metal (MxOy)" -y "Total energy (eV/M)" -n m
     
-    for dir in /pscratch/sd/j/jiuy97/3_V_shape/*_*_*/*/; do
-        if [[ $dir != *'save'* ]] && [[ $dir != *'rhom'* ]] && [[ $dir != *'bin'* ]] && [[ $dir != *'cubic'* ]]; then
-            cd $dir
+    # for dir in /pscratch/sd/j/jiuy97/3_V_shape/*_*_*/*/; do
+    #     if [[ $dir != *'save'* ]] && [[ $dir != *'rhom'* ]] && [[ $dir != *'bin'* ]] && [[ $dir != *'cubic'* ]]; then
+    #         cd $dir
     
     #         if [[ $dir == *'Tetrahedral'* ]]; then
     #             n=4; python ~/bin/verve/energy.py --save -p hexa -x "Metal (MO)" -y "Hexagonal ratio [c/a]"
@@ -43,7 +43,7 @@ elif [[ ${here} == 'nersc' ]]; then
     #         python ~/bin/verve/energy.py --save -p GP_L -e M  -x "Metal (MO)" -y "Gross population (Loewdin)"
     #         python ~/bin/verve/energy.py --save -p Madelung_L -x "Metal (MO)" -y "Madelugn energy (Loewdin, eV/MO)" -n m
     #         python ~/bin/verve/formation_energy.py
-            python ~/bin/verve/cohesive_energy.py
+    #         python ~/bin/verve/cohesive_energy.py
     
     #         # python ~/bin/verve/energy.py --save -p area -x "Metal (MO)" -y "Area (A^2)"
     #         # python ~/bin/verve/energy.py --save -p PSCENC -x "Metal (MO)" -y "PSCENC (eV/MO)" -n m
@@ -57,10 +57,11 @@ elif [[ ${here} == 'nersc' ]]; then
     #         # python ~/bin/verve/energy.py --save -p EATOM -x "Metal (MO)" -y "EATOM (eV/MO)" -n m
     #         sed -i 's/\x0//g' *.tsv
     #         cd $dir_now
-        fi
-    done
-    # for dir in /pscratch/sd/j/jiuy97/3_V_shape/*_*_*/; do
-    #     cd $dir
+    #     fi
+    # done
+    
+    for dir in /pscratch/sd/j/jiuy97/3_V_shape/*_*_*/; do
+        cd $dir
     #     python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Total energy (eV)" \
     #     -o energy 1_afm/energy_energy.tsv 4d/energy_energy.tsv 5d/energy_energy.tsv
     #     python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Total energy (eV/MO)" \
@@ -89,6 +90,8 @@ elif [[ ${here} == 'nersc' ]]; then
     #     python ~/bin/verve/tsv.py -l 3d_AFM 3d_FM -x "Metal (MO)" -y "Formation energy (eV/MO)" -o AFMvsFM *_*fm/energy_norm_formation.tsv
     #     python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Formation energy (eV/MO)" \
     #     -o norm_formation 1_afm/energy_norm_formation.tsv 4d/energy_norm_formation.tsv 5d/energy_norm_formation.tsv
+        python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Cohesive energy (eV/MO)" \
+        -o norm_cohesive 1_afm/energy_norm_cohesive.tsv 4d/energy_norm_cohesive.tsv 5d/energy_norm_cohesive.tsv
     
     #     # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "PSCENC (eV/MO)" \
     #     # -o norm_PSCENC 1_afm/energy_norm_PSCENC.tsv 4d/energy_norm_PSCENC.tsv 5d/energy_norm_PSCENC.tsv
@@ -108,7 +111,7 @@ elif [[ ${here} == 'nersc' ]]; then
     #     # -o norm_EBANDS 1_afm/energy_norm_EBANDS.tsv 4d/energy_norm_EBANDS.tsv 5d/energy_norm_EBANDS.tsv
     #     # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "EATOM (eV/MO)" \
     #     # -o norm_EATOM 1_afm/energy_norm_EATOM.tsv 4d/energy_norm_EATOM.tsv 5d/energy_norm_EATOM.tsv
-    # done
+    done
     
     # cd /pscratch/sd/j/jiuy97/3_V_shape/6_Octahedral_RS
     
