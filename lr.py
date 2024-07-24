@@ -41,7 +41,6 @@ def main():
     df_R = pd.read_csv(args.R, delimiter='\t', dtype=int).iloc[:, 1:]
     df_L = pd.read_csv(args.L, delimiter='\t', dtype=str).iloc[:, 1:]
     X_dataframes = []
-    data_counts = []
     
     for x_file in args.X:
         df_X = pd.read_csv(x_file, delimiter='\t').iloc[:, 1:]
@@ -69,7 +68,7 @@ def main():
     
     df_combined = pd.concat([R, L, C, X, Y], axis=1)
     df_combined = df_combined.dropna()
-    # df_combined = df_combined[df_combined['Metal'] != 'Ba']
+
     if row:
         df_combined = df_combined[df_combined['Row'] == row]
     if coord:
@@ -87,6 +86,7 @@ def main():
     model.fit(X, Y)
 
     Y_pred = model.predict(X)
+    Y_pred = pd.Series(Y_pred, index=Y.index)  # Convert Y_pred to a pandas Series to match Y
     
     mae = mean_absolute_error(Y, Y_pred)
     mse = mean_squared_error(Y, Y_pred)
@@ -95,7 +95,6 @@ def main():
     png_filename = f'regression{filename}.png'
     log_filename = f'regression{filename}.log'
     df_combined.to_csv(tsv_filename, sep='\t', index=False)
-    # print(f"Results saved to {tsv_filename}")
     
     with open(log_filename, 'w') as file:
         file.write(f"\nIntercept: {model.intercept_}\n\n")
@@ -128,14 +127,22 @@ def main():
     plt.legend()
     plt.tight_layout()
     plt.savefig(png_filename, bbox_inches="tight")
-    # print(f"Figure saved as {png_filename}")
     plt.close()
+    print(f"Figure saved as {png_filename}")
 
     M = pd.concat([Y, X], axis=1)
-    # covariance_matrix = np.cov(M, rowvar=False)
+    covariance_matrix = M.cov()
     correlation_matrix = M.corr()
-    abs_correlation_matrix = correlation_matrix.abs()
     
+    # Save covariance matrix
+    covariance_matrix_filename = f'covariance_matrix{str(filename)}.tsv'
+    covariance_matrix.to_csv(covariance_matrix_filename, sep='\t')
+    
+    # Save correlation matrix
+    correlation_matrix_filename = f'correlation_matrix{str(filename)}.tsv'
+    correlation_matrix.to_csv(correlation_matrix_filename, sep='\t')
+    
+    # Plot correlation matrix
     plt.figure(dpi=numb*10) # Set the figure size as needed
     
     # Create the heatmap
@@ -158,10 +165,8 @@ def main():
     cbar.ax.tick_params(labelsize=6)
 
     plt.tight_layout()
-    plt.savefig(f'covariance_matrix{str(filename)}.png', bbox_inches="tight")
+    plt.savefig(f'correlation_matrix{str(filename)}.png', bbox_inches="tight")
     plt.close()
-    
-    plt.figure(dpi=numb*10) # Set the figure size as needed
-    
+
 if __name__ == "__main__":
     main()
