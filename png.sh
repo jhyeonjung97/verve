@@ -52,12 +52,12 @@ elif [[ ${here} == 'nersc' ]]; then
     #         cd $dir_now
     #     fi
     # done
-    for dir in /pscratch/sd/j/jiuy97/3_V_shape/*_*_*/; do
-        cd $dir
-        python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Total energy (eV)" \
-        -o energy 1_afm/energy_energy.tsv 4d/energy_energy.tsv 5d/energy_energy.tsv
-        python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Total energy (eV/MO)" \
-        -o norm_energy 1_afm/energy_norm_energy.tsv 4d/energy_norm_energy.tsv 5d/energy_norm_energy.tsv
+    # for dir in /pscratch/sd/j/jiuy97/3_V_shape/*_*_*/; do
+    #     cd $dir
+    #     python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Total energy (eV)" \
+    #     -o energy 1_afm/energy_energy.tsv 4d/energy_energy.tsv 5d/energy_energy.tsv
+    #     python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Total energy (eV/MO)" \
+    #     -o norm_energy 1_afm/energy_norm_energy.tsv 4d/energy_norm_energy.tsv 5d/energy_norm_energy.tsv
     #     python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Bond length (A/M-O)" \
     #     -o bond 1_afm/energy_bond.tsv 4d/energy_bond.tsv 5d/energy_bond.tsv
     #     python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Bond length (A/M-O)" \
@@ -84,11 +84,7 @@ elif [[ ${here} == 'nersc' ]]; then
     #     python ~/bin/verve/tsv.py -l 3d_AFM 3d_FM -x "Metal (MO)" -y "Formation energy (eV/MO)" -o AFMvsFM *_*fm/energy_norm_formation.tsv
     #     python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Formation energy (eV/MO)" \
     #     -o norm_formation 1_afm/energy_norm_formation.tsv 4d/energy_norm_formation.tsv 5d/energy_norm_formation.tsv
-        
-    #     if [[ $dir == *'Octahedral'* ]]; then
-    #         python ~/bin/verve/mendeleev2tsv.py -p atomic_number atomic_volume boiling_point covalent_radius density dipole_polarizability en_pauling evaporation_heat fusion_heat group_id heat_of_formation ionenergies[1] ionenergies[2] ionenergies[3] mass melting_point metallic_radius vdw_radius
-    #     fi
-        
+    
     #     # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "PSCENC (eV/MO)" \
     #     # -o norm_PSCENC 1_afm/energy_norm_PSCENC.tsv 4d/energy_norm_PSCENC.tsv 5d/energy_norm_PSCENC.tsv
     #     # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "TEWEN (eV/MO)" \
@@ -107,7 +103,15 @@ elif [[ ${here} == 'nersc' ]]; then
     #     # -o norm_EBANDS 1_afm/energy_norm_EBANDS.tsv 4d/energy_norm_EBANDS.tsv 5d/energy_norm_EBANDS.tsv
     #     # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "EATOM (eV/MO)" \
     #     # -o norm_EATOM 1_afm/energy_norm_EATOM.tsv 4d/energy_norm_EATOM.tsv 5d/energy_norm_EATOM.tsv
-    done
+    # done
+    
+    cd /pscratch/sd/j/jiuy97/3_V_shape/6_Octahedral_RS
+    python ~/bin/verve/mendeleev2tsv.py -p group_id atomic_number atomic_volume  \
+    boiling_point melting_point \
+    mass density dipole_polarizability en_pauling \
+    covalent_radius metallic_radius vdw_radius \
+    evaporation_heat fusion_heat  heat_of_formation \
+    ionenergies[1] ionenergies[2] ionenergies[3]
     
     cd /pscratch/sd/j/jiuy97/3_V_shape
     # rows=('3d' '4d' '5d')
@@ -127,20 +131,20 @@ elif [[ ${here} == 'nersc' ]]; then
     #     python ~/bin/verve/tsv.py -r ${rows[$i]} -x "Metal (MO)" -y "Madelung energy (Loewdin, eV/MO)" -o norm_Madelung_L_${rows[$i]} *_*_*/${dirs[$i]}/energy_norm_Madelung_Loewdin.tsv
     # done
     
-    python ~/bin/verve/concat.py -o energy --X *_*_*/merged_energy.tsv
-    python ~/bin/verve/concat.py -o norm_energy --X *_*_*/merged_norm_energy.tsv
-    python ~/bin/verve/concat.py -o norm_formation --X *_*_*/merged_norm_formation.tsv
-    python ~/bin/verve/concat.py -o ICOHP --X *_*_*/merged_ICOHP.tsv
-    python ~/bin/verve/concat.py -o norm_ICOHP --X *_*_*/merged_norm_ICOHP.tsv
-    python ~/bin/verve/concat.py -o ICOBI --X *_*_*/merged_ICOBI.tsv
-    python ~/bin/verve/concat.py -o norm_ICOHP --X *_*_*/merged_norm_ICOHP.tsv
-    python ~/bin/verve/concat.py -o bond --X *_*_*/merged_bond.tsv
-    python ~/bin/verve/concat.py -o norm_bond --X *_*_*/merged_norm_bond.tsv
-    python ~/bin/verve/concat.py -o norm_volume --X *_*_*/merged_norm_volume.tsv
-    python ~/bin/verve/concat.py -o chg --X *_*_*/merged_chg.tsv
-    python ~/bin/verve/concat.py -o mag --X *_*_*/merged_mag_M.tsv
-    python ~/bin/verve/concat.py -o norm_MadelungL --X *_*_*/merged_norm_Madelung_L.tsv
-    python ~/bin/verve/concat.py -o GrossPopulationL --X *_*_*/merged_GP_L_M.tsv
+    # python ~/bin/verve/concat.py -o energy --X *_*_*/merged_energy.tsv
+    # python ~/bin/verve/concat.py -o norm_energy --X *_*_*/merged_norm_energy.tsv
+    # python ~/bin/verve/concat.py -o norm_formation --X *_*_*/merged_norm_formation.tsv
+    # python ~/bin/verve/concat.py -o ICOHP --X *_*_*/merged_ICOHP.tsv
+    # python ~/bin/verve/concat.py -o norm_ICOHP --X *_*_*/merged_norm_ICOHP.tsv
+    # python ~/bin/verve/concat.py -o ICOBI --X *_*_*/merged_ICOBI.tsv
+    # python ~/bin/verve/concat.py -o norm_ICOHP --X *_*_*/merged_norm_ICOHP.tsv
+    # python ~/bin/verve/concat.py -o bond --X *_*_*/merged_bond.tsv
+    # python ~/bin/verve/concat.py -o norm_bond --X *_*_*/merged_norm_bond.tsv
+    # python ~/bin/verve/concat.py -o norm_volume --X *_*_*/merged_norm_volume.tsv
+    # python ~/bin/verve/concat.py -o chg --X *_*_*/merged_chg.tsv
+    # python ~/bin/verve/concat.py -o mag --X *_*_*/merged_mag_M.tsv
+    # python ~/bin/verve/concat.py -o norm_MadelungL --X *_*_*/merged_norm_Madelung_L.tsv
+    # python ~/bin/verve/concat.py -o GrossPopulationL --X *_*_*/merged_GP_L_M.tsv
     
     # python ~/bin/verve/rel2octa.py concat_norm_formation.tsv
     # python ~/bin/verve/rel2octa.py concat_ICOHP_per_MO.tsv

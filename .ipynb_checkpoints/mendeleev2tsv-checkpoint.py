@@ -14,6 +14,13 @@ args = parser.parse_args()
 n = args.number
 m = n * 13
 
+if n == 1:
+    tsv_filename=f'mendeleev_{filename}.tsv'
+    png_filename=f'mendeleev_{filename}.png'
+else:
+    tsv_filename=f'concat_{filename}.tsv'
+    png_filename=f'concat_{filename}.png'
+    
 metal_rows = {
     '3d': ['Ca', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn', 'Ga', 'Ge'],
     '4d': ['Sr', 'Y', 'Zr', 'Nb', 'Mo', 'Tc', 'Ru', 'Rh', 'Pd', 'Ag', 'Cd', 'In', 'Sn'],
@@ -59,8 +66,8 @@ for pattern in args.patterns:
             df.loc[j, '4d'] = df.loc[j, '4d']['gray']
         
     df.index = index_pattern
-    df.to_csv(f'concat_{filename}.tsv', sep='\t', index=True)
-    print(f"DataFrame saved as concat_{filename}.tsv")
+    df.to_csv(f'{tsv_filename}', sep='\t', index=True)
+    print(f"DataFrame saved as {tsv_filename}")
 
     if n == 1:
         plt.figure()
@@ -72,6 +79,6 @@ for pattern in args.patterns:
         plt.ylabel(pattern.replace('_', ' ').title())
         plt.legend()
         plt.tight_layout()
-        plt.savefig(f'concat_{filename}.png', bbox_inches="tight")
-        print(f"Figure saved as concat_{filename}.png")
+        plt.savefig(f'{png_filename}', bbox_inches="tight")
+        print(f"Figure saved as {png_filename}")
         plt.close()
