@@ -94,7 +94,6 @@ def main():
     tsv_filename = f'regression{filename}.tsv'
     png_filename = f'regression{filename}.png'
     log_filename = f'regression{filename}.log'
-    df_combined.to_csv(tsv_filename, sep='\t', index=False)
     
     with open(log_filename, 'w') as file:
         file.write(f"\nIntercept: {model.intercept_}\n\n")
@@ -106,6 +105,7 @@ def main():
     
     df_combined['Predicted E_form'] = Y_pred
     df_combined['Residuals'] = Y - Y_pred
+    df_combined.to_csv(tsv_filename, sep='\t', index=False)
 
     plt.figure(figsize=(10, 8), dpi=100)
     colors = ['red', 'green', 'blue']
