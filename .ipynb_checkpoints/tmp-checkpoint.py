@@ -76,7 +76,6 @@ chg \
 mag \
 atomic_number \
 group_id \
-row \
 mass \
 atomic_volume \
 redoxP \
@@ -109,7 +108,6 @@ concat_chg_rel.tsv \
 concat_mag_rel.tsv \
 concat_atomic_number.tsv \
 concat_group_id.tsv \
-concat_row.tsv \
 concat_mass.tsv \
 concat_atomic_volume.tsv \
 concat_redoxP.tsv \
