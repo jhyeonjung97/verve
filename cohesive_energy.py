@@ -11,9 +11,7 @@ Ec_oxygen = 5.1614  # eV
 
 # Initialize an empty DataFrame for cohesive energy calculations
 Ec_oxide = pd.DataFrame(index=Ef_oxide.index)
-Ec_metal = pd.DataFrame(index=Ef_oxide.index)
-
-print(Ec_metal)
+Ec_metal.index = Ef_oxide.index
 
 # Determine the current working directory and perform calculations accordingly
 current_dir = os.getcwd()
