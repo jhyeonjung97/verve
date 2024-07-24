@@ -3,6 +3,9 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+dir_now = os.getcwd()
+print(f"\033[92m{dir_now}\033[0m")
+
 # Read input data
 Ef_oxide = pd.read_csv('energy_norm_formation.tsv', delimiter='\t', index_col=0)
 Ec_metal = pd.read_csv('/pscratch/sd/j/jiuy97/3_V_shape/6_Octahedral_RS/mendeleev_sublimation_heat.tsv', delimiter='\t', index_col=0)
@@ -22,13 +25,12 @@ Ec_oxide = pd.DataFrame(index=Ef_oxide.index)
 Ec_metal.index = Ef_oxide.index
 
 # Determine the current working directory and perform calculations accordingly
-current_dir = os.getcwd()
 
-if '1_afm' in current_dir or '2_fm' in current_dir or '3d' in current_dir:
+if '1_afm' in dir_now or '2_fm' in dir_now or '3d' in dir_now:
     row = '3d'
-elif '4d' in current_dir:
+elif '4d' in dir_now:
     row = '4d'
-elif '5d' in current_dir:
+elif '5d' in dir_now:
     row = '5d'
 else:
     raise ValueError("The current directory does not match any expected pattern ('1_afm', '2_fm', '3d', '4d', '5d').")
@@ -41,17 +43,17 @@ Ec_oxide.to_csv('energy_norm_cohesive.tsv', sep='\t', index=True)
 print(f"Data saved to energy_norm_cohesive.tsv")
 
 # Set plotting parameters based on the current working directory
-if '1_Tetrahedral_WZ' in current_dir:
+if '1_Tetrahedral_WZ' in dir_now:
     marker = '>'; color = '#d62728'
-elif '2_Tetrahedral_ZB' in current_dir:
+elif '2_Tetrahedral_ZB' in dir_now:
     marker = '<'; color = '#ff7f0e'
-elif '3_Tetragonal_LT' in current_dir:
+elif '3_Tetragonal_LT' in dir_now:
     marker = 'o'; color = '#ffd70e'
-elif '4_Square_Planar_TN' in current_dir:
+elif '4_Square_Planar_TN' in dir_now:
     marker = 's'; color = '#2ca02c'
-elif '5_Square_Planar_NB' in current_dir:
+elif '5_Square_Planar_NB' in dir_now:
     marker = 'p'; color = '#279ff2'
-elif '6_Octahedral_RS' in current_dir:
+elif '6_Octahedral_RS' in dir_now:
     marker = 'd'; color = '#9467bd'
 else:
     marker = 'x'; color = 'k'
