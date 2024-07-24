@@ -52,12 +52,12 @@ elif [[ ${here} == 'nersc' ]]; then
     #         cd $dir_now
     #     fi
     # done
-    # for dir in /pscratch/sd/j/jiuy97/3_V_shape/*_*_*/; do
-    #     cd $dir
-    #     python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Total energy (eV)" \
-    #     -o norm_energy 1_afm/energy_energy.tsv 4d/energy_energy.tsv 5d/energy_energy.tsv
-    #     python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Total energy (eV/MO)" \
-    #     -o norm_energy 1_afm/energy_norm_energy.tsv 4d/energy_norm_energy.tsv 5d/energy_norm_energy.tsv
+    for dir in /pscratch/sd/j/jiuy97/3_V_shape/*_*_*/; do
+        cd $dir
+        python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Total energy (eV)" \
+        -o energy 1_afm/energy_energy.tsv 4d/energy_energy.tsv 5d/energy_energy.tsv
+        python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Total energy (eV/MO)" \
+        -o norm_energy 1_afm/energy_norm_energy.tsv 4d/energy_norm_energy.tsv 5d/energy_norm_energy.tsv
     #     python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Bond length (A/M-O)" \
     #     -o bond 1_afm/energy_bond.tsv 4d/energy_bond.tsv 5d/energy_bond.tsv
     #     python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Bond length (A/M-O)" \
@@ -107,10 +107,9 @@ elif [[ ${here} == 'nersc' ]]; then
     #     # -o norm_EBANDS 1_afm/energy_norm_EBANDS.tsv 4d/energy_norm_EBANDS.tsv 5d/energy_norm_EBANDS.tsv
     #     # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "EATOM (eV/MO)" \
     #     # -o norm_EATOM 1_afm/energy_norm_EATOM.tsv 4d/energy_norm_EATOM.tsv 5d/energy_norm_EATOM.tsv
-    # done
+    done
     
     cd /pscratch/sd/j/jiuy97/3_V_shape
-    
     # rows=('3d' '4d' '5d')
     # dirs=('1_afm' '4d' '5d')
     # for i in {0..2}; do
