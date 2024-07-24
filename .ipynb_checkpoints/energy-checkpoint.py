@@ -490,7 +490,6 @@ def plot_separately(values_dict, dir_names, xlabel, ylabel, save, filenam, marke
                 x.append(i)
                 filtered_values.append(v)
         plt.plot(x, values, marker=marker, color=color)
-        plt.title(f'{pattern} Energy Contribution')
         plt.xlabel(xlabel)
         plt.ylabel(ylabel)
         plt.xticks(np.arange(len(dir_names)), dir_names)
