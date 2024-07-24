@@ -14,13 +14,6 @@ args = parser.parse_args()
 n = args.number
 m = n * 13
 
-if n == 1:
-    tsv_filename=f'mendeleev_{filename}.tsv'
-    png_filename=f'mendeleev_{filename}.png'
-else:
-    tsv_filename=f'concat_{filename}.tsv'
-    png_filename=f'concat_{filename}.png'
-    
 metal_rows = {
     '3d': ['Ca', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn', 'Ga', 'Ge'],
     '4d': ['Sr', 'Y', 'Zr', 'Nb', 'Mo', 'Tc', 'Ru', 'Rh', 'Pd', 'Ag', 'Cd', 'In', 'Sn'],
@@ -64,8 +57,16 @@ for pattern in args.patterns:
         for i in range(n):
             j = 13 * i + 12
             df.loc[j, '4d'] = df.loc[j, '4d']['gray']
-        
+            
     df.index = index_pattern
+
+    if n == 1:
+        tsv_filename=f'mendeleev_{filename}.tsv'
+        png_filename=f'mendeleev_{filename}.png'
+    else:
+        tsv_filename=f'concat_{filename}.tsv'
+        png_filename=f'concat_{filename}.png'
+    
     df.to_csv(f'{tsv_filename}', sep='\t', index=True)
     print(f"DataFrame saved as {tsv_filename}")
 
