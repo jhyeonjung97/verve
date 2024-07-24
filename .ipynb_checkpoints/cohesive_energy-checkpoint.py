@@ -67,7 +67,7 @@ for i, v in enumerate(Ec_oxide['energy']):
 plt.plot(x, filtered_values, marker=marker, color=color)
 plt.xlabel('Metal (MO)')
 plt.ylabel('Cohesive energy (eV)')
-plt.xticks(Ec_oxide.index)
+plt.xticks(len(Ec_oxide.index), Ec_oxide.index)
 plt.tight_layout()
 plt.savefig('energy_norm_cohesive.png', bbox_inches="tight")
 plt.close()
