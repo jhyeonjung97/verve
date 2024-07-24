@@ -103,7 +103,7 @@ def main():
         file.write(f"Mean Absolute Error: {mae:.4f}\n")
         file.write(f"Mean Squared Error: {mse:.4f}\n\n")
     
-    df_combined['Predicted E_form'] = Y_pred
+    df_combined['Predicted'] = Y_pred
     df_combined['Residuals'] = Y - Y_pred
     df_combined.to_csv(tsv_filename, sep='\t', index=False)
 
@@ -116,7 +116,7 @@ def main():
             subset = sub[sub['Coordination'] == coordination]
             LL = subset['Metal']
             YY = subset['E_form']
-            YY_pred = subset['Predicted E_form']
+            YY_pred = subset['Predicted']
             print(row, coordination, YY, YY_pred)
             plt.scatter(YY, YY_pred, alpha=0.3, color=colors[i], marker=markers[j], label=f'{row}_{coordination}')
             for (x, y, label) in zip(YY, YY_pred, LL):

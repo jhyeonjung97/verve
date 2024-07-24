@@ -14,6 +14,7 @@ atomic_number \
 group_id \
 mass \
 atomic_volume \
+redoxP \
 ionenergies1 \
 ionenergies2 \
 ionenergies12 \
@@ -44,6 +45,7 @@ concat_atomic_number.tsv \
 concat_group_id.tsv \
 concat_mass.tsv \
 concat_atomic_volume.tsv \
+concat_redoxP.tsv \
 concat_ionenergies_1.tsv \
 concat_ionenergies_2.tsv \
 concat_ionenergies_12.tsv \
@@ -127,23 +129,6 @@ concat_evaporation_heat.tsv \
 concat_fusion_heat.tsv \
 concat_sublimation_heat.tsv \
 concat_heat_of_formation.tsv
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # python ~/bin/verve/gpr.py -i ICOHP wICOHP ICOBI MadelungL volume bond chg GP_L CFSE IE1 IE2 IE12 redoxP IE3 E_sub row group number negativity melting boiling density mass --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_ICOBI.tsv concat_norm_MadelungL.tsv concat_norm_volume.tsv concat_bond.tsv concat_chg.tsv concat_GP_L.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv concat_number.tsv concat_neg.tsv concat_melting.tsv concat_boiling.tsv concat_density.tsv concat_mass.tsv
 # python ~/bin/verve/gpr-optuna.py -i ICOHP wICOHP ICOBI MadelungL volume bond chg GP_L CFSE IE1 IE2 IE12 redoxP IE3 E_sub row group number negativity melting boiling density mass --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_ICOBI.tsv concat_norm_MadelungL.tsv concat_norm_volume.tsv concat_bond.tsv concat_chg.tsv concat_GP_L.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv concat_number.tsv concat_neg.tsv concat_melting.tsv concat_boiling.tsv concat_density.tsv concat_mass.tsv
