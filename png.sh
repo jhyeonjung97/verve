@@ -117,7 +117,6 @@ elif [[ ${here} == 'nersc' ]]; then
     
     python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Standard reduction potential (V)" -o redoxP \
     ../oxide/energy_redoxP_3d.tsv ../oxide/energy_redoxP_4d.tsv ../oxide/energy_redoxP_5d.tsv
-    
     python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Standard reduction potential (V)" -o redoxP_clean \
     ../oxide/energy_redoxP_clean_3d.tsv ../oxide/energy_redoxP_clean_4d.tsv ../oxide/energy_redoxP_clean_5d.tsv
     
@@ -134,6 +133,8 @@ elif [[ ${here} == 'nersc' ]]; then
     
     cd /pscratch/sd/j/jiuy97/3_V_shape
     
+    sh ~/bin/verve/spread.sh 6_Octahedral_RS/merged_redoxP.tsv
+    sh ~/bin/verve/spread.sh 6_Octahedral_RS/merged_redoxP_clean.tsv
     sh ~/bin/verve/spread.sh oxide/merged_coord.tsv
     sh ~/bin/verve/spread.sh metal/merged_element.tsv
     sh ~/bin/verve/spread.sh metal/merged_row.tsv
@@ -178,6 +179,7 @@ elif [[ ${here} == 'nersc' ]]; then
     python ~/bin/verve/concat.py -o norm_MadelungL --X *_*_*/merged_norm_Madelung_L.tsv
     python ~/bin/verve/concat.py -o GrossPopulationL --X *_*_*/merged_GP_L_M.tsv
     python ~/bin/verve/concat.py -o redoxP --X *_*_*/merged_redoxP.tsv
+    python ~/bin/verve/concat.py -o redoxP_clean --X *_*_*/merged_redoxP_clean.tsv
     
     python ~/bin/verve/rel2octa.py concat_bond.tsv
     python ~/bin/verve/rel2octa.py concat_chg.tsv
@@ -210,27 +212,33 @@ elif [[ ${here} == 'nersc' ]]; then
     python ~/bin/verve/operator.py -o + -x concat_ionenergies_1.tsv -y concat_ionenergies_2.tsv -z concat_ionenergies_12.tsv
     python ~/bin/verve/operator.py -o + -x concat_evaporation_heat.tsv -y concat_fusion_heat.tsv -z concat_sublimation_heat.tsv
     
-    python ~/bin/verve/concat.py -o coord \
-    --X ../1_Tetrahedral_WZ/merged_coord.tsv \
-    ../2_Tetrahedral_ZB/merged_coord.tsv \
-    ../3_Pyramidal_LT/merged_coord.tsv \
-    ../4_Square_Planar_TN/merged_coord.tsv \
-    ../5_Square_Planar_NB/merged_coord.tsv
+    declare -A files_A
+    files_A[coord]="merged_coord.tsv"
+    files_A[redoxP]="merged_redoxP.tsv"
+    files_A[redoxP_clean]="merged_redoxP_clean.tsv"
     
-    python ~/bin/verve/concat.py -o element \
-    --X ../metal/merged_element.tsv \
-    ../metal/merged_element.tsv \
-    ../metal/merged_element.tsv \
-    ../metal/merged_element.tsv \
-    ../metal/merged_element.tsv
-
-    python ~/bin/verve/concat.py -o row \
-    --X ../metal/merged_row.tsv \
-    ../metal/merged_row.tsv \
-    ../metal/merged_row.tsv \
-    ../metal/merged_row.tsv \
-    ../metal/merged_row.tsv
-
+    for key in "${!files_A[@]}"; do
+        python ~/bin/verve/concat.py -o $key --X \
+        ../1_Tetrahedral_WZ/${files[$key]} \
+        ../2_Tetrahedral_ZB/${files[$key]} \
+        ../3_Pyramidal_LT/${files[$key]} \
+        ../4_Square_Planar_TN/${files[$key]} \
+        ../5_Square_Planar_NB/${files[$key]}
+    done
+    
+    declare -A files_B
+    files_B[element]="merged_element.tsv"
+    files_B[row]="merged_row.tsv"
+    
+    for key in "${!files_B[@]}"; do
+        python ~/bin/verve/concat.py -o $key --X \
+        ../metal/${files[$key]} \
+        ../metal/${files[$key]} \
+        ../metal/${files[$key]} \
+        ../metal/${files[$key]} \
+        ../metal/${files[$key]}
+    done
+    
     cd /pscratch/sd/j/jiuy97/3_V_shape/rel6
     
     python ~/bin/verve/operator.py -o + -x concat_ionenergies_1.tsv -y concat_ionenergies_2.tsv -z concat_ionenergies_12.tsv

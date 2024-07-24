@@ -88,9 +88,6 @@ def main():
 
     Y_pred = model.predict(X)
     
-    print(type(Y))
-    print(type(Y_pred))
-    
     mae = mean_absolute_error(Y, Y_pred)
     mse = mean_squared_error(Y, Y_pred)
 
