@@ -114,8 +114,8 @@ def main():
     markers = ['v', 'v', '^', 's', 's', 'o']
     for i, row in enumerate([3, 4, 5]):
         sub = df_combined[df_combined['Row'] == row]
-        # for j, coordination in enumerate(['WZ', 'ZB', 'TN', '33', 'RS']):
-        for j, coordination in enumerate(['WZ', 'ZB', 'LT', 'TN', '33', 'RS']):
+        # for j, coordination in enumerate(['WZ', 'ZB', 'TN', 'NB', 'RS']):
+        for j, coordination in enumerate(['WZ', 'ZB', 'LT', 'TN', 'NB', 'RS']):
             subset = sub[sub['Coordination'] == coordination]
             LL = subset['Metal']
             YY = subset['E_form']
