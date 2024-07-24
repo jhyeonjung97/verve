@@ -84,7 +84,7 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, a
         plt.plot(x, [1.633]*len(x), linestyle=':', label='hexa_ratio0', color='black')
         
     if 'norm_formation' in output:
-        exp_path = '/pscratch/sd/j/jiuy97/3_V_shape/monoxides.tsv'
+        exp_path = '/pscratch/sd/j/jiuy97/3_V_shape/oxide/monoxides.tsv'
         exp_df = pd.read_csv(exp_path, delimiter='\t')
         exp_df['dH_form'] = exp_df['dH_form'] / 96.48
         exp_colors = {'WZ': '#d62728', 'ZB': '#ff7f0e', 'LT': '#ffd70e', 'TN': '#2ca02c', 'NB': '#279ff2', 'RS': '#9467bd'}
