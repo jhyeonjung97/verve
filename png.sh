@@ -116,9 +116,10 @@ elif [[ ${here} == 'nersc' ]]; then
     cd /pscratch/sd/j/jiuy97/3_V_shape/6_Octahedral_RS
     
     python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Standard reduction potential (V)" -o redoxP \
-    /pscratch/sd/j/jiuy97/3_V_shape/oxide/energy_redoxP_3d.tsv \
-    /pscratch/sd/j/jiuy97/3_V_shape/oxide/energy_redoxP_4d.tsv \
-    /pscratch/sd/j/jiuy97/3_V_shape/oxide/energy_redoxP_5d.tsv
+    ../oxide/energy_redoxP_3d.tsv ../oxide/energy_redoxP_4d.tsv ../oxide/energy_redoxP_5d.tsv
+    
+    python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Standard reduction potential (V)" -o redoxP_clean \
+    ../oxide/energy_redoxP_clean_3d.tsv ../oxide/energy_redoxP_clean_4d.tsv ../oxide/energy_redoxP_clean_5d.tsv
     
     python ~/bin/verve/mendeleev2tsv.py -p \
     group_id atomic_number atomic_volume  \
