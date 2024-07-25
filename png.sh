@@ -21,13 +21,13 @@ elif [[ ${here} == 'nersc' ]]; then
         if [[ $dir != *'save'* ]] && [[ $dir != *'rhom'* ]] && [[ $dir != *'bin'* ]] && [[ $dir != *'cubic'* ]]; then
             cd $dir
     
-            if [[ $dir == *'Tetrahedral'* ]]; then
-                n=4; python ~/bin/verve/energy.py --save -p hexa -x "Metal (MO)" -y "Hexagonal ratio [c/a]"
-            elif [[ $dir == *'Pyramidal'* ]] || [[ $dir == *'Tetragonal'* ]] || [[ $dir == *'Square_Planar'* ]]; then
-                n=4; python ~/bin/verve/energy.py --save -p hexa -x "Metal (MO)" -y "Square prism ratio [c/a]"
-            elif [[ $dir == *'Octahedral'* ]]; then
-                n=6
-            fi
+            # if [[ $dir == *'Tetrahedral'* ]]; then
+            #     n=4; python ~/bin/verve/energy.py --save -p hexa -x "Metal (MO)" -y "Hexagonal ratio [c/a]"
+            # elif [[ $dir == *'Pyramidal'* ]] || [[ $dir == *'Tetragonal'* ]] || [[ $dir == *'Square_Planar'* ]]; then
+            #     n=4; python ~/bin/verve/energy.py --save -p hexa -x "Metal (MO)" -y "Square prism ratio [c/a]"
+            # elif [[ $dir == *'Octahedral'* ]]; then
+            #     n=6
+            # fi
     
     #         python ~/bin/verve/energy.py --save -p energy -x "Metal (MO)" -y "Total energy (eV)"
     #         python ~/bin/verve/energy.py --save -p energy -x "Metal (MO)" -y "Total energy (eV/MO)" -n m
