@@ -86,7 +86,7 @@ for i in range(6):
             plt.ylabel('Surface energy (eV/A^2)')
             plt.legend()
             plt.tight_layout()
-            plt.gcf().savefig(png_filename, bbox_inches="tight")
+            plt.savefig(png_filename, bbox_inches="tight")
             print(f"Figure saved as {png_filename}")
             plt.close()
 
@@ -105,6 +105,6 @@ for i in range(6):
     plt.ylabel('Surface energy (eV/A^2)')
     plt.legend()
     plt.tight_layout()
-    plt.gcf().savefig(png_filename_combined, bbox_inches="tight")
+    plt.savefig(png_filename_combined, bbox_inches="tight")
     print(f"Figure saved as {png_filename_combined}")
     plt.close()
