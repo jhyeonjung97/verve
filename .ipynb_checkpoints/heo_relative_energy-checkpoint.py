@@ -59,8 +59,8 @@ plt.hist(df['energy'].dropna(), bins=np.arange(-2.0, 0.1, 0.1), alpha=0.5, width
 plt.xlabel('Relative energy (eV)')
 plt.ylabel('Frequency')
 plt.xticks(np.arange(-2.0, 0.1, 0.2))
-plt.savefig(png_gap_filename, bbox_inches="tight")
-print(f"Figure saved as {png_gap_filename}")
+plt.savefig(png_filename, bbox_inches="tight")
+print(f"Figure saved as {png_filename}")
 plt.close()
 
 # Plotting the data
@@ -70,8 +70,8 @@ plt.xlabel('Band gap (eV)')
 plt.ylabel('Frequency')
 plt.xticks(np.arange(0.0, 0.5, 0.1))
 plt.xlim(-0.05, 0.55)
-plt.savefig(png_filename, bbox_inches="tight")
-print(f"Figure saved as {heo_band_gap}")
+plt.savefig(png_gap_filename, bbox_inches="tight")
+print(f"Figure saved as {png_gap_filename}")
 plt.close()
 
 # Plotting the magnetic moments histogram
