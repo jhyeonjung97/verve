@@ -23,15 +23,6 @@ tsv_gap_filename = 'heo_band_gap.tsv'
 png_gap_filename = 'heo_band_gap.png'
 
 pattern = re.compile(r"Band Gap:\s+([\d.]+)\s+eV")
-
-for filepath in glob.glob(f"{directory}/*/gap.txt"):
-    with open(filepath, 'r') as file:
-        contents = file.read()
-        match = pattern.search(contents)
-        if match:
-            band_gaps.append(float(match.group(1)))
-        else:
-            print(f"No band gap found in {filepath}")
     
 for i in range(60):
     path = f'/scratch/x2755a09/4_HEO/{i:02d}_/final_with_calculator.json'
@@ -46,13 +37,16 @@ for i in range(60):
         df_mag.at[i, metal] = magmom
     relative_energy = energy - sum(numb[j] * prvs[metal] / 8 for j, metal in enumerate(prvs.keys()))
     df.at[i, 'energy'] = relative_energy
-    with open(gap_path, 'r') as file:
-        contents = file.read()
-        match = pattern.search(contents)
-        if match:
-            df.at[i, 'bandgap'] = float(match.group(1))
-        else:
-            print(f"No band gap found in {filepath}")
+    if os.path.exists(gap_path):
+        with open(gap_path, 'r') as file:
+            contents = file.read()
+            match = pattern.search(contents)
+            if match:
+                df.at[i, 'bandgap'] = float(match.group(1))
+            else:
+                print(f"No band gap found in {gap_path}")
+    else:
+        print(f"Gap file does not exist: {gap_path}")
 
 # Save data to TSV files
 df.to_csv(tsv_filename, sep='\t', float_format='%.2f')
