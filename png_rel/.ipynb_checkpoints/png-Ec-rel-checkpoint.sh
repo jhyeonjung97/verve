@@ -1,5 +1,5 @@
-python /global/homes/j/jiuy97/bin/verve/lr.py -o Ef_clean_rel \
---Y concat_norm_formation_rel.tsv \
+python /global/homes/j/jiuy97/bin/verve/lr.py -o Ec_rel \
+--Y concat_norm_cohesive_rel.tsv \
 -i \
 ICOHP_rel_per_metal \
 ICOHP_rel_per_bond \
@@ -15,7 +15,6 @@ atomic_number \
 group_id \
 mass \
 atomic_volume \
-redoxP_clean \
 ionenergies1 \
 ionenergies2 \
 ionenergies12 \
@@ -47,7 +46,6 @@ concat_atomic_number.tsv \
 concat_group_id.tsv \
 concat_mass.tsv \
 concat_atomic_volume.tsv \
-concat_redoxP_clean.tsv \
 concat_ionenergies_1.tsv \
 concat_ionenergies_2.tsv \
 concat_ionenergies_12.tsv \
