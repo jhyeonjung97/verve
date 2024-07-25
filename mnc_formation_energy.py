@@ -109,7 +109,7 @@ def main():
 
             # plotting(df=df, df_relaxed=df_relaxed, dzs=dzs, spins=spins, 
             #          ylabel='Formation energy (eV)', png_filename=png_filename)
-            plotting(df=df_rel, df_relaxed=df_relaxed_rel, dzs=dzs, spins=spins, color='black', 
+            plotting(df=df_rel, df_relaxed=df_relaxed_rel, dzs=dzs, spins=spins, clr='black', 
                      ylabel='Spin crossover energy (eV)', png_filename=png_rel_filename)
             plotting(df=df_mag, df_relaxed=df_relaxed_mag, dzs=dzs, spins=spins, ymin=-0.5, ymax=5.5, yticks=np.arange(6),
                      ylabel='Magnetic Moments', png_filename=png_mag_filename)
@@ -126,7 +126,7 @@ def plot_smooth_line(x, y, color, label):
     plt.plot(x_new, y_smooth, color=color, label=label)
     plt.scatter(x, y, color=color)  # Add markers without label
 
-def plotting(df, df_relaxed, dzs, spins, ylabel, png_filename, ymin=None, ymax=None, yticks=None, color=None):
+def plotting(df, df_relaxed, dzs, spins, ylabel, png_filename, ymin=None, ymax=None, yticks=None, clr=None):
     plt.figure(figsize=(8, 6))
     for column in df.columns:
         filtered_df = df[column].dropna()
@@ -134,7 +134,7 @@ def plotting(df, df_relaxed, dzs, spins, ylabel, png_filename, ymin=None, ymax=N
             x = filtered_df.index
             y = filtered_df.values
             if color:
-                plot_smooth_line(x, y, color, f'{column} (fixed)')
+                plot_smooth_line(x, y, clr, f'{column} (fixed)')
             else:
                 plot_smooth_line(x, y, spins[column], f'{column} (fixed)')
     for column in df_relaxed.columns:
@@ -142,13 +142,13 @@ def plotting(df, df_relaxed, dzs, spins, ylabel, png_filename, ymin=None, ymax=N
         if not filtered_df.empty:
             x = filtered_df.index
             y = filtered_df.values
-            if color:
-                plt.scatter(x, y, marker='x', color=color, label=f'{column} (relaxed)')
+            if clr:
+                plt.scatter(x, y, marker='x', color=clr, label=f'{column} (relaxed)')
             else:
                 plt.scatter(x, y, marker='x', color=spins[column], label=f'{column} (relaxed)')
-    if color:
-        plt.axvline(y=0, color='blue', linestyle='--')
-        plt.axvline(y=0.8, color='red', linestyle='--')
+    if clr:
+        plt.axhline(y=0.0, color='blue', linestyle='--')
+        plt.axhline(y=0.8, color='red', linestyle='--')
     plt.xticks(dzs)
     plt.xlabel('dz')
     plt.ylabel(ylabel)
