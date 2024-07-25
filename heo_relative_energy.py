@@ -87,17 +87,17 @@ def main():
     for i in range(5):
         df_ref.at[i, 'energy'] = 0
         
-    plotting('energy', np.arange(-2.0, 0.0, 0.1), 'Relative energy (eV)', np.arange(-2.0, 0.0, 0.2), -2.1, 0.1, 0.09, png_filename)
-    plotting('bandgap', np.arange(0.0, 1.4, 0.1), 'Band gap (eV)', np.arange(0.0, 1.4, 0.2), -0.1, 1.5, 0.09, png_gap_filename)
+    plotting('energy', np.arange(-2.0, 0.0, 0.1), 'Relative energy (eV)', np.arange(-2.0, 0.1, 0.2), -2.1, 0.1, 0.09, png_filename)
+    plotting('bandgap', np.arange(0.0, 2.0, 0.1), 'Band gap (eV)', np.arange(0.0, 2.1, 0.2), -0.1, 1.5, 0.09, png_gap_filename)
     plotting('Md2Op', np.arange(0.0, 0.5, 0.05), 'M3d - O2p (eV)', np.arange(0.0, 0.5, 0.1), -0.05, 0.55, 0.045, png_dos_filename)
 
     for i, column in enumerate(df_mag.columns):
         plt.figure(figsize=(8, 6))
-        plt.hist(df_mag[column].dropna(), bins=np.arange(0, 5, 0.1), alpha=0.5, color=clrs[i], label=str(column), width=0.09)
+        plt.hist(df_mag[column].dropna(), bins=np.arange(0, 6, 0.1), alpha=0.5, color=clrs[i], label=str(column), width=0.09)
         plt.axvline(x=df_ref.at[i, 'magmom'], color=clrs[i], linestyle='--')
         plt.xlabel('Magnetic Moments')
         plt.ylabel('Frequency')
-        plt.xticks(np.arange(0, 5, 1))
+        plt.xticks(np.arange(0, 6, 1))
         plt.xlim(-0.5, 5.5)
         plt.legend(title="B sites")
         plt.savefig(f'heo_magnetic_moments_{column}.png', bbox_inches="tight")
@@ -105,13 +105,13 @@ def main():
         plt.close()
     
     plt.figure(figsize=(8, 6))
-    bins = np.arange(0, 5, 0.2)
+    bins = np.arange(0, 6, 0.2)
     bin_width = 0.2 / (len(df_mag.columns) + 1)  # Calculate new width for each bar
     for idx, column in enumerate(df_mag.columns):
         plt.hist(df_mag[column].dropna(), bins=bins + idx * bin_width, alpha=0.5, label=str(column), width=bin_width)
     plt.xlabel('Magnetic Moments')
     plt.ylabel('Frequency')
-    plt.xticks(np.arange(0, 5, 1))
+    plt.xticks(np.arange(0, 6, 1))
     plt.xlim(-0.5, 5.5)
     plt.legend(title="B sites")
     plt.savefig(png_mag_filename, bbox_inches="tight")
