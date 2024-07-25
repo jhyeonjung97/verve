@@ -57,7 +57,12 @@ for pattern in args.patterns:
         for i in range(n):
             j = 13 * i + 12
             df.loc[j, '4d'] = df.loc[j, '4d']['gray']
-            
+    
+    if pattern == 'evaporation_heat':
+        for i in range(n):
+            j = 13 * i + 6
+            df.loc[j, '4d'] = 619.0
+
     df.index = index_pattern
 
     if n == 1:

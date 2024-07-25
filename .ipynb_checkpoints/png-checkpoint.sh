@@ -113,7 +113,7 @@ elif [[ ${here} == 'nersc' ]]; then
     #     # -o norm_EATOM 1_afm/energy_norm_EATOM.tsv 4d/energy_norm_EATOM.tsv 5d/energy_norm_EATOM.tsv
     # done
     
-    # cd /pscratch/sd/j/jiuy97/3_V_shape/6_Octahedral_RS
+    cd /pscratch/sd/j/jiuy97/3_V_shape/6_Octahedral_RS
     
     # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Standard reduction potential (V)" -o redoxP \
     # ../oxide/energy_redoxP_3d.tsv ../oxide/energy_redoxP_4d.tsv ../oxide/energy_redoxP_5d.tsv
@@ -125,11 +125,13 @@ elif [[ ${here} == 'nersc' ]]; then
     # boiling_point melting_point \
     # mass density dipole_polarizability en_pauling \
     # covalent_radius metallic_radius vdw_radius \
-    # evaporation_heat fusion_heat  heat_of_formation \
+    # evaporation_heat fusion_heat heat_of_formation \
     # ionenergies[1] ionenergies[2] ionenergies[3]
+
+    python ~/bin/verve/mendeleev2tsv.py -p evaporation_heat
     
     # python ~/bin/verve/operator.py -o + -x mendeleev_ionenergies_1.tsv -y mendeleev_ionenergies_2.tsv -z mendeleev_ionenergies_12.tsv
-    # python ~/bin/verve/operator.py -o + -x mendeleev_evaporation_heat.tsv -y mendeleev_fusion_heat.tsv -z mendeleev_sublimation_heat.tsv
+    python ~/bin/verve/operator.py -o + -x mendeleev_evaporation_heat.tsv -y mendeleev_fusion_heat.tsv -z mendeleev_sublimation_heat.tsv
     
     cd /pscratch/sd/j/jiuy97/3_V_shape
     
@@ -210,9 +212,11 @@ elif [[ ${here} == 'nersc' ]]; then
     # covalent_radius metallic_radius vdw_radius \
     # evaporation_heat fusion_heat  heat_of_formation \
     # ionenergies[1] ionenergies[2] ionenergies[3]
+    
+    python ~/bin/verve/mendeleev2tsv.py -n 5 -p evaporation_heat
 
     # python ~/bin/verve/operator.py -o + -x concat_ionenergies_1.tsv -y concat_ionenergies_2.tsv -z concat_ionenergies_12.tsv
-    # python ~/bin/verve/operator.py -o + -x concat_evaporation_heat.tsv -y concat_fusion_heat.tsv -z concat_sublimation_heat.tsv
+    python ~/bin/verve/operator.py -o + -x concat_evaporation_heat.tsv -y concat_fusion_heat.tsv -z concat_sublimation_heat.tsv
     
     # declare -A files_A
     # files_A[coord]="merged_coord.tsv"
@@ -247,9 +251,6 @@ elif [[ ${here} == 'nersc' ]]; then
     
     cd /pscratch/sd/j/jiuy97/3_V_shape/rel6
     
-    # python ~/bin/verve/operator.py -o + -x concat_ionenergies_1.tsv -y concat_ionenergies_2.tsv -z concat_ionenergies_12.tsv
-    # python ~/bin/verve/operator.py -o + -x concat_evaporation_heat.tsv -y concat_fusion_heat.tsv -z concat_sublimation_heat.tsv
-
     # python ~/bin/verve/mendeleev2tsv.py -n 6 -p \
     # group_id atomic_number atomic_volume  \
     # boiling_point melting_point \
@@ -258,6 +259,11 @@ elif [[ ${here} == 'nersc' ]]; then
     # evaporation_heat fusion_heat  heat_of_formation \
     # ionenergies[1] ionenergies[2] ionenergies[3]
     
+    python ~/bin/verve/mendeleev2tsv.py -n 6 -p evaporation_heat
+
+    # python ~/bin/verve/operator.py -o + -x concat_ionenergies_1.tsv -y concat_ionenergies_2.tsv -z concat_ionenergies_12.tsv
+    python ~/bin/verve/operator.py -o + -x concat_evaporation_heat.tsv -y concat_fusion_heat.tsv -z concat_sublimation_heat.tsv
+
     # python ~/bin/verve/concat.py -o coord --X ../*_*_*/merged_coord.tsv
     # python ~/bin/verve/concat.py -o element --X ../*_*_*/merged_element.tsv
     # python ~/bin/verve/concat.py -o row --X ../*_*_*/merged_row.tsv
