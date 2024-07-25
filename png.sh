@@ -145,26 +145,24 @@ elif [[ ${here} == 'nersc' ]]; then
     # sed -i -e 's/CN/NB/g' 5_Square_Planar_NB/merged_coord.tsv
     # sed -i -e 's/CN/RS/g' 6_Octahedral_RS/merged_coord.tsv
 
-    # rows=('3d' '4d' '5d')
-    # dirs=('1_afm' '4d' '5d')
-    # for i in {0..2}; do
-    #     python ~/bin/verve/tsv.py -r ${rows[$i]} -x "Metal (MO)" -y "Total energy (eV)" -o energy_${rows[$i]} *_*_*/${dirs[$i]}/energy_energy.tsv
-    #     python ~/bin/verve/tsv.py -r ${rows[$i]} -x "Metal (MO)" -y "Total energy (eV/MO)" -o norm_energy_${rows[$i]} *_*_*/${dirs[$i]}/energy_norm_energy.tsv
-    #     python ~/bin/verve/tsv.py -r ${rows[$i]} -x "Metal (MO)" -y "Formation energy (eV/MO)" -o norm_formation_${rows[$i]} *_*_*/${dirs[$i]}/energy_norm_formation.tsv
-    #     python ~/bin/verve/tsv.py -r ${rows[$i]} -x "Metal (MO)" -y "Cohesive energy (eV/MO)" -o norm_cohesive_${rows[$i]} *_*_*/${dirs[$i]}/energy_norm_cohesive.tsv
-    #     python ~/bin/verve/tsv.py -r ${rows[$i]} -x "Metal (MO)" -y "Bond length (A/M-O)" -o bond_${rows[$i]} *_*_*/${dirs[$i]}/energy_bond.tsv
-    #     python ~/bin/verve/tsv.py -r ${rows[$i]} -x "Metal (MO)" -y "Volume (A^3/MO)" -o norm_volume_${rows[$i]} *_*_*/${dirs[$i]}/energy_norm_volume.tsv
-    #     python ~/bin/verve/tsv.py -r ${rows[$i]} -x "Metal (MO)" -y "Bader charge (e-)" -o chg_M_${rows[$i]} *_*_*/${dirs[$i]}/energy_chg_M.tsv
-    #     python ~/bin/verve/tsv.py -r ${rows[$i]} -x "Metal (MO)" -y "|Magnetization|" -o mag_M_${rows[$i]} *_*_*/${dirs[$i]}/energy_mag_M.tsv
-    #     python ~/bin/verve/tsv.py -r ${rows[$i]} -x "Metal (MO)" -y "ICOHP (eV/MO)" -o ICOHP_${rows[$i]} *_*_*/${dirs[$i]}/energy_ICOHP.tsv
-    #     python ~/bin/verve/tsv.py -r ${rows[$i]} -x "Metal (MO)" -y "ICOHP (eV/M-O)" -o norm_ICOHP_${rows[$i]} *_*_*/${dirs[$i]}/energy_norm_ICOHP.tsv
-    #     python ~/bin/verve/tsv.py -r ${rows[$i]} -x "Metal (MO)" -y "ICOBI (/MO)" -o ICOBI_${rows[$i]} *_*_*/${dirs[$i]}/energy_ICOBI.tsv
-    #     python ~/bin/verve/tsv.py -r ${rows[$i]} -x "Metal (MO)" -y "ICOBI (/M-O)" -o norm_ICOBI_${rows[$i]} *_*_*/${dirs[$i]}/energy_norm_ICOBI.tsv
-    #     python ~/bin/verve/tsv.py -r ${rows[$i]} -x "Metal (MO)" -y "Gross population (Loewdin)" -o GP_L_${rows[$i]} *_*_*/${dirs[$i]}/energy_GP_Loewdin_M.tsv
-    #     python ~/bin/verve/tsv.py -r ${rows[$i]} -x "Metal (MO)" -y "Madelung energy (Loewdin, eV/MO)" -o norm_Madelung_L_${rows[$i]} *_*_*/${dirs[$i]}/energy_norm_Madelung_Loewdin.tsv
-    # done
-    
-    python ~/bin/verve/tsv.py -r 3d -x "Metal (MO)" -y "Total energy (eV)" -o energy_3d *_*_*/1_afm/energy_energy.tsv
+    rows=('3d' '4d' '5d')
+    dirs=('1_afm' '4d' '5d')
+    for i in {0..2}; do
+        python ~/bin/verve/tsv.py -r ${rows[$i]} -x "Metal (MO)" -y "Total energy (eV)" -o energy_${rows[$i]} *_*_*/${dirs[$i]}/energy_energy.tsv
+        python ~/bin/verve/tsv.py -r ${rows[$i]} -x "Metal (MO)" -y "Total energy (eV/MO)" -o norm_energy_${rows[$i]} *_*_*/${dirs[$i]}/energy_norm_energy.tsv
+        python ~/bin/verve/tsv.py -r ${rows[$i]} -x "Metal (MO)" -y "Formation energy (eV/MO)" -o norm_formation_${rows[$i]} *_*_*/${dirs[$i]}/energy_norm_formation.tsv
+        python ~/bin/verve/tsv.py -r ${rows[$i]} -x "Metal (MO)" -y "Cohesive energy (eV/MO)" -o norm_cohesive_${rows[$i]} *_*_*/${dirs[$i]}/energy_norm_cohesive.tsv
+        python ~/bin/verve/tsv.py -r ${rows[$i]} -x "Metal (MO)" -y "Bond length (A/M-O)" -o bond_${rows[$i]} *_*_*/${dirs[$i]}/energy_bond.tsv
+        python ~/bin/verve/tsv.py -r ${rows[$i]} -x "Metal (MO)" -y "Volume (A^3/MO)" -o norm_volume_${rows[$i]} *_*_*/${dirs[$i]}/energy_norm_volume.tsv
+        python ~/bin/verve/tsv.py -r ${rows[$i]} -x "Metal (MO)" -y "Bader charge (e-)" -o chg_M_${rows[$i]} *_*_*/${dirs[$i]}/energy_chg_M.tsv
+        python ~/bin/verve/tsv.py -r ${rows[$i]} -x "Metal (MO)" -y "|Magnetization|" -o mag_M_${rows[$i]} *_*_*/${dirs[$i]}/energy_mag_M.tsv
+        python ~/bin/verve/tsv.py -r ${rows[$i]} -x "Metal (MO)" -y "ICOHP (eV/MO)" -o ICOHP_${rows[$i]} *_*_*/${dirs[$i]}/energy_ICOHP.tsv
+        python ~/bin/verve/tsv.py -r ${rows[$i]} -x "Metal (MO)" -y "ICOHP (eV/M-O)" -o norm_ICOHP_${rows[$i]} *_*_*/${dirs[$i]}/energy_norm_ICOHP.tsv
+        python ~/bin/verve/tsv.py -r ${rows[$i]} -x "Metal (MO)" -y "ICOBI (/MO)" -o ICOBI_${rows[$i]} *_*_*/${dirs[$i]}/energy_ICOBI.tsv
+        python ~/bin/verve/tsv.py -r ${rows[$i]} -x "Metal (MO)" -y "ICOBI (/M-O)" -o norm_ICOBI_${rows[$i]} *_*_*/${dirs[$i]}/energy_norm_ICOBI.tsv
+        python ~/bin/verve/tsv.py -r ${rows[$i]} -x "Metal (MO)" -y "Gross population (Loewdin)" -o GP_L_${rows[$i]} *_*_*/${dirs[$i]}/energy_GP_Loewdin_M.tsv
+        python ~/bin/verve/tsv.py -r ${rows[$i]} -x "Metal (MO)" -y "Madelung energy (Loewdin, eV/MO)" -o norm_Madelung_L_${rows[$i]} *_*_*/${dirs[$i]}/energy_norm_Madelung_Loewdin.tsv
+    done
 
     # python ~/bin/verve/concat.py -o energy --X *_*_*/merged_energy.tsv
     # python ~/bin/verve/concat.py -o norm_energy --X *_*_*/merged_norm_energy.tsv

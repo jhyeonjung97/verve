@@ -60,13 +60,14 @@ else:
 
 # Plotting the cohesive energy
 plt.figure(figsize=(10, 6))
-x = []
-filtered_values = []
-for i, v in enumerate(Ec_oxide['energy']):
-    if not np.isnan(v): 
-        x.append(i)
-        filtered_values.append(v)
-plt.plot(x, filtered_values, marker=marker, color=color)
+# x = []
+# filtered_values = []
+# for i, v in enumerate(Ec_oxide['energy']):
+#     if not np.isnan(v): 
+#         x.append(i)
+#         filtered_values.append(v)
+# plt.plot(x, filtered_values, marker=marker, color=color)
+plt.plot(range(len(values)), values, marker=marker, color=color)
 plt.xlabel('Metal (MO)')
 plt.ylabel('Cohesive energy (eV)')
 plt.xticks(np.arange(len(Ec_oxide.index)), Ec_oxide.index)

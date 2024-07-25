@@ -102,20 +102,25 @@ formation.to_csv(tsv_filename, sep='\t')
 print(f"Merged data saved to {tsv_filename}")
 
 plt.figure(figsize=(8, 6))
+# for j, column in enumerate(formation.columns):
+#     filtered_x = []
+#     filtered_values = []
+#     x = formation.index
+#     values = formation[column]
+#     for i, v in enumerate(values):
+#         if not np.isnan(v):
+#             filtered_x.append(i)
+#             filtered_values.append(v)
+#     if not filtered_values:
+#         print(f"No values found for pattern: {column}")
+#         continue
+#     plt.plot(filtered_x, filtered_values, marker=marker, color=color, label='cal.')
+    
 for j, column in enumerate(formation.columns):
-    filtered_x = []
-    filtered_values = []
     x = formation.index
-    values = formation[column]
-    for i, v in enumerate(values):
-        if not np.isnan(v):
-            filtered_x.append(i)
-            filtered_values.append(v)
-    if not filtered_values:
-        print(f"No values found for pattern: {column}")
-        continue
-    plt.plot(filtered_x, filtered_values, marker=marker, color=color, label='cal.')
-
+    y = formation[column]
+    plt.plot(x, y, marker=marker, color=color, label='cal.')
+    
 for i in exp_df.index:
     if exp_df['row'][i] == row and exp_df['Coordination'][i] == coordination:
         plt.scatter(exp_df['numb'][i], exp_df['dH_form'][i], 
