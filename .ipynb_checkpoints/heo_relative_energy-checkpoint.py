@@ -87,9 +87,9 @@ def main():
     for i in range(5):
         df_ref.at[i, 'energy'] = 0
         
-    # plotting('energy', np.arange(-2.0, 0.0, 0.1), 'Relative energy (eV)', np.arange(-2.0, 0.1, 0.2), -2.1, 0.1, 0.09, png_filename)
-    # plotting('bandgap', np.arange(0.0, 2.2, 0.1), 'Band gap (eV)', np.arange(0.0, 2.3, 0.2), -0.1, 2.3, 0.09, png_gap_filename)
-    plotting('Md2Op', np.arange(0.4, 2.8, 0.1), 'M3d - O2p (eV)', np.arange(0.4, 2.7, 0.2), 0.3, 2.7, 0.09, png_dos_filename)
+    plotting('energy', (6, 6), np.arange(-2.0, 0.0, 0.1), 'Relative energy (eV)', np.arange(-2.0, 0.1, 0.2), -1.5, 0.1, 0.09, png_filename)
+    plotting('bandgap', (10, 6), np.arange(0.0, 2.2, 0.1), 'Band gap (eV)', np.arange(0.0, 2.9, 0.2), -0.1, 2.9, 0.09, png_gap_filename)
+    plotting('Md2Op', (10, 6), np.arange(0.4, 2.8, 0.1), 'M3d - O2p (eV)', np.arange(0.4, 2.7, 0.2), 0.3, 2.7, 0.09, png_dos_filename)
 
     # for i, column in enumerate(df_mag.columns):
     #     plt.figure(figsize=(8, 6))
@@ -122,8 +122,8 @@ def saving(df, filename):
     df.to_csv(filename, sep='\t', float_format='%.2f')
     print(f"Data saved to {filename}")
 
-def plotting(pattern, bins, xlabel, xticks, xmin, xmax, width, filename):
-    plt.figure(figsize=(8, 6))
+def plotting(pattern, figsize, bins, xlabel, xticks, xmin, xmax, width, filename):
+    plt.figure(figsize=figsize)
     plt.hist(df[pattern].dropna(), bins=bins, alpha=0.5, width=width)
     for i in range(5):
         plt.axvline(x=df_ref.at[i, pattern], color=clrs[i], linestyle='--')
