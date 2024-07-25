@@ -61,7 +61,7 @@ def main():
     L = pd.DataFrame(df_L_combined['value'])
     C = pd.DataFrame(df_C_combined['value'])
     
-    Y.columns = ['E_form']
+    Y.columns = ['Energy']
     R.columns = ['Row']
     L.columns = ['Metal']
     C.columns = ['Coordination']
@@ -74,10 +74,10 @@ def main():
     if coord:
         df_combined = df_combined[df_combined['Coordination'] == coord]
     if zero:
-        df_combined = df_combined[df_combined['E_form'] < 0]
+        df_combined = df_combined[df_combined['Energy'] < 0]
         
     X = df_combined.iloc[:, -(numb+1):-1]
-    Y = df_combined['E_form']
+    Y = df_combined['Energy']
     R = df_combined['Row']
     L = df_combined['Metal']
     C = df_combined['Coordination']
@@ -115,7 +115,7 @@ def main():
         for j, coordination in enumerate(['WZ', 'ZB', 'LT', 'TN', 'NB', 'RS']):
             subset = sub[sub['Coordination'] == coordination]
             LL = subset['Metal']
-            YY = subset['E_form']
+            YY = subset['Energy']
             YY_pred = subset['Predicted']
             plt.scatter(YY, YY_pred, alpha=0.3, color=colors[i], marker=markers[j], label=f'{row}_{coordination}')
             for (x, y, label) in zip(YY, YY_pred, LL):
