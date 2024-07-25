@@ -36,8 +36,9 @@ def main():
         # Read total energy and magnetic moments from JSON file
         if os.path.exists(path):
             atoms = read(path)
+            magmoms = atoms.get_magnetic_moments()
             df_ref.at[i, 'energy'] = atoms.get_total_energy()
-            df_ref.at[i, 'magmom'] = mean([abs(atoms.get_magnetic_moments()[idx]) for idx in range(8, 16)])
+            df_ref.at[i, 'magmom'] = mean([abs(magmoms[atom.index]) for atom in atoms if atom.symbol == prvs[i]])
         
         # Read band gap from text file
         if os.path.exists(gap_path):
@@ -62,9 +63,10 @@ def main():
         if os.path.exists(path):
             atoms = read(path)
             energy = atoms.get_total_energy()
+            magmoms = atoms.get_magnetic_moments()
             for m, metal in enumerate(prvs):
                 numb[m] = len([atom for atom in atoms if atom.symbol == metal])
-                df_mag.at[i, metal] = mean([abs(atoms.get_magnetic_moments()[atom.index]) for atom in atoms if atom.symbol == metal])
+                df_mag.at[i, metal] = mean([abs(magmoms[atom.index]) for atom in atoms if atom.symbol == metal])
             relative_energy = energy - sum(numb[m] * df_ref.at[m, 'energy'] / 8 for m, metal in enumerate(prvs))
             df.at[i, 'energy'] = relative_energy
         if os.path.exists(gap_path):
@@ -105,12 +107,12 @@ def main():
     #     plt.close()
     
     plt.figure(figsize=(10, 6))
+    for i in range(5):
+        plt.axvline(x=df_ref.at[i, 'magmom'], color=clrs[i], linestyle='--')
     bins = np.arange(0, 6, 0.2)
     bin_width = 0.2 / (len(df_mag.columns) + 1)  # Calculate new width for each bar
     for idx, column in enumerate(df_mag.columns):
         plt.hist(df_mag[column].dropna(), bins=bins + idx * bin_width, alpha=0.5, label=str(column), width=bin_width)
-    for i in range(5):
-        plt.axvline(x=df_ref.at[i, 'magmom'], color=clrs[i], linestyle='--')
     plt.xlabel('Magnetic Moments')
     plt.ylabel('Frequency')
     plt.xticks(np.arange(0, 6, 1))
