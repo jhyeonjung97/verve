@@ -526,7 +526,8 @@ def plot_merged(values_dict, dir_names, xlabel, ylabel, save, filename, filtered
         #     print(f"No values found for pattern: {pattern}")
         #     continue
         # plt.plot(x, filtered_values, marker=marker, color=clr, linestyle='-', label=pattern)
-        plt.plot(range(len(values)), values, marker=marker, color=clr, linestyle='-', label=pattern)
+        x = range(len(values))
+        plt.plot(x, values, marker=marker, color=clr, linestyle='-', label=pattern)
         if pattern == 'hexa_ratio':
             plt.plot(x, [1.633]*len(x), linestyle=':', label='hexa_ratio0', color=clr)
 
