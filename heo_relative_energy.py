@@ -113,13 +113,13 @@ def main():
     # plotting('Md2Op', (8, 6), np.arange(0.4, 2.8, 0.1), 'M3d - O2p (eV)', np.arange(0.0, 2.3, 0.2), -0.1, 2.3, 0.09, png_dos_filename)
 
     plotting_adv(df=df_mag, df_ref=df_ref, pattern='magmom', 
-                 figsize1=(12, 6), figsize2=(8, 6), 
+                 figsize1=(8, 6), figsize2=(12, 6), 
                  bins1=np.arange(0, 6, 0.1), bins2=np.arange(0, 6, 0.2), 
                  width1=0.09, width2=0.18,
                  xlabel='Magnetic moments', xticks=np.arange(0, 6, 1), 
                  xmin=-0.5, xmax=5.5, filename=mag_filename)
     plotting_adv(df=df_chg, df_ref=df_ref, pattern='charge', 
-                 figsize1=(12, 6), figsize2=(8, 6), 
+                 figsize1=(8, 6), figsize2=(12, 6), 
                  bins1=np.arange(0.0, 2.0, 0.1), bins2=np.arange(0.0, 2.1, 0.1), 
                  width1=0.09, width2=0.09,
                  xlabel='Bader charge (e-)', xticks=np.arange(0.0, 2.0, 0.2), 
