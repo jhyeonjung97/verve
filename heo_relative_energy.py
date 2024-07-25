@@ -162,7 +162,7 @@ def plotting_adv(df, df_ref, pattern, figsize1, figsize2, bins1, bins2, width1, 
     bins = bins2
     bin_width = 0.2 / (len(df.columns) + 1)  # Calculate new width for each bar
     for idx, column in enumerate(df.columns):
-        plt.hist(df[column].dropna(), bins=bins + idx * bin_width, alpha=0.5, label=str(column), width=bin_width2)
+        plt.hist(df[column].dropna(), bins=bins2 + idx * bin_width, alpha=0.5, label=str(column), width=bin_width2)
     plt.xlabel(xlabel)
     plt.ylabel('Frequency')
     plt.xticks(xticks)
