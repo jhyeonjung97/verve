@@ -19,7 +19,6 @@ tsv_filename = 'heo_relative_energy.tsv'
 png_filename = 'heo_relative_energy.png'
 tsv_mag_filename = 'heo_magnetic_moments.tsv'
 png_mag_filename = 'heo_magnetic_moments.png'
-tsv_gap_filename = 'heo_band_gap.tsv'
 png_gap_filename = 'heo_band_gap.png'
 
 pattern = re.compile(r"Band Gap:\s+([\d.]+)\s+eV")
@@ -60,40 +59,43 @@ plt.hist(df['energy'].dropna(), bins=np.arange(-2.0, 0.1, 0.1), alpha=0.5, width
 plt.xlabel('Relative energy (eV)')
 plt.ylabel('Frequency')
 plt.xticks(np.arange(-2.0, 0.1, 0.2))
-plt.savefig(png_filename, bbox_inches="tight")
-print(f"Figure saved as {png_filename}")
+plt.savefig(png_gap_filename, bbox_inches="tight")
+print(f"Figure saved as {png_gap_filename}")
 plt.close()
 
 # Plotting the data
 plt.figure(figsize=(8, 6))
-plt.hist(df['bandgap'].dropna(), alpha=0.5, width=0.09)
+plt.hist(df['bandgap'].dropna(), bins=np.arange(0.0, 0.5, 0.1),alpha=0.5, width=0.09)
 plt.xlabel('Band gap (eV)')
 plt.ylabel('Frequency')
-# plt.xticks(np.arange(-2.0, 0.1, 0.2))
+plt.xticks(np.arange(0.0, 0.5, 0.1))
+plt.xlim(-0.05, 0.55)
 plt.savefig(png_filename, bbox_inches="tight")
-print(f"Figure saved as {png_filename}")
+print(f"Figure saved as {heo_band_gap}")
 plt.close()
 
 # Plotting the magnetic moments histogram
 for k, column in enumerate(df_mag.columns):
     plt.figure(figsize=(8, 6))
-    plt.hist(df_mag[column].dropna(), bins=np.arange(0, 6, 0.1), alpha=0.5, color=clrs[k], label=str(column), width=0.09)
+    plt.hist(df_mag[column].dropna(), bins=np.arange(0, 5, 0.1), alpha=0.5, color=clrs[k], label=str(column), width=0.09)
     plt.xlabel('Magnetic Moments')
     plt.ylabel('Frequency')
-    plt.xticks(np.arange(0, 6, 1))
+    plt.xticks(np.arange(0, 5, 1))
+    plt.xlim(-0.5, 5.5)
     plt.legend(title="B sites")
     plt.savefig(f'heo_magnetic_moments_{column}.png', bbox_inches="tight")
     print(f"Figure saved as heo_magnetic_moments_{column}.png")
     plt.close()
 
 plt.figure(figsize=(8, 6))
-bins = np.arange(0, 6, 0.2)
+bins = np.arange(0, 5, 0.2)
 bin_width = 0.2 / (len(df_mag.columns) + 1)  # Calculate new width for each bar
 for idx, column in enumerate(df_mag.columns):
     plt.hist(df_mag[column].dropna(), bins=bins + idx * bin_width, alpha=0.5, label=str(column), width=bin_width)
 plt.xlabel('Magnetic Moments')
 plt.ylabel('Frequency')
-plt.xticks(np.arange(0, 6, 1))
+plt.xticks(np.arange(0, 5, 1))
+plt.xlim(-0.5, 5.5)
 plt.legend(title="B sites")
 plt.savefig(png_mag_filename, bbox_inches="tight")
 print(f"Figure saved as {png_mag_filename}")
