@@ -21,8 +21,8 @@ png_filename = 'heo_relative_energy.png'
 tsv_chg_filename = 'heo_bader_charge.tsv'
 tsv_mag_filename = 'heo_magnetic_moments.tsv'
 tsv_ref_filename = 'heo_references.tsv'
-chg_filename = 'heo_bader_charge.png'
-mag_filename = 'heo_magnetic_moments.png'
+chg_filename = 'heo_bader_charge'
+mag_filename = 'heo_magnetic_moments'
 png_gap_filename = 'heo_band_gap.png'
 png_dos_filename = 'heo_density_of_states.png'
 
@@ -113,7 +113,7 @@ def main():
     plotting('Md2Op', (8, 6), np.arange(0.4, 2.8, 0.1), 'M3d - O2p (eV)', np.arange(0.0, 2.3, 0.2), -0.1, 2.3, 0.09, png_dos_filename)
 
     plotting_adv(df_mag, df_ref, 'magmom', (10, 6), np.arange(0, 6, 0.1), np.arange(0, 6, 0.2), 'Magnetic moments', np.arange(0, 6, 1), -0.5, 5.5, 0.09, mag_filename)
-    plotting_adv(df_chg, df_ref, 'charge', (10, 6), np.arange(0, 6, 0.1), np.arange(0, 6, 0.2), 'Bader charge (e-)', np.arange(0, 6, 1), -0.5, 5.5, 0.09, mag_filename)
+    plotting_adv(df_chg, df_ref, 'charge', (10, 6), np.arange(0, 6, 0.1), np.arange(0, 6, 0.2), 'Bader charge (e-)', np.arange(0, 6, 1), -0.5, 5.5, 0.09, chg_filename)
     
 def saving(df, filename):
     df.to_csv(filename, sep='\t', float_format='%.2f')
