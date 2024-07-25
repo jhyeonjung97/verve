@@ -108,12 +108,12 @@ def main():
     for i in range(5):
         df_ref.at[i, 'energy'] = 0
         
-    plotting('energy', (8, 6), np.arange(-2.0, 0.0, 0.1), 'Relative energy (eV)', np.arange(-2.0, 0.1, 0.2), -1.5, 0.1, 0.09, png_filename)
-    plotting('bandgap', (10, 6), np.arange(0.0, 2.2, 0.1), 'Band gap (eV)', np.arange(0.0, 2.9, 0.2), -0.1, 2.9, 0.09, png_gap_filename)
-    plotting('Md2Op', (8, 6), np.arange(0.4, 2.8, 0.1), 'M3d - O2p (eV)', np.arange(0.0, 2.3, 0.2), -0.1, 2.3, 0.09, png_dos_filename)
+    plotting('energy', (6, 6), np.arange(-2.0, 0.0, 0.1), 'Relative energy (eV)', np.arange(-2.0, 0.1, 0.2), -1.5, 0.1, 0.09, png_filename)
+    # plotting('bandgap', (10, 6), np.arange(0.0, 2.2, 0.1), 'Band gap (eV)', np.arange(0.0, 2.9, 0.2), -0.1, 2.9, 0.09, png_gap_filename)
+    # plotting('Md2Op', (8, 6), np.arange(0.4, 2.8, 0.1), 'M3d - O2p (eV)', np.arange(0.0, 2.3, 0.2), -0.1, 2.3, 0.09, png_dos_filename)
 
-    plotting_adv(df_mag, df_ref, 'magmom', (10, 6), np.arange(0, 6, 0.1), np.arange(0, 6, 0.2), 'Magnetic moments', np.arange(0, 6, 1), -0.5, 5.5, 0.09, mag_filename)
-    plotting_adv(df_chg, df_ref, 'charge', (10, 6), np.arange(0, 6, 0.1), np.arange(0, 6, 0.2), 'Bader charge (e-)', np.arange(0, 6, 1), -0.5, 5.5, 0.09, chg_filename)
+    plotting_adv(df_mag, df_ref, 'magmom', (12, 6), (8, 6), np.arange(0, 6, 0.1), np.arange(0, 6, 0.2), 'Magnetic moments', np.arange(0, 6, 1), -0.5, 5.5, 0.09, mag_filename)
+    plotting_adv(df_chg, df_ref, 'charge', (12, 6), (8, 6), np.arange(0.0, 2.0, 0.1), np.arange(0.0, 2.1, 0.1), 'Bader charge (e-)', np.arange(0.0, 2.0, 0.2), -0.5, 5.5, 0.09, chg_filename)
     
 def saving(df, filename):
     df.to_csv(filename, sep='\t', float_format='%.2f')
@@ -133,9 +133,9 @@ def plotting(pattern, figsize, bins, xlabel, xticks, xmin, xmax, width, filename
     print(f"Figure saved as {filename}")
     plt.close()
 
-def plotting_adv(df, df_ref, pattern, figsize, bins1, bins2, xlabel, xticks, xmin, xmax, width, filename):
+def plotting_adv(df, df_ref, pattern, figsize1, figsize2, bins1, bins2, xlabel, xticks, xmin, xmax, width, filename):
     for i, column in enumerate(df_chg.columns):
-        plt.figure(figsize=figsize)
+        plt.figure(figsize=figsize1)
         plt.hist(df_mag[column].dropna(), bins=bins1, alpha=0.5, color=clrs[i], label=str(column), width=width)
         plt.axvline(x=df_ref.at[i, pattern], color=clrs[i], linestyle='--')
         plt.xlabel(xlabel)
@@ -146,7 +146,7 @@ def plotting_adv(df, df_ref, pattern, figsize, bins1, bins2, xlabel, xticks, xmi
         plt.savefig(f'{filename}_{column}.png', bbox_inches="tight")
         print(f"Figure saved as {filename}_{column}.png")
         plt.close()
-    plt.figure(figsize=figsize)
+    plt.figure(figsize=figsize2)
     for i in range(5):
         plt.axvline(x=df_ref.at[i, pattern], color=clrs[i], linestyle='--')
     bins = bins2
