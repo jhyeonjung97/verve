@@ -19,15 +19,15 @@ elif [[ ${here} == 'nersc' ]]; then
     
     cd /pscratch/sd/j/jiuy97/3_V_shape/6_Octahedral_RS
     
-    python ~/bin/verve/mendeleev2tsv.py -p \
-    group_id atomic_number atomic_volume  \
-    boiling_point melting_point \
-    mass density dipole_polarizability en_pauling \
-    covalent_radius metallic_radius vdw_radius \
-    evaporation_heat fusion_heat heat_of_formation \
-    ionenergies[1] ionenergies[2] ionenergies[3]
+    # python ~/bin/verve/mendeleev2tsv.py -p \
+    # group_id atomic_number atomic_volume  \
+    # boiling_point melting_point \
+    # mass density dipole_polarizability en_pauling \
+    # covalent_radius metallic_radius vdw_radius \
+    # evaporation_heat fusion_heat heat_of_formation \
+    # ionenergies[1] ionenergies[2] ionenergies[3]
     
-    python ~/bin/verve/operator.py -o + -x mendeleev_ionenergies_1.tsv -y mendeleev_ionenergies_2.tsv -z mendeleev_ionenergies_12.tsv
+    # python ~/bin/verve/operator.py -o + -x mendeleev_ionenergies_1.tsv -y mendeleev_ionenergies_2.tsv -z mendeleev_ionenergies_12.tsv
     python ~/bin/verve/operator.py -o + -x mendeleev_evaporation_heat.tsv -y mendeleev_fusion_heat.tsv -z mendeleev_sublimation_heat.tsv
     
     for dir in /pscratch/sd/j/jiuy97/3_V_shape/*_*_*/*/; do
