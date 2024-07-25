@@ -127,6 +127,7 @@ def plotting(pattern, bins, xlabel, xticks, xmin, xmax, width, filename):
     plt.hist(df[pattern].dropna(), bins=bins, alpha=0.5, width=width)
     for i in range(5):
         plt.axvline(x=df_ref.at[i, pattern], color=clrs[i], linestyle='--')
+    plt.axvline(x=0, color='gray', linestyle='--')
     plt.xlabel(xlabel)
     plt.ylabel('Frequency')
     plt.xticks(xticks)
