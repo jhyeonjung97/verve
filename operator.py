@@ -11,20 +11,21 @@ parser.add_argument('-o', '--operator', required=True, choices=['+', '-', '*', '
 
 # Parse the arguments
 args = parser.parse_args()
+operator = args.operator
 
 # Load the data from TSV files
 X = pd.read_csv(args.file_x, delimiter='\t', index_col=0)
 Y = pd.read_csv(args.file_y, delimiter='\t', index_col=0)
 
 # Perform the specified operation
-if args.operator == '+':
-    Z = X.add(Y, fill_value=0)
-elif args.operator == '-':
-    Z = X.subtract(Y, fill_value=0)
-elif args.operator == '*':
-    Z = X.multiply(Y, fill_value=1)
-elif args.operator == '/':
-    Z = X.divide(Y, fill_value=1)
+if operator == '+':
+    Z = X + Y
+elif operator == '-':
+    Z = X - Y
+elif operator == '*':
+    Z = X * Y
+elif operator == '/':
+    Z = X / Y
 
 # Save the result to a new TSV file
 Z.to_csv(args.file_z, sep='\t', index=True)
