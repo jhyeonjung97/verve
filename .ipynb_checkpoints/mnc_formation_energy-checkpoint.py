@@ -147,7 +147,8 @@ def plotting(df, df_relaxed, dzs, spins, ylabel, png_filename, color=None):
             else:
                 plt.scatter(x, y, marker='x', color=spins[column], label=f'{column} (relaxed)')
     if color:
-        plt.axvline(y=0, color=color, linestyle='--')
+        plt.axvline(y=0, color='blue', linestyle='--')
+        plt.axvline(y=0.8, color='red', linestyle='--')
     plt.xticks(dzs)
     plt.xlabel('dz')
     plt.ylabel(ylabel)
