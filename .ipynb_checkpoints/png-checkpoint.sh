@@ -17,6 +17,19 @@ elif [[ ${here} == 'nersc' ]]; then
     # cd /pscratch/sd/j/jiuy97/3_V_shape/oxide/0_min
     # python ~/bin/verve/energy.py --save -x "Metal (MxOy)" -y "Total energy (eV/M)" -n m
     
+    cd /pscratch/sd/j/jiuy97/3_V_shape/6_Octahedral_RS
+    
+    python ~/bin/verve/mendeleev2tsv.py -p \
+    group_id atomic_number atomic_volume  \
+    boiling_point melting_point \
+    mass density dipole_polarizability en_pauling \
+    covalent_radius metallic_radius vdw_radius \
+    evaporation_heat fusion_heat heat_of_formation \
+    ionenergies[1] ionenergies[2] ionenergies[3]
+    
+    python ~/bin/verve/operator.py -o + -x mendeleev_ionenergies_1.tsv -y mendeleev_ionenergies_2.tsv -z mendeleev_ionenergies_12.tsv
+    python ~/bin/verve/operator.py -o + -x mendeleev_evaporation_heat.tsv -y mendeleev_fusion_heat.tsv -z mendeleev_sublimation_heat.tsv
+    
     for dir in /pscratch/sd/j/jiuy97/3_V_shape/*_*_*/*/; do
         if [[ $dir != *'save'* ]] && [[ $dir != *'rhom'* ]] && [[ $dir != *'bin'* ]] && [[ $dir != *'cubic'* ]]; then
             cd $dir
@@ -120,19 +133,6 @@ elif [[ ${here} == 'nersc' ]]; then
     # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Standard reduction potential (V)" -o redoxP_clean \
     # ../oxide/energy_redoxP_clean_3d.tsv ../oxide/energy_redoxP_clean_4d.tsv ../oxide/energy_redoxP_clean_5d.tsv
     
-    # python ~/bin/verve/mendeleev2tsv.py -p \
-    # group_id atomic_number atomic_volume  \
-    # boiling_point melting_point \
-    # mass density dipole_polarizability en_pauling \
-    # covalent_radius metallic_radius vdw_radius \
-    # evaporation_heat fusion_heat heat_of_formation \
-    # ionenergies[1] ionenergies[2] ionenergies[3]
-
-    # python ~/bin/verve/mendeleev2tsv.py -p evaporation_heat
-    
-    # python ~/bin/verve/operator.py -o + -x mendeleev_ionenergies_1.tsv -y mendeleev_ionenergies_2.tsv -z mendeleev_ionenergies_12.tsv
-    # python ~/bin/verve/operator.py -o + -x mendeleev_evaporation_heat.tsv -y mendeleev_fusion_heat.tsv -z mendeleev_sublimation_heat.tsv
-    
     cd /pscratch/sd/j/jiuy97/3_V_shape
     
     # sh ~/bin/verve/spread.sh 6_Octahedral_RS/merged_redoxP.tsv
@@ -213,8 +213,6 @@ elif [[ ${here} == 'nersc' ]]; then
     # evaporation_heat fusion_heat  heat_of_formation \
     # ionenergies[1] ionenergies[2] ionenergies[3]
     
-    # python ~/bin/verve/mendeleev2tsv.py -n 5 -p evaporation_heat
-
     # python ~/bin/verve/operator.py -o + -x concat_ionenergies_1.tsv -y concat_ionenergies_2.tsv -z concat_ionenergies_12.tsv
     # python ~/bin/verve/operator.py -o + -x concat_evaporation_heat.tsv -y concat_fusion_heat.tsv -z concat_sublimation_heat.tsv
     
@@ -259,8 +257,6 @@ elif [[ ${here} == 'nersc' ]]; then
     # evaporation_heat fusion_heat  heat_of_formation \
     # ionenergies[1] ionenergies[2] ionenergies[3]
     
-    # python ~/bin/verve/mendeleev2tsv.py -n 6 -p evaporation_heat
-
     # python ~/bin/verve/operator.py -o + -x concat_ionenergies_1.tsv -y concat_ionenergies_2.tsv -z concat_ionenergies_12.tsv
     # python ~/bin/verve/operator.py -o + -x concat_evaporation_heat.tsv -y concat_fusion_heat.tsv -z concat_sublimation_heat.tsv
 
