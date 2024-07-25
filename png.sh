@@ -245,9 +245,9 @@ elif [[ ${here} == 'nersc' ]]; then
     #     ../metal/${files_B[$key]}
     # done
     
-    for file in ~/bin/verve/png_rel/lr*.sh; do
-        sh $file
-    done
+    # for file in ~/bin/verve/png_rel/lr*.sh; do
+    #     sh $file
+    # done
     
     cd /pscratch/sd/j/jiuy97/3_V_shape/rel6
     
@@ -259,16 +259,16 @@ elif [[ ${here} == 'nersc' ]]; then
     # evaporation_heat fusion_heat  heat_of_formation \
     # ionenergies[1] ionenergies[2] ionenergies[3]
     
-    python ~/bin/verve/mendeleev2tsv.py -n 6 -p evaporation_heat
+    # python ~/bin/verve/mendeleev2tsv.py -n 6 -p evaporation_heat
 
-    python ~/bin/verve/operator.py -o + -x concat_ionenergies_1.tsv -y concat_ionenergies_2.tsv -z concat_ionenergies_12.tsv
-    python ~/bin/verve/operator.py -o + -x concat_evaporation_heat.tsv -y concat_fusion_heat.tsv -z concat_sublimation_heat.tsv
+    # python ~/bin/verve/operator.py -o + -x concat_ionenergies_1.tsv -y concat_ionenergies_2.tsv -z concat_ionenergies_12.tsv
+    # python ~/bin/verve/operator.py -o + -x concat_evaporation_heat.tsv -y concat_fusion_heat.tsv -z concat_sublimation_heat.tsv
 
     # python ~/bin/verve/concat.py -o coord --X ../*_*_*/merged_coord.tsv
     # python ~/bin/verve/concat.py -o element --X ../*_*_*/merged_element.tsv
     # python ~/bin/verve/concat.py -o row --X ../*_*_*/merged_row.tsv
 
-    for file in ~/bin/verve/png/lr*.sh; do
-        sh $file
-    done        
+    # for file in ~/bin/verve/png/lr*.sh; do
+    #     sh $file
+    # done        
 fi
