@@ -144,19 +144,19 @@ def plotting(pattern, figsize, bins, xlabel, xticks, xmin, xmax, width, filename
     plt.close()
 
 def plotting_adv(df, df_ref, pattern, figsize1, figsize2, bins1, bins2, width1, width2, xlabel, xticks, xmin, xmax, filename):
-    for i, column in enumerate(df_chg.columns):
-        plt.figure(figsize=figsize1)
-        plt.hist(df_mag[column].dropna(), bins=bins1, alpha=0.5, color=clrs[i], label=str(column), width=width1)
-        plt.axvline(x=df_ref.at[i, pattern], color=clrs[i], linestyle='--')
-        plt.xlabel(xlabel)
-        plt.ylabel('Frequency')
-        plt.xticks(xticks)
-        plt.xlim(xmin, xmax)
-        plt.legend(title="B sites")
-        plt.savefig(f'{filename}_{column}.png', bbox_inches="tight")
-        print(f"Figure saved as {filename}_{column}.png")
-        plt.close()
-    plt.figure(figsize=figsize2)
+    # for i, column in enumerate(df_chg.columns):
+    #     plt.figure(figsize=figsize1)
+    #     plt.hist(df_mag[column].dropna(), bins=bins1, alpha=0.5, color=clrs[i], label=str(column), width=width1)
+    #     plt.axvline(x=df_ref.at[i, pattern], color=clrs[i], linestyle='--')
+    #     plt.xlabel(xlabel)
+    #     plt.ylabel('Frequency')
+    #     plt.xticks(xticks)
+    #     plt.xlim(xmin, xmax)
+    #     plt.legend(title="B sites")
+    #     plt.savefig(f'{filename}_{column}.png', bbox_inches="tight")
+    #     print(f"Figure saved as {filename}_{column}.png")
+    #     plt.close()
+    # plt.figure(figsize=figsize2)
     for i in range(5):
         plt.axvline(x=df_ref.at[i, pattern], color=clrs[i], linestyle='--')
     bins = bins2
