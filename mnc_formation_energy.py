@@ -103,16 +103,16 @@ def main():
             else:
                 print(f"Warning: 'HS' or 'LS' column not found in df_relaxed for {row_key}_{metal}")
 
-            combining(df=df, df_relaxed=df_relaxed, tsv_filename=tsv_filename)
-            combining(df=df_rel, df_relaxed=df_relaxed_rel, tsv_filename=tsv_rel_filename)
-            combining(df=df_mag, df_relaxed=df_relaxed_mag, tsv_filename=tsv_mag_filename)
+            # combining(df=df, df_relaxed=df_relaxed, tsv_filename=tsv_filename)
+            # combining(df=df_rel, df_relaxed=df_relaxed_rel, tsv_filename=tsv_rel_filename)
+            # combining(df=df_mag, df_relaxed=df_relaxed_mag, tsv_filename=tsv_mag_filename)
 
             # plotting(df=df, df_relaxed=df_relaxed, dzs=dzs, spins=spins, 
             #          ylabel='Formation energy (eV)', png_filename=png_filename)
             plotting(df=df_rel, df_relaxed=df_relaxed_rel, dzs=dzs, spins=spins, color='black', 
                      ylabel='Spin crossover energy (eV)', png_filename=png_rel_filename)
-            # plotting(df=df_mag, df_relaxed=df_relaxed_mag, dzs=dzs, spins=spins, 
-            #          ylabel='Magnetic Moments', png_filename=png_mag_filename)
+            plotting(df=df_mag, df_relaxed=df_relaxed_mag, dzs=dzs, spins=spins, ymin=-0.5, ymax=5.5, yticks=np.arange(6),
+                     ylabel='Magnetic Moments', png_filename=png_mag_filename)
 
 def combining(df, df_relaxed, tsv_filename):
     combined_df = pd.concat([df, df_relaxed])
@@ -126,7 +126,7 @@ def plot_smooth_line(x, y, color, label):
     plt.plot(x_new, y_smooth, color=color, label=label)
     plt.scatter(x, y, color=color)  # Add markers without label
 
-def plotting(df, df_relaxed, dzs, spins, ylabel, png_filename, color=None):
+def plotting(df, df_relaxed, dzs, spins, ylabel, ymin=None, ymax=None, yticks=None, png_filename, color=None):
     plt.figure(figsize=(8, 6))
     for column in df.columns:
         filtered_df = df[column].dropna()
@@ -152,6 +152,10 @@ def plotting(df, df_relaxed, dzs, spins, ylabel, png_filename, color=None):
     plt.xticks(dzs)
     plt.xlabel('dz')
     plt.ylabel(ylabel)
+    if ymin and ymax:
+        plt.ylim(ymin, ymax)
+    if yticks:
+        plt.yticks(yticks)
     plt.legend()
     plt.tight_layout()
     plt.savefig(png_filename, bbox_inches="tight")
