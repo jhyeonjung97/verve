@@ -88,8 +88,8 @@ def main():
         df_ref.at[i, 'energy'] = 0
         
     # plotting('energy', np.arange(-2.0, 0.0, 0.1), 'Relative energy (eV)', np.arange(-2.0, 0.1, 0.2), -2.1, 0.1, 0.09, png_filename)
-    plotting('bandgap', np.arange(0.0, 2.2, 0.1), 'Band gap (eV)', np.arange(0.0, 2.3, 0.2), -0.1, 2.3, 0.09, png_gap_filename)
-    # plotting('Md2Op', np.arange(0.0, 0.5, 0.05), 'M3d - O2p (eV)', np.arange(0.0, 0.5, 0.1), -0.05, 0.55, 0.045, png_dos_filename)
+    # plotting('bandgap', np.arange(0.0, 2.2, 0.1), 'Band gap (eV)', np.arange(0.0, 2.3, 0.2), -0.1, 2.3, 0.09, png_gap_filename)
+    plotting('Md2Op', np.arange(0.4, 2.8, 0.1), 'M3d - O2p (eV)', np.arange(0.4, 2.9, 0.2), 0.3, 2.9, 0.09, png_dos_filename)
 
     # for i, column in enumerate(df_mag.columns):
     #     plt.figure(figsize=(8, 6))
