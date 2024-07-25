@@ -13,8 +13,8 @@ df_mag = pd.DataFrame()
 numb = [0] * 5
 
 # Filenames for saving the data and plots
-tsv_filename = 'heo_relative_energy.tsv'
-png_filename = 'heo_relative_energy.png'
+tsv_filename = 'heo_band_gap.tsv'
+png_filename = 'heo_band_gap.png'
 tsv_mag_filename = 'heo_magnetic_moments.tsv'
 png_mag_filename = 'heo_magnetic_moments.png'
 
@@ -55,6 +55,7 @@ for k, column in enumerate(df_mag.columns):
     plt.xlabel('Magnetic Moments')
     plt.ylabel('Frequency')
     plt.xticks(np.arange(0, 6, 1))
+    plt.xlim(-0.5, 5.5)
     plt.legend(title="B sites")
     plt.savefig(f'heo_magnetic_moments_{column}.png', bbox_inches="tight")
     print(f"Figure saved as heo_magnetic_moments_{column}.png")
@@ -67,7 +68,8 @@ for idx, column in enumerate(df_mag.columns):
     plt.hist(df_mag[column].dropna(), bins=bins + idx * bin_width, alpha=0.5, label=str(column), width=bin_width)
 plt.xlabel('Magnetic Moments')
 plt.ylabel('Frequency')
-plt.xticks(np.arange(0, 6, 1))
+plt.xticks(np.arange(0, 5, 1))
+plt.xlim(-0.5, 5.5)
 plt.legend(title="B sites")
 plt.savefig(png_mag_filename, bbox_inches="tight")
 print(f"Figure saved as {png_mag_filename}")
