@@ -154,7 +154,7 @@ def plotting(df, df_relaxed, dzs, spins, ylabel, png_filename, ymin=None, ymax=N
     plt.ylabel(ylabel)
     if ymin and ymax:
         plt.ylim(ymin, ymax)
-    if yticks:
+    if yticks is not None:
         plt.yticks(yticks)
     plt.legend()
     plt.tight_layout()
