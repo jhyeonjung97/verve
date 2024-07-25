@@ -24,7 +24,7 @@ png_gap_filename = 'heo_band_gap.png'
 
 # Regular expressions to extract band gap and DOS information
 pattern_gap = re.compile(r"Band Gap:\s+([\d.]+)\s+eV")
-pattern_dos = re.compile(r"Average Energy \(band center\):\s+([\d.]+)")
+pattern_dos = re.compile(r"Average Energy \(band center\):\s+([-+]?\d*\.\d+|\d+)")
 
 def main():
     for i in range(5):
@@ -46,13 +46,13 @@ def main():
                 if match:
                     df_ref.at[i, 'bandgap'] = float(match.group(1))
         
-        # Read DOS information from text file and calculate dmp
+        # Read DOS information from text file and calculate Md2Op
         if os.path.exists(dos_path):
             with open(dos_path, 'r') as file:
                 lines = file.read()
                 matches = pattern_dos.findall(lines)
                 if len(matches) == 2:
-                    df_ref.at[i, 'dmp'] = float(matches[0]) - float(matches[1])
+                    df_ref.at[i, 'Md2Op'] = float(matches[0]) - float(matches[1])
                     
     for i in range(60):
         path = f'/scratch/x2755a09/4_HEO/{i:02d}_/final_with_calculator.json'
@@ -77,7 +77,7 @@ def main():
                 lines = file.read()
                 matches = pattern_dos.findall(lines)
                 if len(matches) == 2:
-                    df.at[i, 'dmp'] = float(matches[0]) - float(matches[1])
+                    df.at[i, 'Md2Op'] = float(matches[0]) - float(matches[1])
 
     saving(df, tsv_filename)
     saving(df_mag, tsv_mag_filename)
@@ -88,7 +88,7 @@ def main():
         
     plotting('energy', np.arange(-2.0, 0.0, 0.1), 'Relative energy (eV)', np.arange(-2.0, 0.0, 0.2), -2.1, 0.1, png_filename)
     plotting('bandgap', np.arange(0.0, 0.5, 0.05), 'Band gap (eV)', np.arange(0.0, 0.5, 0.1), -0.05, 0.55, png_gap_filename)
-    plotting('dmp', np.arange(0.0, 0.5, 0.05), 'M3d - O2p (eV)', np.arange(0.0, 0.5, 0.1), -0.05, 0.55, png_gap_filename)
+    plotting('Md2Op', np.arange(0.0, 0.5, 0.05), 'M3d - O2p (eV)', np.arange(0.0, 0.5, 0.1), -0.05, 0.55, png_gap_filename)
 
     for k, column in enumerate(df_mag.columns):
         plt.figure(figsize=(8, 6))
