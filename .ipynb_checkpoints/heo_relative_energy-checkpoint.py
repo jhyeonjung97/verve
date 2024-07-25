@@ -91,9 +91,10 @@ def main():
     plotting('bandgap', np.arange(0.0, 1.4, 0.1), 'Band gap (eV)', np.arange(0.0, 1.4, 0.2), -0.1, 1.5, 0.09, png_gap_filename)
     plotting('Md2Op', np.arange(0.0, 0.5, 0.05), 'M3d - O2p (eV)', np.arange(0.0, 0.5, 0.1), -0.05, 0.55, 0.045, png_dos_filename)
 
-    for k, column in enumerate(df_mag.columns):
+    for i, column in enumerate(df_mag.columns):
         plt.figure(figsize=(8, 6))
-        plt.hist(df_mag[column].dropna(), bins=np.arange(0, 5, 0.1), alpha=0.5, color=clrs[k], label=str(column), width=0.09)
+        plt.hist(df_mag[column].dropna(), bins=np.arange(0, 5, 0.1), alpha=0.5, color=clrs[i], label=str(column), width=0.09)
+        plt.axvline(x=df_ref.at[i, 'magmom'], color=clrs[i], linestyle='--')
         plt.xlabel('Magnetic Moments')
         plt.ylabel('Frequency')
         plt.xticks(np.arange(0, 5, 1))
