@@ -112,8 +112,8 @@ def main():
     plotting('bandgap', (10, 6), np.arange(0.0, 2.2, 0.1), 'Band gap (eV)', np.arange(0.0, 2.9, 0.2), -0.1, 2.9, 0.09, png_gap_filename)
     plotting('Md2Op', (8, 6), np.arange(0.4, 2.8, 0.1), 'M3d - O2p (eV)', np.arange(0.0, 2.3, 0.2), -0.1, 2.3, 0.09, png_dos_filename)
 
-    plotting_adv(df_mag, df_ref, 'magmom', (10, 6), np.arange(0, 6, 0.1), np.arange(0, 6, 0.2), 'Magnetic moments', np.arange(0, 6, 1), -0.5, 5.5, 0.09, mag_filename):
-    plotting_adv(df_chg, df_ref, 'charge', (10, 6), np.arange(0, 6, 0.1), np.arange(0, 6, 0.2), 'Bader charge (e-)', np.arange(0, 6, 1), -0.5, 5.5, 0.09, mag_filename):
+    plotting_adv(df_mag, df_ref, 'magmom', (10, 6), np.arange(0, 6, 0.1), np.arange(0, 6, 0.2), 'Magnetic moments', np.arange(0, 6, 1), -0.5, 5.5, 0.09, mag_filename)
+    plotting_adv(df_chg, df_ref, 'charge', (10, 6), np.arange(0, 6, 0.1), np.arange(0, 6, 0.2), 'Bader charge (e-)', np.arange(0, 6, 1), -0.5, 5.5, 0.09, mag_filename)
     
 def saving(df, filename):
     df.to_csv(filename, sep='\t', float_format='%.2f')
