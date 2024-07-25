@@ -117,7 +117,6 @@ def main():
             LL = subset['Metal']
             YY = subset['E_form']
             YY_pred = subset['Predicted']
-            print(row, coordination, YY, YY_pred)
             plt.scatter(YY, YY_pred, alpha=0.3, color=colors[i], marker=markers[j], label=f'{row}_{coordination}')
             for (x, y, label) in zip(YY, YY_pred, LL):
                 plt.annotate(label, (x, y))
@@ -135,36 +134,36 @@ def main():
     covariance_matrix = M.cov()
     correlation_matrix = M.corr()
     
-    # Save covariance matrix
     covariance_matrix_filename = f'covariance_matrix{str(filename)}.tsv'
     covariance_matrix.to_csv(covariance_matrix_filename, sep='\t')
     
-    # Save correlation matrix
+    plt.figure(dpi=numb*10) # Set the figure size as needed
+    ax = sns.heatmap(covariance_matrix, annot=True, fmt=".2f", annot_kws={"size": 4}, cmap='coolwarm')
+    ax.set_xticks(np.arange(M.shape[1]) + 0.5)
+    ax.set_xticklabels(M.columns, rotation=90, ha='right', fontsize=6)
+    ax.set_yticks(np.arange(M.shape[1]) + 0.5)
+    ax.set_yticklabels(M.columns, rotation=0, va='center', fontsize=6)
+    ax.xaxis.set_ticks_position('top')
+    ax.xaxis.set_label_position('top')
+    cbar = ax.collections[0].colorbar
+    cbar.ax.tick_params(labelsize=6)
+    plt.tight_layout()
+    plt.savefig(f'covariance_matrix{str(filename)}.png', bbox_inches="tight")
+    plt.close()
+
     correlation_matrix_filename = f'correlation_matrix{str(filename)}.tsv'
     correlation_matrix.to_csv(correlation_matrix_filename, sep='\t')
     
-    # Plot correlation matrix
     plt.figure(dpi=numb*10) # Set the figure size as needed
-    
-    # Create the heatmap
     ax = sns.heatmap(correlation_matrix, annot=True, fmt=".2f", annot_kws={"size": 4}, cmap='coolwarm')
-
-    # Set x-ticks with custom labels, rotation, alignment, and font size
     ax.set_xticks(np.arange(M.shape[1]) + 0.5)
     ax.set_xticklabels(M.columns, rotation=90, ha='right', fontsize=6)
-
-    # Set y-ticks with custom labels, alignment, and font size
     ax.set_yticks(np.arange(M.shape[1]) + 0.5)
     ax.set_yticklabels(M.columns, rotation=0, va='center', fontsize=6)
-
-    # Move the x-ticks to the top
     ax.xaxis.set_ticks_position('top')
     ax.xaxis.set_label_position('top')
-    
-    # Adjust the font size of the color bar
     cbar = ax.collections[0].colorbar
     cbar.ax.tick_params(labelsize=6)
-
     plt.tight_layout()
     plt.savefig(f'correlation_matrix{str(filename)}.png', bbox_inches="tight")
     plt.close()
