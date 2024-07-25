@@ -80,8 +80,8 @@ def main():
             relative_energy = energy - sum(numb[m] * df_ref.at[m, 'energy'] / 8 for m, metal in enumerate(prvs))
             df.at[i, 'energy'] = relative_energy
             
-        if os.path.exists(chg_path):
-            atoms = read(path)
+        if os.path.exists(path):
+            atoms = read(chg_path)
             charges = atoms.get_initial_charges()
             for metal in prvs:
                 df_chg.at[i, metal] = mean([abs(charges[atom.index]) for atom in atoms if atom.symbol == metal])
