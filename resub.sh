@@ -8,7 +8,6 @@ function usage_error {
 if [[ -z $1 ]]; then
     ~/bin/shoulder/rm_mv *.*.log
     ~/bin/shoulder/rm_mv *.e* *.o*
-    mv moments.json restart.json
     sh ~/bin/verve/sub.sh
     exit 0
 else
