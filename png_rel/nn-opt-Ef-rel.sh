@@ -1,16 +1,16 @@
-python ~/bin/verve/lr.py -o Ec \
---Y concat_norm_cohesive.tsv \
+python /global/homes/j/jiuy97/bin/verve/nn-hyperopt.py -o Ef_rel \
+--Y concat_norm_formation_rel.tsv \
 -i \
-ICOHP_per_metal \
-ICOHP_per_bond \
-ICOBI_per_metal \
-ICOBI_per_bond \
-MadelungL \
-GrossPopulationL \
-bond \
-volume \
-chg \
-mag \
+ICOHP_rel_per_metal \
+ICOHP_rel_per_bond \
+ICOBI_rel_per_metal \
+ICOBI_rel_per_bond \
+MadelungL_rel \
+GrossPopulationL_rel \
+bond_rel \
+volume_rel \
+chg_rel \
+mag_rel \
 atomic_number \
 group_id \
 mass \
@@ -32,16 +32,16 @@ fusion_heat \
 sublimation_heat \
 heat_of_formation \
 --X \
-concat_ICOHP.tsv \
-concat_norm_ICOHP.tsv \
-concat_ICOBI.tsv \
-concat_norm_ICOBI.tsv \
-concat_norm_MadelungL.tsv \
-concat_GrossPopulationL.tsv \
-concat_bond.tsv \
-concat_norm_volume.tsv \
-concat_chg.tsv \
-concat_mag.tsv \
+concat_ICOHP_rel.tsv \
+concat_norm_ICOHP_rel.tsv \
+concat_ICOBI_rel.tsv \
+concat_norm_ICOBI_rel.tsv \
+concat_norm_MadelungL_rel.tsv \
+concat_GrossPopulationL_rel.tsv \
+concat_bond_rel.tsv \
+concat_norm_volume_rel.tsv \
+concat_chg_rel.tsv \
+concat_mag_rel.tsv \
 concat_atomic_number.tsv \
 concat_group_id.tsv \
 concat_mass.tsv \

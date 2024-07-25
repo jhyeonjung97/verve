@@ -75,7 +75,7 @@ def main():
     L = pd.DataFrame(df_L_combined['value'])
     C = pd.DataFrame(df_C_combined['value'])
     
-    Y.columns = ['E_form']
+    Y.columns = ['Energy']
     R.columns = ['Row']
     L.columns = ['Metal']
     C.columns = ['Coordination']
@@ -88,10 +88,10 @@ def main():
     if coord:
         df_combined = df_combined[df_combined['Coordination'] == coord]
     if zero:
-        df_combined = df_combined[df_combined['E_form'] < 0]
+        df_combined = df_combined[df_combined['Energy'] < 0]
         
     X = df_combined.iloc[:, -(numb+1):-1]
-    Y = df_combined['E_form']
+    Y = df_combined['Energy']
     R = df_combined['Row']
     L = df_combined['Metal']
     C = df_combined['Coordination']
@@ -259,7 +259,7 @@ def main():
         file.write(f"Overall time: {overall_time:.2f} sec\n")
     
     # Save predictions and residuals to a TSV file
-    df_combined['Predicted E_form'] = Y_pred_gbr
+    df_combined['Predicted Energy'] = Y_pred_gbr
     df_combined['Residuals'] = Y - Y_pred_gbr
     df_combined.to_csv(tsv_filename, sep='\t', index=False)
 
@@ -271,8 +271,8 @@ def main():
 #         sub = df_combined[df_combined['Row'] == row]
 #         for j, coordination in enumerate(['WZ', 'ZB', 'TN', '33', 'RS']):
 #             subset = sub[sub['Coordination'] == coordination]
-#             plt.scatter(subset['E_form'], subset['Predicted E_form'], alpha=0.3, color=colors[i], marker=markers[j], label=f'{row}_{coordination}')
-#             for (x, y, label) in zip(subset['E_form'], subset['Predicted E_form'], subset['Metal']):
+#             plt.scatter(subset['Energy'], subset['Predicted Energy'], alpha=0.3, color=colors[i], marker=markers[j], label=f'{row}_{coordination}')
+#             for (x, y, label) in zip(subset['Energy'], subset['Predicted Energy'], subset['Metal']):
 #                 plt.annotate(label, (x, y))
     
 #     plt.plot([Y.min(), Y.max()], [Y.min(), Y.max()], 'r--', lw=1)
