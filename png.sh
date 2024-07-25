@@ -163,6 +163,8 @@ elif [[ ${here} == 'nersc' ]]; then
     #     python ~/bin/verve/tsv.py -r ${rows[$i]} -x "Metal (MO)" -y "Gross population (Loewdin)" -o GP_L_${rows[$i]} *_*_*/${dirs[$i]}/energy_GP_Loewdin_M.tsv
     #     python ~/bin/verve/tsv.py -r ${rows[$i]} -x "Metal (MO)" -y "Madelung energy (Loewdin, eV/MO)" -o norm_Madelung_L_${rows[$i]} *_*_*/${dirs[$i]}/energy_norm_Madelung_Loewdin.tsv
     # done
+    
+    python ~/bin/verve/tsv.py -r 3d -x "Metal (MO)" -y "Total energy (eV)" -o energy_3d *_*_*/1_afm/energy_energy.tsv
 
     # python ~/bin/verve/concat.py -o energy --X *_*_*/merged_energy.tsv
     # python ~/bin/verve/concat.py -o norm_energy --X *_*_*/merged_norm_energy.tsv
@@ -239,7 +241,7 @@ elif [[ ${here} == 'nersc' ]]; then
     #     ../metal/${files_B[$key]}
     # done
 
-    sh ~/bin/verve/png_rel/*.sh
+    # sh ~/bin/verve/png_rel/*.sh
     
     cd /pscratch/sd/j/jiuy97/3_V_shape/rel6
     
@@ -258,7 +260,7 @@ elif [[ ${here} == 'nersc' ]]; then
     # python ~/bin/verve/concat.py -o element --X ../*_*_*/merged_element.tsv
     # python ~/bin/verve/concat.py -o row --X ../*_*_*/merged_row.tsv
 
-    sh ~/bin/verve/png/*.sh
+    # sh ~/bin/verve/png/*.sh
 
     # python ~/bin/verve/gpr.py -i ICOHP wICOHP ICOBI MadelungL volume bond chg GP_L CFSE IE1 IE2 IE12 redoxP IE3 E_sub row group number negativity melting boiling density mass --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_ICOBI.tsv concat_norm_MadelungL.tsv concat_norm_volume.tsv concat_bond.tsv concat_chg.tsv concat_GP_L.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv concat_number.tsv concat_neg.tsv concat_melting.tsv concat_boiling.tsv concat_density.tsv concat_mass.tsv
     # python ~/bin/verve/gpr-optuna.py -i ICOHP wICOHP ICOBI MadelungL volume bond chg GP_L CFSE IE1 IE2 IE12 redoxP IE3 E_sub row group number negativity melting boiling density mass --Y concat_norm_formation.tsv --X concat_ICOHP.tsv concat_wICOHP.tsv concat_ICOBI.tsv concat_norm_MadelungL.tsv concat_norm_volume.tsv concat_bond.tsv concat_chg.tsv concat_GP_L.tsv concat_cfse.tsv concat_IE1.tsv concat_IE2.tsv concat_IE12.tsv concat_redoxP.tsv concat_IE3.tsv concat_sub.tsv concat_row.tsv concat_group.tsv concat_number.tsv concat_neg.tsv concat_melting.tsv concat_boiling.tsv concat_density.tsv concat_mass.tsv

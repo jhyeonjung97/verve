@@ -66,20 +66,25 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, a
         df.columns = labels[j] if isinstance(labels[j], list) else [labels[j]]
         merged_df = pd.concat([merged_df, df], axis=1)
 
+    # for j, column in enumerate(merged_df.columns):
+    #     filtered_x = []
+    #     filtered_values = []
+    #     x = merged_df.index
+    #     values = merged_df[column]
+    #     for i, v in enumerate(values):
+    #         if not np.isnan(v):
+    #             filtered_x.append(i)
+    #             filtered_values.append(v)
+    #     if not filtered_values:
+    #         print(f"No values found for pattern: {column}")
+    #         continue
+    #     plt.plot(filtered_x, filtered_values, marker=markers[j], color=colors[j], label=column)
+        
     for j, column in enumerate(merged_df.columns):
-        filtered_x = []
-        filtered_values = []
         x = merged_df.index
-        values = merged_df[column]
-        for i, v in enumerate(values):
-            if not np.isnan(v):
-                filtered_x.append(i)
-                filtered_values.append(v)
-        if not filtered_values:
-            print(f"No values found for pattern: {column}")
-            continue
-        plt.plot(filtered_x, filtered_values, marker=markers[j], color=colors[j], label=column)
-    
+        y = merged_df[column]
+        plt.plot(x, y, marker=markers[j], color=colors[j], label=column)
+        
     if 'hexa_ratio' in df.columns:
         plt.plot(x, [1.633]*len(x), linestyle=':', label='hexa_ratio0', color='black')
         
@@ -116,9 +121,8 @@ def plot_patterns_from_multiple_tsv(filenames, output, xlabel, ylabel, labels, a
     plt.xlabel(xlabel, fontsize=fontsize)
     plt.ylabel(ylabel, fontsize=fontsize)
     plt.legend(prop={'size': fontsize}, ncol=1)
-    # plt.grid(True)
     plt.tight_layout()
-    plt.gcf().savefig(png_filename, bbox_inches="tight")
+    plt.savefig(png_filename, bbox_inches="tight")
     print(f"Figure saved as {png_filename}")
     plt.close()
     
