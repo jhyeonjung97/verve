@@ -88,7 +88,7 @@ def main():
         df_ref.at[i, 'energy'] = 0
         
     plotting('energy', np.arange(-2.0, 0.0, 0.1), 'Relative energy (eV)', np.arange(-2.0, 0.0, 0.2), -2.1, 0.1, 0.09, png_filename)
-    plotting('bandgap', np.arange(0.0, 0.5, 0.05), 'Band gap (eV)', np.arange(0.0, 0.5, 0.1), -0.05, 0.55, 0.045, png_gap_filename)
+    plotting('bandgap', np.arange(0.0, 1.4, 0.1), 'Band gap (eV)', np.arange(0.0, 1.4, 0.2), -0.1, 1.5, 0.09, png_gap_filename)
     plotting('Md2Op', np.arange(0.0, 0.5, 0.05), 'M3d - O2p (eV)', np.arange(0.0, 0.5, 0.1), -0.05, 0.55, 0.045, png_dos_filename)
 
     for k, column in enumerate(df_mag.columns):
@@ -125,7 +125,7 @@ def plotting(pattern, bins, xlabel, xticks, xmin, xmax, width, filename):
     plt.figure(figsize=(8, 6))
     plt.hist(df[pattern].dropna(), bins=bins, alpha=0.5, width=width)
     for i in range(5):
-        plt.axvline(x=df_ref.at[i, pattern], color='gray', linestyle='--')
+        plt.axvline(x=df_ref.at[i, pattern], color=clrs[i], linestyle='--')
     plt.xlabel(xlabel)
     plt.ylabel('Frequency')
     plt.xticks(xticks)

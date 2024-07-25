@@ -84,17 +84,17 @@ def has_minimal_duplicates(combination):
 def contains_all_metals(combination):
     return all(metal in combination for metal in metals)
 
-# Check if a combination contains the specific subset
-def contains_specific_subset(comb, subset):
-    comb_counts = {metal: comb.count(metal) for metal in metals}
-    subset_counts = {metal: subset.count(metal) for metal in subset}
-    return all(comb_counts[metal] >= subset_counts[metal] for metal in subset_counts)
+# # Check if a combination contains the specific subset
+# def contains_specific_subset(comb, subset):
+#     comb_counts = {metal: comb.count(metal) for metal in metals}
+#     subset_counts = {metal: subset.count(metal) for metal in subset}
+#     return all(comb_counts[metal] >= subset_counts[metal] for metal in subset_counts)
 
 filtered_combinations = []
 seen_combinations = set()
 specific_combinations = []
 
-subset = ['Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cr', 'Mn', 'Fe']
+# subset = ['Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cr', 'Mn', 'Fe']
 
 for comb in combinations:
     if (contains_all_metals(comb) and has_minimal_duplicates(comb) and has_no_neighbor_duplicates(comb) and 
@@ -104,8 +104,8 @@ for comb in combinations:
         if valid:
             filtered_combinations.append(comb)
             seen_combinations.update(symmetries)
-            if contains_specific_subset(comb, subset):
-                specific_combinations.append(comb)
+            # if contains_specific_subset(comb, subset):
+            #     specific_combinations.append(comb)
 
 try:
     # Read atomic structure from POSCAR file
@@ -141,9 +141,9 @@ with open('comb.txt', 'w') as file:
     for comb in filtered_combinations:
         file.write(f"{comb}\n")
 
-    file.write("\nCombinations that include ['Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cr', 'Mn', 'Fe']:\n")
-    for comb in specific_combinations:
-        file.write(f"{comb}\n")
+    # file.write("\nCombinations that include ['Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cr', 'Mn', 'Fe']:\n")
+    # for comb in specific_combinations:
+    #     file.write(f"{comb}\n")
 
-    file.write(f"\nTotal number of specific combinations: {len(specific_combinations)}\n")
+    # file.write(f"\nTotal number of specific combinations: {len(specific_combinations)}\n")
     file.write(f"Total number of valid combinations: {len(filtered_combinations)}\n")
