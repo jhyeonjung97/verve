@@ -17,8 +17,7 @@ def get_bader_charges(traj):
 
     # Run Bader analysis
     if os.path.exists('AECCAR0'):
-        subprocess.call('~/bin/vtstscripts/chgsum.pl AECCAR0 AECCAR2',
-                        shell=True)
+        subprocess.call('~/bin/vtstscripts/chgsum.pl AECCAR0 AECCAR2', shell=True)
         subprocess.call('bader CHGCAR -ref CHGCAR_sum', shell=True)
     else:
         print("AECCAR0 does not exist")
