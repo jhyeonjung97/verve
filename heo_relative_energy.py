@@ -59,7 +59,7 @@ def main():
         path = f'/scratch/x2755a09/4_HEO/{i:02d}_/final_with_calculator.json'
         gap_path = f'/scratch/x2755a09/4_HEO/{i:02d}_/gap.txt'
         dos_path = f'/scratch/x2755a09/4_HEO/{i:02d}_/dos.txt'
-        if os.path.exists(path):
+        if os.path.exists(gap_path):
             atoms = read(path)
             energy = atoms.get_total_energy()
             for m, metal in enumerate(prvs):
