@@ -28,9 +28,9 @@ pattern_dos = re.compile(r"Average Energy \(band center\):\s+([\d.]+)")
 
 def main():
     for i in range(5):
-        path = f'/scratch/x2755a09/4_HEO/pure/{i}_{prvs[i]}/final_with_calculator.json'
-        gap_path = f'/scratch/x2755a09/4_HEO/pure/{i}_{prvs[i]}/gap.txt'
-        dos_path = f'/scratch/x2755a09/4_HEO/pure/{i}_{prvs[i]}/dos.txt'
+        path = f'/scratch/x2755a09/4_HEO/pure/{i+1}_{prvs[i]}/final_with_calculator.json'
+        gap_path = f'/scratch/x2755a09/4_HEO/pure/{i+1}_{prvs[i]}/gap.txt'
+        dos_path = f'/scratch/x2755a09/4_HEO/pure/{i+1}_{prvs[i]}/dos.txt'
         
         # Read total energy and magnetic moments from JSON file
         if os.path.exists(path):
