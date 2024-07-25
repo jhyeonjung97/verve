@@ -37,7 +37,7 @@ def main():
         if os.path.exists(path):
             atoms = read(path)
             df_ref.at[i, 'energy'] = atoms.get_total_energy()
-            df_ref.at[i, 'magmom'] = mean([abs(atoms.get_magnetic_moments()[atom.index]) for atom in atoms if atom.symbol == prvs[i]])
+            df_ref.at[i, 'magmom'] = mean([abs(atoms.get_magnetic_moments()[idx]) for idx in range(8, 16)])
         
         # Read band gap from text file
         if os.path.exists(gap_path):
