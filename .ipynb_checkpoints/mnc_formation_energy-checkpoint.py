@@ -126,7 +126,7 @@ def plot_smooth_line(x, y, color, label):
     plt.plot(x_new, y_smooth, color=color, label=label)
     plt.scatter(x, y, color=color)  # Add markers without label
 
-def plotting(df, df_relaxed, dzs, spins, ylabel, ymin=None, ymax=None, yticks=None, png_filename, color=None):
+def plotting(df, df_relaxed, dzs, spins, ylabel, png_filename, ymin=None, ymax=None, yticks=None, color=None):
     plt.figure(figsize=(8, 6))
     for column in df.columns:
         filtered_df = df[column].dropna()
