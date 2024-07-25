@@ -199,7 +199,7 @@ elif [[ ${here} == 'nersc' ]]; then
     # mv concat*rel.tsv rel5
     # mv concat*.tsv rel6
 
-    cd /pscratch/sd/j/jiuy97/3_V_shape/rel5
+    # cd /pscratch/sd/j/jiuy97/3_V_shape/rel5
     
     # python ~/bin/verve/mendeleev2tsv.py -n 5 -p \
     # group_id atomic_number atomic_volume  \
@@ -212,32 +212,32 @@ elif [[ ${here} == 'nersc' ]]; then
     # python ~/bin/verve/operator.py -o + -x concat_ionenergies_1.tsv -y concat_ionenergies_2.tsv -z concat_ionenergies_12.tsv
     # python ~/bin/verve/operator.py -o + -x concat_evaporation_heat.tsv -y concat_fusion_heat.tsv -z concat_sublimation_heat.tsv
     
-    declare -A files_A
-    files_A[coord]="merged_coord.tsv"
-    files_A[redoxP]="merged_redoxP.tsv"
-    files_A[redoxP_clean]="merged_redoxP_clean.tsv"
+    # declare -A files_A
+    # files_A[coord]="merged_coord.tsv"
+    # files_A[redoxP]="merged_redoxP.tsv"
+    # files_A[redoxP_clean]="merged_redoxP_clean.tsv"
     
-    for key in "${!files_A[@]}"; do
-        python ~/bin/verve/concat.py -o $key --X \
-        ../1_Tetrahedral_WZ/${files_A[$key]} \
-        ../2_Tetrahedral_ZB/${files_A[$key]} \
-        ../3_Pyramidal_LT/${files_A[$key]} \
-        ../4_Square_Planar_TN/${files_A[$key]} \
-        ../5_Square_Planar_NB/${files_A[$key]}
-    done
+    # for key in "${!files_A[@]}"; do
+    #     python ~/bin/verve/concat.py -o $key --X \
+    #     ../1_Tetrahedral_WZ/${files_A[$key]} \
+    #     ../2_Tetrahedral_ZB/${files_A[$key]} \
+    #     ../3_Pyramidal_LT/${files_A[$key]} \
+    #     ../4_Square_Planar_TN/${files_A[$key]} \
+    #     ../5_Square_Planar_NB/${files_A[$key]}
+    # done
     
-    declare -A files_B
-    files_B[element]="merged_element.tsv"
-    files_B[row]="merged_row.tsv"
+    # declare -A files_B
+    # files_B[element]="merged_element.tsv"
+    # files_B[row]="merged_row.tsv"
     
-    for key in "${!files_B[@]}"; do
-        python ~/bin/verve/concat.py -o $key --X \
-        ../metal/${files_B[$key]} \
-        ../metal/${files_B[$key]} \
-        ../metal/${files_B[$key]} \
-        ../metal/${files_B[$key]} \
-        ../metal/${files_B[$key]}
-    done
+    # for key in "${!files_B[@]}"; do
+    #     python ~/bin/verve/concat.py -o $key --X \
+    #     ../metal/${files_B[$key]} \
+    #     ../metal/${files_B[$key]} \
+    #     ../metal/${files_B[$key]} \
+    #     ../metal/${files_B[$key]} \
+    #     ../metal/${files_B[$key]}
+    # done
     
     # cd /pscratch/sd/j/jiuy97/3_V_shape/rel6
     
