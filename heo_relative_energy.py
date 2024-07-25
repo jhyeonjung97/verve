@@ -29,7 +29,7 @@ pattern_dos = re.compile(r"Average Energy \(band center\):\s+([-+]?\d*\.\d+|\d+)
 
 def main():
     for i in range(5):
-        path = f'/scratch/x2755a09/4_HEO/pure/{i+1}_{prvs[i]}/final_with_calculator.json'
+        path = f'/scratch/x2755a09/4_HEO/pure/{i+1}_{prvs[i]}/moments.json'
         gap_path = f'/scratch/x2755a09/4_HEO/pure/{i+1}_{prvs[i]}/gap.txt'
         dos_path = f'/scratch/x2755a09/4_HEO/pure/{i+1}_{prvs[i]}/dos.txt'
         
