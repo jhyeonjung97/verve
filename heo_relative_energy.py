@@ -109,7 +109,7 @@ def main():
         if os.path.exists(occ_path):                
             df_occ_tmp = pd.read_csv(occ_path, delimiter='\t', index_col=0)
             for metal in prvs:
-                df_occ.at[i, metal] = mean(df_occ_tmp.loc[atom_{idx}, ['occ4', 'occ5', 'occ9', 'occ10']].sum(axis=1) for idx in indice[metal])
+                df_occ.at[i, metal] = mean(df_occ_tmp.loc[f"atom_{idx}", ['occ4', 'occ5', 'occ9', 'occ10']].sum(axis=1) for idx in indice[metal])
                     
     saving(df, tsv_filename)
     saving(df_chg, tsv_chg_filename)
