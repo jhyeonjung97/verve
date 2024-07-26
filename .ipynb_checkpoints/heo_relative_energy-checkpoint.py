@@ -111,8 +111,9 @@ def main():
     # plotting(pattern='energy', xlabel='Relative energy (eV)', filename=png_filename, 
     #          figsize=(6, 6), bins=np.arange(-2.0, 0.0, 0.1), width=0.09, xticks=np.arange(-2.0, 0.1, 0.2), xmin=-1.5, xmax=0.1)
     # plotting(pattern='bandgap', xlabel='Band gap (eV)', filename=png_gap_filename, 
-    #          figsize=(10, 6), bins=np.arange(0.0, 2.2, 0.1), width=0.09, np.arange(0.0, 2.9, 0.2), -0.1, 2.9, 0.09, )
-    # plotting(pattern='Md2Op', xlabel='M3d - O2p (eV)', filename=png_dos_filename, (8, 6), np.arange(0.4, 2.8, 0.1),  np.arange(0.0, 2.3, 0.2), -0.1, 2.3, 0.09, )
+    #          figsize=(10, 6), bins=np.arange(0.0, 2.2, 0.1), width=0.09, xticks=np.arange(0.0, 2.9, 0.2), xmin=-0.1, xmax=2.9)
+    # plotting(pattern='Md2Op', xlabel='M3d - O2p (eV)', filename=png_dos_filename, 
+    #          figsize=(8, 6), bins=np.arange(0.4, 2.8, 0.1), width=0.09, xticks=np.arange(0.0, 2.3, 0.2), xmin=-0.1, xmax=2.3)
 
     plotting_adv(df=df_mag, df_ref=df_ref, pattern='magmom', xlabel='Magnetic moments', filename=mag_filename,
                  figsize1=(8, 6), bins1=np.arange(0, 6, 0.1), xticks1=np.arange(0, 6, 1), width1=0.09, xmin1=-0.5, xmax1=5.5, 
@@ -149,8 +150,8 @@ def plotting_adv(df, df_ref, pattern, xlabel, filename,
     #     plt.axvline(x=df_ref.at[i, pattern], color=clrs[i], linestyle='--')
     #     plt.xlabel(xlabel)
     #     plt.ylabel('Frequency')
-    #     plt.xticks(xticks)
-    #     plt.xlim(xmin, xmax)
+    #     plt.xticks(xticks1)
+    #     plt.xlim(xmin1, xmax1)
     #     plt.legend(title="B sites")
     #     plt.savefig(f'{filename}_{column}.png', bbox_inches="tight")
     #     print(f"Figure saved as {filename}_{column}.png")
@@ -164,8 +165,8 @@ def plotting_adv(df, df_ref, pattern, xlabel, filename,
         plt.hist(df[column].dropna(), bins=bins2 + idx * bin_width, alpha=0.5, label=str(column), width=bin_width)
     plt.xlabel(xlabel)
     plt.ylabel('Frequency')
-    plt.xticks(xticks)
-    plt.xlim(xmin, xmax)
+    plt.xticks(xticks2)
+    plt.xlim(xmin2, xmax2)
     plt.legend(title="B sites")
     plt.savefig(f'{filename}.png', bbox_inches="tight")
     print(f"Figure saved as {filename}.png")
