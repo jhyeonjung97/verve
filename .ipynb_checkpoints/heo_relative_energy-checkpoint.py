@@ -61,8 +61,8 @@ def main():
                 if len(matches) == 2:
                     df_ref.at[i, 'Md2Op'] = float(matches[0]) - float(matches[1])
         if os.path.exists(occ_path):
-            df_tmp = pd.read_csv(occ_path, delimiter='\t', index=0)
-            df_ref.at[i, 'eg_occ'] = float(matches[0]) - float(matches[1])
+            df_occ_ref = pd.read_csv(occ_path, delimiter='\t', index=0)
+            df_ref.at[i, 'eg_occ'] = df_tmp.
                     
     for i in range(60):
         path = f'/scratch/x2755a09/4_HEO/{i:02d}_/final_with_calculator.json'
