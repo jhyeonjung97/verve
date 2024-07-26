@@ -100,10 +100,10 @@ def main():
                 if len(matches) == 2:
                     df.at[i, 'Md2Op'] = float(matches[0]) - float(matches[1])
 
-    saving(df, tsv_filename)
-    saving(df_chg, tsv_chg_filename)
-    saving(df_mag, tsv_mag_filename)
-    saving(df_ref, tsv_ref_filename)
+    # saving(df, tsv_filename)
+    # saving(df_chg, tsv_chg_filename)
+    # saving(df_mag, tsv_mag_filename)
+    # saving(df_ref, tsv_ref_filename)
 
     for i in range(5):
         df_ref.at[i, 'energy'] = 0
