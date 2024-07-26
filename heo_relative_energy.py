@@ -19,11 +19,16 @@ numb = [0] * 5
 # Filenames for saving the data and plots
 tsv_filename = 'heo_relative_energy.tsv'
 png_filename = 'heo_relative_energy.png'
+
 tsv_chg_filename = 'heo_bader_charge.tsv'
 tsv_mag_filename = 'heo_magnetic_moments.tsv'
+tsv_occ_filename = 'heo_eg_occupancies.tsv'
 tsv_ref_filename = 'heo_references.tsv'
+
 chg_filename = 'heo_bader_charge'
 mag_filename = 'heo_magnetic_moments'
+occ_filename = 'heo_eg_occupancies'
+
 png_gap_filename = 'heo_band_gap.png'
 png_dos_filename = 'heo_density_of_states.png'
 
@@ -62,7 +67,7 @@ def main():
                     df_ref.at[i, 'Md2Op'] = float(matches[0]) - float(matches[1])
         if os.path.exists(occ_path):
             df_occ_ref = pd.read_csv(occ_path, delimiter='\t', index_col=0)
-            df_ref.at[i, 'eg_occ'] = df_occ_ref[['occ4', 'occ5', 'occ9', 'occ10']].sum(axis=1) / 4
+            df_ref.at[i, 'eg_occ'] = df_occ_ref[['occ4', 'occ5', 'occ9', 'occ10']].sum(axis=1).mean()
 
     print(df_ref)
     
