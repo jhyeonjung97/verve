@@ -61,7 +61,7 @@ def main():
                 if len(matches) == 2:
                     df_ref.at[i, 'Md2Op'] = float(matches[0]) - float(matches[1])
         if os.path.exists(occ_path):
-            df_occ_ref = pd.read_csv(occ_path, delimiter='\t', index=0)
+            df_occ_ref = pd.read_csv(occ_path, delimiter='\t', index_col=0)
             df_ref.at[i, 'eg_occ'] = df_occ_ref[['occ4', 'occ5', 'occ9', 'occ10']].sum(axis=1) / 4
 
     print(df_ref)
@@ -71,7 +71,7 @@ def main():
         chg_path = f'/scratch/x2755a09/4_HEO/{i:02d}_/atoms_bader_charge.json'
         gap_path = f'/scratch/x2755a09/4_HEO/{i:02d}_/gap.txt'
         dos_path = f'/scratch/x2755a09/4_HEO/{i:02d}_/dos.txt'
-        occ_path = f'/scratch/x2755a09/4_HEO/{i:02d}_/occ.txt'
+        occ_path = f'/scratch/x2755a09/4_HEO/{i:02d}_/occ.tsv'
         
         if os.path.exists(path):
             atoms = read(path)
