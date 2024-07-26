@@ -1,7 +1,7 @@
 import pandas as pd
 import re
 
-def extract_last_iteration_occupancies(outcar_path, start_atom=9, end_atom=16):
+def extract_last_iteration_occupancies(outcar_path):
     with open(outcar_path, 'r') as file:
         lines = file.readlines()
 
@@ -19,18 +19,18 @@ def extract_last_iteration_occupancies(outcar_path, start_atom=9, end_atom=16):
 
     # Extract occupancies for specified atoms (atom9 to atom16)
     occupancies = {}
-    atom_indices = range(start_atom, end_atom + 1)  # Atom indices from 9 to 16
+    atom_indices = range(8, 16)  # Atom indices from 9 to 16
+    print(atom_indices)
     for atom_index in atom_indices:
         atom_label = f"atom =  {atom_index}"
         for i, line in enumerate(last_iteration_data):
             if atom_label in line:
                 for j in range(i, len(last_iteration_data)):
                     if "occupancies and eigenvectors" in last_iteration_data[j]:
-                        occupancy_lines = last_iteration_data[j + 2: j + 11]
-                        print(occupancy_lines)
+                        occupancy_lines = last_iteration_data[j + 2: j + 12]
                         for k, occ_line in enumerate(occupancy_lines):
                             occupancy = float(occ_line.split()[2])
-                            occupancies[f"atom_{atom_index}_o{k + 1}"] = occupancy
+                            occupancies[f"atom_{atom_index}"].append(occupancy)
                         break
 
     return occupancies
@@ -42,6 +42,6 @@ outcar_path = 'OUTCAR'
 last_iteration_occupancies = extract_last_iteration_occupancies(outcar_path)
 
 # Create a DataFrame
-df_last_iteration_occupancies = pd.DataFrame.from_dict(last_iteration_occupancies, orient='index', columns=['Occupancies'])
+df_last_iteration_occupancies = pd.DataFrame.from_dict(last_iteration_occupancies, orient='index', columns=[f"occ{i}" for i in range(0, 10)])
 
 print(df_last_iteration_occupancies)
