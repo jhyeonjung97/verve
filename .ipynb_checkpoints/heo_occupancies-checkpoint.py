@@ -28,6 +28,7 @@ def extract_last_iteration_occupancies(outcar_path):
         for i, line in enumerate(last_iteration_data):
             if atom_label in line:
                 for j in range(i, len(last_iteration_data)):
+                    print(last_iteration_data[j])
                     if "occupancies and eigenvectors" in last_iteration_data[j]:
                         occupancy_lines = last_iteration_data[j + 2: j + 12]
                         print(occupancy_lines)
