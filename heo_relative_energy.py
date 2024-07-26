@@ -37,7 +37,7 @@ def main():
         chg_path = f'/scratch/x2755a09/4_HEO/pure/{i+1}_{prvs[i]}/atoms_bader_charge.json'
         gap_path = f'/scratch/x2755a09/4_HEO/pure/{i+1}_{prvs[i]}/gap.txt'
         dos_path = f'/scratch/x2755a09/4_HEO/pure/{i+1}_{prvs[i]}/dos.txt'
-        occ_path = f'/scratch/x2755a09/4_HEO/pure/{i+1}_{prvs[i]}/occ.txt'
+        occ_path = f'/scratch/x2755a09/4_HEO/pure/{i+1}_{prvs[i]}/occ.tsv'
         
         if os.path.exists(path):
             atoms = read(path)
