@@ -42,6 +42,6 @@ outcar_path = 'OUTCAR'
 last_iteration_occupancies = extract_last_iteration_occupancies(outcar_path)
 
 # Create a DataFrame
-df_last_iteration_occupancies = pd.DataFrame.from_dict(last_iteration_occupancies, orient='index', columns=[f"occ{i}" for i in range(1, 11)])
+df_last_iteration_occupancies = pd.DataFrame.from_dict(last_iteration_occupancies, orient='index', columns=[f"occ{i}" for i in range(0, 10)])
 
 print(df_last_iteration_occupancies)
