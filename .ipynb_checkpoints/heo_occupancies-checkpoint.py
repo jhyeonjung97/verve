@@ -29,6 +29,7 @@ def extract_last_iteration_occupancies(outcar_path):
                         occupancy_lines = last_iteration_data[j + 2: j + 12]
                         for k, occ_line in enumerate(occupancy_lines):
                             occupancy = float(occ_line.split()[2])
+                            print(atom_index, occupancy)
                             occupancies[f"atom_{atom_index}"].append(occupancy)
                         break
 
