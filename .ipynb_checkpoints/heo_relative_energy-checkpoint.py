@@ -70,6 +70,7 @@ def main():
         chg_path = f'/scratch/x2755a09/4_HEO/{i:02d}_/atoms_bader_charge.json'
         gap_path = f'/scratch/x2755a09/4_HEO/{i:02d}_/gap.txt'
         dos_path = f'/scratch/x2755a09/4_HEO/{i:02d}_/dos.txt'
+        out_path = f'/scratch/x2755a09/4_HEO/{i:02d}_/dos.txt'
         if os.path.exists(path):
             atoms = read(path)
             energy = atoms.get_total_energy()
@@ -100,27 +101,27 @@ def main():
                 if len(matches) == 2:
                     df.at[i, 'Md2Op'] = float(matches[0]) - float(matches[1])
 
-    saving(df, tsv_filename)
-    saving(df_chg, tsv_chg_filename)
-    saving(df_mag, tsv_mag_filename)
-    saving(df_ref, tsv_ref_filename)
+    # saving(df, tsv_filename)
+    # saving(df_chg, tsv_chg_filename)
+    # saving(df_mag, tsv_mag_filename)
+    # saving(df_ref, tsv_ref_filename)
 
-    for i in range(5):
-        df_ref.at[i, 'energy'] = 0
+    # for i in range(5):
+    #     df_ref.at[i, 'energy'] = 0
         
-    plotting(pattern='energy', xlabel='Relative energy (eV)', filename=png_filename, 
-             figsize=(6, 6), bins=np.arange(-2.0, 0.0, 0.1), width=0.09, xticks=np.arange(-2.0, 0.1, 0.2), xmin=-1.5, xmax=0.1)
-    plotting(pattern='bandgap', xlabel='Band gap (eV)', filename=png_gap_filename, 
-             figsize=(10, 6), bins=np.arange(0.0, 2.2, 0.1), width=0.09, xticks=np.arange(0.0, 2.9, 0.2), xmin=-0.1, xmax=2.9)
-    plotting(pattern='Md2Op', xlabel='M3d - O2p (eV)', filename=png_dos_filename, 
-             figsize=(8, 6), bins=np.arange(0.4, 2.8, 0.1), width=0.09, xticks=np.arange(0.0, 2.3, 0.2), xmin=-0.1, xmax=2.3)
+    # plotting(pattern='energy', xlabel='Relative energy (eV)', filename=png_filename, 
+    #          figsize=(6, 6), bins=np.arange(-2.0, 0.0, 0.1), width=0.09, xticks=np.arange(-2.0, 0.1, 0.2), xmin=-1.5, xmax=0.1)
+    # plotting(pattern='bandgap', xlabel='Band gap (eV)', filename=png_gap_filename, 
+    #          figsize=(10, 6), bins=np.arange(0.0, 2.2, 0.1), width=0.09, xticks=np.arange(0.0, 2.9, 0.2), xmin=-0.1, xmax=2.9)
+    # plotting(pattern='Md2Op', xlabel='M3d - O2p (eV)', filename=png_dos_filename, 
+    #          figsize=(8, 6), bins=np.arange(0.4, 2.8, 0.1), width=0.09, xticks=np.arange(0.0, 2.3, 0.2), xmin=-0.1, xmax=2.3)
 
-    plotting_adv(df=df_mag, df_ref=df_ref, pattern='magmom', xlabel='Magnetic moments', filename=mag_filename,
-                 figsize1=(8, 6), bins1=np.arange(0, 6, 0.1), width1=0.09, xticks1=np.arange(0, 6, 1), xmin1=-0.5, xmax1=5.5, 
-                 figsize2=(12, 6), bins2=np.arange(0, 6, 0.2), width2=0.2, xticks2=np.arange(0, 6, 1), xmin2=-0.5, xmax2=5.5)
-    plotting_adv(df=df_chg, df_ref=df_ref, pattern='charge', xlabel='Bader charge (e-)', filename=chg_filename,
-                 figsize1=(8, 6), bins1=np.arange(1.0, 2.1, 0.02), width1=0.018, xticks1=np.arange(1.0, 2.1, 0.1), xmin1=0.95, xmax1=2.05, 
-                 figsize2=(12, 6), bins2=np.arange(1.0, 2.1, 0.04), width2=0.04, xticks2=np.arange(1.0, 2.1, 0.1), xmin2=0.95, xmax2=2.05)
+    # plotting_adv(df=df_mag, df_ref=df_ref, pattern='magmom', xlabel='Magnetic moments', filename=mag_filename,
+    #              figsize1=(8, 6), bins1=np.arange(0, 6, 0.1), width1=0.09, xticks1=np.arange(0, 6, 1), xmin1=-0.5, xmax1=5.5, 
+    #              figsize2=(12, 6), bins2=np.arange(0, 6, 0.2), width2=0.2, xticks2=np.arange(0, 6, 1), xmin2=-0.5, xmax2=5.5)
+    # plotting_adv(df=df_chg, df_ref=df_ref, pattern='charge', xlabel='Bader charge (e-)', filename=chg_filename,
+    #              figsize1=(8, 6), bins1=np.arange(1.0, 2.1, 0.02), width1=0.018, xticks1=np.arange(1.0, 2.1, 0.1), xmin1=0.95, xmax1=2.05, 
+    #              figsize2=(12, 6), bins2=np.arange(1.0, 2.1, 0.04), width2=0.04, xticks2=np.arange(1.0, 2.1, 0.1), xmin2=0.95, xmax2=2.05)
     
 def saving(df, filename):
     df.to_csv(filename, sep='\t', float_format='%.2f')
