@@ -85,7 +85,7 @@ def main():
                 numb[m] = len([atom for atom in atoms if atom.symbol == metal])
                 for atom in atoms:
                     if atom.symbol == metal:
-                        indice[metal].append(atom.index)
+                        indice[metal].append(atom.index+1)
                 df_mag.at[i, metal] = mean([abs(magmoms[idx]) for idx in indice[metal]])
             relative_energy = energy - sum(numb[m] * df_ref.at[m, 'energy'] / 8 for m, metal in enumerate(prvs))
             df.at[i, 'energy'] = relative_energy
