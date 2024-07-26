@@ -18,7 +18,7 @@ def extract_last_iteration_occupancies(outcar_path):
             last_iteration_data.append(line)
 
     # Extract occupancies for specified atoms (atom9 to atom16)
-    occupancies = pd.DataFrame()
+    occupancies = {}
     atom_indices = range(8, 16)  # Atom indices from 9 to 16
     for atom_index in atom_indices:
         if atom_index < 10:
