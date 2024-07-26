@@ -43,4 +43,4 @@ last_iteration_occupancies = extract_last_iteration_occupancies('OUTCAR')
 # Create a DataFrame
 df_last_iteration_occupancies = pd.DataFrame.from_dict(last_iteration_occupancies, orient='index', columns=[f"occ{i}" for i in range(0, 10)])
 
-print(df_last_iteration_occupancies)
+df_last_iteration_occupancies.to_csv('occ.txt', sep='\t', float_format='%.4f')
