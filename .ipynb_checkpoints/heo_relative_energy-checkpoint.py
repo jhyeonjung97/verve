@@ -66,10 +66,8 @@ def main():
                 if len(matches) == 2:
                     df_ref.at[i, 'Md2Op'] = float(matches[0]) - float(matches[1])
         if os.path.exists(occ_path):
-            df_occ_ref = pd.read_csv(occ_path, delimiter='\t', index_col=0)
-            df_ref.at[i, 'eg_occ'] = df_occ_ref[['occ4', 'occ5', 'occ9', 'occ10']].sum(axis=1).mean()
-
-    print(df_ref)
+            df_occ_tmp = pd.read_csv(occ_path, delimiter='\t', index_col=0)
+            df_ref.at[i, 'eg_occ'] = df_occ_tmp[['occ4', 'occ5', 'occ9', 'occ10']].sum(axis=1).mean()
     
     for i in range(60):
         path = f'/scratch/x2755a09/4_HEO/{i:02d}_/final_with_calculator.json'
@@ -77,14 +75,18 @@ def main():
         gap_path = f'/scratch/x2755a09/4_HEO/{i:02d}_/gap.txt'
         dos_path = f'/scratch/x2755a09/4_HEO/{i:02d}_/dos.txt'
         occ_path = f'/scratch/x2755a09/4_HEO/{i:02d}_/occ.tsv'
-        
+
+        indice = {metal: [] for metal in prvs}
         if os.path.exists(path):
             atoms = read(path)
             energy = atoms.get_total_energy()
             magmoms = atoms.get_magnetic_moments()
             for m, metal in enumerate(prvs):
                 numb[m] = len([atom for atom in atoms if atom.symbol == metal])
-                df_mag.at[i, metal] = mean([abs(magmoms[atom.index]) for atom in atoms if atom.symbol == metal])
+                for atom in atoms:
+                    if atom.symbol == metal:
+                        indice(metal).append(atom.index)
+                df_mag.at[i, metal] = mean([abs(magmoms[idx]) for idx in indice[metal]])
             relative_energy = energy - sum(numb[m] * df_ref.at[m, 'energy'] / 8 for m, metal in enumerate(prvs))
             df.at[i, 'energy'] = relative_energy
             
@@ -93,28 +95,31 @@ def main():
             charges = atoms.get_initial_charges()
             for metal in prvs:
                 df_chg.at[i, metal] = mean([abs(charges[atom.index]) for atom in atoms if atom.symbol == metal])
-            
         if os.path.exists(gap_path):
             with open(gap_path, 'r') as file:
                 lines = file.read()
                 match = pattern_gap.search(lines)
                 if match:
                     df.at[i, 'bandgap'] = float(match.group(1))
-                    
         if os.path.exists(dos_path):
             with open(dos_path, 'r') as file:
                 lines = file.read()
                 matches = pattern_dos.findall(lines)
                 if len(matches) == 2:
                     df.at[i, 'Md2Op'] = float(matches[0]) - float(matches[1])
+        if os.path.exists(occ_path):                
+            df_occ_tmp = pd.read_csv(occ_path, delimiter='\t', index_col=0)
+            for metal in prvs:
+                df_occ.at[i, metal] = df_occ_tmp.loc[indice[metal], ['occ4', 'occ5', 'occ9', 'occ10']].sum(axis=1).mean()
+                    
+    saving(df, tsv_filename)
+    saving(df_chg, tsv_chg_filename)
+    saving(df_mag, tsv_mag_filename)
+    saving(df_occ, tsv_mag_filename)
+    saving(df_ref, tsv_ref_filename)
 
-    # saving(df, tsv_filename)
-    # saving(df_chg, tsv_chg_filename)
-    # saving(df_mag, tsv_mag_filename)
-    # saving(df_ref, tsv_ref_filename)
-
-    # for i in range(5):
-    #     df_ref.at[i, 'energy'] = 0
+    for i in range(5):
+        df_ref.at[i, 'energy'] = 0
         
     # plotting(pattern='energy', xlabel='Relative energy (eV)', filename=png_filename, 
     #          figsize=(6, 6), bins=np.arange(-2.0, 0.0, 0.1), width=0.09, xticks=np.arange(-2.0, 0.1, 0.2), xmin=-1.5, xmax=0.1)
@@ -123,13 +128,16 @@ def main():
     # plotting(pattern='Md2Op', xlabel='M3d - O2p (eV)', filename=png_dos_filename, 
     #          figsize=(8, 6), bins=np.arange(0.4, 2.8, 0.1), width=0.09, xticks=np.arange(0.0, 2.3, 0.2), xmin=-0.1, xmax=2.3)
 
-    # plotting_adv(df=df_mag, df_ref=df_ref, pattern='magmom', xlabel='Magnetic moments', filename=mag_filename,
+    # plotting_adv(df=df_mag, df_ref=df_ref, pattern='magmom', xlabel='Magnetic moments (uB)', filename=mag_filename,
     #              figsize1=(8, 6), bins1=np.arange(0, 6, 0.1), width1=0.09, xticks1=np.arange(0, 6, 1), xmin1=-0.5, xmax1=5.5, 
     #              figsize2=(12, 6), bins2=np.arange(0, 6, 0.2), width2=0.2, xticks2=np.arange(0, 6, 1), xmin2=-0.5, xmax2=5.5)
     # plotting_adv(df=df_chg, df_ref=df_ref, pattern='charge', xlabel='Bader charge (e-)', filename=chg_filename,
     #              figsize1=(8, 6), bins1=np.arange(1.0, 2.1, 0.02), width1=0.018, xticks1=np.arange(1.0, 2.1, 0.1), xmin1=0.95, xmax1=2.05, 
     #              figsize2=(12, 6), bins2=np.arange(1.0, 2.1, 0.04), width2=0.04, xticks2=np.arange(1.0, 2.1, 0.1), xmin2=0.95, xmax2=2.05)
-    
+    # plotting_adv(df=df_occ, df_ref=df_ref, pattern='eg_occ', xlabel='e_g occupancy (e-)', filename=occ_filename,
+    #              figsize1=(8, 6), bins1=np.arange(0, 6, 0.1), width1=0.09, xticks1=np.arange(0, 6, 1), xmin1=-0.5, xmax1=5.5, 
+    #              figsize2=(12, 6), bins2=np.arange(0, 6, 0.2), width2=0.2, xticks2=np.arange(0, 6, 1), xmin2=-0.5, xmax2=5.5)
+
 def saving(df, filename):
     df.to_csv(filename, sep='\t', float_format='%.2f')
     print(f"Data saved to {filename}")
