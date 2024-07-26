@@ -19,7 +19,8 @@ def extract_last_iteration_occupancies(outcar_path):
 
     # Extract occupancies for specified atoms (atom9 to atom16)
     atom_indices = range(8, 16)  # Atom indices from 9 to 16
-    occupancies = {f"atom_{i}": [] for i in atom_indices}
+    occupancies = {f"atom_{i}": [] for i in range(8, 16)}
+    
     for atom_index in atom_indices:
         if atom_index < 10:
             atom_label = f"atom =  {atom_index}"
@@ -27,6 +28,7 @@ def extract_last_iteration_occupancies(outcar_path):
             atom_label = f"atom = {atom_index}"
         for i, line in enumerate(last_iteration_data):
             if atom_label in line:
+                print(line)
                 for j in range(i, len(last_iteration_data)):
                     print(last_iteration_data[j])
                     if "occupancies and eigenvectors" in last_iteration_data[j]:
