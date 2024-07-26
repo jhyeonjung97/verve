@@ -23,9 +23,9 @@ def extract_last_iteration_occupancies(outcar_path):
     
     for atom_index in atom_indices:
         if atom_index < 10:
-            atom_label = f"atom =  {atom_index}"
+            atom_label = f"atom =   {atom_index}"
         else:
-            atom_label = f"atom = {atom_index}"
+            atom_label = f"atom =  {atom_index}"
         for i, line in enumerate(last_iteration_data):
             if atom_label in line:
                 print(line)
