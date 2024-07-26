@@ -126,18 +126,18 @@ def main():
     #          figsize=(10, 6), bins=np.arange(0.0, 2.2, 0.1), width=0.09, xticks=np.arange(0.0, 2.9, 0.2), xmin=-0.1, xmax=2.9)
     # plotting(pattern='Md2Op', xlabel='M3d - O2p (eV)', filename=png_dos_filename, 
     #          figsize=(8, 6), bins=np.arange(0.4, 2.8, 0.1), width=0.09, xticks=np.arange(0.0, 2.3, 0.2), xmin=-0.1, xmax=2.3)
-
+    
     # plotting_adv(df=df_mag, df_ref=df_ref, pattern='magmom', xlabel='Magnetic moments (uB)', filename=mag_filename,
-    #              figsize1=(8, 6), bins1=np.arange(0, 6, 0.1), width1=0.09, xticks1=np.arange(0, 6, 1), xmin1=-0.5, xmax1=5.5, 
-    #              figsize2=(12, 6), bins2=np.arange(0, 6, 0.2), width2=0.2, xticks2=np.arange(0, 6, 1), xmin2=-0.5, xmax2=5.5)
+    #              bins1=np.arange(0, 6, 0.1), width1=0.09, xticks1=np.arange(0, 6, 1), xmin1=-0.5, xmax1=5.5, 
+    #              bins2=np.arange(0, 6, 0.2), width2=0.2, xticks2=np.arange(0, 6, 1), xmin2=-0.5, xmax2=5.5)
     # plotting_adv(df=df_chg, df_ref=df_ref, pattern='charge', xlabel='Bader charge (e-)', filename=chg_filename,
-    #              figsize1=(8, 6), bins1=np.arange(1.0, 2.1, 0.02), width1=0.018, xticks1=np.arange(1.0, 2.1, 0.1), xmin1=0.95, xmax1=2.05, 
-    #              figsize2=(12, 6), bins2=np.arange(1.0, 2.1, 0.04), width2=0.04, xticks2=np.arange(1.0, 2.1, 0.1), xmin2=0.95, xmax2=2.05)
-
+    #              bins1=np.arange(1.0, 2.1, 0.02), width1=0.018, xticks1=np.arange(1.0, 2.1, 0.1), xmin1=0.95, xmax1=2.05, 
+    #              bins2=np.arange(1.0, 2.1, 0.04), width2=0.04, xticks2=np.arange(1.0, 2.1, 0.1), xmin2=0.95, xmax2=2.05)
+    
     plotting_adv(df=df_occ, df_ref=df_ref, pattern='eg_occ', xlabel='e_g occupancy (e-)', filename=occ_filename,
-                 figsize1=(8, 6), bins1=np.arange(0, 6, 0.1), width1=0.09, xticks1=np.arange(0, 6, 1), xmin1=-0.5, xmax1=5.5, 
-                 figsize2=(12, 6), bins2=np.arange(0, 6, 0.2), width2=0.2, xticks2=np.arange(0, 6, 1), xmin2=-0.5, xmax2=5.5)
-
+                 bins1=np.arange(2.3, 3.2, 0.1), width1=0.09, xticks1=np.arange(2.3, 3.3, 0.1), xmin1=2.25, xmax1=3.35, 
+                 bins2=np.arange(2.3, 3.2, 0.1), width2=0.09, xticks2=np.arange(2.3, 3.3, 0.1), xmin2=2.25, xmax2=3.35)
+    
 def saving(df, filename):
     df.to_csv(filename, sep='\t', float_format='%.2f')
     print(f"Data saved to {filename}")
@@ -158,8 +158,8 @@ def plotting(pattern, xlabel, filename,
     plt.close()
 
 def plotting_adv(df, df_ref, pattern, xlabel, filename,
-                 figsize1, bins1, width1, xticks1, xmin1, xmax1,
-                 figsize2, bins2, width2, xticks2, xmin2, xmax2):
+                 figsize1=(8, 6), bins1, width1, xticks1, xmin1, xmax1,
+                 figsize2=(12, 6), bins2, width2, xticks2, xmin2, xmax2):
     # for i, column in enumerate(df_chg.columns):
     #     plt.figure(figsize=figsize1)
     #     plt.hist(df_mag[column].dropna(), bins=bins1, alpha=0.5, color=clrs[i], label=str(column), width=width1)
