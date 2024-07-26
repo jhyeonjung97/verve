@@ -111,11 +111,11 @@ def main():
             for metal in prvs:
                 df_occ.at[i, metal] = mean(df_occ_tmp.loc[f'atom_{idx+1}', ['occ4', 'occ5', 'occ9', 'occ10']].sum() for idx in indice[metal])
 
-    saving(df, tsv_filename)
-    saving(df_chg, tsv_chg_filename)
-    saving(df_mag, tsv_mag_filename)
-    saving(df_occ, tsv_occ_filename)
-    saving(df_ref, tsv_ref_filename)
+    # saving(df, tsv_filename)
+    # saving(df_chg, tsv_chg_filename)
+    # saving(df_mag, tsv_mag_filename)
+    # saving(df_occ, tsv_occ_filename)
+    # saving(df_ref, tsv_ref_filename)
 
     for i in range(5):
         df_ref.at[i, 'energy'] = 0
