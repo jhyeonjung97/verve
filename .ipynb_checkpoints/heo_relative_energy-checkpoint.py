@@ -13,6 +13,7 @@ df = pd.DataFrame()
 df_chg = pd.DataFrame()
 df_mag = pd.DataFrame()
 df_ref = pd.DataFrame()
+df_occ = pd.DataFrame()
 numb = [0] * 5
 
 # Filenames for saving the data and plots
@@ -36,41 +37,40 @@ def main():
         chg_path = f'/scratch/x2755a09/4_HEO/pure/{i+1}_{prvs[i]}/atoms_bader_charge.json'
         gap_path = f'/scratch/x2755a09/4_HEO/pure/{i+1}_{prvs[i]}/gap.txt'
         dos_path = f'/scratch/x2755a09/4_HEO/pure/{i+1}_{prvs[i]}/dos.txt'
+        occ_path = f'/scratch/x2755a09/4_HEO/pure/{i+1}_{prvs[i]}/occ.txt'
         
-        # Read total energy and magnetic moments from JSON file
         if os.path.exists(path):
             atoms = read(path)
             magmoms = atoms.get_magnetic_moments()
             df_ref.at[i, 'energy'] = atoms.get_total_energy()
             df_ref.at[i, 'magmom'] = mean([abs(magmoms[atom.index]) for atom in atoms if atom.symbol == prvs[i]])
-            
         if os.path.exists(chg_path):
             atoms = read(chg_path)
             charges = atoms.get_initial_charges()
             df_ref.at[i, 'charge'] = mean([abs(charges[atom.index]) for atom in atoms if atom.symbol == prvs[i]])
-            
-        # Read band gap from text file
         if os.path.exists(gap_path):
             with open(gap_path, 'r') as file:
                 lines = file.read()
                 match = pattern_gap.search(lines)
                 if match:
                     df_ref.at[i, 'bandgap'] = float(match.group(1))
-        
-        # Read DOS information from text file and calculate Md2Op
         if os.path.exists(dos_path):
             with open(dos_path, 'r') as file:
                 lines = file.read()
                 matches = pattern_dos.findall(lines)
                 if len(matches) == 2:
                     df_ref.at[i, 'Md2Op'] = float(matches[0]) - float(matches[1])
+        if os.path.exists(occ_path):
+            df_tmp = pd.read_csv(occ_path, delimiter='\t', index=0)
+            df_ref.at[i, 'eg_occ'] = float(matches[0]) - float(matches[1])
                     
     for i in range(60):
         path = f'/scratch/x2755a09/4_HEO/{i:02d}_/final_with_calculator.json'
         chg_path = f'/scratch/x2755a09/4_HEO/{i:02d}_/atoms_bader_charge.json'
         gap_path = f'/scratch/x2755a09/4_HEO/{i:02d}_/gap.txt'
         dos_path = f'/scratch/x2755a09/4_HEO/{i:02d}_/dos.txt'
-        out_path = f'/scratch/x2755a09/4_HEO/{i:02d}_/dos.txt'
+        occ_path = f'/scratch/x2755a09/4_HEO/{i:02d}_/occ.txt'
+        
         if os.path.exists(path):
             atoms = read(path)
             energy = atoms.get_total_energy()
