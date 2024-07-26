@@ -85,11 +85,10 @@ def main():
                 numb[m] = len([atom for atom in atoms if atom.symbol == metal])
                 for atom in atoms:
                     if atom.symbol == metal:
-                        indice(metal).append(atom.index)
+                        indice[metal].append(atom.index)
                 df_mag.at[i, metal] = mean([abs(magmoms[idx]) for idx in indice[metal]])
             relative_energy = energy - sum(numb[m] * df_ref.at[m, 'energy'] / 8 for m, metal in enumerate(prvs))
             df.at[i, 'energy'] = relative_energy
-            
         if os.path.exists(path):
             atoms = read(chg_path)
             charges = atoms.get_initial_charges()
