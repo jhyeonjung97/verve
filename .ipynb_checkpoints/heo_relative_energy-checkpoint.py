@@ -116,11 +116,11 @@ def main():
     #          figsize=(8, 6), bins=np.arange(0.4, 2.8, 0.1), width=0.09, xticks=np.arange(0.0, 2.3, 0.2), xmin=-0.1, xmax=2.3)
 
     plotting_adv(df=df_mag, df_ref=df_ref, pattern='magmom', xlabel='Magnetic moments', filename=mag_filename,
-                 figsize1=(8, 6), bins1=np.arange(0, 6, 0.1), xticks1=np.arange(0, 6, 1), width1=0.09, xmin1=-0.5, xmax1=5.5, 
-                 figsize2=(12, 6), bins2=np.arange(0, 6, 0.2), xticks2=np.arange(0, 6, 1), width2=0.18, xmin2=-0.5, xmax2=5.5)
+                 figsize1=(8, 6), bins1=np.arange(0, 6, 0.1), width1=0.09, xticks1=np.arange(0, 6, 1), xmin1=-0.5, xmax1=5.5, 
+                 figsize2=(12, 6), bins2=np.arange(0, 6, 0.2), width2=0.18, xticks2=np.arange(0, 6, 1), xmin2=-0.5, xmax2=5.5)
     plotting_adv(df=df_chg, df_ref=df_ref, pattern='charge', xlabel='Bader charge (e-)', filename=chg_filename,
-                 figsize1=(8, 6), bins1=np.arange(0.0, 2.0, 0.1), xticks1=np.arange(0.0, 2.0, 0.2), width1=0.09, xmin1=-0.1, xmax1=2.1, 
-                 figsize2=(12, 6), bins2=np.arange(0.0, 2.1, 0.1), xticks2=np.arange(0.0, 2.0, 0.2), width2=0.09, xmin2=-0.1, xmax2=2.1)
+                 figsize1=(8, 6), bins1=np.arange(0.0, 2.0, 0.1), width1=0.09, xticks1=np.arange(0.0, 2.0, 0.2), xmin1=-0.1, xmax1=2.1, 
+                 figsize2=(12, 6), bins2=np.arange(0.0, 2.1, 0.1), width2=0.09, xticks2=np.arange(0.0, 2.0, 0.2), xmin2=-0.1, xmax2=2.1)
     
 def saving(df, filename):
     df.to_csv(filename, sep='\t', float_format='%.2f')
@@ -144,34 +144,34 @@ def plotting(pattern, xlabel, filename,
 def plotting_adv(df, df_ref, pattern, xlabel, filename,
                  figsize1, bins1, width1, xticks1, xmin1, xmax1,
                  figsize2, bins2, width2, xticks2, xmin2, xmax2):
-    for i, column in enumerate(df_chg.columns):
-        plt.figure(figsize=figsize1)
-        plt.hist(df_mag[column].dropna(), bins=bins1, alpha=0.5, color=clrs[i], label=str(column), width=width1)
-        plt.axvline(x=df_ref.at[i, pattern], color=clrs[i], linestyle='--')
-        plt.xlabel(xlabel)
-        plt.ylabel('Frequency')
-        plt.xticks(xticks1)
-        plt.xlim(xmin1, xmax1)
-        plt.legend(title="B sites")
-        plt.savefig(f'{filename}_{column}.png', bbox_inches="tight")
-        print(f"Figure saved as {filename}_{column}.png")
-        plt.close()
-    
-    # plt.figure(figsize=figsize2)
-    # for i in range(5):
+    # for i, column in enumerate(df_chg.columns):
+    #     plt.figure(figsize=figsize1)
+    #     plt.hist(df_mag[column].dropna(), bins=bins1, alpha=0.5, color=clrs[i], label=str(column), width=width1)
     #     plt.axvline(x=df_ref.at[i, pattern], color=clrs[i], linestyle='--')
-    # bins = bins2
-    # bin_width = 0.2 / (len(df.columns) + 1)  # Calculate new width for each bar
-    # for idx, column in enumerate(df.columns):
-    #     plt.hist(df[column].dropna(), bins=bins2 + idx * bin_width, alpha=0.5, label=str(column), width=bin_width)
-    # plt.xlabel(xlabel)
-    # plt.ylabel('Frequency')
-    # plt.xticks(xticks2)
-    # plt.xlim(xmin2, xmax2)
-    # plt.legend(title="B sites")
-    # plt.savefig(f'{filename}.png', bbox_inches="tight")
-    # print(f"Figure saved as {filename}.png")
-    # plt.close()
+    #     plt.xlabel(xlabel)
+    #     plt.ylabel('Frequency')
+    #     plt.xticks(xticks1)
+    #     plt.xlim(xmin1, xmax1)
+    #     plt.legend(title="B sites")
+    #     plt.savefig(f'{filename}_{column}.png', bbox_inches="tight")
+    #     print(f"Figure saved as {filename}_{column}.png")
+    #     plt.close()
+    
+    plt.figure(figsize=figsize2)
+    for i in range(5):
+        plt.axvline(x=df_ref.at[i, pattern], color=clrs[i], linestyle='--')
+    bins = bins2
+    bin_width = width2 / (len(df.columns) + 1)  # Calculate new width for each bar
+    for idx, column in enumerate(df.columns):
+        plt.hist(df[column].dropna(), bins=bins2 + idx * bin_width, alpha=0.5, label=str(column), width=bin_width)
+    plt.xlabel(xlabel)
+    plt.ylabel('Frequency')
+    plt.xticks(xticks2)
+    plt.xlim(xmin2, xmax2)
+    plt.legend(title="B sites")
+    plt.savefig(f'{filename}.png', bbox_inches="tight")
+    print(f"Figure saved as {filename}.png")
+    plt.close()
 
 if __name__ == '__main__':
     main()
