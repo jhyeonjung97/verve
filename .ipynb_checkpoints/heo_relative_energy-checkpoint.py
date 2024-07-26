@@ -115,12 +115,12 @@ def main():
     # plotting(pattern='Md2Op', xlabel='M3d - O2p (eV)', filename=png_dos_filename, 
     #          figsize=(8, 6), bins=np.arange(0.4, 2.8, 0.1), width=0.09, xticks=np.arange(0.0, 2.3, 0.2), xmin=-0.1, xmax=2.3)
 
-    plotting_adv(df=df_mag, df_ref=df_ref, pattern='magmom', xlabel='Magnetic moments', filename=mag_filename,
-                 figsize1=(8, 6), bins1=np.arange(0, 6, 0.1), width1=0.09, xticks1=np.arange(0, 6, 1), xmin1=-0.5, xmax1=5.5, 
-                 figsize2=(12, 6), bins2=np.arange(0, 6, 0.2), width2=0.18, xticks2=np.arange(0, 6, 1), xmin2=-0.5, xmax2=5.5)
+    # plotting_adv(df=df_mag, df_ref=df_ref, pattern='magmom', xlabel='Magnetic moments', filename=mag_filename,
+    #              figsize1=(8, 6), bins1=np.arange(0, 6, 0.1), width1=0.09, xticks1=np.arange(0, 6, 1), xmin1=-0.5, xmax1=5.5, 
+    #              figsize2=(12, 6), bins2=np.arange(0, 6, 0.2), width2=0.2, xticks2=np.arange(0, 6, 1), xmin2=-0.5, xmax2=5.5)
     plotting_adv(df=df_chg, df_ref=df_ref, pattern='charge', xlabel='Bader charge (e-)', filename=chg_filename,
-                 figsize1=(8, 6), bins1=np.arange(0.0, 2.0, 0.1), width1=0.09, xticks1=np.arange(0.0, 2.0, 0.2), xmin1=-0.1, xmax1=2.1, 
-                 figsize2=(12, 6), bins2=np.arange(0.0, 2.1, 0.1), width2=0.09, xticks2=np.arange(0.0, 2.0, 0.2), xmin2=-0.1, xmax2=2.1)
+                 figsize1=(8, 6), bins1=np.arange(0.0, 2.0, 0.05), width1=0.045, xticks1=np.arange(0.0, 2.0, 0.2), xmin1=-0.1, xmax1=2.1, 
+                 figsize2=(12, 6), bins2=np.arange(0.0, 2.1, 0.05), width2=0.05, xticks2=np.arange(0.0, 2.0, 0.2), xmin2=-0.1, xmax2=2.1)
     
 def saving(df, filename):
     df.to_csv(filename, sep='\t', float_format='%.2f')
