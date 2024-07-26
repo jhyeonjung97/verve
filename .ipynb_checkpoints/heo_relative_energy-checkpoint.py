@@ -85,8 +85,8 @@ def main():
                 numb[m] = len([atom for atom in atoms if atom.symbol == metal])
                 for atom in atoms:
                     if atom.symbol == metal:
-                        indice[metal].append(atom.index+1)
-                df_mag.at[i, metal] = mean([abs(magmoms[idx-1]) for idx in indice[metal]])
+                        indice[metal].append(atom.index)
+                df_mag.at[i, metal] = mean([abs(magmoms[idx]) for idx in indice[metal]])
             relative_energy = energy - sum(numb[m] * df_ref.at[m, 'energy'] / 8 for m, metal in enumerate(prvs))
             df.at[i, 'energy'] = relative_energy
         if os.path.exists(path):
@@ -109,7 +109,7 @@ def main():
         if os.path.exists(occ_path):                
             df_occ_tmp = pd.read_csv(occ_path, delimiter='\t', index_col=0)
             for metal in prvs:
-                df_occ.at[i, metal] = df_occ_tmp.loc[indice[metal], ['occ4', 'occ5', 'occ9', 'occ10']].sum(axis=1).mean()
+                df_occ.at[i, metal] = mean(df_occ_tmp.loc[atom_{idx}, ['occ4', 'occ5', 'occ9', 'occ10']].sum(axis=1) for idx in indice[metal])
                     
     saving(df, tsv_filename)
     saving(df_chg, tsv_chg_filename)
