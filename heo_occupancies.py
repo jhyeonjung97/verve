@@ -19,8 +19,7 @@ def extract_last_iteration_occupancies(outcar_path):
 
     # Extract occupancies for specified atoms (atom9 to atom16)
     occupancies = {}
-    atom_indices = range(8, 16)  # Atom indices from 9 to 16
-    print(atom_indices)
+    atom_indices = range(9, 16)  # Atom indices from 9 to 16
     for atom_index in atom_indices:
         atom_label = f"atom =  {atom_index}"
         for i, line in enumerate(last_iteration_data):
@@ -42,6 +41,6 @@ outcar_path = 'OUTCAR'
 last_iteration_occupancies = extract_last_iteration_occupancies(outcar_path)
 
 # Create a DataFrame
-df_last_iteration_occupancies = pd.DataFrame.from_dict(last_iteration_occupancies, orient='index', columns=[f"occ{i}" for i in range(0, 10)])
+df_last_iteration_occupancies = pd.DataFrame.from_dict(last_iteration_occupancies, orient='index', columns=[f"occ{i}" for i in range(1, 11)])
 
 print(df_last_iteration_occupancies)
