@@ -158,8 +158,9 @@ def plotting(pattern, xlabel, filename,
     plt.close()
 
 def plotting_adv(df, df_ref, pattern, xlabel, filename,
-                 figsize1=(8, 6), bins1, width1, xticks1, xmin1, xmax1,
-                 figsize2=(12, 6), bins2, width2, xticks2, xmin2, xmax2):
+                 bins1, width1, xticks1, xmin1, xmax1,
+                 bins2, width2, xticks2, xmin2, xmax2, 
+                 figsize1=(8, 6), figsize2=(12, 6)):
     # for i, column in enumerate(df_chg.columns):
     #     plt.figure(figsize=figsize1)
     #     plt.hist(df_mag[column].dropna(), bins=bins1, alpha=0.5, color=clrs[i], label=str(column), width=width1)
