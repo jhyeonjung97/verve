@@ -31,19 +31,14 @@ def extract_last_iteration_occupancies(outcar_path):
                 for j in range(i, len(last_iteration_data)):
                     if "occupancies and eigenvectors" in last_iteration_data[j]:
                         occupancy_lines = last_iteration_data[j + 2: j + 12]
-                        print(occupancy_lines)
                         for k, occ_line in enumerate(occupancy_lines):
                             occupancy = float(occ_line.split()[2])
                             occupancies[f"atom_{atom_index}"].append(occupancy)
                         break
-
     return occupancies
 
-# Path to the OUTCAR file
-outcar_path = 'OUTCAR'
-
 # Extract occupancies
-last_iteration_occupancies = extract_last_iteration_occupancies(outcar_path)
+last_iteration_occupancies = extract_last_iteration_occupancies('OUTCAR')
 
 # Create a DataFrame
 df_last_iteration_occupancies = pd.DataFrame.from_dict(last_iteration_occupancies, orient='index', columns=[f"occ{i}" for i in range(0, 10)])
