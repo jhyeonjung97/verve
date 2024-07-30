@@ -114,7 +114,8 @@ def main():
                     for o in [4, 5, 9, 10]:
                         tmp.append(df_occ_tmp.loc[f'atom_{idx+1}', f'occ{o}'])
                 if tmp:
-                    df_occ.at[i, metal] = mean(tmp) * 4
+                    df_occ.at[i, metal] = mean(tmp)*4
+                    print(df_occ)
                 else:
                     df_occ.at[i, metal] = np.nan  # Handle case where tmp is empty
                             
