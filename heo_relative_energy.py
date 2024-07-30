@@ -112,8 +112,7 @@ def main():
                 tmp = []
                 for idx in indice[metal]:
                     for o in [4, 5, 9, 10]:
-                        value = df_occ_tmp.loc[f'atom_{idx+1}', f'occ{o}']
-                        tmp.append(value)
+                        tmp.append(df_occ_tmp.loc[f'atom_{idx+1}', f'occ{o}'])
                 if tmp:
                     df_occ.at[i, metal] = mean(tmp) * 4
                 else:
