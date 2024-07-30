@@ -120,39 +120,29 @@ def main():
                             df_occ.at[i, metal] = mean(tmp)
                         else:
                             df_occ.at[i, metal] = np.nan  # Handle case where tmp is empty
-
-                
-        for i in range(len(indice)):
-            for metal in prvs:
-                if metal in indice:
-                    occ_sums = [df_occ_tmp.loc[f'atom_{idx+1}', ['occ4', 'occ5', 'occ9', 'occ10']].sum() for idx in indice[metal]]
-                    if occ_sums:
-                        df_occ.at[i, metal] = mean(occ_sums)
-                    else:
-                        df_occ.at[i, metal] = np.nan
-
-    saving(df, tsv_filename)
-    saving(df_chg, tsv_chg_filename)
-    saving(df_mag, tsv_mag_filename)
+                            
+    # saving(df, tsv_filename)
+    # saving(df_chg, tsv_chg_filename)
+    # saving(df_mag, tsv_mag_filename)
     saving(df_occ, tsv_occ_filename)
-    saving(df_ref, tsv_ref_filename)
+    # saving(df_ref, tsv_ref_filename)
 
     for i in range(5):
         df_ref.at[i, 'energy'] = 0
         
-    plotting(pattern='energy', xlabel='Relative energy (eV)', filename=png_filename, 
-             figsize=(6, 6), bins=np.arange(-2.0, 0.0, 0.1), width=0.09, xticks=np.arange(-2.0, 0.1, 0.2), xmin=-1.5, xmax=0.1)
-    plotting(pattern='bandgap', xlabel='Band gap (eV)', filename=png_gap_filename, 
-             figsize=(10, 6), bins=np.arange(0.0, 2.2, 0.1), width=0.09, xticks=np.arange(0.0, 2.9, 0.2), xmin=-0.1, xmax=2.9)
-    plotting(pattern='Md2Op', xlabel='M3d - O2p (eV)', filename=png_dos_filename, 
-             figsize=(8, 6), bins=np.arange(0.4, 2.8, 0.1), width=0.09, xticks=np.arange(0.0, 2.3, 0.2), xmin=-0.1, xmax=2.3)
+    # plotting(pattern='energy', xlabel='Relative energy (eV)', filename=png_filename, 
+    #          figsize=(6, 6), bins=np.arange(-2.0, 0.0, 0.1), width=0.09, xticks=np.arange(-2.0, 0.1, 0.2), xmin=-1.5, xmax=0.1)
+    # plotting(pattern='bandgap', xlabel='Band gap (eV)', filename=png_gap_filename, 
+    #          figsize=(10, 6), bins=np.arange(0.0, 2.2, 0.1), width=0.09, xticks=np.arange(0.0, 2.9, 0.2), xmin=-0.1, xmax=2.9)
+    # plotting(pattern='Md2Op', xlabel='M3d - O2p (eV)', filename=png_dos_filename, 
+    #          figsize=(8, 6), bins=np.arange(0.4, 2.8, 0.1), width=0.09, xticks=np.arange(0.0, 2.3, 0.2), xmin=-0.1, xmax=2.3)
     
-    plotting_adv(df=df_mag, df_ref=df_ref, pattern='magmom', xlabel='Magnetic moments (uB)', filename=mag_filename,
-                 bins1=np.arange(0, 6, 0.1), width1=0.09, xticks1=np.arange(0, 6, 1), xmin1=-0.5, xmax1=5.5, 
-                 bins2=np.arange(0, 6, 0.2), width2=0.2, xticks2=np.arange(0, 6, 1), xmin2=-0.5, xmax2=5.5)
-    plotting_adv(df=df_chg, df_ref=df_ref, pattern='charge', xlabel='Bader charge (e-)', filename=chg_filename,
-                 bins1=np.arange(1.0, 2.1, 0.02), width1=0.018, xticks1=np.arange(1.0, 2.1, 0.1), xmin1=0.95, xmax1=2.05, 
-                 bins2=np.arange(1.0, 2.1, 0.04), width2=0.04, xticks2=np.arange(1.0, 2.1, 0.1), xmin2=0.95, xmax2=2.05)
+    # plotting_adv(df=df_mag, df_ref=df_ref, pattern='magmom', xlabel='Magnetic moments (uB)', filename=mag_filename,
+    #              bins1=np.arange(0, 6, 0.1), width1=0.09, xticks1=np.arange(0, 6, 1), xmin1=-0.5, xmax1=5.5, 
+    #              bins2=np.arange(0, 6, 0.2), width2=0.2, xticks2=np.arange(0, 6, 1), xmin2=-0.5, xmax2=5.5)
+    # plotting_adv(df=df_chg, df_ref=df_ref, pattern='charge', xlabel='Bader charge (e-)', filename=chg_filename,
+    #              bins1=np.arange(1.0, 2.1, 0.02), width1=0.018, xticks1=np.arange(1.0, 2.1, 0.1), xmin1=0.95, xmax1=2.05, 
+    #              bins2=np.arange(1.0, 2.1, 0.04), width2=0.04, xticks2=np.arange(1.0, 2.1, 0.1), xmin2=0.95, xmax2=2.05)
     plotting_adv(df=df_occ, df_ref=df_ref, pattern='eg_occ', xlabel='e_g occupancy (e-)', filename=occ_filename,
                  bins1=np.arange(2.2, 3.6, 0.025), width1=0.0225, xticks1=np.arange(2.2, 3.7, 0.1), xmin1=2.15, xmax1=3.75, 
                  bins2=np.arange(2.2, 3.6, 0.05), width2=0.05, xticks2=np.arange(2.2, 3.7, 0.1), xmin2=2.15, xmax2=3.75)
