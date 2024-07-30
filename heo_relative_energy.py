@@ -142,8 +142,8 @@ def main():
     #              bins1=np.arange(1.0, 2.1, 0.02), width1=0.018, xticks1=np.arange(1.0, 2.1, 0.1), xmin1=0.95, xmax1=2.05, 
     #              bins2=np.arange(1.0, 2.1, 0.04), width2=0.04, xticks2=np.arange(1.0, 2.1, 0.1), xmin2=0.95, xmax2=2.05)
     plotting_adv(df=df_occ, df_ref=df_ref, pattern='eg_occ', xlabel='e_g occupancy (e-)', filename=occ_filename,
-                 bins1=np.arange(2.2, 3.6, 0.025), width1=0.0225, xticks1=np.arange(2.2, 3.7, 0.1), xmin1=2.15, xmax1=3.75, 
-                 bins2=np.arange(2.2, 3.6, 0.05), width2=0.05, xticks2=np.arange(2.2, 3.7, 0.1), xmin2=2.15, xmax2=3.75)
+                 bins1=np.arange(0.0, 1.1, 0.02), width1=0.018, xticks1=np.arange(0.0, 1.1, 0.1), xmin1=-0.05, xmax1=1.05, 
+                 bins2=np.arange(0.0, 1.1, 0.04), width2=0.04, xticks2=np.arange(0.0, 1.1, 0.1), xmin2=-0.05, xmax2=1.05)
     
 def saving(df, filename):
     df.to_csv(filename, sep='\t', float_format='%.2f')
