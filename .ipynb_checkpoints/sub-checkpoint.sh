@@ -72,3 +72,4 @@ else
     else
         sbatch submit.sh
     fi
+fi
