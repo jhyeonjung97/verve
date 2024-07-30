@@ -164,7 +164,7 @@ def main():
                         dz_relaxed = abs(zN - zM)
                         energy_O = atoms.get_total_energy()
                         adsorption_energy = energy_O - energy - E_O
-                        df_relaxed.at[dz_relaxed, spin] = adsorption_energy
+                        df_O_relaxed.at[dz_relaxed, spin] = adsorption_energy
                         try:
                             magmoms = atoms.get_magnetic_moments()
                             for atom in atoms:
@@ -180,7 +180,7 @@ def main():
                         dz_relaxed = abs(zN - zM)
                         energy_OH = atoms.get_total_energy()
                         adsorption_energy = energy_OH - energy - E_OH
-                        df_relaxed.at[dz_relaxed, spin] = adsorption_energy
+                        df_OH_relaxed.at[dz_relaxed, spin] = adsorption_energy
                         try:
                             magmoms = atoms.get_magnetic_moments()
                             for atom in atoms:
