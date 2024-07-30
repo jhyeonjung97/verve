@@ -18,17 +18,8 @@ dzs = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2]
 
 E_H2O = -14.23919983
 E_H2 = -6.77409008
-
-ZPE_H2O = 0.558
-ZPE_H2 = 0.273
-
-Cp_H2O = 0.10
-Cp_H2 = 0.09
-
-Ref_H2 = E_H2 + ZPE_H2 + Cp_H2
-Ref_H2O = E_H2O + ZPE_H2O + Cp_H2O
-Ref_O = Ref_H2O - Ref_H2 + 2.506
-Ref_OH = Ref_H2O - Ref_H2/2 + 2.506/2
+E_OH = E_H2O - E_H2/2
+E_O = E_H2O - E_H2
 
 # Energies and corrections
 nitrogen_E = -16.64503942 # eV, DFT
@@ -117,7 +108,7 @@ def main():
                         if os.path.exists(atoms_O_path):
                             atoms = read(atoms_O_path)
                             energy_O = atoms.get_total_energy()
-                            adsorption_energy = energy_O - energy - Ref_O
+                            adsorption_energy = energy_O - energy - E_O
                             df_O.at[dz, spin] = adsorption_energy
                             try:
                                 magmoms = atoms.get_magnetic_moments()
@@ -133,7 +124,7 @@ def main():
                         if os.path.exists(atoms_OH_path):
                             atoms = read(atoms_OH_path)
                             energy_OH = atoms.get_total_energy()
-                            adsorption_energy = energy_OH - energy - Ref_OH
+                            adsorption_energy = energy_OH - energy - E_OH
                             df_OH.at[dz, spin] = adsorption_energy
                             try:
                                 magmoms = atoms.get_magnetic_moments()
@@ -172,7 +163,7 @@ def main():
                         zM = mean([atom.z for atom in atoms if atom.symbol not in ['N', 'C', 'O', 'H']])
                         dz_relaxed = abs(zN - zM)
                         energy_O = atoms.get_total_energy()
-                        adsorption_energy = energy_O - energy - Ref_O
+                        adsorption_energy = energy_O - energy - E_O
                         df_relaxed.at[dz_relaxed, spin] = adsorption_energy
                         try:
                             magmoms = atoms.get_magnetic_moments()
@@ -188,7 +179,7 @@ def main():
                         zM = mean([atom.z for atom in atoms if atom.symbol not in ['N', 'C', 'O', 'H']])
                         dz_relaxed = abs(zN - zM)
                         energy_OH = atoms.get_total_energy()
-                        adsorption_energy = energy_OH - energy - Ref_OH
+                        adsorption_energy = energy_OH - energy - E_OH
                         df_relaxed.at[dz_relaxed, spin] = adsorption_energy
                         try:
                             magmoms = atoms.get_magnetic_moments()
