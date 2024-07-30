@@ -20,11 +20,8 @@ numb = [0] * 5
 tsv_filename = 'heo_relative_energy.tsv'
 png_filename = 'heo_relative_energy.png'
 
-tsv_chg_filename = 'heo_bader_charge.tsv'
-tsv_mag_filename = 'heo_magnetic_moments.tsv'
-tsv_occ_filename = 'heo_eg_occupancies.tsv'
-tsv_ref_filename = 'heo_references.tsv'
 
+ref_filename = 'heo_references'
 chg_filename = 'heo_bader_charge'
 mag_filename = 'heo_magnetic_moments'
 occ_filename = 'heo_eg_occupancies'
@@ -115,7 +112,6 @@ def main():
                         tmp.append(df_occ_tmp.loc[f'atom_{idx+1}', f'occ{o}'])
                 if tmp:
                     df_occ.at[i, metal] = mean(tmp)*4
-                    print(df_occ)
                 else:
                     df_occ.at[i, metal] = np.nan  # Handle case where tmp is empty
                             
@@ -128,26 +124,26 @@ def main():
     for i in range(5):
         df_ref.at[i, 'energy'] = 0
         
-    # plotting(pattern='energy', xlabel='Relative energy (eV)', filename=png_filename, 
-    #          figsize=(6, 6), bins=np.arange(-2.0, 0.0, 0.1), width=0.09, xticks=np.arange(-2.0, 0.1, 0.2), xmin=-1.5, xmax=0.1)
-    # plotting(pattern='bandgap', xlabel='Band gap (eV)', filename=png_gap_filename, 
-    #          figsize=(10, 6), bins=np.arange(0.0, 2.2, 0.1), width=0.09, xticks=np.arange(0.0, 2.9, 0.2), xmin=-0.1, xmax=2.9)
-    # plotting(pattern='Md2Op', xlabel='M3d - O2p (eV)', filename=png_dos_filename, 
-    #          figsize=(8, 6), bins=np.arange(0.4, 2.8, 0.1), width=0.09, xticks=np.arange(0.0, 2.3, 0.2), xmin=-0.1, xmax=2.3)
+    plotting(pattern='energy', xlabel='Relative energy (eV)', filename=png_filename, 
+             figsize=(6, 6), bins=np.arange(-2.0, 0.0, 0.1), width=0.09, xticks=np.arange(-2.0, 0.1, 0.2), xmin=-1.5, xmax=0.1)
+    plotting(pattern='bandgap', xlabel='Band gap (eV)', filename=png_gap_filename, 
+             figsize=(10, 6), bins=np.arange(0.0, 2.2, 0.1), width=0.09, xticks=np.arange(0.0, 2.9, 0.2), xmin=-0.1, xmax=2.9)
+    plotting(pattern='Md2Op', xlabel='M3d - O2p (eV)', filename=png_dos_filename, 
+             figsize=(8, 6), bins=np.arange(0.4, 2.8, 0.1), width=0.09, xticks=np.arange(0.0, 2.3, 0.2), xmin=-0.1, xmax=2.3)
     
-    # plotting_adv(df=df_mag, df_ref=df_ref, pattern='magmom', xlabel='Magnetic moments (uB)', filename=mag_filename,
-    #              bins1=np.arange(0, 6, 0.1), width1=0.09, xticks1=np.arange(0, 6, 1), xmin1=-0.5, xmax1=5.5, 
-    #              bins2=np.arange(0, 6, 0.2), width2=0.2, xticks2=np.arange(0, 6, 1), xmin2=-0.5, xmax2=5.5)
-    # plotting_adv(df=df_chg, df_ref=df_ref, pattern='charge', xlabel='Bader charge (e-)', filename=chg_filename,
-    #              bins1=np.arange(1.0, 2.1, 0.02), width1=0.018, xticks1=np.arange(1.0, 2.1, 0.1), xmin1=0.95, xmax1=2.05, 
-    #              bins2=np.arange(1.0, 2.1, 0.04), width2=0.04, xticks2=np.arange(1.0, 2.1, 0.1), xmin2=0.95, xmax2=2.05)
+    plotting_adv(df=df_mag, df_ref=df_ref, pattern='magmom', xlabel='Magnetic moments (uB)', filename=mag_filename,
+                 bins1=np.arange(0, 6, 0.1), width1=0.09, xticks1=np.arange(0, 6, 1), xmin1=-0.5, xmax1=5.5, 
+                 bins2=np.arange(0, 6, 0.2), width2=0.2, xticks2=np.arange(0, 6, 1), xmin2=-0.5, xmax2=5.5)
+    plotting_adv(df=df_chg, df_ref=df_ref, pattern='charge', xlabel='Bader charge (e-)', filename=chg_filename,
+                 bins1=np.arange(1.0, 2.1, 0.02), width1=0.018, xticks1=np.arange(1.0, 2.1, 0.1), xmin1=0.95, xmax1=2.05, 
+                 bins2=np.arange(1.0, 2.1, 0.04), width2=0.04, xticks2=np.arange(1.0, 2.1, 0.1), xmin2=0.95, xmax2=2.05)
     plotting_adv(df=df_occ, df_ref=df_ref, pattern='eg_occ', xlabel='e_g occupancy (e-)', filename=occ_filename,
-                 bins1=np.arange(0.0, 1.1, 0.02), width1=0.018, xticks1=np.arange(0.0, 1.1, 0.1), xmin1=-0.05, xmax1=1.05, 
-                 bins2=np.arange(0.0, 1.1, 0.04), width2=0.04, xticks2=np.arange(0.0, 1.1, 0.1), xmin2=-0.05, xmax2=1.05)
+                 bins1=np.arange(2.2, 4.0, 0.04), width1=0.036, xticks1=np.arange(2.2, 4.2, 0.2), xmin1=2.1, xmax1=4.1, 
+                 bins2=np.arange(2.2, 4.0, 0.08), width2=0.08, xticks2=np.arange(2.2, 4.2, 0.2), xmin2=2.1, xmax2=4.1)
     
 def saving(df, filename):
-    df.to_csv(filename, sep='\t', float_format='%.2f')
-    print(f"Data saved to {filename}")
+    df.to_csv(f'{filename}.tsv', sep='\t', float_format='%.2f')
+    print(f"Data saved to {filename}.tsv")
 
 def plotting(pattern, xlabel, filename, 
              figsize, bins, width, xticks, xmin, xmax):
