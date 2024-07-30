@@ -52,15 +52,25 @@ def main():
                     print(path)
                     for i, dz in enumerate(dzs):
                         atoms_path = os.path.join(path, f'{i}_', 'moments.json')
+                        atoms_O_path = os.path.join(path, f'{i}_/1_O', 'moments.json')
+                        atoms_OH_path = os.path.join(path, f'{i}_/2_OH', 'moments.json')
                         if os.path.exists(atoms_path):
                             atoms = read(atoms_path)
                             energy = atoms.get_total_energy()
                             # numb_N = len([atom for atom in atoms if atom.symbol == 'N'])
                             # numb_C = len([atom for atom in atoms if atom.symbol == 'C'])
                             # formation_energy = energy - metal_df.at[metal, 'energy'] - numb_C * carbon - numb_N * nitrogen
-                            formation_energy = energy - metal_df.at[metal, 'energy'] - 26 * carbon - 4 * nitrogen
+                            OH_ads = energy - metal_df.at[metal, 'energy'] - 26 * carbon - 4 * nitrogen
                             df.at[dz, spin] = formation_energy
                             
+                        if os.path.exists(atoms_path):
+                            atoms = read(atoms_path)
+                            energy = atoms.get_total_energy()
+                            # numb_N = len([atom for atom in atoms if atom.symbol == 'N'])
+                            # numb_C = len([atom for atom in atoms if atom.symbol == 'C'])
+                            # formation_energy = energy - metal_df.at[metal, 'energy'] - numb_C * carbon - numb_N * nitrogen
+                            OH_ads = energy - metal_df.at[metal, 'energy'] - 26 * carbon - 4 * nitrogen
+                            df.at[dz, spin] = formation_energy
                             try:
                                 magmoms = atoms.get_magnetic_moments()
                                 for atom in atoms:
