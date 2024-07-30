@@ -115,6 +115,7 @@ def main():
                         value = df_occ_tmp.loc[f'atom_{idx+1}', f'occ{o}']
                         tmp.append(value)
                 if tmp:
+                    print(tmp)
                     df_occ.at[i, metal] = mean(tmp)
                 else:
                     df_occ.at[i, metal] = np.nan  # Handle case where tmp is empty
