@@ -120,6 +120,7 @@ def main():
                             df_occ.at[i, metal] = mean(tmp)
                         else:
                             df_occ.at[i, metal] = np.nan  # Handle case where tmp is empty
+            print(df_occ)
                             
     # saving(df, tsv_filename)
     # saving(df_chg, tsv_chg_filename)
