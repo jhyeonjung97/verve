@@ -95,8 +95,8 @@ def main():
 
                     for i, dz in enumerate(dzs):
                         atoms_path = os.path.join(path, f'{i}_', 'moments.json')
-                        atoms_O_path = os.path.join(atoms_path, '1_O', 'moments.json')
-                        atoms_OH_path = os.path.join(atoms_path, '2_OH', 'moments.json')
+                        atoms_O_path = os.path.join(path, f'{i}_/1_O', 'moments.json')
+                        atoms_OH_path = os.path.join(path, f'{i}_/2_OH', 'moments.json')
                         
                         if os.path.exists(atoms_path):
                             atoms = read(atoms_path)
@@ -147,8 +147,8 @@ def main():
                             df_OH_mag.at[dz, spin] = np.nan
 
                     relaxed_path = os.path.join(path, 'relaxed_', 'moments.json')
-                    relaxed_O_path = os.path.join(relaxed_path, '1_O', 'moments.json')
-                    relaxed_OH_path = os.path.join(relaxed_path, '2_OH', 'moments.json')
+                    relaxed_O_path = os.path.join(path, 'relaxed_/1_O', 'moments.json')
+                    relaxed_OH_path = os.path.join(path, 'relaxed_/2_OH', 'moments.json')
                     
                     if os.path.exists(relaxed_path):
                         atoms = read(relaxed_path)
