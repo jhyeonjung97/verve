@@ -46,23 +46,29 @@ elif [[ $forced_tag == 1 ]]; then
 fi
 
 dir_now=$PWD
-if [[ -n $DIR ]]; then
-    for dir in $DIR
-    do
-        cd $dir
-        if [[ -s submit.sh ]]; then
-            if [[ ${here} == 'kisti' ]]; then
+if [[ ${here} == 'kisti' ]]; then
+    if [[ -n $DIR ]]; then
+        for dir in $DIR
+        do
+            cd $dir
+            if [[ -s submit.sh ]]; then
                 qsub submit.sh
-            else
+            fi
+            cd $dir_now
+        done
+    else
+        qsub submit.sh
+    fi
+else
+    if [[ -n $DIR ]]; then
+        for dir in $DIR
+        do
+            cd $dir
+            if [[ -s submit.sh ]]; then
                 sbatch submit.sh
             fi
-        fi
-        cd $dir_now
-    done
-else
-    if [[ ${here} == 'kisti' ]]; then
-        qsub submit.sh
+            cd $dir_now
+        done
     else
         sbatch submit.sh
     fi
-fi

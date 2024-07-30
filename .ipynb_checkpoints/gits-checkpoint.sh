@@ -33,7 +33,9 @@ if [[ ${here} == 'nersc' ]] || [[ ${here} == 's3df' ]] || [[ ${here} == 'kisti' 
         gits_nersc $i
         if [[ ${here} == 'nersc' ]] && [[ $i == 'tools' ]]; then
             cp ~/bin/tools/mnc/* /pscratch/sd/j/jiuy97/6_MNC/scripts
+            echo "cp ~/bin/tools/mnc/* /pscratch/sd/j/jiuy97/6_MNC/scripts"
             cp ~/bin/tools/heo/* /pscratch/sd/j/jiuy97/5_HEO/scripts
+            echo "cp ~/bin/tools/heo/* /pscratch/sd/j/jiuy97/5_HEO/scripts"
         elif [[ ${here} == 'kisti' ]] && [[ $i == 'tools' ]]; then
             cp ~/bin/tools/mnc/* /scratch/x2755a09/3_MNC/scripts
             echo "cp ~/bin/tools/mnc/* /scratch/x2755a09/3_MNC/scripts"
