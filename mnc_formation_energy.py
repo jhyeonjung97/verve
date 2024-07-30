@@ -238,7 +238,8 @@ def main():
                      ylabel='Magnetic Moments', png_filename=png_OH_mag_filename)
             
 def relative(df, df_rel):
-    df_rel['HS-LS'] = df['HS'] - df['LS']
+    if 'HS' in df.columns and 'LS' in df.columns:
+        df_rel['HS-LS'] = df['HS'] - df['LS']
 
 def combining(df, df_relaxed, tsv_filename):
     combined_df = pd.concat([df, df_relaxed])
