@@ -172,7 +172,7 @@ def main():
                         zM = mean([atom.z for atom in atoms if atom.symbol not in ['N', 'C', 'O', 'H']])
                         dz_relaxed = abs(zN - zM)
                         energy_O = atoms.get_total_energy()
-                        adsorption_energy = energy_O - energy - E_O
+                        adsorption_energy = energy_O - energy - Ref_O
                         df_relaxed.at[dz_relaxed, spin] = adsorption_energy
                         try:
                             magmoms = atoms.get_magnetic_moments()
@@ -187,8 +187,8 @@ def main():
                         zN = mean([atom.z for atom in atoms if atom.symbol == 'N'])
                         zM = mean([atom.z for atom in atoms if atom.symbol not in ['N', 'C', 'O', 'H']])
                         dz_relaxed = abs(zN - zM)
-                        energy_O = atoms.get_total_energy()
-                        adsorption_energy = energy_O - energy - E_O
+                        energy_OH = atoms.get_total_energy()
+                        adsorption_energy = energy_OH - energy - Ref_OH
                         df_relaxed.at[dz_relaxed, spin] = adsorption_energy
                         try:
                             magmoms = atoms.get_magnetic_moments()
