@@ -108,10 +108,21 @@ def main():
                     df.at[i, 'Md2Op'] = float(matches[0]) - float(matches[1])
         if os.path.exists(occ_path):                
             df_occ_tmp = pd.read_csv(occ_path, delimiter='\t', index_col=0)
+        for metal in prvs:
+            tmp = []
+            for idx in indice[metal]:
+                for o in [4, 5, 9, 10]:
+                    tmp.append(df_occ_tmp.loc[f'atom_{idx+1}', f'occ{o}'])
+            df_occ.at[i, metal] = mean(tmp)
+                
+        for i in range(len(indice)):
             for metal in prvs:
-                print(indice[metal])
-                print(df_occ_tmp.loc[f'atom_{idx+1}', ['occ4', 'occ5', 'occ9', 'occ10']].sum() for idx in indice[metal])
-                df_occ.at[i, metal] = mean(df_occ_tmp.loc[f'atom_{idx+1}', ['occ4', 'occ5', 'occ9', 'occ10']].sum() for idx in indice[metal])
+                if metal in indice:
+                    occ_sums = [df_occ_tmp.loc[f'atom_{idx+1}', ['occ4', 'occ5', 'occ9', 'occ10']].sum() for idx in indice[metal]]
+                    if occ_sums:
+                        df_occ.at[i, metal] = mean(occ_sums)
+                    else:
+                        df_occ.at[i, metal] = np.nan
 
     saving(df, tsv_filename)
     saving(df_chg, tsv_chg_filename)
