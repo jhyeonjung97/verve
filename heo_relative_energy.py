@@ -118,7 +118,6 @@ def main():
                     df_occ.at[i, metal] = mean(tmp)
                 else:
                     df_occ.at[i, metal] = np.nan  # Handle case where tmp is empty
-            print(df_occ)
                             
     # saving(df, tsv_filename)
     # saving(df_chg, tsv_chg_filename)
@@ -169,18 +168,18 @@ def plotting_adv(df, df_ref, pattern, xlabel, filename,
                  bins1, width1, xticks1, xmin1, xmax1,
                  bins2, width2, xticks2, xmin2, xmax2, 
                  figsize1=(8, 6), figsize2=(12, 6)):
-    for i, column in enumerate(df_chg.columns):
-        plt.figure(figsize=figsize1)
-        plt.hist(df_mag[column].dropna(), bins=bins1, alpha=0.5, color=clrs[i], label=str(column), width=width1)
-        plt.axvline(x=df_ref.at[i, pattern], color=clrs[i], linestyle='--')
-        plt.xlabel(xlabel)
-        plt.ylabel('Frequency')
-        plt.xticks(xticks1)
-        plt.xlim(xmin1, xmax1)
-        plt.legend(title="B sites")
-        plt.savefig(f'{filename}_{column}.png', bbox_inches="tight")
-        print(f"Figure saved as {filename}_{column}.png")
-        plt.close()
+    # for i, column in enumerate(df_chg.columns):
+    #     plt.figure(figsize=figsize1)
+    #     plt.hist(df_mag[column].dropna(), bins=bins1, alpha=0.5, color=clrs[i], label=str(column), width=width1)
+    #     plt.axvline(x=df_ref.at[i, pattern], color=clrs[i], linestyle='--')
+    #     plt.xlabel(xlabel)
+    #     plt.ylabel('Frequency')
+    #     plt.xticks(xticks1)
+    #     plt.xlim(xmin1, xmax1)
+    #     plt.legend(title="B sites")
+    #     plt.savefig(f'{filename}_{column}.png', bbox_inches="tight")
+    #     print(f"Figure saved as {filename}_{column}.png")
+    #     plt.close()
 
     plt.figure(figsize=figsize2)
     for i in range(5):
