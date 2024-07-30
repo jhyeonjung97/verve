@@ -8,7 +8,9 @@ do
     save="conti_$i"
 done
 mkdir $save
+echo "mkdir $save"
 cp * $save
+echo "cp * $save"
 
 # if [[ ! -d opt ]]; then
 #     ase convert -f CONTCAR start.traj
