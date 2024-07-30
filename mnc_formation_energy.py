@@ -81,24 +81,15 @@ def process_metal(row_key, metal):
     combine_and_save(df_OH_mag, df_OH_relaxed_mag, filenames['tsv_OH_mag_filename'])
 
     # Plot and save figures
-    plot_and_save(df, df_relaxed, dzs, spins, 
-                  'Formation energy (eV)', filenames['png_filename'])
-    plot_and_save(df_rel, df_relaxed_rel, dzs, spins, 
-                  'Spin crossover energy (eV)', filenames['png_rel_filename'], color='black')
-    plot_and_save(df_mag, df_relaxed_mag, dzs, spins, 
-                  'Magnetic Moments', filenames['png_mag_filename'], ymin=-0.5, ymax=5.5, yticks=np.arange(6))
-    plot_and_save(df_O, df_O_relaxed, dzs, spins, 
-                  'Formation energy (eV)', filenames['png_O_filename'])
-    plot_and_save(df_O_rel, df_O_relaxed_rel, dzs, spins, 
-                  'Spin crossover energy (eV)', filenames['png_O_rel_filename'], color='black')
-    plot_and_save(df_O_mag, df_O_relaxed_mag, dzs, spins, 
-                  'Magnetic Moments', filenames['png_O_mag_filename'], ymin=-0.5, ymax=5.5, yticks=np.arange(6))
-    plot_and_save(df_OH, df_OH_relaxed, dzs, spins, 
-                  'Formation energy (eV)', filenames['png_OH_filename'])
-    plot_and_save(df_OH_rel, df_OH_relaxed_rel, dzs, spins, 
-                  'Spin crossover energy (eV)', filenames['png_OH_rel_filename'], color='black')
-    plot_and_save(df_OH_mag, df_OH_relaxed_mag, dzs, spins, 
-                  'Magnetic Moments', filenames['png_OH_mag_filename'], ymin=-0.5, ymax=5.5, yticks=np.arange(6))
+    plot_and_save(df, df_relaxed, dzs, spins, 'Formation energy (eV)', filenames['png_filename'])
+    plot_and_save(df_rel, df_relaxed_rel, dzs, spins, 'Spin crossover energy (eV)', filenames['png_rel_filename'], color='black')
+    plot_and_save(df_mag, df_relaxed_mag, dzs, spins, 'Magnetic Moments', filenames['png_mag_filename'], ymin=-0.5, ymax=5.5, yticks=np.arange(6))
+    plot_and_save(df_O, df_O_relaxed, dzs, spins, 'Formation energy (eV)', filenames['png_O_filename'])
+    plot_and_save(df_O_rel, df_O_relaxed_rel, dzs, spins, 'Spin crossover energy (eV)', filenames['png_O_rel_filename'], color='black')
+    plot_and_save(df_O_mag, df_O_relaxed_mag, dzs, spins, 'Magnetic Moments', filenames['png_O_mag_filename'], ymin=-0.5, ymax=5.5, yticks=np.arange(6))
+    plot_and_save(df_OH, df_OH_relaxed, dzs, spins, 'Formation energy (eV)', filenames['png_OH_filename'])
+    plot_and_save(df_OH_rel, df_OH_relaxed_rel, dzs, spins, 'Spin crossover energy (eV)', filenames['png_OH_rel_filename'], color='black')
+    plot_and_save(df_OH_mag, df_OH_relaxed_mag, dzs, spins, 'Magnetic Moments', filenames['png_OH_mag_filename'], ymin=-0.5, ymax=5.5, yticks=np.arange(6))
 
 def generate_filenames(row_key, metal):
     return {
@@ -128,17 +119,17 @@ def process_path(path, dzs, spin, metal_energy, *dfs):
         atoms_O_path = os.path.join(atoms_path, '1_O', 'moments.json')
         atoms_OH_path = os.path.join(atoms_path, '2_OH', 'moments.json')
 
-        process_atoms(atoms_path, dz, spin, metal_energy, *dfs[:6])
-        process_atoms(atoms_O_path, dz, spin, metal_energy, *dfs[6:12], Ref_O)
-        process_atoms(atoms_OH_path, dz, spin, metal_energy, *dfs[12:], Ref_OH)
+        process_atoms(atoms_path, dz, spin, metal_energy, dfs[0], dfs[1], dfs[2])
+        process_atoms(atoms_O_path, dz, spin, metal_energy, dfs[3], dfs[4], dfs[5], ref_energy=Ref_O)
+        process_atoms(atoms_OH_path, dz, spin, metal_energy, dfs[6], dfs[7], dfs[8], ref_energy=Ref_OH)
 
     relaxed_path = os.path.join(path, 'relaxed_', 'moments.json')
     relaxed_O_path = os.path.join(relaxed_path, '1_O', 'moments.json')
     relaxed_OH_path = os.path.join(relaxed_path, '2_OH', 'moments.json')
 
-    process_atoms(relaxed_path, None, spin, metal_energy, *dfs[:6], relaxed=True)
-    process_atoms(relaxed_O_path, None, spin, metal_energy, *dfs[6:12], Ref_O, relaxed=True)
-    process_atoms(relaxed_OH_path, None, spin, metal_energy, *dfs[12:], Ref_OH, relaxed=True)
+    process_atoms(relaxed_path, None, spin, metal_energy, dfs[0], dfs[1], dfs[2], relaxed=True)
+    process_atoms(relaxed_O_path, None, spin, metal_energy, dfs[3], dfs[4], dfs[5], ref_energy=Ref_O, relaxed=True)
+    process_atoms(relaxed_OH_path, None, spin, metal_energy, dfs[6], dfs[7], dfs[8], ref_energy=Ref_OH, relaxed=True)
 
 def process_atoms(path, dz, spin, metal_energy, df, df_rel, df_mag, relaxed=False, ref_energy=None):
     if not os.path.exists(path):
