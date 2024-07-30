@@ -108,12 +108,19 @@ def main():
                     df.at[i, 'Md2Op'] = float(matches[0]) - float(matches[1])
         if os.path.exists(occ_path):                
             df_occ_tmp = pd.read_csv(occ_path, delimiter='\t', index_col=0)
-        for metal in prvs:
-            tmp = []
-            for idx in indice[metal]:
-                for o in [4, 5, 9, 10]:
-                    tmp.append(df_occ_tmp.loc[f'atom_{idx+1}', f'occ{o}'])
-            df_occ.at[i, metal] = mean(tmp)
+            for i in range(len(indice)):
+                for metal in prvs:
+                    if metal in indice:  # Ensure the metal is in the indice dictionary
+                        tmp = []
+                        for idx in indice[metal]:
+                            for o in [4, 5, 9, 10]:
+                                value = df_occ_tmp.loc[(f'atom_{idx+1}', f'occ{o}'), 'value']
+                                tmp.append(value)
+                        if tmp:
+                            df_occ.at[i, metal] = mean(tmp)
+                        else:
+                            df_occ.at[i, metal] = np.nan  # Handle case where tmp is empty
+
                 
         for i in range(len(indice)):
             for metal in prvs:
