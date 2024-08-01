@@ -13,6 +13,6 @@ cp * $save
 echo "cp * $save"
 
 find . -name 'DOS*' ! -name 'DOSCAR' -delete
-~/bin/shoulder/rm_mv DONE vasprun.xml atoms_bader_charge.json OUTCAR* moments* final* *tsv *txt
+rm DONE vasprun.xml atoms_bader_charge.json OUTCAR* moments* final* *tsv *txt
 
 sh ~/bin/verve/resub.sh
