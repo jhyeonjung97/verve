@@ -9,10 +9,11 @@ do
 done
 mkdir $save
 echo "mkdir $save"
-cp * $save
-echo "cp * $save"
+mv * $save
+echo "mv * $save"
 
-find . -name 'DOS*' ! -name 'DOSCAR' -delete
-rm DONE vasprun.xml atoms_bader_charge.json OUTCAR* moments* final* *tsv *txt
+cp "$save"/restart.json .
+cp "$save"/WAVECAR .
+cp "$save"/submit.sh .
 
-sh ~/bin/verve/resub.sh
+sh ~/bin/verve/sub.sh
