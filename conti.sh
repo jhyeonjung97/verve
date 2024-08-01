@@ -8,9 +8,7 @@ do
     save="conti_$i"
 done
 mkdir $save
-echo "mkdir $save"
 mv * $save
-echo "mv * $save"
 
 cp "$save"/restart.json .
 cp "$save"/WAVECAR .
