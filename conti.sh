@@ -16,4 +16,5 @@ echo "cp * $save"
 #     ase convert -f CONTCAR start.traj
 # fi
 # ase convert -f CONTCAR restart.json
+find . -name 'DOS*' ! -name 'DOSCAR' -delete
 sh ~/bin/verve/resub.sh
