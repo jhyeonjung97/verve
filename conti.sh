@@ -12,9 +12,7 @@ echo "mkdir $save"
 cp * $save
 echo "cp * $save"
 
-# if [[ ! -d opt ]]; then
-#     ase convert -f CONTCAR start.traj
-# fi
-# ase convert -f CONTCAR restart.json
 find . -name 'DOS*' ! -name 'DOSCAR' -delete
+~/bin/shoulder/rm_mv DONE vasprun.xml OUTCAR* moments* final* *tsv *txt
+
 sh ~/bin/verve/resub.sh
