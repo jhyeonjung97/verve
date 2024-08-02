@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [[ ! -s restart.json ]]; then
+    python ~/bin/get_restart3
+fi
+
 i=1
 save="conti_$i"
 while [[ -d "$save" ]]; do
