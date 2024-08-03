@@ -28,22 +28,22 @@ metals_5d=(Ba La Hf Ta W Re Os Ir Pt Au Hg Tl Pb)
 mkdir -p 3d 4d 5d
 
 process_metals() {
-    metals=$1[@]
-    local subdir=$2
+    local metals=("$@")
+    local subdir=${metals[-1]}
+    unset metals[-1]
     cd $subdir
-    for i in ${!metals}; do
-        local formatted_index=$(printf "%02d" $i)
-        local dir="${formatted_index}_${metals[i]}"
-        mkdir $dir || { echo "Failed to create directory $dir"; exit 1; }
-        sed "s/$pattern/${metals[i]}/" ../$file > $dir/$file || { echo "Failed to process $file with ${metals[i]}"; exit 1; }
-        echo "sed \"s/$pattern/${metals[i]}/\" ../$file > $dir/$file"
+    for metal in "${metals[@]}"; do
+        local dir="${metal}"
+        mkdir -p $dir || { echo "Failed to create directory $dir"; exit 1; }
+        sed "s/$pattern/$metal/" ../$file > $dir/$file || { echo "Failed to process $file with $metal"; exit 1; }
+        echo "sed \"s/$pattern/$metal/\" ../$file > $dir/$file"
     done
     cd ..
 }
 
-process_metals metals_3d 3d
-process_metals metals_4d 4d
-process_metals metals_5d 5d
+process_metals "${metals_3d[@]}" 3d
+process_metals "${metals_4d[@]}" 4d
+process_metals "${metals_5d[@]}" 5d
 rm $file
 
 trap 'sed -i -e "/^[^#]/d" ~/bin/temp.sh' EXIT
