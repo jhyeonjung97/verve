@@ -43,7 +43,10 @@ cd $dir_now
 
 cp $1 POSCAR
 sed -i -e "s/$2/XX/" POSCAR
-sh ~/bin/verve/spread.sh -rr POSCAR
+coord=$(basename $PWD | cut -d'_' -f3)
+sed -i -e "s/XX/$coord/" submit.sh
+sh ~/bin/verve/spread.sh -rr POSCAR submit.sh
+
 for dir in *d/*_*/; do
     cd $dir
     metal=$(basename $PWD | cut -d'_' -f2)
