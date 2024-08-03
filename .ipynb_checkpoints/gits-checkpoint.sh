@@ -33,18 +33,18 @@ if [[ ${here} == 'nersc' ]] || [[ ${here} == 's3df' ]] || [[ ${here} == 'kisti' 
         gits_nersc $i
         if [[ ${here} == 'nersc' ]] && [[ $i == 'tools' ]]; then
             cp ~/bin/tools/mnc/* /pscratch/sd/j/jiuy97/6_MNC/scripts
-            echo "cp ~/bin/tools/mnc/* /pscratch/sd/j/jiuy97/6_MNC/scripts"
             cp ~/bin/tools/heo/* /pscratch/sd/j/jiuy97/5_HEO/scripts
-            echo "cp ~/bin/tools/heo/* /pscratch/sd/j/jiuy97/5_HEO/scripts"
             cp ~/bin/tools/tetra/* /pscratch/sd/j/jiuy97/3_V_shape/scripts
-            echo "cp ~/bin/tools/tetra/* /pscratch/sd/j/jiuy97/3_V_shape/scripts"
         elif [[ ${here} == 'kisti' ]] && [[ $i == 'tools' ]]; then
             cp ~/bin/tools/mnc/* /scratch/x2755a09/3_MNC/scripts
-            echo "cp ~/bin/tools/mnc/* /scratch/x2755a09/3_MNC/scripts"
+            sed -i -e 's/kpar=8/kpar=4/' /scratch/x2755a09/3_MNC/scripts/*.py
+            sed -i -e 's/npar=1/kpar=16/' /scratch/x2755a09/3_MNC/scripts/*.py
             cp ~/bin/tools/heo/* /scratch/x2755a09/4_HEO/scripts
-            echo "cp ~/bin/tools/heo/* /scratch/x2755a09/4_HEO/scripts"
+            sed -i -e 's/kpar=8/kpar=8/' /scratch/x2755a09/4_HEO/scripts/*.py
+            sed -i -e 's/npar=1/kpar=8/' /scratch/x2755a09/4_HEO/scripts/*.py
             cp ~/bin/tools/tetra/* /scratch/x2755a09/5_V_bulk/scripts
-            echo "cp ~/bin/tools/tetra/* /scratch/x2755a09/5_V_bulk/scripts"
+            sed -i -e 's/kpar=8/kpar=4/' /scratch/x2755a09/5_V_bulk/scripts/*.py
+            sed -i -e 's/npar=1/kpar=16/' /scratch/x2755a09/5_V_bulk/scripts/*.py            
         fi
     done
 else
