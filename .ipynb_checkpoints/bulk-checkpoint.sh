@@ -51,7 +51,7 @@ for dir in *d/*_*/; do
     cd $dir
     metal=$(basename $PWD | cut -d'_' -f2)
     sed -i -e "s/XX/$metal/" POSCAR
-    # ase convert POSCAR start.traj
+    ase convert POSCAR start.traj
     cd $dir_now
 done
 
