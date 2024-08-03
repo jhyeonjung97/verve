@@ -22,14 +22,14 @@ done
 cp $1 POSCAR
 sed -i -e "s/$2/XX/" POSCAR
 sh ~/bin/verve/spread.sh -rr POSCAR
-for dir in *d/*_*/; do
+for dir in '*d/*_*/'; do
     cd $dir
     metal=$(basename $PWD | cut -d'_' -f2)
     sed -i -e "s/XX/$metal/" POSCAR
     # ase convert POSCAR start.traj
     cd $dir_now
 done
-for dir in *d/; do
+for dir in '*d/'; do
     cd $dir
     coord=$(basename $PWD | cut -d'_' -f3)
     clean_dir=$(basename $dir)
