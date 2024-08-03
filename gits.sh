@@ -38,13 +38,13 @@ if [[ ${here} == 'nersc' ]] || [[ ${here} == 's3df' ]] || [[ ${here} == 'kisti' 
         elif [[ ${here} == 'kisti' ]] && [[ $i == 'tools' ]]; then
             cp ~/bin/tools/mnc/* /scratch/x2755a09/3_MNC/scripts
             sed -i -e 's/kpar=8/kpar=4/' /scratch/x2755a09/3_MNC/scripts/*.py
-            sed -i -e 's/npar=1/kpar=16/' /scratch/x2755a09/3_MNC/scripts/*.py
+            sed -i -e 's/npar=1/npar=16/' /scratch/x2755a09/3_MNC/scripts/*.py
             cp ~/bin/tools/heo/* /scratch/x2755a09/4_HEO/scripts
             sed -i -e 's/kpar=8/kpar=8/' /scratch/x2755a09/4_HEO/scripts/*.py
-            sed -i -e 's/npar=1/kpar=8/' /scratch/x2755a09/4_HEO/scripts/*.py
+            sed -i -e 's/npar=1/npar=8/' /scratch/x2755a09/4_HEO/scripts/*.py
             cp ~/bin/tools/tetra/* /scratch/x2755a09/5_V_bulk/scripts
             sed -i -e 's/kpar=8/kpar=4/' /scratch/x2755a09/5_V_bulk/scripts/*.py
-            sed -i -e 's/npar=1/kpar=16/' /scratch/x2755a09/5_V_bulk/scripts/*.py            
+            sed -i -e 's/npar=1/npar=16/' /scratch/x2755a09/5_V_bulk/scripts/*.py            
         fi
     done
 else
