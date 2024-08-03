@@ -43,6 +43,8 @@ if [[ ${here} == 'nersc' ]] || [[ ${here} == 's3df' ]] || [[ ${here} == 'kisti' 
             echo "cp ~/bin/tools/mnc/* /scratch/x2755a09/3_MNC/scripts"
             cp ~/bin/tools/heo/* /scratch/x2755a09/4_HEO/scripts
             echo "cp ~/bin/tools/heo/* /scratch/x2755a09/4_HEO/scripts"
+            cp ~/bin/tools/tetra/* /scratch/x2755a09/5_V_bulk/scripts
+            echo "cp ~/bin/tools/tetra/* /scratch/x2755a09/5_V_bulk/scripts"
         fi
     done
 else
