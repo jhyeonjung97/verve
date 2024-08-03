@@ -28,6 +28,7 @@ do
     cd $i*
     ~/bin/shoulder/rm_mv *.*.log
     ~/bin/shoulder/rm_mv *.e* *.o*
+    ~/bin/shoulder/rm_mv moments.*
     sh ~/bin/verve/sub.sh
     cd ..
 done
