@@ -51,10 +51,3 @@ for dir in *d/*_*/; do
     # ase convert POSCAR start.traj
     cd $dir_now
 done
-for dir in *d/; do
-    cd $dir
-    coord=$(basename $PWD | cut -d'_' -f2)
-    clean_dir=$(basename $dir)
-    sh ~/bin/verve/jobname.sh -rc "$coord$clean_dir"
-    cd $dir_now
-done
