@@ -29,14 +29,15 @@ sorted_dirs = sorted(dirs)
 for dir in sorted_dirs:
     dir_path = os.path.join('.', dir)
 
-    pattern = os.path.join(dir_path, 'OUTCAR')
-    pattern_A = os.path.join(dir_path, 'final*mnc*traj')
-    pattern_B = os.path.join(dir_path, 'final*static*traj')
-    pattern_C = os.path.join(dir_path, 'final*opt*traj')
-    pattern_D = os.path.join(dir_path, '*json')
+    # pattern_A = os.path.join(dir_path, 'OUTCAR')
+    pattern_A = os.path.join(dir_path, 'final_with_calculator.json')
+    pattern_B = os.path.join(dir_path, 'conti_2', 'final_with_calculator.json')
+    pattern_C = os.path.join(dir_path, 'conti_1', 'final_with_calculator.json')
+    # pattern_C = os.path.join(dir_path, 'final*opt*traj')
+    # pattern_D = os.path.join(dir_path, 'conti*', 'OUTCAR')
 
     matching_files = []
-    for pattern in [pattern, pattern_A, pattern_B, pattern_C, pattern_D]:
+    for pattern in [pattern_A, pattern_B, pattern_C]:
         matching_files.extend(glob.glob(pattern))
         if matching_files:
             break
