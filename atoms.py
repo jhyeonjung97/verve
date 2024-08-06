@@ -31,12 +31,12 @@ for dir in sorted_dirs:
 
     pattern_A = os.path.join(dir_path, 'OUTCAR')
     # pattern_A = os.path.join(dir_path, 'final_with_calculator.json')
-    pattern_B = os.path.join(dir_path, 'opt', 'final_with_calculator.json')
-    pattern_C = os.path.join(dir_path, 'conti_2', 'final_with_calculator.json')
-    pattern_D = os.path.join(dir_path, 'conti_1', 'final_with_calculator.json')
+    # pattern_B = os.path.join(dir_path, 'opt', 'final_with_calculator.json')
+    # pattern_C = os.path.join(dir_path, 'conti_2', 'final_with_calculator.json')
+    # pattern_D = os.path.join(dir_path, 'conti_1', 'final_with_calculator.json')
 
     matching_files = []
-    for pattern in [pattern_A, pattern_B, pattern_C]:
+    for pattern in [pattern_A]: #, pattern_B, pattern_C]:
         matching_files.extend(glob.glob(pattern))
         if matching_files:
             break
