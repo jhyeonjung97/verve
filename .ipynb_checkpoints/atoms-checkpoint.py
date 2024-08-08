@@ -49,7 +49,8 @@ for dir in sorted_dirs:
     
     if atoms:
         if args.magnetic:
-            print(f"{Colors.CYAN}{dir}{Colors.RESET}", atoms.get_magnetic_moments())
+            try:
+                print(f"{Colors.CYAN}{dir}{Colors.RESET}", atoms.get_magnetic_moments())
         if args.energy:
             print(f"{Colors.ORANGE}{dir}{Colors.RESET}", atoms.get_total_energy())
         if args.atoms:
