@@ -49,8 +49,10 @@ for dir in sorted_dirs:
     
     if atoms:
         if args.magnetic:
-            magnetic_moments = atoms.get_magnetic_moments()
-            print(f"{Colors.CYAN}{dir}{Colors.RESET}", magnetic_moments)
+            try:
+                print(f"{Colors.CYAN}{dir}{Colors.RESET}", atoms.get_magnetic_moments())
+            except PropertyNotImplementedError:
+                print("Magnetic moments not available for this calculation.")
         if args.energy:
             print(f"{Colors.ORANGE}{dir}{Colors.RESET}", atoms.get_total_energy())
         if args.atoms:
