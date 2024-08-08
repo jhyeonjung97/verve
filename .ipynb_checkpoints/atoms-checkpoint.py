@@ -49,15 +49,12 @@ for dir in sorted_dirs:
     
     if atoms:
         if args.magnetic:
-            try:
-                print(f"{Colors.CYAN}{dir}{Colors.RESET}", atoms.get_magnetic_moments())
+            magnetic_moments = atoms.get_magnetic_moments()
+            print(f"{Colors.CYAN}{dir}{Colors.RESET}", magnetic_moments)
         if args.energy:
             print(f"{Colors.ORANGE}{dir}{Colors.RESET}", atoms.get_total_energy())
         if args.atoms:
-            try:
-                print(f"{Colors.MAGENTA}{dir}{Colors.RESET}", atoms.get_chemical_formula())
-            except:
-                continue
+            print(f"{Colors.MAGENTA}{dir}{Colors.RESET}", atoms.get_chemical_formula())
         if args.charge:
             chg_path = os.path.join(dir_path, 'atoms_bader_charge.json')
             if not os.path.exists(chg_path):
