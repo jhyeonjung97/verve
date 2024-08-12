@@ -29,37 +29,38 @@ sorted_dirs = sorted(dirs)
 for dir in sorted_dirs:
     dir_path = os.path.join('.', dir)
 
-    pattern_A = os.path.join(dir_path, 'OUTCAR')
-    # pattern_A = os.path.join(dir_path, 'final_with_calculator.json')
-    # pattern_B = os.path.join(dir_path, 'opt', 'final_with_calculator.json')
-    # pattern_C = os.path.join(dir_path, 'conti_2', 'final_with_calculator.json')
-    # pattern_D = os.path.join(dir_path, 'conti_1', 'final_with_calculator.json')
+    # pattern_A = os.path.join(dir_path, 'restart.json')
 
-    matching_files = []
-    for pattern in [pattern_A]: #, pattern_B, pattern_C]:
-        matching_files.extend(glob.glob(pattern))
-        if matching_files:
-            break
+    # matching_files = []
+    # for pattern in [pattern_A]: #, pattern_B, pattern_C]:
+    #     matching_files.extend(glob.glob(pattern))
+    #     if matching_files:
+    #         break
     
-    atoms = None
-    for traj_file in matching_files:
-        if os.path.exists(traj_file):
-            atoms = read(traj_file)
-            break
+    # atoms = None
+    # for traj_file in matching_files:
+    #     if os.path.exists(traj_file):
+    #         atoms = read(traj_file)
+    #         break
     
-    if atoms:
-        if args.magnetic:
-            try:
-                print(f"{Colors.CYAN}{dir}{Colors.RESET}", atoms.get_magnetic_moments())
-            except Exception as e:
-                print(f"{Colors.CYAN}{dir}{Colors.RESET}", 'Magnetic moments not available for this calculation.')
-        if args.energy:
-            print(f"{Colors.ORANGE}{dir}{Colors.RESET}", atoms.get_total_energy())
-        if args.atoms:
-            print(f"{Colors.MAGENTA}{dir}{Colors.RESET}", atoms.get_chemical_formula())
-        if args.charge:
-            chg_path = os.path.join(dir_path, 'atoms_bader_charge.json')
-            if not os.path.exists(chg_path):
-                subprocess.call('python ~/bin/verve/bader.py', shell=True, cwd=dir_path)
-            if os.path.exists(chg_path):
-                print(f"{Colors.GREEN}{dir}{Colors.RESET}", "Bader charges not implemented")
+    if args.magnetic:
+        path = os.path.join(dir_path, 'moments.json')
+        if os.path.exists(path):
+            atoms = read(path)
+            if atoms:
+                try:
+                    print(f"{Colors.CYAN}{dir}{Colors.RESET}", atoms.get_magnetic_moments())
+                except Exception as e:
+                    print(f"{Colors.CYAN}{dir}{Colors.RESET}", 'Magnetic moments not available for this calculation.')
+    if args.energy:
+        path = os.path.join(dir_path, 'OUTCAR')
+        if os.path.exists(path):
+            atoms = read(path)
+            if atoms:
+                print(f"{Colors.ORANGE}{dir}{Colors.RESET}", atoms.get_total_energy())
+    if args.atoms:
+        path = os.path.join(dir_path, 'OUTCAR')
+        if os.path.exists(path):
+            atoms = read(path)
+            if atoms:
+                print(f"{Colors.MAGENTA}{dir}{Colors.RESET}", atoms.get_chemical_formula())
