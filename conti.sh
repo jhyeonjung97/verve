@@ -5,10 +5,10 @@ if [[ ! -s restart.json ]]; then
 fi
 
 i=1
-save="conti_$i"
+save="conti$i"
 while [[ -d "$save" ]]; do
     i=$((i+1))
-    save="conti_$i"
+    save="conti$i"
 done
 mkdir "$save"
 find . -maxdepth 1 -type f -exec mv {} "$save" \;
