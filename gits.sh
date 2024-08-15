@@ -44,7 +44,9 @@ if [[ ${here} == 'nersc' ]] || [[ ${here} == 's3df' ]] || [[ ${here} == 'kisti' 
             sed -i -e 's/npar=1/npar=8/' /scratch/x2755a09/4_HEO/scripts/*.py
             cp ~/bin/tools/tetra/* /scratch/x2755a09/5_V_bulk/scripts
             sed -i -e 's/kpar=8/kpar=4/' /scratch/x2755a09/5_V_bulk/scripts/*.py
-            sed -i -e 's/npar=1/npar=16/' /scratch/x2755a09/5_V_bulk/scripts/*.py            
+            sed -i -e 's/npar=1/npar=16/' /scratch/x2755a09/5_V_bulk/scripts/*.py     
+            sed -i -e 's/kpar=8/kpar=8/' /scratch/x2755a09/5_V_bulk/scripts/static_bulk2.py
+            sed -i -e 's/npar=1/npar=4/' /scratch/x2755a09/5_V_bulk/scripts/static_bulk2.py  
         fi
     done
 else
