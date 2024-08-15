@@ -10,6 +10,7 @@ parser.add_argument('-c', '--charge', action='store_true', default=False, help='
 parser.add_argument('-e', '--energy', action='store_true', default=False, help='Print total energy')
 parser.add_argument('-a', '--atoms', action='store_true', default=False, help='Print chemical formula')
 parser.add_argument('-f', '--force', action='store_true', default=False, help='Force to select all directories')
+parser.add_argument('-b', '--beta', action='store_true', default=False)
 args = parser.parse_args()
 
 class Colors:
@@ -64,3 +65,9 @@ for dir in sorted_dirs:
             atoms = read(path)
             if atoms:
                 print(f"{Colors.MAGENTA}{dir}{Colors.RESET}", atoms.get_chemical_formula())
+    if args.beta:
+        path = os.path.join(dir_path, 'restart.json')
+        if os.path.exists(path):
+            atoms = read(path)
+            if atoms:
+                print(f"{Colors.GREEN}{dir}{Colors.RESET}", atoms.get_cell_lengths_and_angles()[4])
