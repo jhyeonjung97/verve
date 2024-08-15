@@ -70,4 +70,4 @@ for dir in sorted_dirs:
         if os.path.exists(path):
             atoms = read(path)
             if atoms:
-                print(f"{Colors.GREEN}{dir}{Colors.RESET}", atoms.get_cell_lengths_and_angles()[4])
+                print(f"{Colors.GREEN}{dir}{Colors.RESET}", atoms.cell.cellpar()[4])
