@@ -45,12 +45,6 @@ if [[ ${here} == 'nersc' ]] || [[ ${here} == 's3df' ]] || [[ ${here} == 'kisti' 
             cp ~/bin/tools/tetra/* /scratch/x2755a09/5_V_bulk/scripts
             sed -i -e 's/kpar=8/kpar=4/' /scratch/x2755a09/5_V_bulk/scripts/opt*.py
             sed -i -e 's/npar=1/npar=16/' /scratch/x2755a09/5_V_bulk/scripts/opt*.py     
-            sed -i -e 's/kpar=8/kpar=8/' /scratch/x2755a09/5_V_bulk/scripts/static_bulk2.py
-            sed -i -e 's/npar=1/npar=4/' /scratch/x2755a09/5_V_bulk/scripts/static_bulk2.py  
-            sed -i -e 's/kpar=8/kpar=4/' /scratch/x2755a09/5_V_bulk/scripts/static_bulk2_skl.py
-            sed -i -e 's/npar=1/npar=4/' /scratch/x2755a09/5_V_bulk/scripts/static_bulk2_skl.py
-            sed -i -e 's/kpar=8/kpar=2/' /scratch/x2755a09/5_V_bulk/scripts/static_bulk2_flat.py
-            sed -i -e 's/npar=1/npar=2/' /scratch/x2755a09/5_V_bulk/scripts/static_bulk2_flat.py 
         fi
     done
 else
