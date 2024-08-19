@@ -68,6 +68,8 @@ if [[ $f == 'p' ]] || [[ $f == 'pos' ]] || [[ $f == 'POSCAR' ]]; then
     file='POSCAR'
 elif [[ $f == 'c' ]] || [[ $f == 'con' ]] || [[ $f == 'CONTCAR' ]]; then
     file='CONTCAR'
+elif [[ $f == 'f' ]] || [[ $f == 'final' ]] || [[ $f == 'final_with_calculator.json' ]]; then
+    file='final_with_calculator.json'
 else
     file=$f
 fi
