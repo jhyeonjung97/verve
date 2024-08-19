@@ -48,15 +48,14 @@ for dir in sorted_dirs:
     path = os.path.join(dir_path, 'final_with_calculator.json')
     if os.path.exists(path):
         atoms = read(path)
-        
-    if args.magnetic:
-        try:
-            print(f"{Colors.CYAN}{dir}{Colors.RESET}", atoms.get_magnetic_moments())
-        except Exception as e:
-            print(f"{Colors.CYAN}{dir}{Colors.RESET}", 'Magnetic moments not available for this calculation.')
-    if args.energy:
-        print(f"{Colors.ORANGE}{dir}{Colors.RESET}", atoms.get_total_energy())
-    if args.atoms:
-        print(f"{Colors.MAGENTA}{dir}{Colors.RESET}", atoms.get_chemical_formula())
-    if args.beta:
-        print(f"{Colors.GREEN}{dir}{Colors.RESET}", atoms.cell.cellpar()[4])
+        if args.magnetic:
+            try:
+                print(f"{Colors.CYAN}{dir}{Colors.RESET}", atoms.get_magnetic_moments())
+            except Exception as e:
+                print(f"{Colors.CYAN}{dir}{Colors.RESET}", 'Magnetic moments not available for this calculation.')
+        if args.energy:
+            print(f"{Colors.ORANGE}{dir}{Colors.RESET}", atoms.get_total_energy())
+        if args.atoms:
+            print(f"{Colors.MAGENTA}{dir}{Colors.RESET}", atoms.get_chemical_formula())
+        if args.beta:
+            print(f"{Colors.GREEN}{dir}{Colors.RESET}", atoms.cell.cellpar()[4])
