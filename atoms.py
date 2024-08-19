@@ -45,30 +45,18 @@ for dir in sorted_dirs:
     #         atoms = read(traj_file)
     #         break
     
+    path = os.path.join(dir_path, 'final_with_calculator.json')
+    if os.path.exists(path):
+        atoms = read(path)
+        
     if args.magnetic:
-        path = os.path.join(dir_path, 'restart.json')
-        if os.path.exists(path):
-            atoms = read(path)
-            if atoms:
-                try:
-                    print(f"{Colors.CYAN}{dir}{Colors.RESET}", atoms.get_magnetic_moments())
-                except Exception as e:
-                    print(f"{Colors.CYAN}{dir}{Colors.RESET}", 'Magnetic moments not available for this calculation.')
+        try:
+            print(f"{Colors.CYAN}{dir}{Colors.RESET}", atoms.get_magnetic_moments())
+        except Exception as e:
+            print(f"{Colors.CYAN}{dir}{Colors.RESET}", 'Magnetic moments not available for this calculation.')
     if args.energy:
-        path = os.path.join(dir_path, 'restart.json')
-        if os.path.exists(path):
-            atoms = read(path)
-            if atoms:
-                print(f"{Colors.ORANGE}{dir}{Colors.RESET}", atoms.get_total_energy())
+        print(f"{Colors.ORANGE}{dir}{Colors.RESET}", atoms.get_total_energy())
     if args.atoms:
-        path = os.path.join(dir_path, 'restart.json')
-        if os.path.exists(path):
-            atoms = read(path)
-            if atoms:
-                print(f"{Colors.MAGENTA}{dir}{Colors.RESET}", atoms.get_chemical_formula())
+        print(f"{Colors.MAGENTA}{dir}{Colors.RESET}", atoms.get_chemical_formula())
     if args.beta:
-        path = os.path.join(dir_path, 'restart.json')
-        if os.path.exists(path):
-            atoms = read(path)
-            if atoms:
-                print(f"{Colors.GREEN}{dir}{Colors.RESET}", atoms.cell.cellpar()[4])
+        print(f"{Colors.GREEN}{dir}{Colors.RESET}", atoms.cell.cellpar()[4])
