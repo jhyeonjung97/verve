@@ -7,6 +7,7 @@ from ase.io import read
 parser = argparse.ArgumentParser()
 parser.add_argument('-m', '--magnetic', action='store_true', default=False, help='Print magnetic moments')
 parser.add_argument('-c', '--charge', action='store_true', default=False, help='Print Bader charges')
+parser.add_argument('-p', '--cell', action='store_true', default=False, help='Print Cell Parameters')
 parser.add_argument('-e', '--energy', action='store_true', default=False, help='Print total energy')
 parser.add_argument('-a', '--atoms', action='store_true', default=False, help='Print chemical formula')
 parser.add_argument('-f', '--force', action='store_true', default=False, help='Force to select all directories')
@@ -60,3 +61,5 @@ for dir in sorted_dirs:
             print(f"{Colors.MAGENTA}{dir}{Colors.RESET}", atoms.get_chemical_formula())
         if args.beta:
             print(f"{Colors.GREEN}{dir}{Colors.RESET}", atoms.cell.cellpar()[4])
+        if args.cell:
+            print(f"{Colors.GREEN}{dir}{Colors.RESET}", atoms.cell.cellpar())
