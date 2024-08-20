@@ -72,7 +72,7 @@ do
     if [[ -d $dir ]]; then
         for file in $files; do
             cp $file $dir
-            echo "cp $file $dir"
+            # echo "cp $file $dir"
         done
     else
         echo "$dir is not a valid directory."
