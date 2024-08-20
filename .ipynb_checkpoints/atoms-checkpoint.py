@@ -52,7 +52,10 @@ for dir in sorted_dirs:
         atoms = read(path)
         if args.magnetic:
             try:
-                print(f"{Colors.CYAN}{dir}{Colors.RESET}", atoms.get_magnetic_moments())
+                for atom in atoms:
+                    if atom.symbol not in ['C', 'H', 'O', 'N']:
+                        print(f"{Colors.CYAN}{dir}{Colors.RESET}", atom.symbol, atom.index, 
+                              atoms.get_magnetic_moments()[atom.index])
             except Exception as e:
                 print(f"{Colors.CYAN}{dir}{Colors.RESET}", 'Magnetic moments not available for this calculation.')
         if args.energy:
