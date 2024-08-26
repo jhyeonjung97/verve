@@ -9,13 +9,15 @@ from ase.constraints import FixAtoms
 from ase.geometry.geometry import get_duplicate_atoms
 from ase.io.vasp import read_vasp_xdatcar, write_vasp_xdatcar
 
-pattern = os.path.join('./', f'1*.vasp')
+pattern = os.path.join('./', '2*.json')
 matching_files = glob.glob(pattern)
 for file in matching_files:
+    print(file)
     atoms = read(f'{file}')
+    # displacement = [0, 0, atoms[0].position[2]-0.1]
     displacement = atoms[0].position
-    atoms.translate(displacement+[0,0,0.1])
+    atoms.positions -= displacement
     atoms.wrap()
-    atoms.center()
+    # atoms.center()
     get_duplicate_atoms(atoms, cutoff=0.1, delete=True)
     write(f'{file}',atoms)
