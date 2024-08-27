@@ -148,7 +148,7 @@ sed -i -e "/#PBS -q/c\#PBS -q normal" submit.sh'
 alias debug='
 sed -i -e "s/ncpus=40/ncpus=64/" submit.sh
 sed -i -e "s/mpiprocs=40/mpiprocs=64/" submit.sh
-sed -i -e "/#PBS -l walltime/c\#PBS -l walltime=48:00:00" submit.sh
+sed -i -e "/#PBS -l walltime/c\#PBS -l walltime=06:00:00" submit.sh
 sed -i -e "/#PBS -q/c\#PBS -q debug" submit.sh'
 alias flat='
 sed -i -e "s/ncpus=40/ncpus=64/" submit.sh
