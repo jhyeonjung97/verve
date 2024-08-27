@@ -138,3 +138,25 @@ alias cona='ag */CONTCAR'
 alias con3='ag 00/POSCAR 01/CONTCAR 02/CONTCAR 03/CONTCAR 04/POSCAR'
 alias con5='ag 00/POSCAR 01/CONTCAR 02/CONTCAR 03/CONTCAR 04/CONTCAR 05/CONTCAR 06/POSCAR'
 alias pickle='python3 -m ase.io.trajectory *.traj'
+
+#KISTI
+alias normal='
+sed -i -e "s/ncpus=40/ncpus=64/" submit.sh
+sed -i -e "s/mpiprocs=40/mpiprocs=64/" submit.sh
+sed -i -e "/#PBS -l/c\#PBS -l walltime=48:00:00" submit.sh
+sed -i -e "/#PBS -q/c\#PBS -q normal" submit.sh'
+alias flat='
+sed -i -e "s/ncpus=40/ncpus=64/" submit.sh
+sed -i -e "s/mpiprocs=40/mpiprocs=64/" submit.sh
+sed -i -e "/#PBS -l/c\#PBS -l walltime=48:00:00" submit.sh
+sed -i -e "/#PBS -q/c\#PBS -q flat" submit.sh'
+alias long='
+sed -i -e "s/ncpus=40/ncpus=64/" submit.sh
+sed -i -e "s/mpiprocs=40/mpiprocs=64/" submit.sh
+sed -i -e "/#PBS -l/c\#PBS -l walltime=48:00:01" submit.sh
+sed -i -e "/#PBS -q/c\#PBS -q long" submit.sh'
+alias norm_skl='
+sed -i -e "s/ncpus=64/ncpus=40/" submit.sh
+sed -i -e "s/mpiprocs=64/mpiprocs=40/" submit.sh
+sed -i -e "/#PBS -l/c\#PBS -l walltime=48:00:00" submit.sh
+sed -i -e "/#PBS -q/c\#PBS -q norm_skl" submit.sh'
