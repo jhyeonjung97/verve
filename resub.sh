@@ -8,6 +8,7 @@ function usage_error {
 if [[ -z $1 ]]; then
     ~/bin/shoulder/rm_mv *.*.log
     ~/bin/shoulder/rm_mv *.e* *.o*
+    ~/bin/shoulder/rm_mv vasp.out  
     sh ~/bin/verve/sub.sh
     exit 0
 else
@@ -28,7 +29,7 @@ do
     cd $i*
     ~/bin/shoulder/rm_mv *.*.log
     ~/bin/shoulder/rm_mv *.e* *.o*
-    ~/bin/shoulder/rm_mv moments.*
+    ~/bin/shoulder/rm_mv vasp.out
     sh ~/bin/verve/sub.sh
     cd ..
 done
