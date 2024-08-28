@@ -27,6 +27,7 @@ do
             sed -i -e "s/mnc-sol.py/mnc-sol-is-nupdown.py/" submit.sh
         elif [[ $spin == 'HS' ]]; then
             sed -i -e "s/mnc-sol.py/mnc-sol-hs-nupdown.py/" submit.sh
+        fi
         sbatch submit.sh
     fi
 done
