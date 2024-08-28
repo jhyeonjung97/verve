@@ -3,7 +3,7 @@
 for dir in /pscratch/sd/j/jiuy97/6_MNC/0_clean/kisti/*d/*_*/*_*S/*_
 do
     cd $dir; pwd
-    IFS='/' read -r -a path_components <<< $pwd
+    IFS='/' read -r -a path_components <<< $PWD
     row=$(echo "${path_components[-4]}" | cut -d'_' -f1)
     metal=$(echo "${path_components[-3]}" | cut -d'_' -f2)
     spin=$(echo "${path_components[-2]}" | cut -d'_' -f2)
