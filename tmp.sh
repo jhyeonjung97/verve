@@ -15,7 +15,7 @@ do
     path1=${path_components[-1]}
     
     if [[ ! -s DONE ]]; then
-        path="/pscratch/sd/j/jiuy97/6_MNC/0_clean/$path4/$path3/$path2/$path1"
+        path="/pscratch/sd/j/jiuy97/6_MNC/0_clean/$path4/$path3/$path2/nupdown"
         ls $path
         # cp $path/WAVECAR .
         # cp $path/restart.json .
