@@ -21,7 +21,7 @@ do
         cp $path/restart.json .
         python ~/bin/tools/mnc/dz.py $dz
         cp /pscratch/sd/j/jiuy97/6_MNC/0_clean/submit.sh .
-        sed -i -e "s/$jobname/$row$metal$spin$dz/" submit.sh
+        sed -i -e "s/jobname/$row$metal$spin$dz/" submit.sh
         if [[ $spin == 'LS' ]]; then
             sed -i -e "s/mnc-sol.py/mnc-sol-ls-nupdown.py/" submit.sh
         elif [[ $spin == 'IS' ]]; then
