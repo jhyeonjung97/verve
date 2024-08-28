@@ -17,18 +17,18 @@ do
     if [[ ! -s DONE ]]; then
         path="/pscratch/sd/j/jiuy97/6_MNC/0_clean/$path4/$path3/$path2/nupdown"
         ls $path
-        # cp $path/WAVECAR .
-        # cp $path/restart.json .
-        # python ~/bin/tools/mnc/dz.py $dz
-        # cp /pscratch/sd/j/jiuy97/6_MNC/0_clean/submit.sh .
-        # sed -i -e "s/$jobname/$row$metal$spin$dz/" submit.sh
-        # if [[ $spin == 'LS' ]]; then
-        #     sed -i -e "s/mnc-sol.py/mnc-sol-ls-nupdown.py/" submit.sh
-        # elif [[ $spin == 'IS' ]]; then
-        #     sed -i -e "s/mnc-sol.py/mnc-sol-is-nupdown.py/" submit.sh
-        # elif [[ $spin == 'HS' ]]; then
-        #     sed -i -e "s/mnc-sol.py/mnc-sol-hs-nupdown.py/" submit.sh
-        # fi
-        # sbatch submit.sh
+        cp $path/WAVECAR .
+        cp $path/restart.json .
+        python ~/bin/tools/mnc/dz.py $dz
+        cp /pscratch/sd/j/jiuy97/6_MNC/0_clean/submit.sh .
+        sed -i -e "s/$jobname/$row$metal$spin$dz/" submit.sh
+        if [[ $spin == 'LS' ]]; then
+            sed -i -e "s/mnc-sol.py/mnc-sol-ls-nupdown.py/" submit.sh
+        elif [[ $spin == 'IS' ]]; then
+            sed -i -e "s/mnc-sol.py/mnc-sol-is-nupdown.py/" submit.sh
+        elif [[ $spin == 'HS' ]]; then
+            sed -i -e "s/mnc-sol.py/mnc-sol-hs-nupdown.py/" submit.sh
+        fi
+        sbatch submit.sh
     fi
 done
