@@ -149,13 +149,13 @@ sed -i -e "/#PBS -q/c\#PBS -q normal" submit.sh'
 alias debug='
 sed -i -e "s/ncpus=40/ncpus=64/" submit.sh
 sed -i -e "s/mpiprocs=40/mpiprocs=64/" submit.sh
-sed -i -e "s/run_vasp.py/run_vasp_flat.py/" submit.sh
+sed -i -e "s/run_vasp_flat.py/run_vasp.py/" submit.sh
 sed -i -e "/#PBS -l walltime/c\#PBS -l walltime=06:00:00" submit.sh
 sed -i -e "/#PBS -q/c\#PBS -q debug" submit.sh'
 alias flat='
 sed -i -e "s/ncpus=40/ncpus=64/" submit.sh
 sed -i -e "s/mpiprocs=40/mpiprocs=64/" submit.sh
-sed -i -e "s/run_vasp_flat.py/run_vasp.py/" submit.sh
+sed -i -e "s/run_vasp.py/run_vasp_flat.py/" submit.sh
 sed -i -e "/#PBS -l walltime/c\#PBS -l walltime=48:00:00" submit.sh
 sed -i -e "/#PBS -q/c\#PBS -q flat" submit.sh'
 alias long='
