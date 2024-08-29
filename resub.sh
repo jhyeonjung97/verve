@@ -52,7 +52,7 @@ if [[ ${here} == 'kisti' ]]; then
         do
             cd $dir
             if [[ -s submit.sh ]]; then
-                ~/bin/shoulder/rm_mv *.e* *.o*
+                ~/bin/shoulder/rm_mv *.e* *.o* *.log
                 sh ~/bin/verve/correct-contcar.sh
                 python ~/bin/get_restart3
                 qsub submit.sh
@@ -60,7 +60,7 @@ if [[ ${here} == 'kisti' ]]; then
             cd $dir_now
         done
     else
-        ~/bin/shoulder/rm_mv *.e* *.o*
+        ~/bin/shoulder/rm_mv *.e* *.o* *.log
         sh ~/bin/verve/correct-contcar.sh
         python ~/bin/get_restart3
         qsub submit.sh
@@ -71,7 +71,7 @@ else
         do
             cd $dir
             if [[ -s submit.sh ]]; then
-                ~/bin/shoulder/rm_mv *.e* *.o*
+                ~/bin/shoulder/rm_mv *.e* *.o* *.log
                 sh ~/bin/verve/correct-contcar.sh
                 python ~/bin/get_restart3
                 sbatch submit.sh
@@ -79,7 +79,7 @@ else
             cd $dir_now
         done
     else
-        ~/bin/shoulder/rm_mv *.e* *.o*
+        ~/bin/shoulder/rm_mv *.e* *.o* *.log
         sh ~/bin/verve/correct-contcar.sh
         python ~/bin/get_restart3
         sbatch submit.sh
