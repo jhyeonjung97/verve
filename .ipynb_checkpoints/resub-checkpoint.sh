@@ -1,37 +1,87 @@
 #!/bin/bash
 
-function usage_error {
-    echo 'Usage: resub.sh [-r | -s dir]'
-    exit 1
-}
+dir_tag=0
+forced_tag=0
+while getopts ":rfs:d:" opt; do
+  case $opt in
+    r)
+      let r_count+=1
+      ;;
+    f)
+      forced_tag=1
+      ;;
+    s)
+      select_dir="$OPTARG"
+      ;;
+    d)
+      range="$OPTARG"
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      exit 1
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument." >&2
+      exit 1
+      ;;
+  esac
+done
+shift "$((OPTIND-1))"
+files=$@
 
-if [[ -z $1 ]]; then
-    ~/bin/shoulder/rm_mv *.*.log
-    ~/bin/shoulder/rm_mv *.e* *.o*
-    sh ~/bin/verve/correct-contcar.sh
-    python ~/bin/get_restart3
-    sh ~/bin/verve/sub.sh
-    exit 0
-else
-    if [[ $1 == '-r' ]]; then
-        DIR='*/'
-    elif [[ $1 == '-s' && -n $2 ]]; then
-        DIR=$2
-    elif [[ -n $2 ]]; then
-        DIR=$(seq $1 $2)
-    else
-        DIR=$(seq 1 $1)
-    fi
+if [[ -n $select_dir ]]; then
+    DIR=$select_dir
+elif [[ -n $range ]]; then
+    IFS=',' read -r -a range_arr <<< "$range"
+    DIR=$(seq "${range_arr[0]}" "${range_arr[1]}")
+elif [[ $r_count -eq 1 ]]; then
+    DIR='*_*/'
+elif [[ $r_count -gt 1 ]]; then
+    DIR=''
+    for ((i=0; i<r_count; i++)); do
+        DIR+='*/'
+    done
+elif [[ $forced_tag == 1 ]]; then
+    DIR='*/'
 fi
 
-for i in $DIR
-do
-    i=${i%/}
-    cd $i*
-    ~/bin/shoulder/rm_mv *.*.log
-    ~/bin/shoulder/rm_mv *.e* *.o*
-    sh ~/bin/verve/correct-contcar.sh
-    python ~/bin/get_restart3
-    sh ~/bin/verve/sub.sh
-    cd ..
-done
+dir_now=$PWD
+if [[ ${here} == 'kisti' ]]; then
+    if [[ -n $DIR ]]; then
+        for dir in $DIR
+        do
+            cd $dir
+            if [[ -s submit.sh ]]; then
+                ~/bin/shoulder/rm_mv *.e* *.o*
+                sh ~/bin/verve/correct-contcar.sh
+                python ~/bin/get_restart3
+                qsub submit.sh
+            fi
+            cd $dir_now
+        done
+    else
+        ~/bin/shoulder/rm_mv *.e* *.o*
+        sh ~/bin/verve/correct-contcar.sh
+        python ~/bin/get_restart3
+        qsub submit.sh
+    fi
+else
+    if [[ -n $DIR ]]; then
+        for dir in $DIR
+        do
+            cd $dir
+            if [[ -s submit.sh ]]; then
+                ~/bin/shoulder/rm_mv *.e* *.o*
+                sh ~/bin/verve/correct-contcar.sh
+                python ~/bin/get_restart3
+                sbatch submit.sh
+            fi
+            cd $dir_now
+        done
+    else
+        ~/bin/shoulder/rm_mv *.e* *.o*
+        sh ~/bin/verve/correct-contcar.sh
+        python ~/bin/get_restart3
+        sbatch submit.sh
+    fi
+fi
