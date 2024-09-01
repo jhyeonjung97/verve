@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for dir in /pscratch/sd/j/jiuy97/slab_name/6_V_slab/*_*_*/*
+for dir in /scratch/x2755a09/bulk_name/5_V_bulk/*_*_*/*
 do
     cd $dir; pwd
     IFS='/' read -r -a path_components <<< "$PWD"
@@ -20,7 +20,7 @@ do
     # path2=${path_components[-2]}
     # path1=${path_components[-1]}
     
-    match="/pscratch/sd/j/jiuy97/4_V_slab/kisti/6_V_slab/$path2/$path1"
+    match="/scratch/x2755a09/5_V_bulk/$path2/$path1"
 
     if [[ -d $match ]]; then
         cd $match; pwd
