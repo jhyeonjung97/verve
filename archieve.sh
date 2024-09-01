@@ -2,6 +2,9 @@ dir_now=$PWD
 
 if [[ ${here} == 'slac' ]]; then
     cd /Users/jiuy97/OneDrive\ -\ Stanford
+elif [[ ${here} == 'nersc' ]]; then
+    sh ~/bin/touch-atime.sh
+    exit
 else
     exit
 fi
