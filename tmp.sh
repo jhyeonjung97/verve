@@ -1,34 +1,41 @@
 #!/bin/bash
 
-for dir in /pscratch/sd/j/jiuy97/6_MNC/0_clean/kisti/*d/*_*/*_*S/*_
+for dir in /pscratch/sd/j/jiuy97/3_V_shape/kisti/5_V_bulk/*_*_*/*
 do
     cd $dir; pwd
-    IFS='/' read -r -a path_components <<< $PWD
-    row=$(echo "${path_components[-4]}" | cut -d'_' -f1)
-    metal=$(echo "${path_components[-3]}" | cut -d'_' -f2)
-    spin=$(echo "${path_components[-2]}" | cut -d'_' -f2)
-    dz=$(echo "${path_components[-1]}" | cut -d'_' -f1)
+    IFS='/' read -r -a path_components <<< "$PWD"
+    f=($(ls -d */))
     
-    path4=${path_components[-4]}
-    path3=${path_components[-3]}
-    path2=${path_components[-2]}
-    path1=${path_components[-1]}
+    # row=$(echo "${path_components[-4]}" | cut -d'_' -f1)
+    # metal=$(echo "${path_components[-3]}" | cut -d'_' -f2)
+    # spin=$(echo "${path_components[-2]}" | cut -d'_' -f2)
+    # dz=$(echo "${path_components[-1]}" | cut -d'_' -f1)
     
-    if [[ ! -s DONE ]]; then
-        path="/pscratch/sd/j/jiuy97/6_MNC/0_clean/$path4/$path3/$path2/nupdown"
-        ls $path
-        cp $path/WAVECAR .
-        cp $path/restart.json .
-        python ~/bin/tools/mnc/dz.py $dz
-        cp /pscratch/sd/j/jiuy97/6_MNC/0_clean/submit.sh .
-        sed -i -e "s/jobname/$row$metal$spin$dz/" submit.sh
-        if [[ $spin == 'LS' ]]; then
-            sed -i -e "s/mnc-sol.py/mnc-sol-ls-nupdown.py/" submit.sh
-        elif [[ $spin == 'IS' ]]; then
-            sed -i -e "s/mnc-sol.py/mnc-sol-is-nupdown.py/" submit.sh
-        elif [[ $spin == 'HS' ]]; then
-            sed -i -e "s/mnc-sol.py/mnc-sol-hs-nupdown.py/" submit.sh
-        fi
-        sbatch submit.sh
+    length=${#path_components[@]}
+    path2=${path_components[$((length-2))]}
+    path1=${path_components[$((length-1))]}
+
+    # path4=${path_components[-4]}
+    # path3=${path_components[-3]}
+    # path2=${path_components[-2]}
+    # path1=${path_components[-1]}
+    
+    match="/pscratch/sd/j/jiuy97/4_V_slab/kisti/6_V_slab/$path2/$path1"
+
+    if [[ -d $match ]]; then
+        cd $match; pwd
+        i=($(ls -d */))
+        # echo $i
+        # echo $f
+    
+        n=${#i[@]}
+        n=$(($n-1))
+        for j in $(seq 0 $n)
+        do
+            if [[ ${i[$j]} != ${f[$j]} ]]; then
+                echo "mv ${i[$j]} ${f[$j]}"
+                mv ${i[$j]} ${f[$j]}
+            fi
+        done
     fi
 done
