@@ -145,28 +145,42 @@ sed -i -e "s/ncpus=40/ncpus=64/" submit.sh
 sed -i -e "s/mpiprocs=40/mpiprocs=64/" submit.sh
 sed -i -e "s/run_vasp_flat.py/run_vasp.py/" submit.sh
 sed -i -e "/#PBS -l walltime/c\#PBS -l walltime=48:00:00" submit.sh
-sed -i -e "/#PBS -q/c\#PBS -q normal" submit.sh'
-alias debug='
-sed -i -e "s/ncpus=40/ncpus=64/" submit.sh
-sed -i -e "s/mpiprocs=40/mpiprocs=64/" submit.sh
-sed -i -e "s/run_vasp_flat.py/run_vasp.py/" submit.sh
-sed -i -e "/#PBS -l walltime/c\#PBS -l walltime=06:00:00" submit.sh
-sed -i -e "/#PBS -q/c\#PBS -q debug" submit.sh'
+sed -i -e "/#PBS -q/c\#PBS -q normal" submit.sh
+sed -i -e "s/ncpus=40/ncpus=64/" static.sh
+sed -i -e "s/mpiprocs=40/mpiprocs=64/" static.sh
+sed -i -e "s/run_vasp_flat.py/run_vasp.py/" static.sh
+sed -i -e "/#PBS -l walltime/c\#PBS -l walltime=48:00:00" static.sh
+sed -i -e "/#PBS -q/c\#PBS -q normal" static.sh'
 alias flat='
 sed -i -e "s/ncpus=40/ncpus=64/" submit.sh
 sed -i -e "s/mpiprocs=40/mpiprocs=64/" submit.sh
 sed -i -e "s/run_vasp.py/run_vasp_flat.py/" submit.sh
 sed -i -e "/#PBS -l walltime/c\#PBS -l walltime=48:00:00" submit.sh
-sed -i -e "/#PBS -q/c\#PBS -q flat" submit.sh'
+sed -i -e "/#PBS -q/c\#PBS -q flat" submit.sh
+sed -i -e "s/ncpus=40/ncpus=64/" static.sh
+sed -i -e "s/mpiprocs=40/mpiprocs=64/" static.sh
+sed -i -e "s/run_vasp.py/run_vasp_flat.py/" static.sh
+sed -i -e "/#PBS -l walltime/c\#PBS -l walltime=48:00:00" static.sh
+sed -i -e "/#PBS -q/c\#PBS -q flat" static.sh'
 alias long='
 sed -i -e "s/ncpus=40/ncpus=64/" submit.sh
 sed -i -e "s/mpiprocs=40/mpiprocs=64/" submit.sh
 sed -i -e "s/run_vasp_flat.py/run_vasp.py/" submit.sh
 sed -i -e "/#PBS -l walltime/c\#PBS -l walltime=48:00:01" submit.sh
-sed -i -e "/#PBS -q/c\#PBS -q long" submit.sh'
+sed -i -e "/#PBS -q/c\#PBS -q long" submit.sh
+sed -i -e "s/ncpus=40/ncpus=64/" static.sh
+sed -i -e "s/mpiprocs=40/mpiprocs=64/" static.sh
+sed -i -e "s/run_vasp_flat.py/run_vasp.py/" static.sh
+sed -i -e "/#PBS -l walltime/c\#PBS -l walltime=48:00:01" static.sh
+sed -i -e "/#PBS -q/c\#PBS -q long" static.sh'
 alias norm_skl='
 sed -i -e "s/ncpus=64/ncpus=40/" submit.sh
 sed -i -e "s/mpiprocs=64/mpiprocs=40/" submit.sh
 sed -i -e "s/run_vasp_flat.py/run_vasp.py/" submit.sh
 sed -i -e "/#PBS -l walltime/c\#PBS -l walltime=48:00:00" submit.sh
-sed -i -e "/#PBS -q/c\#PBS -q norm_skl" submit.sh'
+sed -i -e "/#PBS -q/c\#PBS -q norm_skl" submit.sh
+sed -i -e "s/ncpus=64/ncpus=40/" static.sh
+sed -i -e "s/mpiprocs=64/mpiprocs=40/" static.sh
+sed -i -e "s/run_vasp_flat.py/run_vasp.py/" static.sh
+sed -i -e "/#PBS -l walltime/c\#PBS -l walltime=48:00:00" static.sh
+sed -i -e "/#PBS -q/c\#PBS -q norm_skl" static.sh'

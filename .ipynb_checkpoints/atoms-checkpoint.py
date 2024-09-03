@@ -13,6 +13,8 @@ parser.add_argument('-a', '--atoms', action='store_true', default=False, help='P
 parser.add_argument('-f', '--force', action='store_true', default=False, help='Force to select all directories')
 parser.add_argument('-b', '--beta', action='store_true', default=False)
 parser.add_argument('-v', '--volume', action='store_true', default=False)
+parser.add_argument('-z', action='store_true', default=False)
+parser.add_argument('-aa', action='store_true', default=False)
 args = parser.parse_args()
 
 class Colors:
@@ -46,7 +48,7 @@ for dir in sorted_dirs:
     #         atoms = read(traj_file)
     #         break
     
-    path = os.path.join(dir_path, 'final_with_calculator.json')
+    path = os.path.join(dir_path, 'restart.json')
     if os.path.exists(path):
         # print(path)
         atoms = read(path)
@@ -63,6 +65,10 @@ for dir in sorted_dirs:
         if args.atoms:
             print(f"{Colors.MAGENTA}{dir}{Colors.RESET}", atoms.get_chemical_formula())
         if args.beta:
-            print(f"{Colors.GREEN}{dir}{Colors.RESET}", atoms.cell.cellpar()[4])
+            print(f"{Colors.GREEN}{dir}{Colors.RESET}\t{atoms.cell.cellpar()[4]:.2f}")
         if args.cell:
             print(f"{Colors.GREEN}{dir}{Colors.RESET}", atoms.cell.cellpar())
+        if args.z:
+            print(f"{Colors.GREEN}{dir}{Colors.RESET}", atoms[0].z, atoms[1].z)
+        if args.aa:
+            print(f"{Colors.GREEN}{dir}{Colors.RESET}",atoms.cell.cellpar()[1])
