@@ -14,7 +14,7 @@ metal_rows = {
 
 combined_labels = [f'{a}\n{b}\n{c}' for a, b, c in zip(metal_rows['3d'], metal_rows['4d'], metal_rows['5d'])]
 
-metal_path = '/pscratch/sd/j/jiuy97/3_V_shape/metal/merged_norm_energy.tsv'
+metal_path = '/pscratch/sd/j/jiuy97/3_V_bulk/metal/merged_norm_energy.tsv'
 metal_df = pd.read_csv(metal_path, delimiter='\t').iloc[:, 1:]
 min_values = metal_df.iloc[:, :3].min(axis=1)
 
@@ -55,7 +55,7 @@ markers = ['s', 'd', 'p', 'o', '>', '<', 'D']
 
 rows = ['3d_afm', '3d_fm', '3d', '4d', '5d']
 for row in rows:
-    oxide_path = f'/pscratch/sd/j/jiuy97/3_V_shape/merged_norm_energy_{row}.tsv'
+    oxide_path = f'/pscratch/sd/j/jiuy97/3_V_bulk/merged_norm_energy_{row}.tsv'
     oxide_df = pd.read_csv(oxide_path, delimiter='\t').iloc[:, 1:]
     df = oxide_df.sub(metal_df[row].values, axis=0) - oxygen
     png_filename = f"formation_{row}.png"   

@@ -39,10 +39,10 @@ nist = {
     'Cu': {'M': 1, 'O': 1, 'H_form': -156.063, 'G_form': -128.292}, # 620 735 mp-704645 Copper Monoxide
     }
 
-exp_path = '/pscratch/sd/j/jiuy97/3_V_shape/oxide/monoxides.tsv'
-metal_path = '/pscratch/sd/j/jiuy97/3_V_shape/metal/0_min/energy_norm_energy.tsv'
-oxide_path = '/pscratch/sd/j/jiuy97/3_V_shape/oxide/0_min/energy_norm_energy.tsv'
-path = '/pscratch/sd/j/jiuy97/3_V_shape/metal/merged_norm_energy.tsv'
+exp_path = '/pscratch/sd/j/jiuy97/3_V_bulk/oxide/monoxides.tsv'
+metal_path = '/pscratch/sd/j/jiuy97/3_V_bulk/metal/0_min/energy_norm_energy.tsv'
+oxide_path = '/pscratch/sd/j/jiuy97/3_V_bulk/oxide/0_min/energy_norm_energy.tsv'
+path = '/pscratch/sd/j/jiuy97/3_V_bulk/metal/merged_norm_energy.tsv'
 
 exp_df = pd.read_csv(exp_path, delimiter='\t')
 metal_df = pd.read_csv(metal_path, delimiter='\t').iloc[:, 1:]
@@ -85,7 +85,7 @@ for i, metal in enumerate(metal_rows['3d']):
     if metal in nist:
         min_values.loc[metal] = nist[metal]['E_metal']
 df.insert(0, '3d', min_values)
-df.to_csv('/pscratch/sd/j/jiuy97/3_V_shape/metal/corrected_norm_energy.tsv', sep='\t')
+df.to_csv('/pscratch/sd/j/jiuy97/3_V_bulk/metal/corrected_norm_energy.tsv', sep='\t')
 
 energy_path = './energy_norm_energy.tsv'
 if not os.path.exists(energy_path):

@@ -20,7 +20,7 @@ do
     # path2=${path_components[-2]}
     # path1=${path_components[-1]}
     
-    match="/pscratch/sd/j/jiuy97/3_V_shape/kisti/5_V_bulk/$path2/$path1"
+    match="/pscratch/sd/j/jiuy97/3_V_bulk/kisti/5_V_bulk/$path2/$path1"
 
     if [[ -d $match ]]; then
         cd $match; pwd

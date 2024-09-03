@@ -4,20 +4,20 @@ if [[ ${here} == 'slac' ]]; then
     	--include="*/" \
     	--include="*.png" \
     	--exclude="*" \
-     jiuy97@perlmutter.nersc.gov:/pscratch/sd/j/jiuy97/3_V_shape .
+     jiuy97@perlmutter.nersc.gov:/pscratch/sd/j/jiuy97/3_V_bulk .
 elif [[ ${here} == 'nersc' ]]; then   
-    # for dir in /pscratch/sd/j/jiuy97/3_V_shape/metal/*/; do
+    # for dir in /pscratch/sd/j/jiuy97/3_V_bulk/metal/*/; do
     #     cd $dir
     #     python ~/bin/verve/energy.py --save -x "Metal (M)" -y "Total energy (eV/M)" -n m
     # done
     
-    # cd /pscratch/sd/j/jiuy97/3_V_shape/metal
+    # cd /pscratch/sd/j/jiuy97/3_V_bulk/metal
     # python ~/bin/verve/tsv.py -l 3d_afm 3d_fm 3d 4d 5d -x "Metal (MO)" -y "Total energy (eV)" -o norm_energy *fm/energy_norm_energy.tsv *d/energy_norm_energy.tsv
     
-    # cd /pscratch/sd/j/jiuy97/3_V_shape/oxide/0_min
+    # cd /pscratch/sd/j/jiuy97/3_V_bulk/oxide/0_min
     # python ~/bin/verve/energy.py --save -x "Metal (MxOy)" -y "Total energy (eV/M)" -n m
     
-    # cd /pscratch/sd/j/jiuy97/3_V_shape/6_Octahedral_RS
+    # cd /pscratch/sd/j/jiuy97/3_V_bulk/6_Octahedral_RS
     
     # python ~/bin/verve/mendeleev2tsv.py -p \
     # group_id atomic_number atomic_volume  \
@@ -30,7 +30,7 @@ elif [[ ${here} == 'nersc' ]]; then
     # python ~/bin/verve/operator.py -o + -x mendeleev_ionenergies_1.tsv -y mendeleev_ionenergies_2.tsv -z mendeleev_ionenergies_12.tsv
     # python ~/bin/verve/operator.py -o + -x mendeleev_evaporation_heat.tsv -y mendeleev_fusion_heat.tsv -z mendeleev_sublimation_heat.tsv
     
-    # for dir in /pscratch/sd/j/jiuy97/3_V_shape/*_*_*/*/; do
+    # for dir in /pscratch/sd/j/jiuy97/3_V_bulk/*_*_*/*/; do
     #     if [[ $dir != *'save'* ]] && [[ $dir != *'rhom'* ]] && [[ $dir != *'bin'* ]] && [[ $dir != *'cubic'* ]]; then
     #         cd $dir
     
@@ -73,7 +73,7 @@ elif [[ ${here} == 'nersc' ]]; then
     #     fi
     # done
     
-    for dir in /pscratch/sd/j/jiuy97/3_V_shape/*_*_*/; do
+    for dir in /pscratch/sd/j/jiuy97/3_V_bulk/*_*_*/; do
         cd $dir
     #     python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Total energy (eV)" \
     #     -o energy 1_afm/energy_energy.tsv 4d/energy_energy.tsv 5d/energy_energy.tsv
@@ -126,14 +126,14 @@ elif [[ ${here} == 'nersc' ]]; then
     #     # -o norm_EATOM 1_afm/energy_norm_EATOM.tsv 4d/energy_norm_EATOM.tsv 5d/energy_norm_EATOM.tsv
     done
     
-    cd /pscratch/sd/j/jiuy97/3_V_shape/6_Octahedral_RS
+    cd /pscratch/sd/j/jiuy97/3_V_bulk/6_Octahedral_RS
     
     # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Standard reduction potential (V)" -o redoxP \
     # ../oxide/energy_redoxP_3d.tsv ../oxide/energy_redoxP_4d.tsv ../oxide/energy_redoxP_5d.tsv
     # python ~/bin/verve/tsv.py -l 3d 4d 5d -x "Metal (MO)" -y "Standard reduction potential (V)" -o redoxP_clean \
     # ../oxide/energy_redoxP_clean_3d.tsv ../oxide/energy_redoxP_clean_4d.tsv ../oxide/energy_redoxP_clean_5d.tsv
     
-    cd /pscratch/sd/j/jiuy97/3_V_shape
+    cd /pscratch/sd/j/jiuy97/3_V_bulk
     
     # sh ~/bin/verve/spread.sh 6_Octahedral_RS/merged_redoxP.tsv
     # sh ~/bin/verve/spread.sh 6_Octahedral_RS/merged_redoxP_clean.tsv
@@ -203,7 +203,7 @@ elif [[ ${here} == 'nersc' ]]; then
     # mv concat*rel.tsv rel5
     # mv concat*.tsv rel6
 
-    cd /pscratch/sd/j/jiuy97/3_V_shape/rel5
+    cd /pscratch/sd/j/jiuy97/3_V_bulk/rel5
     
     # python ~/bin/verve/mendeleev2tsv.py -n 5 -p \
     # group_id atomic_number atomic_volume  \
@@ -247,7 +247,7 @@ elif [[ ${here} == 'nersc' ]]; then
     #     sh $file
     # done
     
-    cd /pscratch/sd/j/jiuy97/3_V_shape/rel6
+    cd /pscratch/sd/j/jiuy97/3_V_bulk/rel6
     
     # python ~/bin/verve/mendeleev2tsv.py -n 6 -p \
     # group_id atomic_number atomic_volume  \

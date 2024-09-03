@@ -34,7 +34,7 @@ if [[ ${here} == 'nersc' ]] || [[ ${here} == 's3df' ]] || [[ ${here} == 'kisti' 
         if [[ ${here} == 'nersc' ]] && [[ $i == 'tools' ]]; then
             cp ~/bin/tools/mnc/* /pscratch/sd/j/jiuy97/6_MNC/scripts
             cp ~/bin/tools/heo/* /pscratch/sd/j/jiuy97/5_HEO/scripts
-            cp ~/bin/tools/tetra/* /pscratch/sd/j/jiuy97/3_V_shape/scripts
+            cp ~/bin/tools/tetra/* /pscratch/sd/j/jiuy97/3_V_bulk/scripts
         elif [[ ${here} == 'kisti' ]] && [[ $i == 'tools' ]]; then
             cp ~/bin/tools/mnc/* /scratch/x2755a09/3_MNC/scripts
             sed -i -e 's/kpar=8/kpar=1/' /scratch/x2755a09/3_MNC/scripts/*.py

@@ -8,7 +8,7 @@ print(f"\033[92m{dir_now}\033[0m")
 
 # Read input data
 Ef_oxide = pd.read_csv('energy_norm_formation.tsv', delimiter='\t', index_col=0)
-Ec_metal = pd.read_csv('/pscratch/sd/j/jiuy97/3_V_shape/6_Octahedral_RS/mendeleev_sublimation_heat.tsv', delimiter='\t', index_col=0)
+Ec_metal = pd.read_csv('/pscratch/sd/j/jiuy97/3_V_bulk/6_Octahedral_RS/mendeleev_sublimation_heat.tsv', delimiter='\t', index_col=0)
 
 # Define the rows for different series of metals
 rows = {

@@ -104,7 +104,7 @@ def plot_data(summed_df, png_filename, xlabel, ylabel, labels, row, a, b, fontsi
         plt.plot(x, [1.633]*len(x), linestyle=':', label='hexa_ratio0', color='black')
         
     if 'norm_formation' in png_filename and 'rel' not in png_filename:
-        exp_path = '/pscratch/sd/j/jiuy97/3_V_shape/monoxides.tsv'
+        exp_path = '/pscratch/sd/j/jiuy97/3_V_bulk/monoxides.tsv'
         exp_df = pd.read_csv(exp_path, delimiter='\t')
         exp_df['dH_form'] = exp_df['dH_form'] / 96.48
         exp_colors = {'WZ': '#d62728', 'ZB': '#ff7f0e', 'LT': '#ffd70e', 'TN': '#2ca02c', '33': '#279ff2', 'RS': '#9467bd'}
