@@ -16,7 +16,6 @@ do
     
     if [[ ! -s DONE ]]; then
         path="/pscratch/sd/j/jiuy97/6_MNC/0_clean/$path4/$path3/$path2/nupdown"
-        ls $path
         cp $path/WAVECAR .
         cp $path/restart.json .
         python ~/bin/tools/mnc/dz.py $dz
