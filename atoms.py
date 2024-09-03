@@ -71,4 +71,4 @@ for dir in sorted_dirs:
         if args.z:
             print(f"{Colors.GREEN}{dir}{Colors.RESET}", atoms[0].z, atoms[1].z)
         if args.aa:
-            print(f"{Colors.GREEN}{dir}{Colors.RESET}",atoms.cell.cellpar()[1])
+            print(f"{Colors.GREEN}{dir}{Colors.RESET}\t{atoms.cell.cellpar()[1]:.4f}\t{atoms.cell.cellpar()[2]:.4f}")
