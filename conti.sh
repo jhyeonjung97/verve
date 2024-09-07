@@ -1,8 +1,6 @@
 #!/bin/bash
 
-if [[ ! -s restart.json ]]; then
-    python ~/bin/get_restart3
-fi
+python ~/bin/get_restart3
 
 i=1
 save="conti$i"
