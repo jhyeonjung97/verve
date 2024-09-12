@@ -1,7 +1,7 @@
 #!/bin/bash
 
 r_count=0
-cut_tag=1
+c_count=1
 neb_tag=false
 port_tag=false
 force_tag=false
@@ -12,7 +12,7 @@ while getopts ":rcnf:" opt; do
       let r_count+=1
       ;;
     c)
-      cut_tag=2
+      let c_count+=1
       ;;
     n)
       neb_tag=true
@@ -83,7 +83,7 @@ fi
 for dir in $dirs
 do
     dir=${dir%/}
-    i=${dir:0:$cut_tag}
+    i=${dir:0:$c_count}
     if [[ $file == *.* ]]; then
         ext=".${file##*.}"
     else
