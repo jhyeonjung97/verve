@@ -1,6 +1,6 @@
 #!/bin/bash
 
-alias cdw='cd /sdf/scratch/users/j/jiuy97/'
+alias cdw='cd /fs/ddn/sdf/group/suncat/hailey'
 alias cdp='cd /sdf/group/suncat/'
 
 alias vasp5='mv /global/homes/j/jiuy97/bin/vasp_outcar_parsers5.py /global/homes/j/jiuy97/.local/lib/python3.11/site-packages/ase/io/vasp_parsers/vasp_outcar_parsers.py'
