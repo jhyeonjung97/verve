@@ -59,16 +59,16 @@ for dir in sorted_dirs:
                         print(f"{Colors.CYAN}{dir}{Colors.RESET}", atom.symbol, atom.index, 
                               atoms.get_magnetic_moments()[atom.index])
             except Exception as e:
-                print(f"{Colors.CYAN}{dir}{Colors.RESET}", 'Magnetic moments not available for this calculation.')
+                print(f"{Colors.CYAN}{dir}{Colors.RESET}\t", 'Magnetic moments not available for this calculation.')
         if args.energy:
-            print(f"{Colors.ORANGE}{dir}{Colors.RESET}", atoms.get_total_energy())
+            print(f"{Colors.ORANGE}{dir}{Colors.RESET}\t", atoms.get_total_energy())
         if args.atoms:
-            print(f"{Colors.MAGENTA}{dir}{Colors.RESET}", atoms.get_chemical_formula())
+            print(f"{Colors.MAGENTA}{dir}{Colors.RESET}\t", atoms.get_chemical_formula())
         if args.beta:
             print(f"{Colors.GREEN}{dir}{Colors.RESET}\t{atoms.cell.cellpar()[4]:.2f}")
         if args.cell:
-            print(f"{Colors.GREEN}{dir}{Colors.RESET}", atoms.cell.cellpar())
+            print(f"{Colors.GREEN}{dir}{Colors.RESET}\t", atoms.cell.cellpar())
         if args.z:
-            print(f"{Colors.GREEN}{dir}{Colors.RESET}", atoms[0].z, atoms[1].z)
+            print(f"{Colors.GREEN}{dir}{Colors.RESET}\t", atoms[0].z, atoms[1].z)
         if args.aa:
             print(f"{Colors.GREEN}{dir}{Colors.RESET}\t{atoms.cell.cellpar()[1]:.4f}\t{atoms.cell.cellpar()[2]:.4f}")
