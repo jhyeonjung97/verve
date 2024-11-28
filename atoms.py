@@ -48,7 +48,7 @@ for dir in sorted_dirs:
     #         atoms = read(traj_file)
     #         break
     
-    path = os.path.join(dir_path, 'moments.json')
+    path = os.path.join(dir_path, 'final.json')
     if os.path.exists(path):
         # print(path)
         atoms = read(path)
