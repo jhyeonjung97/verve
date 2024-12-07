@@ -35,15 +35,15 @@ shift "$((OPTIND-1))"
 if [[ $neb_tag == true ]]; then
     # usage: sh gather.sh -n #IMAGES
     read -p "files start with: " name
-    for i in $(seq 1 $2)
+    for i in $(seq 1 $1)
     do
         cp 0$i/POSCAR ${name}_p$i.vasp
         cp 0$i/CONTCAR ${name}_c$i.vasp
     done
     cp 00/POSCAR ${name}_p0.vasp
-    cp 0$(($2+1))/POSCAR ${name}_p$(($2+1)).vasp
+    cp 0$(($1+1))/POSCAR ${name}_p$(($1+1)).vasp
     cp 00/POSCAR ${name}_c0.vasp
-    cp 0$(($2+1))/POSCAR ${name}_c$(($2+1)).vasp
+    cp 0$(($1+1))/POSCAR ${name}_c$(($1+1)).vasp
     exit 1
 fi
 
