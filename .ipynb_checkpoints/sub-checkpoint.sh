@@ -46,7 +46,7 @@ elif [[ $forced_tag == 1 ]]; then
 fi
 
 dir_now=$PWD
-if [[ ${here} == 'kisti' ]] || [[ ${here} == 'burning2' ]]; then
+if [[ ${here} == 'kisti' ]]; then
     if [[ -n $DIR ]]; then
         for dir in $DIR
         do
@@ -66,10 +66,16 @@ else
             cd $dir
             if [[ -s submit.sh ]]; then
                 sbatch submit.sh
+            elif [[ -s run_slurm.sh ]]; then
+                sbatch run_slurm.sh
             fi
             cd $dir_now
         done
     else
-        sbatch submit.sh
+        if [[ -s submit.sh ]]; then
+            sbatch submit.sh
+        elif [[ -s run_slurm.sh ]]; then
+            sbatch run_slurm.sh
+        fi
     fi
 fi
