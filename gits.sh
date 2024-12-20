@@ -27,7 +27,7 @@ gits_nersc() {
     fi
 }
 
-if [[ ${here} == 'nersc' ]] || [[ ${here} == 's3df' ]] || [[ ${here} == 'kisti' ]]; then
+if [[ ${here} == 'nersc' ]] || [[ ${here} == 's3df' ]] || [[ ${here} == 'kisti' ]] || [[ ${here} == 'burning2' ]]; then
     for i in $@
     do
         gits_nersc $i
