@@ -55,10 +55,13 @@ if [[ -n $DIR ]]; then
         grep '#SBATCH -J' "$dir/submit.sh"
         grep '#PBS -N' "$dir/submit.sh"
     done
-else
+elif [[ -s submit.sh ]]; then
     sed -i "/#SBATCH -J/c\#SBATCH -J $name" submit.sh
     sed -i "/#PBS -N/c\#PBS -N $name" submit.sh
     grep '#SBATCH -J' submit.sh
     grep '#PBS -N' submit.sh
     exit 0
+elif [[ -s run_slurm.sh ]]; then
+    sed -i "/#SBATCH --job-name/c\#SBATCH -J $name" run_slurm.sh
+    grep '#SBATCH -J' submit.sh
 fi
