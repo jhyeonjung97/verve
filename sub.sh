@@ -46,7 +46,7 @@ elif [[ $forced_tag == 1 ]]; then
 fi
 
 dir_now=$PWD
-if [[ ${here} == 'kisti' ]]; then
+if [[ ${here} == 'kisti' ]] || [[ ${here} == 'burning2' ]]; then
     if [[ -n $DIR ]]; then
         for dir in $DIR
         do
