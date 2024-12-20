@@ -50,10 +50,17 @@ if [[ -n $DIR ]]; then
         dir=${dir%/}
         i=${dir:0:$cut}
         echo -n -e "$dir\t"
-        sed -i "/#SBATCH -J/c\#SBATCH -J ${name}$i" "$dir/submit.sh"
-        sed -i "/#PBS -N/c\#PBS -N ${name}$i" "$dir/submit.sh"
-        grep '#SBATCH -J' "$dir/submit.sh"
-        grep '#PBS -N' "$dir/submit.sh"
+        if [[ -s "$dir/submit.sh"]]; then
+            sed -i "/#SBATCH -J/c\#SBATCH -J ${name}$i" "$dir/submit.sh"
+            sed -i "/#PBS -N/c\#PBS -N ${name}$i" "$dir/submit.sh"
+            grep '#SBATCH -J' "$dir/submit.sh"
+            grep '#PBS -N' "$dir/submit.sh"
+        if [[ -s "$dir/run_slurm.sh"]]; then
+            sed -i "/#SBATCH --job-name/c\#SBATCH -J ${name}$i" "$dir/run_slurm.sh"
+            sed -i "/#SBATCH -J/c\#SBATCH -J ${name}$i" "$dir/run_slurm.sh"
+            grep '#SBATCH -J' "$dir/run_slurm.sh"
+            grep '#PBS -N' "$dir/run_slurm.sh"
+        fi
     done
 elif [[ -s 'submit.sh' ]]; then
     sed -i "/#SBATCH -J/c\#SBATCH -J $name" submit.sh
