@@ -55,7 +55,7 @@ if [[ -n $DIR ]]; then
             sed -i "/#PBS -N/c\#PBS -N ${name}$i" "$dir/submit.sh"
             grep '#SBATCH -J' "$dir/submit.sh"
             grep '#PBS -N' "$dir/submit.sh"
-        if [[ -s "$dir/run_slurm.sh"]]; then
+        elif [[ -s "$dir/run_slurm.sh"]]; then
             sed -i "/#SBATCH --job-name/c\#SBATCH -J ${name}$i" "$dir/run_slurm.sh"
             sed -i "/#SBATCH -J/c\#SBATCH -J ${name}$i" "$dir/run_slurm.sh"
             grep '#SBATCH -J' "$dir/run_slurm.sh"
