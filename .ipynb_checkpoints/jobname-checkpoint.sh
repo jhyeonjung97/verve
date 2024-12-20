@@ -63,5 +63,6 @@ elif [[ -s 'submit.sh' ]]; then
     exit 0
 elif [[ -s 'run_slurm.sh' ]]; then
     sed -i "/#SBATCH --job-name/c\#SBATCH -J $name" run_slurm.sh
+    sed -i "/#SBATCH -J/c\#SBATCH -J $name" run_slurm.sh
     grep '#SBATCH -J' run_slurm.sh
 fi
