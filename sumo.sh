@@ -8,7 +8,8 @@ fi
 
 sumo-dosplot \
     --no-legend \
-    --elements La.f,Cr.d,Mn.d,Fe.d,Co.d,Ni.d,O.p \
+    --elements N.p.s \
+    --orbitals N.p.s \
     --config ~/bin/verve/orbital_colours.conf \
     --format png \
     --dpi 100 \
