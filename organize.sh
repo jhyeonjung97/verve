@@ -70,7 +70,7 @@ for dir in ${source_base}/pourbaix/*_*/*/most_stable; do
         ads=${path[-2]}
         ads_upper=$(echo "$ads" | tr '[:lower:]' '[:upper:]')
         if [[ "$ads_upper" =~ .*-.+ ]]; then
-            dual_ads=$(echo "$ads_upper" | sed 's/-/@site1/g'; echo "@site2")
+            dual_ads=$(echo "$ads_upper@site2" | sed -e 's/-/@site1/g' -e 's/ //g')
             echo $dual_ads
         fi
 
@@ -95,10 +95,10 @@ for dir in ${source_base}/pourbaix/*_*/*/most_stable; do
     fi
 done
 
-gas_path="/global/cfs/cdirs/m2997/Delowar/OER/MOF/data_storage_MOF/gas"
-cd "${destination_base}" || exit 1
-for dir in */; do
-    cathub organize "${dir%/}" -c VASP-6.3.2 -x PBE+U+D3+VASPsol -d "${gas_path}"
-done
-cp /global/homes/j/jiuy97/bin/verve/template .
-cathub make-folders template
+# gas_path="/global/cfs/cdirs/m2997/Delowar/OER/MOF/data_storage_MOF/gas"
+# cd "${destination_base}" || exit 1
+# for dir in */; do
+#     cathub organize "${dir%/}" -c VASP-6.3.2 -x PBE+U+D3+VASPsol -d "${gas_path}"
+# done
+# cp /global/homes/j/jiuy97/bin/verve/template .
+# cathub make-folders template
