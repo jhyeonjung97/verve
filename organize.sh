@@ -72,39 +72,43 @@ site3='D'
 #     echo "Copied final_with_calculator.json to $dest_dir"
 # done
 
-for dir in ${source_base}/pourbaix/*_*/*/most_stable; do
-    IFS='/' read -r -a path <<< "$dir"
-    metal=$(echo "${path[-3]}" | cut -d'_' -f2)
-    ads=${path[-2]}
-    ads_upper=$(echo "$ads" | tr '[:lower:]' '[:upper:]')
-    if [[ "$ads_upper" == "MH" ]]; then
-        dest_dir="${destination_base}/${metal}N4C26/001/${site1}/H"
-    elif [[ "$ads_upper" == "NH" ]]; then
-        dest_dir="${destination_base}/${metal}N4C26/001/${site2}/H"
-    elif [[ "$ads_upper" == "O" ]] || [[ "$ads_upper" == "OH" ]] || [[ "$ads_upper" == "OOH" ]]; then
-        dest_dir="${destination_base}/${metal}N4C26/001/${site1}/${ads_upper}"
-    else
-        dest_dir=''
-    fi
-    echo $ads_upper $dest_dir
-    if [[ -n "${dest_dir}" ]] && [[ -f "${dir}/final_with_calculator.json" ]]; then
-        mkdir -p "$dest_dir"
-        cp "${dir}/final_with_calculator.json" "${dest_dir}/"
-        echo "Copied final_with_calculator.json to ${dest_dir}"
+# for dir in ${source_base}/pourbaix/*_*/*/most_stable; do
+#     IFS='/' read -r -a path <<< "$dir"
+#     metal=$(echo "${path[-3]}" | cut -d'_' -f2)
+#     ads=${path[-2]}
+#     ads_upper=$(echo "$ads" | tr '[:lower:]' '[:upper:]')
+#     if [[ "$ads_upper" == "MH" ]]; then
+#         dest_dir="${destination_base}/${metal}N4C26/001/${site1}/H"
+#     elif [[ "$ads_upper" == "NH" ]]; then
+#         dest_dir="${destination_base}/${metal}N4C26/001/${site2}/H"
+#     elif [[ "$ads_upper" == "O" ]] || [[ "$ads_upper" == "OH" ]] || [[ "$ads_upper" == "OOH" ]]; then
+#         dest_dir="${destination_base}/${metal}N4C26/001/${site1}/${ads_upper}"
+#     else
+#         dest_dir=''
+#     fi
+#     if [[ -n "${dest_dir}" ]] && [[ -f "${dir}/final_with_calculator.json" ]]; then
+#         mkdir -p "$dest_dir"
+#         cp "${dir}/final_with_calculator.json" "${dest_dir}/"
+#         echo "Copied final_with_calculator.json to ${dest_dir}"
+#     fi
+# done
+
+gas_path="/global/cfs/cdirs/m2997/Delowar/OER/MOF/data_storage_MOF/gas"
+cd "${destination_base}" || exit 1
+for dir in */; do
+    dir_name=$(basename "$dir")
+    if [[ -d "${dir_name}/001/${site1}" ]]; then
+        if [[ ! -d "${dir_name}.organized" ]]; then
+            cathub organize "${dir%/}" -c VASP-6.3.2 -x PBE+U+D3+VASPsol -d "${gas_path}"
+            echo "Directory organized: ${dir_name}.organized"
+        fi
     fi
 done
 
-# gas_path="/global/cfs/cdirs/m2997/Delowar/OER/MOF/data_storage_MOF/gas"
-# cd "${destination_base}" || exit 1
-# for dir in */; do
-#     dir_name=$(basename "$dir")
-#     if [[ -d "${dir_name}/001/${site1}" ]]; then
-#         if [[ ! -d "${dir_name}.organized" ]]; then
-#             cathub organize "${dir%/}" -c VASP-6.3.2 -x PBE+U+D3+VASPsol -d "${gas_path}"
-#             echo "Directory organized: ${dir_name}.organized"
-#         fi
-#     fi
-# done
+
+
+
+
 
 # for dir in ${source_base}/pourbaix/*_*/*/most_stable; do
 #     IFS='/' read -r -a path <<< "$dir"
@@ -121,6 +125,12 @@ done
 #         echo "Copied final_with_calculator.json to $dest_dir"
 #     fi
 # done
+
+
+
+
+
+
 
 # mv "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4/001/0.5H2gas_star__H@site1" "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4/001/0.5H2gas_star__H@site3"
 # mv "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4/001/0.5H2gas_star__H@site2" "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4/001/0.5H2gas_star__H@site1"
