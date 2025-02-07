@@ -58,7 +58,7 @@ for dir in ${source_base}/3_OOH/*_*/most_stable/relaxed; do
     if [[ -d "$dir" ]]; then
         IFS='/' read -r -a path <<< "$dir"
         metal=$(echo "${path[-3]}" | cut -d'_' -f2)
-        dest_dir="${destination_base}/${metal}N4C26/001/M-site/OOH"
+        dest_dir="${destination_base}/${metal}N4C26/001/${site1}/OOH"
         mkdir -p "$dest_dir"
         cp "$dir/final_with_calculator.json" "$dest_dir/"
         echo "Copied final_with_calculator.json to $dest_dir"
