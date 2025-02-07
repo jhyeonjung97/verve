@@ -11,9 +11,9 @@ dest_dir="${destination_base}/H2N4C26/001"
 mkdir -p "$dest_dir"
 cp "${source_base}/empty/2_/final_with_calculator.json" "$dest_dir/"
 
-$site1='site1'
-$site2='site2'
-$site3='site3'
+site1='site1'
+site2='site2'
+site3='site3'
 
 for dir in ${source_base}/0_clean/*d/*_*/most_stable/relaxed; do
     if [[ -d "$dir" ]]; then
