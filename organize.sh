@@ -3,9 +3,9 @@
 source_base="/pscratch/sd/j/jiuy97/6_MNC"
 destination_base="/pscratch/sd/j/jiuy97/cathub"
 
-site1='M'
-site2='N'
-site3='D'
+site1='metal'
+site2='nitrogen'
+site3='dual'
 
 dest_dir="${destination_base}/N4C26/001"
 mkdir -p "$dest_dir"
@@ -137,9 +137,11 @@ done
 # mv "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4/001/0.5H2gas_star__H@site1" "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4/001/0.5H2gas_star__H@site3"
 # mv "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4/001/0.5H2gas_star__H@site2" "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4/001/0.5H2gas_star__H@site1"
 
-# mv "${destination_base}/CoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/CoC26N4/001/0.5H2gas_star__H@site2" "${destination_base}/CoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/CoC26N4/001/0.5H2gas_star__H@site3"
+# rm -r "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4/001/2.0H2Ogas_-1.5H2gas_star__OOH@site1"
+# mv "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4/001/2.0H2Ogas_-1.5H2gas_star__OOH@site2" "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4/001/2.0H2Ogas_-1.5H2gas_star__OOH@site1"
 
-# mv "${destination_base}/MoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/MoC26N4/001/0.5H2gas_star__H@site2" "${destination_base}/MoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/MoC26N4/001/0.5H2gas_star__H@site3"
+# rm -r "${destination_base}/CoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/CoC26N4/001/2.0H2Ogas_-1.5H2gas_star__OOH@site1"
+# mv "${destination_base}/CoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/CoC26N4/001/2.0H2Ogas_-1.5H2gas_star__OOH@site2" "${destination_base}/CoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/CoC26N4/001/2.0H2Ogas_-1.5H2gas_star__OOH@site1"
 
 # cp /global/homes/j/jiuy97/bin/verve/template* .
 # cathub make-folders template
@@ -175,11 +177,7 @@ done
 #     done
 # done
 
-# rm -r "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4/001/2.0H2Ogas_-1.5H2gas_star__OOH@site1"
-# mv "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4/001/2.0H2Ogas_-1.5H2gas_star__OOH@site2" "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4/001/2.0H2Ogas_-1.5H2gas_star__OOH@site1"
 
-# rm -r "${destination_base}/CoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/CoC26N4/001/2.0H2Ogas_-1.5H2gas_star__OOH@site1"
-# mv "${destination_base}/CoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/CoC26N4/001/2.0H2Ogas_-1.5H2gas_star__OOH@site2" "${destination_base}/CoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/CoC26N4/001/2.0H2Ogas_-1.5H2gas_star__OOH@site1"
 
 # mv "${destination_base}/MoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/MoC26N4/001/2.0H2Ogas_-1.0H2gas_star__OHstar@site1_OHstar@site2" "${destination_base}/MoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/MoC26N4/001/2.0H2Ogas_-1.0H2gas_star__OHstar@site1_OHstar@site1"
 # mv "${destination_base}/MoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/MoC26N4/001/2.0H2Ogas_-1.5H2gas_star__OHstar@site1_Ostar@site2" "${destination_base}/MoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/MoC26N4/001/2.0H2Ogas_-1.5H2gas_star__OHstar@site1_Ostar@site1"
