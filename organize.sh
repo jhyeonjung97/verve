@@ -55,9 +55,6 @@ destination_base="/pscratch/sd/j/jiuy97/cathub"
 #     fi
 # done
 
-#!/bin/bash
-
-
 for dir in ${source_base}/pourbaix/*_*/*/most_stable; do
     if [[ -d "$dir" ]]; then
         IFS='/' read -r -a path <<< "$dir"
@@ -65,9 +62,11 @@ for dir in ${source_base}/pourbaix/*_*/*/most_stable; do
         ads=${path[-2]}
         ads_upper=$(echo "$ads" | tr '[:lower:]' '[:upper:]' | sed 's/-//g')
         echo "Original: $ads | Modified: $ads_upper"
-        if $ads_upper == 'MH'; then
+        if [[ "$ads_upper" == "CLEAN" ]]; then
+            continue
+        elif [[ "$ads_upper" == "MH" ]]; then
             dest_dir="${destination_base}/${metal}N4C26/001/M-site/H"
-        elif $ads_upper == 'NH'; then
+        elif [[ "$ads_upper" == "NH" ]]; then
             dest_dir="${destination_base}/${metal}N4C26/001/N-site/H"
         else
             dest_dir="${destination_base}/${metal}N4C26/001/M-site/${ads_upper}"
