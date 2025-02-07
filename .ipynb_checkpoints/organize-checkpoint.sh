@@ -127,7 +127,7 @@ for dir in FeN4C26.organized/${vasp_pbe}/FeC26N4; do
     for sub_dir in ${dir}/001@M/*; do
         if [[ ${sub_dir} == *'@site1' ]]; then
             new_name="${sub_dir%@site1}"
-            echo $new_name
+            echo ${new_name##*/}
             # mv "$sub_dir" "${dir}/001@M/${new_name##*/}"
         elif [[ ${sub_dir} == *'@site2' ]]; then
             mkdir -p "${dir}/001@N"
