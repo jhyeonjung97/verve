@@ -184,14 +184,14 @@ site3='site3'
 # mv "${destination_base}/MoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/MoC26N4/001/2.0H2Ogas_-1.0H2gas_star__OHstar@site1_OHstar@site2" "${destination_base}/MoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/MoC26N4/001/2.0H2Ogas_-1.0H2gas_star__OHstar@site1_OHstar@site1"
 # mv "${destination_base}/MoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/MoC26N4/001/2.0H2Ogas_-1.5H2gas_star__OHstar@site1_Ostar@site2" "${destination_base}/MoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/MoC26N4/001/2.0H2Ogas_-1.5H2gas_star__OHstar@site1_Ostar@site1"
 
-dest_dir="${destination_base}/JungTuning2025/VASP-6.3.2/PBE+U+D3+VASPsol"
-mkdir -p "${dest_dir}"
-for dir in "${destination_base}/*.organized/VASP-6.3.2/PBE+U+D3+VASPsol/*"; do
-    if [[ ! ${dir} =~ '*gas' ]]; then
-        echo ${dir}
-        cp -r ${dir} ${dest_dir}
-    fi 
-done
+# dest_dir="${destination_base}/JungTuning2025/VASP-6.3.2/PBE+U+D3+VASPsol"
+# mkdir -p "${dest_dir}"
+# for dir in "${destination_base}/*.organized/VASP-6.3.2/PBE+U+D3+VASPsol/*"; do
+#     if [[ ! ${dir} =~ '*gas' ]]; then
+#         echo ${dir}
+#         cp -r ${dir} ${dest_dir}
+#     fi 
+# done
 
-# mv "${destination_base}/JungTuning2025" "${destination_base}/JungTuning2025.organized"
-# tree "${destination_base}/JungTuning2025.organized"
+mv "${destination_base}/JungTuning2025" "${destination_base}/JungTuning2025.organized"
+tree "${destination_base}/JungTuning2025.organized"
