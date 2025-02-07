@@ -64,5 +64,4 @@ bulk_compositions:
 - FeC26N4
 facets:
 - '001'
-energy_corrections:
-{}
+energy_corrections: {}
