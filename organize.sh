@@ -72,7 +72,7 @@ for dir in ${source_base}/pourbaix/*_*/*/most_stable; do
         IFS='/' read -r -a path <<< "$dir"
         metal=$(echo "${path[-3]}" | cut -d'_' -f2)
         ads=${path[-2]}
-        ads_upper=$(echo "$ads" | tr '[:lower:]' '[:upper:]' | sed -e 's/-/_/g')
+        ads_upper=$(echo "$ads" | tr '[:lower:]' '[:upper:]')
         if [[ "$ads_upper" == "CLEAN" ]] || [[ "$ads_upper" == "TEMP" ]]; then
             continue
         elif [[ "$ads_upper" == "MH" ]]; then
