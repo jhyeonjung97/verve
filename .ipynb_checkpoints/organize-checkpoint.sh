@@ -97,11 +97,11 @@ site3='site3'
 # gas_path="/global/cfs/cdirs/m2997/Delowar/OER/MOF/data_storage_MOF/gas"
 # cd "${destination_base}" || exit 1
 # for dir in */; do
-#     basename=$(basename "$sub_dir")
-#     if [[ ! -d "${basename}.organized" ]]; then
+#     dir_name=$(basename "$sub_dir")
+#     if [[ ! -d "${dir_name}.organized" ]]; then
 #         cathub organize "${dir%/}" -c VASP-6.3.2 -x PBE+U+D3+VASPsol -d "${gas_path}"
 #     else
-#         echo "Already existed: ${basename}.organized"
+#         echo "Already existed: ${dir_name}.organized"
 #     fi
 # done
 # cp /global/homes/j/jiuy97/bin/verve/template .
@@ -111,15 +111,18 @@ site3='site3'
 dual_path="/pscratch/sd/j/jiuy97/cathub/JungTuning2025/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4_fcc/001"
 dual_metals=("Co" "Fe" "Mo")
 for metal in "${dual_metals[@]}"; do
-    dest_dir="${destination_base}/${metal}N4C26/001/site2"
+    json_dir="${destination_base}/${metal}N4C26/001/site2"
+    dest_dir="${destination_base}/${metal}N4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/${metal}C26N4/001"
     mkdir -p "$dest_dir"
-    for sub_dir in "${dual_path}"/*; do
-        basename=$(basename "$sub_dir")       
-        pattern="${basename##*__}"
-        ads1=$(echo "$pattern" | cut -d'_' -f1 | cut -d'@' -f1 | sed 's/star//g')
-        ads2=$(echo "$pattern" | cut -d'_' -f2 | cut -d'@' -f1 | sed 's/star//g')
-        dir_name="${ads1}-${ads2}"
+    for dual_dir in "${dual_path}"/*; do
+        if [[ -d "$sub_dir" ]]; then
+            dual_dir_name=$(basename "$sub_dir")       
+            pattern="${dual_dir_name##*__}"
+            ads1=$(echo "$pattern" | cut -d'_' -f1 | cut -d'@' -f1 | sed 's/star//g')
+            ads2=$(echo "$pattern" | cut -d'_' -f2 | cut -d'@' -f1 | sed 's/star//g')
+            dir_name="${ads1}-${ads2}"
+            mkdir -p "${dest_dir}/${sub_dir_name}"
+            cp "${json_dir}/${dir_name}/final_with_calculator.json" "${dest_dir}/${dual_dir_name}"
+        fi
     done
-    # cp -r "${dual_path}/"* "$dest_dir/"
-    # echo "Copied files to $dest_dir"
 done
