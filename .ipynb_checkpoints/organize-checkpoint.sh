@@ -24,17 +24,17 @@ for dir in ${source_base}/0_clean/*d/*_*/most_stable; do
         cp "$dir/relaxed/final_with_calculator.json" "$dest_dir/"
         echo "Copied final_with_calculator.json to $dest_dir"
         if [[ -f "${dir}/o/final_with_calculator.json" ]]; then
-            mkdir -p "${dest_dir}/site1/O"
+            mkdir -p "${dest_dir}/${site1}/O"
             cp "$dir/o/final_with_calculator.json" "$dest_dir/${site1}/O"
             echo "Copied final_with_calculator.json to $dest_dir/${site1}/O"
         fi
         if [[ -f "${dir}/oh/final_with_calculator.json" ]]; then
-            mkdir -p "${dest_dir}/site1/OH"
+            mkdir -p "${dest_dir}/${site1}/OH"
             cp "$dir/oh/final_with_calculator.json" "$dest_dir/${site1}/OH"
             echo "Copied final_with_calculator.json to $dest_dir/${site1}/OH"
         fi
         if [[ -f "${dir}/ooh/final_with_calculator.json" ]]; then
-            mkdir -p "${dest_dir}/site1/OOH"
+            mkdir -p "${dest_dir}/${site1}/OOH"
             cp "$dir/ooh/final_with_calculator.json" "$dest_dir/${site1}/OOH"
             echo "Copied final_with_calculator.json to $dest_dir/${site1}/OOH"
         fi
