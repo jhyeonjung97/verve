@@ -115,7 +115,7 @@ for metal in "${dual_metals[@]}"; do
     dest_dir="${destination_base}/${metal}N4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/${metal}C26N4/001"
     mkdir -p "$dest_dir"
     for dual_dir in "${dual_path}"/*; do
-        if [[ -d "$sub_dir" ]]; then
+        if [[ -d "$dual_dir" ]]; then
             dual_dir_name=$(basename "$sub_dir")       
             pattern="${dual_dir_name##*__}"
             ads1=$(echo "$pattern" | cut -d'_' -f1 | cut -d'@' -f1 | sed 's/star//g')
