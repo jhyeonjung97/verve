@@ -121,7 +121,7 @@ site3='D'
 # cp "${destination_base}/N4C26/001/final_with_calculator.json" "${dest_dir}/empty_slab.json"
 # cp "${destination_base}/N4C26/001/N/H2/final_with_calculator.json" "${dest_dir}/H2gas_star__2H@site2/H2.json"
 
-for dir in "*N4C26.organized/${vasp_pbe}/*C26N4"; do
+for dir in *".organized/${vasp_pbe}/*C26N4"; do
     mv "${dir}/001" "${dir}/001@M"
     for sub_dir in "${dir}/001@M/*/"; do
         if [[ ${sub_dir} == *'@site1' ]]; then
