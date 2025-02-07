@@ -2,7 +2,9 @@
 
 source_base="/pscratch/sd/j/jiuy97/6_MNC"
 destination_base="/pscratch/sd/j/jiuy97/cathub"
-org_part=".organized/VASP-6.3.2/PBE+U+D3+VASPsol"
+gas_path="/global/cfs/cdirs/m2997/Delowar/OER/MOF/data_storage_MOF/gas"
+vasp_pbe="VASP-6.3.2/PBE+U+D3+VASPsol"
+cd "${destination_base}" || exit 1
 
 site1='M'
 site2='N'
@@ -94,27 +96,30 @@ site3='D'
 #     fi
 # done
 
-# gas_path="/global/cfs/cdirs/m2997/Delowar/OER/MOF/data_storage_MOF/gas"
-# cd "${destination_base}" || exit 1
+# cp /global/homes/j/jiuy97/bin/verve/template* .
+# cathub make-folders template
+# # for dir in ${source_base}/0_clean/*d/*_*/most_stable/relaxed; do
+# #     if [[ -d "$dir" ]]; then
+# #         IFS='/' read -r -a path <<< "$dir"
+# #         metal=$(echo "${path[-3]}" | cut -d'_' -f2)
+# #         echo $metal
+# #         sed "s/METAL/$metal/g" template-metal > template
+# #         cathub make-folders template
+# #         sed "s/METAL/$metal/g" template-metal-h2 > template
+# #         cathub make-folders template
+# #     fi
+# # done
+# # find ${destination_base} -path "*/MISSING:*" -delete
+
 # for dir in *N4C26/; do
 #     cathub organize "${dir%/}" -c VASP-6.3.2 -x PBE+U+D3+VASPsol -d "${gas_path}"
 #     echo "Directory organized: ${dir_name}.organized"
 # done
 
-cp /global/homes/j/jiuy97/bin/verve/template* .
-cathub make-folders template
-# for dir in ${source_base}/0_clean/*d/*_*/most_stable/relaxed; do
-#     if [[ -d "$dir" ]]; then
-#         IFS='/' read -r -a path <<< "$dir"
-#         metal=$(echo "${path[-3]}" | cut -d'_' -f2)
-#         echo $metal
-#         sed "s/METAL/$metal/g" template-metal > template
-#         cathub make-folders template
-#         sed "s/METAL/$metal/g" template-metal-h2 > template
-#         cathub make-folders template
-#     fi
-# done
-# find ${destination_base} -path "*/MISSING:*" -delete
+dest_dir="${destination_base}/N4C26.organized/${vasp_pbe}/C26N4/001"
+mkdir -p "${dest_dir}/H2gas_star__2H"
+cp "${destination_base}/N4C26/001/final_with_calculator.json" "${dest_dir}/empty_slab.json"
+cp "${destination_base}/N4C26/001/N/H2/final_with_calculator.json" "${dest_dir}/H2gas_star__2H/H2.json"
 
 # for dir in ${source_base}/pourbaix/*_*/*/most_stable; do
 #     IFS='/' read -r -a path <<< "$dir"
