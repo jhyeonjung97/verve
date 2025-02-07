@@ -113,6 +113,23 @@ cp /global/homes/j/jiuy97/bin/verve/template-metal .
 cathub make-folders template-metal
 find ${destination_base} -path "*/MISSING:*" -delete
 
+for dir in ${source_base}/0_clean/*d/*_*/most_stable/relaxed; do
+    if [[ -d "$dir" ]]; then
+        IFS='/' read -r -a path <<< "$dir"
+        metal=$(echo "${path[-3]}" | cut -d'_' -f2)
+        
+        dest_dir="${destination_base}/${metal}N4C26/001/${site1}/H"
+
+        
+        dest_dir="${destination_base}/${metal}N4C26/001"
+        mkdir -p "$dest_dir"
+        cp "$dir/final_with_calculator.json" "$dest_dir/"
+        echo "Copied final_with_calculator.json to $dest_dir"
+    else
+        echo "Directory does not exist: $dir"
+    fi
+done
+
 # dual_path="/pscratch/sd/j/jiuy97/cathub/JungTuning2025/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4_fcc/001"
 # dual_metals=("Co" "Fe" "Mo")
 # for metal in "${dual_metals[@]}"; do
