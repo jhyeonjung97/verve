@@ -9,6 +9,7 @@ volume: 1
 number: 1
 pages: 1-2
 year: 2025
+publisher: Submitted
 email: jiuy97@stanford.edu
 DFT_code: VASP-6.3.2
 DFT_functionals:
