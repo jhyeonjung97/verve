@@ -9,9 +9,9 @@ volume: 1
 number: 1
 pages: 1-2
 year: 2025
+email: jiuy97@stanford.edu
 publisher: Submitted
 doi: 10.NNNN
-email: jiuy97@stanford.edu
 DFT_code: VASP-6.3.2
 DFT_functionals:
 - PBE+U+D3+VASPsol
@@ -46,7 +46,7 @@ reactions:
     - Ostar@M2-site
 -   reactants:
     - 3.0H2Ogas
-    - -2.5H2gas
+    - -2.0H2gas
     - star
     products:
     - OOHstar@M1-site
