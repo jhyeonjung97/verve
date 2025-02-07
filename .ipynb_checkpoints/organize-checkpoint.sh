@@ -120,7 +120,9 @@ for metal in "${dual_metals[@]}"; do
         ads1=$(echo "$pattern" | cut -d'_' -f1 | cut -d'@' -f1 | sed 's/star//g')
         ads2=$(echo "$pattern" | cut -d'_' -f2 | cut -d'@' -f1 | sed 's/star//g')
         dir_name="${ads1}-${ads2}"
-        mkdir -p "${dest_dir}/${dual_dir_name}"
-        cp "${json_dir}/${dir_name}/final_with_calculator.json" "${dest_dir}/${dual_dir_name}"
+        if [[ -f "${json_dir}/${dir_name}/final_with_calculator.json" ]]; then
+            mkdir -p "${dest_dir}/${dual_dir_name}"
+            cp "${json_dir}/${dir_name}/final_with_calculator.json" "${dest_dir}/${dual_dir_name}"
+        fi
     done
 done
