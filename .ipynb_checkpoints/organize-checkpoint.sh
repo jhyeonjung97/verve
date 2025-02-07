@@ -109,7 +109,7 @@ done
 
 cp /global/homes/j/jiuy97/bin/verve/template .
 cathub make-folders template
-
+cp /global/homes/j/jiuy97/bin/verve/template-metal .
 for dir in ${source_base}/0_clean/*d/*_*/most_stable/relaxed; do
     if [[ -d "$dir" ]]; then
         IFS='/' read -r -a path <<< "$dir"
