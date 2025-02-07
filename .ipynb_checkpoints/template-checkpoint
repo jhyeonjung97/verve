@@ -21,43 +21,43 @@ reactions:
     - -1.5H2gas
     - star
     products:
-    - OHstar@M1-site
-    - Ostar@M2-site
+    - OHstar@site1
+    - Ostar@site2
 -   reactants:
     - 2.0H2Ogas
     - -1.0H2gas
     - star
     products:
-    - OHstar@M1-site
-    - OHstar@M2-site
+    - OHstar@site1
+    - OHstar@site2
 -   reactants:
     - 2.0H2Ogas
     - -2.0H2gas
     - star
     products:
-    - Ostar@M1-site
-    - Ostar@M2-site
+    - Ostar@site1
+    - Ostar@site2
 -   reactants:
     - 3.0H2Ogas
     - -2.5H2gas
     - star
     products:
-    - OOHstar@M1-site
-    - Ostar@M2-site
+    - OOHstar@site1
+    - Ostar@site2
 -   reactants:
     - 3.0H2Ogas
     - -2.0H2gas
     - star
     products:
-    - OOHstar@M1-site
-    - OHstar@M2-site
+    - OOHstar@site1
+    - OHstar@site2
 -   reactants:
     - 4.0H2Ogas
     - -3.0H2gas
     - star
     products:
-    - OOHstar@M1-site
-    - OOHstar@M2-site
+    - OOHstar@site1
+    - OOHstar@site2
 crystal_structures:
 - fcc
 bulk_compositions:
