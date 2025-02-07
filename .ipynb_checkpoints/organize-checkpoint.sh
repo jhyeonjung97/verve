@@ -106,10 +106,10 @@ for dir in */; do
     fi
 done
 
-mv "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeN4C26/001/0.5H2gas_star__H@site1" "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeN4C26/001/0.5H2gas_star__H@site3"
-mv "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeN4C26/001/0.5H2gas_star__H@site2" "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeN4C26/001/0.5H2gas_star__H@site1"
+mv "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4/001/0.5H2gas_star__H@site1" "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4/001/0.5H2gas_star__H@site3"
+mv "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4/001/0.5H2gas_star__H@site2" "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4/001/0.5H2gas_star__H@site1"
 
-mv "${destination_base}/CoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/CoN4C26/001/0.5H2gas_star__H@site2" "${destination_base}/CoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/CoN4C26/001/0.5H2gas_star__H@site3"
+mv "${destination_base}/CoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/CoC26N4/001/0.5H2gas_star__H@site2" "${destination_base}/CoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/CoC26N4/001/0.5H2gas_star__H@site3"
 
 mv "${destination_base}/MoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/MoC26N4/001/0.5H2gas_star__H@site2" "${destination_base}/MoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/MoC26N4/001/0.5H2gas_star__H@site3"
 
@@ -147,11 +147,11 @@ for metal in "${dual_metals[@]}"; do
     done
 done
 
-rm "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeN4C26/001/2.0H2Ogas_-1.5H2gas_star__OOH@site1"
-mv "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeN4C26/001/2.0H2Ogas_-1.5H2gas_star__OOH@site2" "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeN4C26/001/2.0H2Ogas_-1.5H2gas_star__OOH@site1"
+rm "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4/001/2.0H2Ogas_-1.5H2gas_star__OOH@site1"
+mv "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4/001/2.0H2Ogas_-1.5H2gas_star__OOH@site2" "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4/001/2.0H2Ogas_-1.5H2gas_star__OOH@site1"
 
-rm "${destination_base}/CoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/CoN4C26/001/2.0H2Ogas_-1.5H2gas_star__OOH@site1"
-mv "${destination_base}/CoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/CoN4C26/001/2.0H2Ogas_-1.5H2gas_star__OOH@site2" "${destination_base}/CoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/CoN4C26/001/2.0H2Ogas_-1.5H2gas_star__OOH@site1"
+rm "${destination_base}/CoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/CoC26N4/001/2.0H2Ogas_-1.5H2gas_star__OOH@site1"
+mv "${destination_base}/CoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/CoC26N4/001/2.0H2Ogas_-1.5H2gas_star__OOH@site2" "${destination_base}/CoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/CoC26N4/001/2.0H2Ogas_-1.5H2gas_star__OOH@site1"
 
 mv "${destination_base}/MoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/MoC26N4/001/2.0H2Ogas_-1.0H2gas_star__OHstar@site1_OHstar@site2" "${destination_base}/MoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/MoC26N4/001/2.0H2Ogas_-1.0H2gas_star__OHstar@site1_OHstar@site1"
 mv "${destination_base}/MoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/MoC26N4/001/2.0H2Ogas_-1.5H2gas_star__OHstar@site1_Ostar@site2" "${destination_base}/MoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/MoC26N4/001/2.0H2Ogas_-1.5H2gas_star__OHstar@site1_Ostar@site1"
