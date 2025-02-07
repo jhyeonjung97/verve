@@ -82,7 +82,7 @@ for dir in ${source_base}/pourbaix/*_*/*/most_stable; do
     elif [[ "$ads_upper" == "NH" ]]; then
         dest_dir="${destination_base}/${metal}N4C26/001/${site2}/H"
     elif [[ "$ads_upper" == "O" ]] || [[ "$ads_upper" == "OH" ]] || [[ "$ads_upper" == "OOH" ]]; then
-        dest_dir="${destination_base}/${metal}N4C26/001/${site2}/${ads_upper}"
+        dest_dir="${destination_base}/${metal}N4C26/001/${site1}/${ads_upper}"
     else
         dest_dir=''
     fi
