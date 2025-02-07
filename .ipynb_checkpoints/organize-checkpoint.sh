@@ -116,26 +116,81 @@ site3='D'
 #     echo "Directory organized: ${dir_name}.organized"
 # done
 
-dest_dir="${destination_base}/N4C26.organized/${vasp_pbe}/C26N4/001"
-mkdir -p "${dest_dir}/H2gas_star__2H"
-cp "${destination_base}/N4C26/001/final_with_calculator.json" "${dest_dir}/empty_slab.json"
-cp "${destination_base}/N4C26/001/N/H2/final_with_calculator.json" "${dest_dir}/H2gas_star__2H/H2.json"
+# dest_dir="${destination_base}/N4C26.organized/${vasp_pbe}/C26N4/001"
+# mkdir -p "${dest_dir}/H2gas_star__2H@site2"
+# cp "${destination_base}/N4C26/001/final_with_calculator.json" "${dest_dir}/empty_slab.json"
+# cp "${destination_base}/N4C26/001/N/H2/final_with_calculator.json" "${dest_dir}/H2gas_star__2H@site2/H2.json"
+
+for dir in "*N4C26.organized/${vasp_pbe}/*C26N4"; do
+    mv "${dir}/001" "${dir}/001@M"
+    for sub_dir in "${dir}/001@M/*/"; do
+        if [[ ${sub_dir} == *'@site1' ]]; then
+            new_name="${sub_dir%@site1}"
+            mv "$sub_dir" "${dir}/001@M/$new_name"
+            elif [[ ${sub_dir} == *'@site2' ]]; then
+            mkdir -p "${dir}/001@N"
+            mv ${sub_dir} ${dir}/001@N
+        fi
+    done
+done
+
+
+
+
+
+
+
+
+
+
 
 # for dir in ${source_base}/pourbaix/*_*/*/most_stable; do
 #     IFS='/' read -r -a path <<< "$dir"
 #     metal=$(echo "${path[-3]}" | cut -d'_' -f2)
 #     ads=${path[-2]}
 #     ads_upper=$(echo "$ads" | tr '[:lower:]' '[:upper:]')
-#     if [[ "$ads" =~ .*-.+ ]] && [[ ! "$ads_upper" == "O-OH" ]]; then
-#         dest_dir="${destination_base}/${metal}N4C26/001/${site3}/${ads_upper}"
-# if [[ "$ads_upper" == "CLEAN" ]] || [[ "$ads_upper" == "TEMP" ]]; then
-#     fi
+#     if [[ "$ads_upper" == "CLEAN" ]] || [[ "$ads_upper" == "TEMP" ]]; then
+#         continue
+#     elif [[ "$ads_upper" == "MH" ]] || [[ "$ads_upper" == "NH" ]]; then
+#         continue
+#     elif [[ "$ads_upper" == "O" ]] || [[ "$ads_upper" == "OH" ]] || [[ "$ads_upper" == "OOH" ]]; then
+#         continue
+#     elif [[ "$ads_upper" == "OHO" ]] || [[ "$ads_upper" == "OH-O" ]]; then
+#         dest_dir="2.0H2Ogas_-1.5H2gas_star__OHstarOstar"
+#     elif [[ "$ads_upper" == "OHOH" ]] || [[ "$ads_upper" == "OH-OH" ]]; then
+#         dest_dir="2.0H2Ogas_-1.0H2gas_star__OHstarOHstar"
+#     elif [[ "$ads_upper" == "OHOH" ]] || [[ "$ads_upper" == "OH-OH" ]]; then
+#         dest_dir="2.0H2Ogas_-1.0H2gas_star__OHstarOHstar"
+
+
+
+
+
+
+
+
+
+    
 #     if [[ -f "$dir/final_with_calculator.json" ]]; then
 #         mkdir -p "$dest_dir"
 #         cp "$dir/final_with_calculator.json" "$dest_dir/"
 #         echo "Copied final_with_calculator.json to $dest_dir"
 #     fi
 # done
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # mv "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4/001/0.5H2gas_star__H@site1" "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4/001/0.5H2gas_star__H@site3"
 # mv "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4/001/0.5H2gas_star__H@site2" "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4/001/0.5H2gas_star__H@site1"
