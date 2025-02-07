@@ -72,7 +72,7 @@ for dir in ${source_base}/pourbaix/*_*/*/most_stable; do
         if [[ "$ads_upper" =~ .*-.+ ]]; then
             dual_ads=$(echo "$ads_upper" | sed 's/-/@site1/g'; echo "@site2")
             echo $dual_ads
-        # fi
+        fi
 
         # if [[ "$ads_upper" == "CLEAN" ]]; then
         #     continue
