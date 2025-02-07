@@ -170,11 +170,10 @@ dest_dir="${destination_base}/JungTuning2025/VASP-6.3.2/PBE+U+D3+VASPsol"
 mkdir -p "${dest_dir}"
 for dir in "${destination_base}/*.organized/VASP-6.3.2/PBE+U+D3+VASPsol/*"; do
     if [[ ! ${dir} =~ '*gas' ]]; then
-        echo ${dir}
         cp -r ${dir} ${dest_dir}
     fi 
 done
 
-# cp "${destination_base}/SampleFe2025/publication.txt" "${destination_base}/JungTuning2025"
-# mv "${destination_base}/JungTuning2025" "${destination_base}/JungTuning2025.organized"
-# tree "${destination_base}/JungTuning2025.organized"
+tree "${destination_base}/JungTuning2025.organized"
+cp ~/bin/tools/mnc/publication.txt "${destination_base}/JungTuning2025/"
+cathub folder2db JungTuning2025
