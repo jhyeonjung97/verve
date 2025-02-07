@@ -187,9 +187,9 @@ site3='site3'
 dest_dir="${destination_base}/JungTuning2025/VASP-6.3.2/PBE+U+D3+VASPsol"
 mkdir -p "${dest_dir}"
 for dir in "${destination_base}/*.organized/VASP-6.3.2/PBE+U+D3+VASPsol/*"; do
-    if [[ ! $dir =~ '*gas' ]]; then
-        echo $dir
-        # cp -r $dir 
+    if [[ ! ${dir} =~ '*gas' ]]; then
+        echo ${dir}
+        cp -r ${dir} ${dest_dir}
     fi 
 done
 
