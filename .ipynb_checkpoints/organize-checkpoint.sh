@@ -11,6 +11,10 @@ dest_dir="${destination_base}/H2N4C26/001"
 mkdir -p "$dest_dir"
 cp "${source_base}/empty/2_/final_with_calculator.json" "$dest_dir/"
 
+$site1='site1'
+$site2='site2'
+$site3='site3'
+
 for dir in ${source_base}/0_clean/*d/*_*/most_stable/relaxed; do
     if [[ -d "$dir" ]]; then
         IFS='/' read -r -a path <<< "$dir"
@@ -28,7 +32,7 @@ for dir in ${source_base}/1_O/*_*/most_stable/relaxed; do
     if [[ -d "$dir" ]]; then
         IFS='/' read -r -a path <<< "$dir"
         metal=$(echo "${path[-3]}" | cut -d'_' -f2)
-        dest_dir="${destination_base}/${metal}N4C26/001/M-site/O"
+        dest_dir="${destination_base}/${metal}N4C26/001/${site1}/O"
         mkdir -p "$dest_dir"
         cp "$dir/final_with_calculator.json" "$dest_dir/"
         echo "Copied final_with_calculator.json to $dest_dir"
@@ -41,7 +45,7 @@ for dir in ${source_base}/2_OH/*_*/most_stable/relaxed; do
     if [[ -d "$dir" ]]; then
         IFS='/' read -r -a path <<< "$dir"
         metal=$(echo "${path[-3]}" | cut -d'_' -f2)
-        dest_dir="${destination_base}/${metal}N4C26/001/M-site/OH"
+        dest_dir="${destination_base}/${metal}N4C26/001/${site1}/OH"
         mkdir -p "$dest_dir"
         cp "$dir/final_with_calculator.json" "$dest_dir/"
         echo "Copied final_with_calculator.json to $dest_dir"
@@ -72,13 +76,13 @@ for dir in ${source_base}/pourbaix/*_*/*/most_stable; do
         if [[ "$ads_upper" == "CLEAN" ]] || [[ "$ads_upper" == "TEMP" ]]; then
             continue
         elif [[ "$ads_upper" == "MH" ]]; then
-            dest_dir="${destination_base}/${metal}N4C26/001/site1/H"
+            dest_dir="${destination_base}/${metal}N4C26/001/${site1}/H"
         elif [[ "$ads_upper" == "NH" ]]; then
-            dest_dir="${destination_base}/${metal}N4C26/001/site3/H"
+            dest_dir="${destination_base}/${metal}N4C26/001/${site3}/H"
         elif [[ "$ads" =~ .*-.+ ]]; then
-            dest_dir="${destination_base}/${metal}N4C26/001/site2/${ads_upper}"
+            dest_dir="${destination_base}/${metal}N4C26/001/${site2}/${ads_upper}"
         else
-            dest_dir="${destination_base}/${metal}N4C26/001/site1/${ads_upper}"
+            dest_dir="${destination_base}/${metal}N4C26/001/${site1}/${ads_upper}"
         fi
         if [[ -f "$dir/final_with_calculator.json" ]]; then
             mkdir -p "$dest_dir"
