@@ -58,6 +58,8 @@ reactions:
     products:
     - OOHstar@M1-site
     - OOHstar@M2-site
+crystal_structures:
+- fcc
 bulk_compositions:
 - FeC26N4
 facets:
