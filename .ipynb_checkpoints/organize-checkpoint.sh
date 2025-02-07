@@ -134,7 +134,7 @@ for metal in "${dual_metals[@]}"; do
     json_dir="${destination_base}/${metal}N4C26/001/site2"
     dest_dir="${destination_base}/${metal}N4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/${metal}C26N4/001"
     mkdir -p "$dest_dir"
-    for dual_dir in "${dual_path}"/*; do
+    for dual_dir in "${dual_path}"/*/; do
         dual_dir_name=$(basename "$dual_dir")       
         pattern="${dual_dir_name##*__}"
         ads1=$(echo "$pattern" | cut -d'_' -f1 | cut -d'@' -f1 | sed 's/star//g')
