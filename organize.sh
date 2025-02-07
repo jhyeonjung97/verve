@@ -165,7 +165,7 @@ for dir in ${source_base}/pourbaix/*_*/*/most_stable; do
     else
         rxn=''
     fi
-    if [[ -n ${rxn} ]]; then
+    if [[ -n ${rxn} ]] || [[ -f ${dir}/final_with_calculator.json ]]; then
         dest_dir="${destination_base}/${metal}N4C26.organized/${vasp_pbe}/${metal}C26N4/001@M"
         mkdir -p ${dest_dir}/${rxn}
         cp ${dir}/final_with_calculator.json ${dest_dir}/${rxn}
