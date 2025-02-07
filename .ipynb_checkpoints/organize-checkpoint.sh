@@ -77,16 +77,14 @@ for dir in ${source_base}/pourbaix/*_*/*/most_stable; do
     metal=$(echo "${path[-3]}" | cut -d'_' -f2)
     ads=${path[-2]}
     ads_upper=$(echo "$ads" | tr '[:lower:]' '[:upper:]')
-    if [[ "$ads_upper" == "CLEAN" ]] || [[ "$ads_upper" == "TEMP" ]]; then
-        continue
-    elif [[ "$ads_upper" == "MH" ]]; then
+    if [[ "$ads_upper" == "MH" ]]; then
         dest_dir="${destination_base}/${metal}N4C26/001/${site1}/H"
     elif [[ "$ads_upper" == "NH" ]]; then
         dest_dir="${destination_base}/${metal}N4C26/001/${site2}/H"
-    elif [[ ! "$ads_upper" =~ .*-.+ ]]; then
-        dest_dir="${destination_base}/${metal}N4C26/001/${site1}/${ads_upper}"
+    elif [[ "$ads_upper" == "O" ]] || [[ "$ads_upper" == "OH" ]] || [[ "$ads_upper" == "OOH" ]]; then
+        dest_dir="${destination_base}/${metal}N4C26/001/${site2}/${ads_upper}"
     else
-        dest_dir=""
+        dest_dir=''
     fi
     echo $ads_upper $dest_dir
     if [[ -n "${dest_dir}" ]] && [[ -f "${dir}/final_with_calculator.json" ]]; then
@@ -115,6 +113,7 @@ done
 #     ads_upper=$(echo "$ads" | tr '[:lower:]' '[:upper:]')
 #     if [[ "$ads" =~ .*-.+ ]] && [[ ! "$ads_upper" == "O-OH" ]]; then
 #         dest_dir="${destination_base}/${metal}N4C26/001/${site3}/${ads_upper}"
+# if [[ "$ads_upper" == "CLEAN" ]] || [[ "$ads_upper" == "TEMP" ]]; then
 #     fi
 #     if [[ -f "$dir/final_with_calculator.json" ]]; then
 #         mkdir -p "$dest_dir"
