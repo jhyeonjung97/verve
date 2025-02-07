@@ -94,10 +94,10 @@ for dir in ${source_base}/pourbaix/*_*/*/most_stable; do
     fi
 done
 
-# gas_path="/global/cfs/cdirs/m2997/Delowar/OER/MOF/data_storage_MOF/gas"
-# cd "${destination_base}" || exit 1
-# for dir in */; do
-#     cathub organize "${dir%/}" -c VASP-6.3.2 -x PBE+U+D3+VASPsol -d "${gas_path}"
-# done
-# cp /global/homes/j/jiuy97/bin/verve/template .
-# cathub make-folders template
+gas_path="/global/cfs/cdirs/m2997/Delowar/OER/MOF/data_storage_MOF/gas"
+cd "${destination_base}" || exit 1
+for dir in */; do
+    cathub organize "${dir%/}" -c VASP-6.3.2 -x PBE+U+D3+VASPsol -d "${gas_path}"
+done
+cp /global/homes/j/jiuy97/bin/verve/template .
+cathub make-folders template
