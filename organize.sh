@@ -15,90 +15,90 @@ dest_dir="${destination_base}/H2N4C26/001"
 mkdir -p "$dest_dir"
 cp "${source_base}/empty/2_/final_with_calculator.json" "$dest_dir/"
 
-for dir in ${source_base}/0_clean/*d/*_*/most_stable/relaxed; do
-    if [[ -d "$dir" ]]; then
-        IFS='/' read -r -a path <<< "$dir"
-        metal=$(echo "${path[-3]}" | cut -d'_' -f2)
-        dest_dir="${destination_base}/${metal}N4C26/001"
-        mkdir -p "$dest_dir"
-        cp "$dir/final_with_calculator.json" "$dest_dir/"
-        echo "Copied final_with_calculator.json to $dest_dir"
-    else
-        echo "Directory does not exist: $dir"
-    fi
-done
+# for dir in ${source_base}/0_clean/*d/*_*/most_stable/relaxed; do
+#     if [[ -d "$dir" ]]; then
+#         IFS='/' read -r -a path <<< "$dir"
+#         metal=$(echo "${path[-3]}" | cut -d'_' -f2)
+#         dest_dir="${destination_base}/${metal}N4C26/001"
+#         mkdir -p "$dest_dir"
+#         cp "$dir/final_with_calculator.json" "$dest_dir/"
+#         echo "Copied final_with_calculator.json to $dest_dir"
+#     else
+#         echo "Directory does not exist: $dir"
+#     fi
+# done
 
-for dir in ${source_base}/1_O/*_*/most_stable/relaxed; do
-    if [[ -d "$dir" ]]; then
-        IFS='/' read -r -a path <<< "$dir"
-        metal=$(echo "${path[-3]}" | cut -d'_' -f2)
-        dest_dir="${destination_base}/${metal}N4C26/001/${site1}/O"
-        mkdir -p "$dest_dir"
-        cp "$dir/final_with_calculator.json" "$dest_dir/"
-        echo "Copied final_with_calculator.json to $dest_dir"
-    else
-        echo "Directory does not exist: $dir"
-    fi
-done
+# for dir in ${source_base}/1_O/*_*/most_stable/relaxed; do
+#     if [[ -d "$dir" ]]; then
+#         IFS='/' read -r -a path <<< "$dir"
+#         metal=$(echo "${path[-3]}" | cut -d'_' -f2)
+#         dest_dir="${destination_base}/${metal}N4C26/001/${site1}/O"
+#         mkdir -p "$dest_dir"
+#         cp "$dir/final_with_calculator.json" "$dest_dir/"
+#         echo "Copied final_with_calculator.json to $dest_dir"
+#     else
+#         echo "Directory does not exist: $dir"
+#     fi
+# done
 
-for dir in ${source_base}/2_OH/*_*/most_stable/relaxed; do
-    if [[ -d "$dir" ]]; then
-        IFS='/' read -r -a path <<< "$dir"
-        metal=$(echo "${path[-3]}" | cut -d'_' -f2)
-        dest_dir="${destination_base}/${metal}N4C26/001/${site1}/OH"
-        mkdir -p "$dest_dir"
-        cp "$dir/final_with_calculator.json" "$dest_dir/"
-        echo "Copied final_with_calculator.json to $dest_dir"
-    else
-        echo "Directory does not exist: $dir"
-    fi
-done
+# for dir in ${source_base}/2_OH/*_*/most_stable/relaxed; do
+#     if [[ -d "$dir" ]]; then
+#         IFS='/' read -r -a path <<< "$dir"
+#         metal=$(echo "${path[-3]}" | cut -d'_' -f2)
+#         dest_dir="${destination_base}/${metal}N4C26/001/${site1}/OH"
+#         mkdir -p "$dest_dir"
+#         cp "$dir/final_with_calculator.json" "$dest_dir/"
+#         echo "Copied final_with_calculator.json to $dest_dir"
+#     else
+#         echo "Directory does not exist: $dir"
+#     fi
+# done
 
-for dir in ${source_base}/3_OOH/*_*/most_stable/relaxed; do
-    if [[ -d "$dir" ]]; then
-        IFS='/' read -r -a path <<< "$dir"
-        metal=$(echo "${path[-3]}" | cut -d'_' -f2)
-        dest_dir="${destination_base}/${metal}N4C26/001/${site1}/OOH"
-        mkdir -p "$dest_dir"
-        cp "$dir/final_with_calculator.json" "$dest_dir/"
-        echo "Copied final_with_calculator.json to $dest_dir"
-    else
-        echo "Directory does not exist: $dir"
-    fi
-done
+# for dir in ${source_base}/3_OOH/*_*/most_stable/relaxed; do
+#     if [[ -d "$dir" ]]; then
+#         IFS='/' read -r -a path <<< "$dir"
+#         metal=$(echo "${path[-3]}" | cut -d'_' -f2)
+#         dest_dir="${destination_base}/${metal}N4C26/001/${site1}/OOH"
+#         mkdir -p "$dest_dir"
+#         cp "$dir/final_with_calculator.json" "$dest_dir/"
+#         echo "Copied final_with_calculator.json to $dest_dir"
+#     else
+#         echo "Directory does not exist: $dir"
+#     fi
+# done
 
-for dir in ${source_base}/pourbaix/*_*/*/most_stable; do
-    if [[ -d "$dir" ]]; then
-        IFS='/' read -r -a path <<< "$dir"
-        metal=$(echo "${path[-3]}" | cut -d'_' -f2)
-        ads=${path[-2]}
-        ads_upper=$(echo "$ads" | tr '[:lower:]' '[:upper:]')
-        if [[ "$ads_upper" == "CLEAN" ]] || [[ "$ads_upper" == "TEMP" ]] || [[ "$ads_upper" == "O-OH" ]]; then
-            continue
-        elif [[ "$ads_upper" == "MH" ]]; then
-            dest_dir="${destination_base}/${metal}N4C26/001/${site1}/H"
-        elif [[ "$ads_upper" == "NH" ]]; then
-            dest_dir="${destination_base}/${metal}N4C26/001/${site3}/H"
-        elif [[ "$ads" =~ .*-.+ ]]; then
-            dest_dir="${destination_base}/${metal}N4C26/001/${site2}/${ads_upper}"
-        else
-            dest_dir="${destination_base}/${metal}N4C26/001/${site1}/${ads_upper}"
-        fi
-        if [[ -f "$dir/final_with_calculator.json" ]]; then
-            mkdir -p "$dest_dir"
-            cp "$dir/final_with_calculator.json" "$dest_dir/"
-            echo "Copied final_with_calculator.json to $dest_dir"
-        fi
-    else
-        echo "Directory does not exist: $dir"
-    fi
-done
+# for dir in ${source_base}/pourbaix/*_*/*/most_stable; do
+#     if [[ -d "$dir" ]]; then
+#         IFS='/' read -r -a path <<< "$dir"
+#         metal=$(echo "${path[-3]}" | cut -d'_' -f2)
+#         ads=${path[-2]}
+#         ads_upper=$(echo "$ads" | tr '[:lower:]' '[:upper:]')
+#         if [[ "$ads_upper" == "CLEAN" ]] || [[ "$ads_upper" == "TEMP" ]] || [[ "$ads_upper" == "O-OH" ]]; then
+#             continue
+#         elif [[ "$ads_upper" == "MH" ]]; then
+#             dest_dir="${destination_base}/${metal}N4C26/001/${site1}/H"
+#         elif [[ "$ads_upper" == "NH" ]]; then
+#             dest_dir="${destination_base}/${metal}N4C26/001/${site3}/H"
+#         elif [[ "$ads" =~ .*-.+ ]]; then
+#             dest_dir="${destination_base}/${metal}N4C26/001/${site2}/${ads_upper}"
+#         else
+#             dest_dir="${destination_base}/${metal}N4C26/001/${site1}/${ads_upper}"
+#         fi
+#         if [[ -f "$dir/final_with_calculator.json" ]]; then
+#             mkdir -p "$dest_dir"
+#             cp "$dir/final_with_calculator.json" "$dest_dir/"
+#             echo "Copied final_with_calculator.json to $dest_dir"
+#         fi
+#     else
+#         echo "Directory does not exist: $dir"
+#     fi
+# done
 
 gas_path="/global/cfs/cdirs/m2997/Delowar/OER/MOF/data_storage_MOF/gas"
 cd "${destination_base}" || exit 1
 for dir in */; do
     dir_name=$(basename "$dir")
-    if [[ -d "${dir_name}/001/site1" ]]; then
+    if [[ -d "${dir_name}/001/${site1}" ]]; then
         if [[ ! -d "${dir_name}.organized" ]]; then
             cathub organize "${dir%/}" -c VASP-6.3.2 -x PBE+U+D3+VASPsol -d "${gas_path}"
             echo "Directory organized: ${dir_name}.organized"
@@ -106,37 +106,37 @@ for dir in */; do
     fi
 done
 
-cp /global/homes/j/jiuy97/bin/verve/template* .
-cathub make-folders template
+# cp /global/homes/j/jiuy97/bin/verve/template* .
+# cathub make-folders template
+# # for dir in ${source_base}/0_clean/*d/*_*/most_stable/relaxed; do
+# #     if [[ -d "$dir" ]]; then
+# #         IFS='/' read -r -a path <<< "$dir"
+# #         metal=$(echo "${path[-3]}" | cut -d'_' -f2)
+# #         echo $metal
+# #         sed "s/METAL/$metal/g" template-metal > template
+# #         cathub make-folders template
+# #         sed "s/METAL/$metal/g" template-metal-h2 > template
+# #         cathub make-folders template
+# #     fi
+# # done
+# # find ${destination_base} -path "*/MISSING:*" -delete
+
 # for dir in ${source_base}/0_clean/*d/*_*/most_stable/relaxed; do
 #     if [[ -d "$dir" ]]; then
 #         IFS='/' read -r -a path <<< "$dir"
 #         metal=$(echo "${path[-3]}" | cut -d'_' -f2)
-#         echo $metal
-#         sed "s/METAL/$metal/g" template-metal > template
-#         cathub make-folders template
-#         sed "s/METAL/$metal/g" template-metal-h2 > template
-#         cathub make-folders template
+        
+#         dest_dir="${destination_base}/${metal}N4C26/001/${site1}/H"
+
+        
+#         dest_dir="${destination_base}/${metal}N4C26/001"
+#         mkdir -p "$dest_dir"
+#         cp "$dir/final_with_calculator.json" "$dest_dir/"
+#         echo "Copied final_with_calculator.json to $dest_dir"
+#     else
+#         echo "Directory does not exist: $dir"
 #     fi
 # done
-# find ${destination_base} -path "*/MISSING:*" -delete
-
-for dir in ${source_base}/0_clean/*d/*_*/most_stable/relaxed; do
-    if [[ -d "$dir" ]]; then
-        IFS='/' read -r -a path <<< "$dir"
-        metal=$(echo "${path[-3]}" | cut -d'_' -f2)
-        
-        dest_dir="${destination_base}/${metal}N4C26/001/${site1}/H"
-
-        
-        dest_dir="${destination_base}/${metal}N4C26/001"
-        mkdir -p "$dest_dir"
-        cp "$dir/final_with_calculator.json" "$dest_dir/"
-        echo "Copied final_with_calculator.json to $dest_dir"
-    else
-        echo "Directory does not exist: $dir"
-    fi
-done
 
 # dual_path="/pscratch/sd/j/jiuy97/cathub/JungTuning2025/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4_fcc/001"
 # dual_metals=("Co" "Fe" "Mo")
