@@ -17,7 +17,8 @@ DFT_functionals:
 - PBE+U+D3+VASPsol
 reactions:
 -   reactants:
-    - METALgas
+    - 1.0METALgas
+    - -1.0H2gas
     - star
     products:
     - METALstar@site1

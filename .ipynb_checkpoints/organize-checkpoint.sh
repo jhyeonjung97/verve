@@ -97,7 +97,7 @@ cp "${source_base}/empty/2_/final_with_calculator.json" "$dest_dir/"
 gas_path="/global/cfs/cdirs/m2997/Delowar/OER/MOF/data_storage_MOF/gas"
 cd "${destination_base}" || exit 1
 for dir in */; do
-    dir_name=$(basename "$sub_dir")
+    dir_name=$(basename "$dir")
     if [[ -d "${dir_name}/001/site1" ]]; then
         if [[ ! -d "${dir_name}.organized" ]]; then
             cathub organize "${dir%/}" -c VASP-6.3.2 -x PBE+U+D3+VASPsol -d "${gas_path}"
@@ -109,8 +109,6 @@ done
 
 cp /global/homes/j/jiuy97/bin/verve/template .
 cathub make-folders template
-find ${destination_base} -path "*/MISSING:*" -delete
-
 cp /global/homes/j/jiuy97/bin/verve/template-metal .
 for dir in ${source_base}/0_clean/*d/*_*/most_stable/relaxed; do
     if [[ -d "$dir" ]]; then
@@ -119,8 +117,11 @@ for dir in ${source_base}/0_clean/*d/*_*/most_stable/relaxed; do
         echo $metal
         sed "s/METAL/$metal/g" template-metal > template
         cathub make-folders template
+        sed "s/METAL/$metal/g" template-metal-h2 > template
+        cathub make-folders template
     fi
 done
+find ${destination_base} -path "*/MISSING:*" -delete
 
 
 # for dir in ${source_base}/0_clean/*d/*_*/most_stable/relaxed; do
