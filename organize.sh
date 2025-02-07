@@ -93,17 +93,36 @@ site3='D'
 #     fi
 # done
 
-gas_path="/global/cfs/cdirs/m2997/Delowar/OER/MOF/data_storage_MOF/gas"
-cd "${destination_base}" || exit 1
-for dir in */; do
-    dir_name=$(basename "$dir")
-    if [[ -d "${dir_name}/001/${site1}" ]]; then
-        if [[ ! -d "${dir_name}.organized" ]]; then
-            cathub organize "${dir%/}" -c VASP-6.3.2 -x PBE+U+D3+VASPsol -d "${gas_path}"
-            echo "Directory organized: ${dir_name}.organized"
-        fi
-    fi
-done
+# gas_path="/global/cfs/cdirs/m2997/Delowar/OER/MOF/data_storage_MOF/gas"
+# cd "${destination_base}" || exit 1
+# for dir in */; do
+#     dir_name=$(basename "$dir")
+#     if [[ -d "${dir_name}/001/${site1}" ]]; then
+#         if [[ ! -d "${dir_name}.organized" ]]; then
+#             cathub organize "${dir%/}" -c VASP-6.3.2 -x PBE+U+D3+VASPsol -d "${gas_path}"
+#             echo "Directory organized: ${dir_name}.organized"
+#         fi
+#     fi
+# done
+
+cp /global/homes/j/jiuy97/bin/verve/template* .
+cathub make-folders template
+# for dir in ${source_base}/0_clean/*d/*_*/most_stable/relaxed; do
+#     if [[ -d "$dir" ]]; then
+#         IFS='/' read -r -a path <<< "$dir"
+#         metal=$(echo "${path[-3]}" | cut -d'_' -f2)
+#         echo $metal
+#         sed "s/METAL/$metal/g" template-metal > template
+#         cathub make-folders template
+#         sed "s/METAL/$metal/g" template-metal-h2 > template
+#         cathub make-folders template
+#     fi
+# done
+# find ${destination_base} -path "*/MISSING:*" -delete
+
+
+
+
 
 
 
@@ -126,12 +145,6 @@ done
 #     fi
 # done
 
-
-
-
-
-
-
 # mv "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4/001/0.5H2gas_star__H@site1" "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4/001/0.5H2gas_star__H@site3"
 # mv "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4/001/0.5H2gas_star__H@site2" "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4/001/0.5H2gas_star__H@site1"
 
@@ -141,20 +154,6 @@ done
 # rm -r "${destination_base}/CoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/CoC26N4/001/2.0H2Ogas_-1.5H2gas_star__OOH@site1"
 # mv "${destination_base}/CoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/CoC26N4/001/2.0H2Ogas_-1.5H2gas_star__OOH@site2" "${destination_base}/CoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/CoC26N4/001/2.0H2Ogas_-1.5H2gas_star__OOH@site1"
 
-# cp /global/homes/j/jiuy97/bin/verve/template* .
-# cathub make-folders template
-# # for dir in ${source_base}/0_clean/*d/*_*/most_stable/relaxed; do
-# #     if [[ -d "$dir" ]]; then
-# #         IFS='/' read -r -a path <<< "$dir"
-# #         metal=$(echo "${path[-3]}" | cut -d'_' -f2)
-# #         echo $metal
-# #         sed "s/METAL/$metal/g" template-metal > template
-# #         cathub make-folders template
-# #         sed "s/METAL/$metal/g" template-metal-h2 > template
-# #         cathub make-folders template
-# #     fi
-# # done
-# # find ${destination_base} -path "*/MISSING:*" -delete
 
 # dual_path="/pscratch/sd/j/jiuy97/cathub/SampleFe2025/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4_fcc/001"
 # dual_metals=("Co" "Fe" "Mo")
