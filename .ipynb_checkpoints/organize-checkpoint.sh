@@ -123,7 +123,9 @@ site3='D'
 
 # for dir in *N4C26.organized/${vasp_pbe}/*C26N4; do
 for dir in FeN4C26.organized/${vasp_pbe}/FeC26N4; do
-    # mv "${dir}/001" "${dir}/001@M"
+    if [[ "${dir}/001" ]] && [[ ! -d "${dir}/001@M" ]]; then
+        mv "${dir}/001" "${dir}/001@M"
+    fi
     for sub_dir in ${dir}/001@M/*; do
         if [[ ${sub_dir} == *'@site1' ]]; then
             new_name="${sub_dir%@site1}"
