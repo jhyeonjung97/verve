@@ -68,18 +68,23 @@ for dir in ${source_base}/pourbaix/*_*/*/most_stable; do
         IFS='/' read -r -a path <<< "$dir"
         metal=$(echo "${path[-3]}" | cut -d'_' -f2)
         ads=${path[-2]}
-        ads_upper=$(echo "$ads" | tr '[:lower:]' '[:upper:]') # | sed 's/-//g')
-        echo "Original: $ads | Modified: $ads_upper"
+        ads_upper=$(echo "$ads" | tr '[:lower:]' '[:upper:]' | sed 's/-/_/g')
+        # if [[ "$ads_upper" =~ .*-.+ ]]; then
+        #     ads=$(echo "$ads_upper" | sed 's/-/@site1/g')
+        # else
+        #     ads=
+        # fi
+
         if [[ "$ads_upper" == "CLEAN" ]]; then
             continue
         elif [[ "$ads_upper" == "MH" ]]; then
-            dest_dir="${destination_base}/${metal}N4C26/001/M1-site/H"
+            dest_dir="${destination_base}/${metal}N4C26/001/site1/H"
         elif [[ "$ads_upper" == "NH" ]]; then
-            dest_dir="${destination_base}/${metal}N4C26/001/N-site/H"
-        elif [[ "$ads_upper" =~ .*-.+ ]]; then
-            dest_dir="${destination_base}/${metal}N4C26/001/M2-site/${ads_upper}"
+            dest_dir="${destination_base}/${metal}N4C26/001/site3/H"
+        # elif [[ "$ads_upper" =~ .*-.+ ]]; then
+        #     dest_dir="${destination_base}/${metal}N4C26/001/site2/${ads_upper}"
         else
-            dest_dir="${destination_base}/${metal}N4C26/001/M1-site/${ads_upper}"
+            dest_dir="${destination_base}/${metal}N4C26/001/site1/${ads_upper}"
         fi
         if [[ -f "$dir/final_with_calculator.json" ]]; then
             mkdir -p "$dest_dir"
