@@ -5,6 +5,7 @@ destination_base="/pscratch/sd/j/jiuy97/cathub"
 
 site1='site1'
 site2='site2'
+site3='site3'
 
 dest_dir="${destination_base}/N4C26/001"
 mkdir -p "$dest_dir"
