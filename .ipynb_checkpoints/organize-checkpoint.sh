@@ -3,6 +3,14 @@
 source_base="/pscratch/sd/j/jiuy97/6_MNC"
 destination_base="/pscratch/sd/j/jiuy97/cathub"
 
+dest_dir="${destination_base}/N4C26/001"
+mkdir -p "$dest_dir"
+cp "${source_base}/empty/0_/final_with_calculator.json" "$dest_dir/"
+
+dest_dir="${destination_base}/H2N4C26/001"
+mkdir -p "$dest_dir"
+cp "${source_base}/empty/2_/final_with_calculator.json" "$dest_dir/"
+
 for dir in ${source_base}/0_clean/*d/*_*/most_stable/relaxed; do
     if [[ -d "$dir" ]]; then
         IFS='/' read -r -a path <<< "$dir"
@@ -80,3 +88,5 @@ for dir in ${source_base}/pourbaix/*_*/*/most_stable; do
         echo "Directory does not exist: $dir"
     fi
 done
+
+# find /pscratch/sd/j/jiuy97/cathub -type d -empty -delete
