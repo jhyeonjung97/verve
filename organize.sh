@@ -88,6 +88,7 @@ for dir in ${source_base}/pourbaix/*_*/*/most_stable; do
     else
         dest_dir=""
     fi
+    echo $ads_upper $dest_dir
     if [[ -n "${dest_dir}" ]] && [[ -f "${dir}/final_with_calculator.json" ]]; then
         mkdir -p "$dest_dir"
         cp "${dir}/final_with_calculator.json" "${dest_dir}/"
