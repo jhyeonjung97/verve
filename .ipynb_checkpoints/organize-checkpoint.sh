@@ -27,11 +27,13 @@ for dir in ${source_base}/0_clean/*d/*_*/most_stable; do
             mkdir -p "${dest_dir}/site1/O"
             cp "$dir/o/final_with_calculator.json" "$dest_dir/site1/O"
             echo "Copied final_with_calculator.json to $dest_dir/site1/O"
-        elif [[ -f "${dir}/oh/final_with_calculator.json" ]]; then
+        fi
+        if [[ -f "${dir}/oh/final_with_calculator.json" ]]; then
             mkdir -p "${dest_dir}/site1/OH"
             cp "$dir/oh/final_with_calculator.json" "$dest_dir/site1/OH"
             echo "Copied final_with_calculator.json to $dest_dir/site1/OH"
-        elif [[ -f "${dir}/ooh/final_with_calculator.json" ]]; then
+        fi
+        if [[ -f "${dir}/ooh/final_with_calculator.json" ]]; then
             mkdir -p "${dest_dir}/site1/OOH"
             cp "$dir/ooh/final_with_calculator.json" "$dest_dir/site1/OOH"
             echo "Copied final_with_calculator.json to $dest_dir/site1/OOH"
