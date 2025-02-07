@@ -111,8 +111,8 @@ for metal in "${dual_metals[@]}"; do
     for sub_dir in "${dual_path}"/*; do
         dir_name=$(basename "$sub_dir")       
         pattern="${dir_name##*__}"
-        ads1=$(echo "$pattern" | cut -d'_' -f1 | sed 's/star//g')
-        ads2=$(echo "$pattern" | cut -d'_' -f2 | sed 's/star//g')
+        ads1=$(echo "$pattern" | cut -d'_' -f1 | cut -d'@' -f1 | sed 's/star//g')
+        ads2=$(echo "$pattern" | cut -d'_' -f2 | cut -d'@' -f1 | sed 's/star//g')
         result="${ads1}-${ads2}"
         echo "$result"
     done
