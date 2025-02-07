@@ -128,24 +128,24 @@ site3='site3'
 # # done
 # # find ${destination_base} -path "*/MISSING:*" -delete
 
-dual_path="/pscratch/sd/j/jiuy97/cathub/JungTuning2025/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4_fcc/001"
-dual_metals=("Co" "Fe" "Mo")
-for metal in "${dual_metals[@]}"; do
-    json_dir="${destination_base}/${metal}N4C26/001/site2"
-    dest_dir="${destination_base}/${metal}N4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/${metal}C26N4/001"
-    mkdir -p "$dest_dir"
-    for dual_dir in "${dual_path}"/*/; do
-        dual_dir_name=$(basename "$dual_dir")       
-        pattern="${dual_dir_name##*__}"
-        ads1=$(echo "$pattern" | cut -d'_' -f1 | cut -d'@' -f1 | sed 's/star//g')
-        ads2=$(echo "$pattern" | cut -d'_' -f2 | cut -d'@' -f1 | sed 's/star//g')
-        dir_name="${ads1}-${ads2}"
-        if [[ -f "${json_dir}/${dir_name}/final_with_calculator.json" ]]; then
-            mkdir -p "${dest_dir}/${dual_dir_name}"
-            cp "${json_dir}/${dir_name}/final_with_calculator.json" "${dest_dir}/${dual_dir_name}"
-        fi
-    done
-done
+# dual_path="/pscratch/sd/j/jiuy97/cathub/JungTuning2025/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4_fcc/001"
+# dual_metals=("Co" "Fe" "Mo")
+# for metal in "${dual_metals[@]}"; do
+#     json_dir="${destination_base}/${metal}N4C26/001/site2"
+#     dest_dir="${destination_base}/${metal}N4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/${metal}C26N4/001"
+#     mkdir -p "$dest_dir"
+#     for dual_dir in "${dual_path}"/*/; do
+#         dual_dir_name=$(basename "$dual_dir")       
+#         pattern="${dual_dir_name##*__}"
+#         ads1=$(echo "$pattern" | cut -d'_' -f1 | cut -d'@' -f1 | sed 's/star//g')
+#         ads2=$(echo "$pattern" | cut -d'_' -f2 | cut -d'@' -f1 | sed 's/star//g')
+#         dir_name="${ads1}-${ads2}"
+#         if [[ -f "${json_dir}/${dir_name}/final_with_calculator.json" ]]; then
+#             mkdir -p "${dest_dir}/${dual_dir_name}"
+#             cp "${json_dir}/${dir_name}/final_with_calculator.json" "${dest_dir}/${dual_dir_name}"
+#         fi
+#     done
+# done
 
 mv "${destination_base}/MoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/MoC26N4/001/2.0H2Ogas_-1.0H2gas_star__OHstar@site1_OHstar@site2" "${destination_base}/MoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/MoC26N4/001/2.0H2Ogas_-1.0H2gas_star__OHstar@site1_OHstar@site1"
 mv "${destination_base}/MoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/MoC26N4/001/2.0H2Ogas_-1.5H2gas_star__OHstar@site1_Ostar@site2" "${destination_base}/MoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/MoC26N4/001/2.0H2Ogas_-1.5H2gas_star__OHstar@site1_Ostar@site1"
