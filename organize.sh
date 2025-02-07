@@ -65,16 +65,16 @@ for dir in ${source_base}/pourbaix/*_*/*/most_stable; do
         ads=${path[-2]}
         ads_upper=$(echo "$ads" | tr '[:lower:]' '[:upper:]' | sed 's/-//g')
         echo "Original: $ads | Modified: $ads_upper"
-        # if $ads_upper == 'MH'; then
-        #     dest_dir="${destination_base}/${metal}N4C26/001/M-site/H"
-        # elif $ads_upper == 'NH'; then
-        #     dest_dir="${destination_base}/${metal}N4C26/001/N-site/H"
-        # else
-        #     dest_dir="${destination_base}/${metal}N4C26/001/M-site/${ads_upper}"
-        # fi
-        # mkdir -p "$dest_dir"
-        # cp "$dir/final_with_calculator.json" "$dest_dir/"
-        # echo "Copied final_with_calculator.json to $dest_dir"
+        if $ads_upper == 'MH'; then
+            dest_dir="${destination_base}/${metal}N4C26/001/M-site/H"
+        elif $ads_upper == 'NH'; then
+            dest_dir="${destination_base}/${metal}N4C26/001/N-site/H"
+        else
+            dest_dir="${destination_base}/${metal}N4C26/001/M-site/${ads_upper}"
+        fi
+        mkdir -p "$dest_dir"
+        cp "$dir/final_with_calculator.json" "$dest_dir/"
+        echo "Copied final_with_calculator.json to $dest_dir"
     else
         echo "Directory does not exist: $dir"
     fi
