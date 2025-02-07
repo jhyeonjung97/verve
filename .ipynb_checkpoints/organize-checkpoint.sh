@@ -108,9 +108,9 @@ dual_metals=("Co" "Fe" "Mo")
 for metal in "${dual_metals[@]}"; do
     dest_dir="${destination_base}/${metal}N4C26/001/site2"
     mkdir -p "$dest_dir"
-    for sub_dir in "${dual_path}/"*: do
-        dir_name=$(basename "$sub_dir")        
-        pattern="${name##*__}"
+    for sub_dir in "${dual_path}"/*: do
+        dir_name=$(basename "$sub_dir")       
+        pattern="${dir_name##*__}"
         ads1=$(echo "$pattern" | cut -d'_' -f1 | sed 's/star//g')
         ads2=$(echo "$pattern" | cut -d'_' -f2 | sed 's/star//g')
         result="${ads1}-${ads2}"
