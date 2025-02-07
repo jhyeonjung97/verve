@@ -3,9 +3,9 @@
 source_base="/pscratch/sd/j/jiuy97/6_MNC"
 destination_base="/pscratch/sd/j/jiuy97/cathub"
 
-site1='metal'
-site2='nitrogen'
-site3='dual'
+site1='M'
+site2='N'
+site3='D'
 
 dest_dir="${destination_base}/N4C26/001"
 mkdir -p "$dest_dir"
@@ -107,9 +107,9 @@ for dir in ${source_base}/pourbaix/*_*/*/most_stable; do
             dest_dir="${destination_base}/${metal}N4C26/001/${site1}/H"
         elif [[ "$ads_upper" == "NH" ]]; then
             dest_dir="${destination_base}/${metal}N4C26/001/${site2}/H"
-        elif [[ "$ads" =~ .*-.+ ]]; then
-            dest_dir="${destination_base}/${metal}N4C26/001/${site3}/${ads_upper}"
-        else
+        elif [[ ! "$ads" =~ .*-.+ ]]; then
+        #     dest_dir="${destination_base}/${metal}N4C26/001/${site3}/${ads_upper}"
+        # else
             dest_dir="${destination_base}/${metal}N4C26/001/${site1}/${ads_upper}"
         fi
         if [[ -f "$dir/final_with_calculator.json" ]]; then
