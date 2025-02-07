@@ -121,51 +121,55 @@ site3='D'
 # cp "${destination_base}/N4C26/001/final_with_calculator.json" "${dest_dir}/empty_slab.json"
 # cp "${destination_base}/N4C26/001/N/H2/final_with_calculator.json" "${dest_dir}/H2gas_star__2H@site2/H2.json"
 
-for dir in *N4C26.organized/${vasp_pbe}/*C26N4; do
-    if [[ -d "${dir}/001" ]] && [[ ! -d "${dir}/001@M" ]]; then
-        mv "${dir}/001" "${dir}/001@M"
+# for dir in *N4C26.organized/${vasp_pbe}/*C26N4; do
+#     if [[ -d "${dir}/001" ]] && [[ ! -d "${dir}/001@M" ]]; then
+#         mv "${dir}/001" "${dir}/001@M"
+#     fi
+#     for sub_dir in ${dir}/001@M/*; do
+#         if [[ ${sub_dir} == *'@site1' ]]; then
+#             new_name="${sub_dir%@site1}"
+#             mv "$sub_dir" "${dir}/001@M/${new_name##*/}"
+#         elif [[ ${sub_dir} == *'@site2' ]]; then
+#             mkdir -p "${dir}/001@N"
+#             cp "${dir}/001@M/empty_slab.json" "${dir}/001@N"
+#             new_name="${sub_dir%@site2}"
+#             mv "$sub_dir" "${dir}/001@N/${new_name##*/}"
+#         fi
+#     done
+# done
+# rm -r "${destination_base}/N4C26.organized/${vasp_pbe}/C26N4/001@M"
+
+
+
+
+
+
+
+for dir in ${source_base}/pourbaix/*_*/*/most_stable; do
+    IFS='/' read -r -a path <<< "$dir"
+    metal=$(echo "${path[-3]}" | cut -d'_' -f2)
+    ads=${path[-2]}
+    ads_upper=$(echo "$ads" | tr '[:lower:]' '[:upper:]')
+    if [[ "$ads_upper" == "OO" ]] || [[ "$ads_upper" == "O-O" ]]; then
+        rxn="2.0H2Ogas_-2.0H2gas_star__OstarOstar"
+    elif [[ "$ads_upper" == "OHO" ]] || [[ "$ads_upper" == "OH-O" ]]; then
+        rxn="2.0H2Ogas_-1.5H2gas_star__OHstarOstar"
+    elif [[ "$ads_upper" == "OHOH" ]] || [[ "$ads_upper" == "OH-OH" ]]; then
+        rxn="2.0H2Ogas_-1.0H2gas_star__OHstarOHstar"
+    elif [[ "$ads_upper" == "OOH-O" ]] ; then
+        rxn="3.0H2Ogas_-2.5H2gas_star__OOHstarOstar"
+    elif [[ "$ads_upper" == "OOH-OH" ]]; then
+        rxn="3.0H2Ogas_-2.0H2gas_star__OOHstarOHstar"
+    elif [[ "$ads_upper" == "OOH-OOH" ]]; then
+        rxn="4.0H2Ogas_-3.0H2gas_star__OOHstarOOHstar"
+    else
+        rxn=''
+    if [[ -n ${rxn} ]];
+        dest_dir="${destination_base}/${metal}N4C26.organized/${vasp_pbe}/${metal}C26N4/001@M"
+        mkdir -p ${dest_dir}/${rxn}
+        cp ${dir}/final_with_calculator.json ${dest_dir}/${rxn}
     fi
-    for sub_dir in ${dir}/001@M/*; do
-        if [[ ${sub_dir} == *'@site1' ]]; then
-            new_name="${sub_dir%@site1}"
-            mv "$sub_dir" "${dir}/001@M/${new_name##*/}"
-        elif [[ ${sub_dir} == *'@site2' ]]; then
-            mkdir -p "${dir}/001@N"
-            cp "${dir}/001@M/empty_slab.json" "${dir}/001@N"
-            new_name="${sub_dir%@site2}"
-            mv "$sub_dir" "${dir}/001@N/${new_name##*/}"
-        fi
-    done
 done
-
-
-
-
-
-
-
-
-
-
-
-# for dir in ${source_base}/pourbaix/*_*/*/most_stable; do
-#     IFS='/' read -r -a path <<< "$dir"
-#     metal=$(echo "${path[-3]}" | cut -d'_' -f2)
-#     ads=${path[-2]}
-#     ads_upper=$(echo "$ads" | tr '[:lower:]' '[:upper:]')
-#     if [[ "$ads_upper" == "CLEAN" ]] || [[ "$ads_upper" == "TEMP" ]]; then
-#         continue
-#     elif [[ "$ads_upper" == "MH" ]] || [[ "$ads_upper" == "NH" ]]; then
-#         continue
-#     elif [[ "$ads_upper" == "O" ]] || [[ "$ads_upper" == "OH" ]] || [[ "$ads_upper" == "OOH" ]]; then
-#         continue
-#     elif [[ "$ads_upper" == "OHO" ]] || [[ "$ads_upper" == "OH-O" ]]; then
-#         dest_dir="2.0H2Ogas_-1.5H2gas_star__OHstarOstar"
-#     elif [[ "$ads_upper" == "OHOH" ]] || [[ "$ads_upper" == "OH-OH" ]]; then
-#         dest_dir="2.0H2Ogas_-1.0H2gas_star__OHstarOHstar"
-#     elif [[ "$ads_upper" == "OHOH" ]] || [[ "$ads_upper" == "OH-OH" ]]; then
-#         dest_dir="2.0H2Ogas_-1.0H2gas_star__OHstarOHstar"
-
 
 
 
