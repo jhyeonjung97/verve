@@ -113,20 +113,20 @@ mv "${destination_base}/CoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/CoC26N4/00
 
 mv "${destination_base}/MoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/MoC26N4/001/0.5H2gas_star__H@site2" "${destination_base}/MoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/MoC26N4/001/0.5H2gas_star__H@site3"
 
-# cp /global/homes/j/jiuy97/bin/verve/template* .
-# cathub make-folders template
-# # for dir in ${source_base}/0_clean/*d/*_*/most_stable/relaxed; do
-# #     if [[ -d "$dir" ]]; then
-# #         IFS='/' read -r -a path <<< "$dir"
-# #         metal=$(echo "${path[-3]}" | cut -d'_' -f2)
-# #         echo $metal
-# #         sed "s/METAL/$metal/g" template-metal > template
-# #         cathub make-folders template
-# #         sed "s/METAL/$metal/g" template-metal-h2 > template
-# #         cathub make-folders template
-# #     fi
-# # done
-# # find ${destination_base} -path "*/MISSING:*" -delete
+cp /global/homes/j/jiuy97/bin/verve/template* .
+cathub make-folders template
+# for dir in ${source_base}/0_clean/*d/*_*/most_stable/relaxed; do
+#     if [[ -d "$dir" ]]; then
+#         IFS='/' read -r -a path <<< "$dir"
+#         metal=$(echo "${path[-3]}" | cut -d'_' -f2)
+#         echo $metal
+#         sed "s/METAL/$metal/g" template-metal > template
+#         cathub make-folders template
+#         sed "s/METAL/$metal/g" template-metal-h2 > template
+#         cathub make-folders template
+#     fi
+# done
+# find ${destination_base} -path "*/MISSING:*" -delete
 
 dual_path="/pscratch/sd/j/jiuy97/cathub/JungTuning2025/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4_fcc/001"
 dual_metals=("Co" "Fe" "Mo")
@@ -147,10 +147,10 @@ for metal in "${dual_metals[@]}"; do
     done
 done
 
-rm "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4/001/2.0H2Ogas_-1.5H2gas_star__OOH@site1"
+rm -r "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4/001/2.0H2Ogas_-1.5H2gas_star__OOH@site1"
 mv "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4/001/2.0H2Ogas_-1.5H2gas_star__OOH@site2" "${destination_base}/FeN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/FeC26N4/001/2.0H2Ogas_-1.5H2gas_star__OOH@site1"
 
-rm "${destination_base}/CoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/CoC26N4/001/2.0H2Ogas_-1.5H2gas_star__OOH@site1"
+rm -r "${destination_base}/CoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/CoC26N4/001/2.0H2Ogas_-1.5H2gas_star__OOH@site1"
 mv "${destination_base}/CoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/CoC26N4/001/2.0H2Ogas_-1.5H2gas_star__OOH@site2" "${destination_base}/CoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/CoC26N4/001/2.0H2Ogas_-1.5H2gas_star__OOH@site1"
 
 mv "${destination_base}/MoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/MoC26N4/001/2.0H2Ogas_-1.0H2gas_star__OHstar@site1_OHstar@site2" "${destination_base}/MoN4C26.organized/VASP-6.3.2/PBE+U+D3+VASPsol/MoC26N4/001/2.0H2Ogas_-1.0H2gas_star__OHstar@site1_OHstar@site1"
