@@ -1,0 +1,30 @@
+title: "Tuning Local Structure and Spin State to Improve ORR and OER Performance of M-N-C Catalysts"
+authors:
+- Metal, Hyeonjung
+- Fanta, Roman
+- Hossain, Md Delowar
+- Bajdich, Michal
+journal: Submitted
+volume: 1
+number: 1
+pages: 1-2
+year: 2025
+email: jiuy97@stanford.edu
+publisher: Submitted
+doi: 10.NNNN
+DFT_code: VASP-6.3.2
+DFT_functionals:
+- PBE+U+D3+VASPsol
+reactions:
+-   reactants:
+    - METALgas
+    - star
+    products:
+    - METALstar@site1
+crystal_structures:
+- fcc
+bulk_compositions:
+- C26N4
+facets:
+- '001'
+energy_corrections: {}
