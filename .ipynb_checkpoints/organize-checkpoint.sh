@@ -164,7 +164,7 @@ for dir in ${source_base}/pourbaix/*_*/*/most_stable; do
         rxn="4.0H2Ogas_-3.0H2gas_star__OOHstarOOHstar"
     else
         rxn=''
-    if [[ -n ${rxn} ]];
+    if [[ -n ${rxn} ]]; then
         dest_dir="${destination_base}/${metal}N4C26.organized/${vasp_pbe}/${metal}C26N4/001@M"
         mkdir -p ${dest_dir}/${rxn}
         cp ${dir}/final_with_calculator.json ${dest_dir}/${rxn}
