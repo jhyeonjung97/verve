@@ -116,6 +116,7 @@ for dir in ${source_base}/0_clean/*d/*_*/most_stable/relaxed; do
     if [[ -d "$dir" ]]; then
         IFS='/' read -r -a path <<< "$dir"
         metal=$(echo "${path[-3]}" | cut -d'_' -f2)
+        echo $metal
         sed "s/METAL/$metal/g" template-metal > template
         cathub make-folders template
     fi
