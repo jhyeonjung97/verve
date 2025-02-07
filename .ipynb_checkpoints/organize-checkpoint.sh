@@ -72,6 +72,7 @@ site3='D'
 #     echo "Copied final_with_calculator.json to $dest_dir"
 # done
 
+dest_dir=''
 for dir in ${source_base}/pourbaix/*_*/*/most_stable; do
     IFS='/' read -r -a path <<< "$dir"
     metal=$(echo "${path[-3]}" | cut -d'_' -f2)
@@ -86,7 +87,7 @@ for dir in ${source_base}/pourbaix/*_*/*/most_stable; do
     elif [[ ! "$ads_upper" =~ .*-.+ ]]; then
         dest_dir="${destination_base}/${metal}N4C26/001/${site1}/${ads_upper}"
     fi
-    if [[ -f "$dir/final_with_calculator.json" ]]; then
+    if [[ ! "${dest_dir}" == '' ]]; then
         mkdir -p "$dest_dir"
         cp "$dir/final_with_calculator.json" "$dest_dir/"
         echo "Copied final_with_calculator.json to $dest_dir"
