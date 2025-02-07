@@ -3,9 +3,8 @@
 source_base="/pscratch/sd/j/jiuy97/6_MNC"
 destination_base="/pscratch/sd/j/jiuy97/cathub"
 
-site1='M1-site'
-site2='M2-site'
-site3='N-site'
+site1='site1'
+site2='site2'
 
 dest_dir="${destination_base}/N4C26/001"
 mkdir -p "$dest_dir"
