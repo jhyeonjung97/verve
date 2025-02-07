@@ -111,22 +111,22 @@ site3='D'
 # # done
 # # find ${destination_base} -path "*/MISSING:*" -delete
 
-for dir in *N4C26/; do
-    cathub organize "${dir%/}" -c VASP-6.3.2 -x PBE+U+D3+VASPsol -d "${gas_path}"
-    echo "Directory organized: ${dir_name}.organized"
-done
+# for dir in *N4C26/; do
+#     cathub organize "${dir%/}" -c VASP-6.3.2 -x PBE+U+D3+VASPsol -d "${gas_path}"
+#     echo "Directory organized: ${dir_name}.organized"
+# done
 
-dest_dir="${destination_base}/N4C26.organized/${vasp_pbe}/C26N4/001"
-mkdir -p "${dest_dir}/H2gas_star__2H@site2"
-cp "${destination_base}/N4C26/001/final_with_calculator.json" "${dest_dir}/empty_slab.json"
-cp "${destination_base}/N4C26/001/N/H2/final_with_calculator.json" "${dest_dir}/H2gas_star__2H@site2/H2.json"
+# dest_dir="${destination_base}/N4C26.organized/${vasp_pbe}/C26N4/001"
+# mkdir -p "${dest_dir}/H2gas_star__2H@site2"
+# cp "${destination_base}/N4C26/001/final_with_calculator.json" "${dest_dir}/empty_slab.json"
+# cp "${destination_base}/N4C26/001/N/H2/final_with_calculator.json" "${dest_dir}/H2gas_star__2H@site2/H2.json"
 
 for dir in *N4C26.organized/${vasp_pbe}/*C26N4; do
-    mv "${dir}/001" "${dir}/001@M"
+    # mv "${dir}/001" "${dir}/001@M"
     for sub_dir in "${dir}/001@M/*"; do
         if [[ ${sub_dir} == *'@site1' ]]; then
             new_name="${sub_dir%@site1}"
-            mv "$sub_dir" "${dir}/001@M/$new_name"
+            mv "$sub_dir" "$new_name"
         elif [[ ${sub_dir} == *'@site2' ]]; then
             mkdir -p "${dir}/001@N"
             mv ${sub_dir} ${dir}/001@N
