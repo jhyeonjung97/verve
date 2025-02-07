@@ -2,6 +2,7 @@
 
 source_base="/pscratch/sd/j/jiuy97/6_MNC"
 destination_base="/pscratch/sd/j/jiuy97/cathub"
+org_part=".organized/VASP-6.3.2/PBE+U+D3+VASPsol"
 
 site1='M'
 site2='N'
@@ -95,14 +96,9 @@ site3='D'
 
 # gas_path="/global/cfs/cdirs/m2997/Delowar/OER/MOF/data_storage_MOF/gas"
 # cd "${destination_base}" || exit 1
-# for dir in */; do
-#     dir_name=$(basename "$dir")
-#     if [[ -d "${dir_name}/001/${site1}" ]]; then
-#         if [[ ! -d "${dir_name}.organized" ]]; then
-#             cathub organize "${dir%/}" -c VASP-6.3.2 -x PBE+U+D3+VASPsol -d "${gas_path}"
-#             echo "Directory organized: ${dir_name}.organized"
-#         fi
-#     fi
+# for dir in *N4C26/; do
+#     cathub organize "${dir%/}" -c VASP-6.3.2 -x PBE+U+D3+VASPsol -d "${gas_path}"
+#     echo "Directory organized: ${dir_name}.organized"
 # done
 
 cp /global/homes/j/jiuy97/bin/verve/template* .
@@ -119,15 +115,6 @@ cathub make-folders template
 #     fi
 # done
 # find ${destination_base} -path "*/MISSING:*" -delete
-
-
-
-
-
-
-
-
-
 
 # for dir in ${source_base}/pourbaix/*_*/*/most_stable; do
 #     IFS='/' read -r -a path <<< "$dir"
