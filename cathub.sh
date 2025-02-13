@@ -38,8 +38,8 @@ for dir in ${mnc}/0_clean/*d/*_*/most_stable; do
         dz=$(echo "$n * 0.2" | bc)
         dest_dir="${cathub}/${metal}N4C26_${dz}/001-${site1}"
         mkdir -p "${dest_dir}"
-        cp "${dir}/${n}/final_with_calculator.json" "${dest_dir}/empty_slab.json"
-        echo "Copied ${dir}/${n}/final_with_calculator.json to ${dest_dir}"
+        cp "${dir}/${n}_/final_with_calculator.json" "${dest_dir}/empty_slab.json"
+        echo "Copied ${dir}/${n}_/final_with_calculator.json to ${dest_dir}"
     done
 done
 
