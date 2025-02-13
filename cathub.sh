@@ -34,12 +34,13 @@ for dir in ${mnc}/0_clean/*d/*_*/most_stable; do
     cp "${dir}/ooh/final_with_calculator.json" "${dest_dir}/OOH.json"
     echo "Copied ${dir}/ooh/final_with_calculator.json to ${dest_dir}"
     
-    for n in {0..6}; do
-        dz=$(echo "$n * 0.2" | bc)
+    dzs=(0.0 0.2 0.4 0.6 0.8 1.0 1.2)
+    for i in {0..6}; do
+        dz=${dzs[$i]}
         dest_dir="${cathub}/${metal}N4C26_${dz}/001-${site1}"
         mkdir -p "${dest_dir}"
-        cp "${dir}/${n}_/final_with_calculator.json" "${dest_dir}/empty_slab.json"
-        echo "Copied ${dir}/${n}_/final_with_calculator.json to ${dest_dir}"
+        cp "${dir}/${i}/final_with_calculator.json" "${dest_dir}/empty_slab.json"
+        echo "Copied ${dir}/${i}/final_with_calculator.json to ${dest_dir}"
     done
 done
 
