@@ -12,7 +12,7 @@ site3='D'
 
 for dir in ${mnc}/0_clean/*d/*_*/most_stable; do
     IFS='/' read -r -a path <<< "$dir"
-    metal=$(# echo "${path[-2]}" | cut -d'_' -f2)
+    metal=$(echo "${path[-2]}" | cut -d'_' -f2)
     
     dest_dir="${cathub}/${metal}N4C26_relaxed/001-${site1}"
     mkdir -p "${dest_dir}"
@@ -46,7 +46,7 @@ done
 
 for dir in ${mnc}/1_O/*_*/most_stable; do
     IFS='/' read -r -a path <<< "$dir"
-    metal=$(# echo "${path[-2]}" | cut -d'_' -f2)
+    metal=$(echo "${path[-2]}" | cut -d'_' -f2)
     
     dest_dir="${cathub}/${metal}N4C26_relaxed/001-${site1}/H2Ogas_-1.0H2gas_star__Ostar"
     mkdir -p "${dest_dir}"
@@ -65,7 +65,7 @@ done
 
 for dir in ${mnc}/2_OH/*_*/most_stable; do
     IFS='/' read -r -a path <<< "$dir"
-    metal=$(# echo "${path[-2]}" | cut -d'_' -f2)
+    metal=$(echo "${path[-2]}" | cut -d'_' -f2)
     
     dest_dir="${cathub}/${metal}N4C26_relaxed/001-${site1}/H2Ogas_-0.5H2gas_star__OHstar"
     mkdir -p "${dest_dir}"
@@ -84,7 +84,7 @@ done
 
 for dir in ${mnc}/3_OOH/*_*/most_stable; do
     IFS='/' read -r -a path <<< "$dir"
-    metal=$(# echo "${path[-2]}" | cut -d'_' -f2)
+    metal=$(echo "${path[-2]}" | cut -d'_' -f2)
     
     dest_dir="${cathub}/${metal}N4C26_relaxed/001-${site1}/2.0H2Ogas_-1.5H2gas_star__OOHstar"
     mkdir -p "${dest_dir}"
@@ -103,9 +103,9 @@ done
 
 for dir in ${mnc}/pourbaix/*_*/*/most_stable; do
     IFS='/' read -r -a path <<< "$dir"
-    metal=$(# echo "${path[-3]}" | cut -d'_' -f2)
+    metal=$(echo "${path[-3]}" | cut -d'_' -f2)
     ads=${path[-2]}
-    ads_upper=$(# echo "$ads" | tr '[:lower:]' '[:upper:]')
+    ads_upper=$(echo "$ads" | tr '[:lower:]' '[:upper:]')
     if [[ "$ads_upper" == "MH" ]]; then
         site_rxn="001-${site1}/0.5H2gas_star__Hstar"
     elif [[ "$ads_upper" == "NH" ]]; then
