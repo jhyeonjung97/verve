@@ -35,7 +35,9 @@ for dir in ${mnc}/0_clean/*d/*_*/most_stable; do
     
     dest_dir="${cathub}/${metal}N4C26_relaxed/001-${site1}/2.0H2Ogas_-1.5H2gas_star__OOHstar"
     mkdir -p "${dest_dir}"
-    cp "${dir}/ooh/final_with_calculator.json" "${dest_dir}/OOH.json"
+    if [[ -f "${dir}/ooh/final_with_calculator.json" ]]; then
+        cp "${dir}/ooh/final_with_calculator.json" "${dest_dir}/OOH.json"
+    fi
     # echo "Copied ooh/final_with_calculator.json to ${dest_dir}"
     
     dzs=(0.0 0.2 0.4 0.6 0.8 1.0 1.2)
