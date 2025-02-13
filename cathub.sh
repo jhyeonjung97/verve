@@ -155,7 +155,7 @@ for dir in ${mnc}/pourbaix/*_*/*/most_stable; do
         mkdir -p "${dest_dir}"
         cp "${dir}/final_with_calculator.json" "${dest_dir}"
         # echo "Copied final_with_calculator.json to ${dest_dir}"
-        cp "${cathub}/${metal}N4C26_relaxed/001-M/empty-slab.json" "${cathub}/${metal}N4C26_relaxed/001-${site}"
+        cp "${cathub}/${metal}N4C26_relaxed/001-M/empty_slab.json" "${cathub}/${metal}N4C26_relaxed/001-${site}"
     fi
 done
 
