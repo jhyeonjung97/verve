@@ -17,30 +17,30 @@ for dir in ${mnc}/0_clean/*d/*_*/most_stable; do
     dest_dir="${cathub}/${metal}N4C26_relaxed/001-${site1}"
     mkdir -p "${dest_dir}"
     cp "${dir}/relaxed/final_with_calculator.json" "${dest_dir}/empty_slab.json"
-    echo "Copied ${dir}/relaxed/final_with_calculator.json to ${dest_dir}"
+    echo "Copied relaxed/final_with_calculator.json to ${dest_dir}"
     
     dest_dir="${cathub}/${metal}N4C26_relaxed/001-${site1}/H2Ogas_-1.0H2gas_star__Ostar"
     mkdir -p "${dest_dir}"
     cp "${dir}/o/final_with_calculator.json" "${dest_dir}/O.json"
-    echo "Copied ${dir}/o/final_with_calculator.json to ${dest_dir}"
+    echo "Copied o/final_with_calculator.json to ${dest_dir}"
     
     dest_dir="${cathub}/${metal}N4C26_relaxed/001-${site1}/H2Ogas_-0.5H2gas_star__OHstar"
     mkdir -p "${dest_dir}"
     cp "${dir}/oh/final_with_calculator.json" "${dest_dir}/OH.json"
-    echo "Copied ${dir}/oh/final_with_calculator.json to ${dest_dir}"
+    echo "Copied oh/final_with_calculator.json to ${dest_dir}"
     
     dest_dir="${cathub}/${metal}N4C26_relaxed/001-${site1}/2.0H2Ogas_-1.5H2gas_star__OOHstar"
     mkdir -p "${dest_dir}"
     cp "${dir}/ooh/final_with_calculator.json" "${dest_dir}/OOH.json"
-    echo "Copied ${dir}/ooh/final_with_calculator.json to ${dest_dir}"
+    echo "Copied ooh/final_with_calculator.json to ${dest_dir}"
     
     dzs=(0.0 0.2 0.4 0.6 0.8 1.0 1.2)
     for i in {0..6}; do
         dz=${dzs[$i]}
         dest_dir="${cathub}/${metal}N4C26_${dz}/001-${site1}"
         mkdir -p "${dest_dir}"
-        cp "${dir}/${i}/final_with_calculator.json" "${dest_dir}/empty_slab.json"
-        echo "Copied ${dir}/${i}/final_with_calculator.json to ${dest_dir}"
+        cp "${dir}/${i}_/final_with_calculator.json" "${dest_dir}/empty_slab.json"
+        echo "Copied ${i}_/final_with_calculator.json to ${dest_dir}"
     done
 done
 
@@ -51,22 +51,22 @@ for dir in ${mnc}/0_clean/*d/*_*/most_stable; do
     dest_dir="${cathub}/${metal}N4C26_relaxed/001-${site1}"
     mkdir -p "${dest_dir}"
     cp "${dir}/relaxed/final_with_calculator.json" "${dest_dir}/empty_slab.json"
-    echo "Copied ${dir}/relaxed/final_with_calculator.json to ${dest_dir}"
+    echo "Copied relaxed/final_with_calculator.json to ${dest_dir}"
     
     dest_dir="${cathub}/${metal}N4C26_relaxed/001-${site1}/H2Ogas_-1.0H2gas_star__Ostar"
     mkdir -p "${dest_dir}"
     cp "${dir}/o/final_with_calculator.json" "${dest_dir}/O.json"
-    echo "Copied ${dir}/o/final_with_calculator.json to ${dest_dir}"
+    echo "Copied o/final_with_calculator.json to ${dest_dir}"
     
     dest_dir="${cathub}/${metal}N4C26_relaxed/001-${site1}/H2Ogas_-0.5H2gas_star__OHstar"
     mkdir -p "${dest_dir}"
     cp "${dir}/oh/final_with_calculator.json" "${dest_dir}/OH.json"
-    echo "Copied ${dir}/oh/final_with_calculator.json to ${dest_dir}"
+    echo "Copied oh/final_with_calculator.json to ${dest_dir}"
     
     dest_dir="${cathub}/${metal}N4C26_relaxed/001-${site1}/2.0H2Ogas_-1.5H2gas_star__OOHstar"
     mkdir -p "${dest_dir}"
     cp "${dir}/ooh/final_with_calculator.json" "${dest_dir}/OOH.json"
-    echo "Copied ${dir}/ooh/final_with_calculator.json to ${dest_dir}"
+    echo "Copied ooh/final_with_calculator.json to ${dest_dir}"
 done
 
 for dir in ${mnc}/1_O/*_*/most_stable/relaxed; do
@@ -76,7 +76,7 @@ for dir in ${mnc}/1_O/*_*/most_stable/relaxed; do
     dest_dir="${cathub}/${metal}N4C26_relaxed/001-${site1}/H2Ogas_-1.0H2gas_star__Ostar"
     mkdir -p "${dest_dir}"
     cp "${dir}/final_with_calculator.json" "${dest_dir}/O.json"
-    echo "Copied ${dir}/final_with_calculator.json to ${dest_dir}"
+    echo "Copied final_with_calculator.json to ${dest_dir}"
 done
 
 for dir in ${mnc}/2_OH/*_*/most_stable/relaxed; do
@@ -86,7 +86,7 @@ for dir in ${mnc}/2_OH/*_*/most_stable/relaxed; do
     dest_dir="${cathub}/${metal}N4C26_relaxed/001-${site1}/H2Ogas_-0.5H2gas_star__OHstar"
     mkdir -p "${dest_dir}"
     cp "${dir}/final_with_calculator.json" "${dest_dir}/OH.json"
-    echo "Copied ${dir}/final_with_calculator.json to ${dest_dir}"
+    echo "Copied final_with_calculator.json to ${dest_dir}"
 done
 
 for dir in ${mnc}/3_OOH/*_*/most_stable/relaxed; do
@@ -96,7 +96,7 @@ for dir in ${mnc}/3_OOH/*_*/most_stable/relaxed; do
     dest_dir="${cathub}/${metal}N4C26_relaxed/001-${site1}/2.0H2Ogas_-1.5H2gas_star__OOHstar"
     mkdir -p "${dest_dir}"
     cp "${dir}/final_with_calculator.json" "${dest_dir}/OOH.json"
-    echo "Copied ${dir}/final_with_calculator.json to ${dest_dir}"
+    echo "Copied final_with_calculator.json to ${dest_dir}"
 done
 
 for dir in ${mnc}/pourbaix/*_*/*/most_stable; do
@@ -145,6 +145,6 @@ for dir in ${mnc}/pourbaix/*_*/*/most_stable; do
         dest_dir="${cathub}/${metal}N4C26_relaxed/${site_rxn}"
         mkdir -p "${dest_dir}"
         cp "${dir}/final_with_calculator.json" "${dest_dir}"
-        echo "Copied ${dir}/final_with_calculator.json to ${dest_dir}"
+        echo "Copied final_with_calculator.json to ${dest_dir}"
     fi
 done
