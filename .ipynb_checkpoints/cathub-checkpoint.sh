@@ -3,7 +3,7 @@
 mnc="/pscratch/sd/j/jiuy97/6_MNC"
 vasp_pbe="VASP-6.3.2/PBE+U+D3+VASPsol"
 cathub="${mnc}/JungTuning2025/${vasp_pbe}"
-gas="/global/cfs/cdirs/m2997/Delowar/OER/MOF/data_storage_MOF/gas"
+# gas="/global/cfs/cdirs/m2997/Delowar/OER/MOF/data_storage_MOF/gas"
 cd "${cathub_path}" || exit 1
 
 site1='M'
@@ -13,6 +13,7 @@ site3='D'
 mkdir -p "${cathub}/N4C26/001-${site2}"
 cp "${mnc}/empty/0_/final_with_calculator.json" "${cathub}/N4C26/empty_slab.json"
 cp "${mnc}/empty/2_/final_with_calculator.json" "${cathub}/N4C26/001-${site2}"
+cp -r "${mnc}/gas" "${cathub}"
 
 for dir in ${mnc}/0_clean/*d/*_*/most_stable; do
     IFS='/' read -r -a path <<< "$dir"
@@ -156,5 +157,9 @@ for dir in ${mnc}/pourbaix/*_*/*/most_stable; do
         # echo "Copied final_with_calculator.json to ${dest_dir}"
     fi
 done
+
+tree "${destination_base}/JungTuning2025.organized"
+cp ~/bin/tools/mnc/publication.txt "${destination_base}/JungTuning2025/"
+cathub folder2db JungTuning2025
 
 find ${cathub} -type d -empty -delete
