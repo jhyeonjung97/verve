@@ -10,10 +10,10 @@ site1='M'
 site2='N'
 site3='D'
 
+cp -r "${mnc}/gas" "${cathub}"
 mkdir -p "${cathub}/N4C26/001-${site2}"
 cp "${mnc}/empty/0_/final_with_calculator.json" "${cathub}/N4C26/empty_slab.json"
 cp "${mnc}/empty/2_/final_with_calculator.json" "${cathub}/N4C26/001-${site2}"
-cp -r "${mnc}/gas" "${cathub}"
 
 for dir in ${mnc}/0_clean/*d/*_*/most_stable; do
     IFS='/' read -r -a path <<< "$dir"
@@ -158,8 +158,11 @@ for dir in ${mnc}/pourbaix/*_*/*/most_stable; do
     fi
 done
 
-tree "${destination_base}/JungTuning2025.organized"
-cp ~/bin/tools/mnc/publication.txt "${destination_base}/JungTuning2025/"
+find "${cathub}" -type d -empty -delete
+tree "${cathub}"
+
+cd "${mnc}" || exit 1
+cp ~/bin/tools/mnc/publication.txt JungTuning2025
 cathub folder2db JungTuning2025
 
-find ${cathub} -type d -empty -delete
+
