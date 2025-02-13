@@ -39,10 +39,8 @@ for dir in ${mnc}/0_clean/*d/*_*/most_stable; do
         dz=${dzs[$i]}
         dest_dir="${cathub}/${metal}N4C26_${dz}/001-${site1}"
         mkdir -p "${dest_dir}"
-        if [[ -f "${dir}/${i}_/final_with_calculator.json" ]]; then
-            cp "${dir}/${i}_/final_with_calculator.json" "${dest_dir}/empty_slab.json"
-            echo "Copied ${i}_/final_with_calculator.json to ${dest_dir}"
-        fi
+        cp "${dir}/${i}_/final_with_calculator.json" "${dest_dir}/empty_slab.json"
+        echo "Copied ${i}_/final_with_calculator.json to ${dest_dir}"
     done
 done
 
@@ -151,4 +149,4 @@ for dir in ${mnc}/pourbaix/*_*/*/most_stable; do
     fi
 done
 
-find ${cathub} -type d -empty
+find ${cathub} -type d -empty -delete
