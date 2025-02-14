@@ -50,7 +50,7 @@ for dir in sorted_dirs:
     
     path = os.path.join(dir_path, 'final_with_calculator.json')
     if os.path.exists(path):
-        # print(path)
+        print(path)
         atoms = read(path)
         if args.magnetic:
             try:
