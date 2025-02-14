@@ -49,8 +49,6 @@ for dir in sorted_dirs:
     #         break
     
     path = os.path.join(dir_path, 'final_with_calculator.json')
-    print(path)
-
     if os.path.exists(path):
         atoms = read(path)
         if args.magnetic:
