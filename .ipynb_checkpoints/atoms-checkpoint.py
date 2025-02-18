@@ -3,6 +3,7 @@ import glob
 import argparse
 import subprocess
 from ase.io import read
+from statistics import mean
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-m', '--magnetic', action='store_true', default=False, help='Print magnetic moments')
@@ -48,7 +49,7 @@ for dir in sorted_dirs:
     #         atoms = read(traj_file)
     #         break
     
-    path = os.path.join(dir_path, 'final_with_calculator.json')
+    path = os.path.join(dir_path, 'most_stable/final_with_calculator.json')
     if os.path.exists(path):
         atoms = read(path)
         if args.magnetic:
@@ -68,6 +69,10 @@ for dir in sorted_dirs:
         if args.cell:
             print(f"{Colors.GREEN}{dir}{Colors.RESET}\t", atoms.cell.cellpar())
         if args.z:
+            zN = mean([atom.z for atom in atoms if atom.symbol == 'N'])
+            zM = mean([atom.z for atom in atoms if atom.symbol != 'N' and atom.symbol != 'C' and atom.symbol != 'O' and atom.symbol != 'H'])
+            dz = abs(zN - zM)
+            print(f"{Colors.GREEN}{dir}{Colors.RESET}\t", dz)
             print(f"{Colors.GREEN}{dir}{Colors.RESET}\t", atoms[0].z, atoms[1].z)
         if args.aa:
             print(f"{Colors.GREEN}{dir}{Colors.RESET}\t{atoms.cell.cellpar()[1]:.4f}\t{atoms.cell.cellpar()[2]:.4f}")
