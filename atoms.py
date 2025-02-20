@@ -49,7 +49,7 @@ for dir in sorted_dirs:
     #         atoms = read(traj_file)
     #         break
     
-    path = os.path.join(dir_path, 'most_stable/final_with_calculator.json')
+    path = os.path.join(dir_path, 'final_with_calculator.json')
     if os.path.exists(path):
         atoms = read(path)
         if args.magnetic:
