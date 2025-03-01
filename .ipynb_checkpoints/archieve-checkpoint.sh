@@ -23,4 +23,5 @@ if [[ -n $stanford ]]; then
 
     if [[ -n $google ]]; then
         /usr/bin/rsync -avzpl $google google
+    fi
 fi
