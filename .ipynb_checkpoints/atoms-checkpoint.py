@@ -15,7 +15,7 @@ parser.add_argument('-a', '--atoms', action='store_true', default=False, help='P
 parser.add_argument('-f', '--force', action='store_true', default=False, help='Force to select all directories')
 parser.add_argument('-b', '--beta', action='store_true', default=False)
 parser.add_argument('-v', '--volume', action='store_true', default=False)
-parser.add_argument('-h', '--hydrogen', action='store_true', default=False)
+parser.add_argument('-hh', '--hydrogen', action='store_true', default=False)
 parser.add_argument('-z', action='store_true', default=False)
 parser.add_argument('-aa', action='store_true', default=False)
 args = parser.parse_args()
