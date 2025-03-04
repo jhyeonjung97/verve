@@ -2,6 +2,7 @@ import os
 import glob
 import argparse
 import subprocess
+import numpy as np
 from ase.io import read
 from statistics import mean
 
@@ -14,6 +15,7 @@ parser.add_argument('-a', '--atoms', action='store_true', default=False, help='P
 parser.add_argument('-f', '--force', action='store_true', default=False, help='Force to select all directories')
 parser.add_argument('-b', '--beta', action='store_true', default=False)
 parser.add_argument('-v', '--volume', action='store_true', default=False)
+parser.add_argument('-hh', '--hydrogen', action='store_true', default=False)
 parser.add_argument('-z', action='store_true', default=False)
 parser.add_argument('-aa', action='store_true', default=False)
 args = parser.parse_args()
@@ -49,7 +51,7 @@ for dir in sorted_dirs:
     #         atoms = read(traj_file)
     #         break
     
-    path = os.path.join(dir_path, 'final_with_calculator.json')
+    path = os.path.join(dir_path, 'final_opt_slab.json')
     if os.path.exists(path):
         atoms = read(path)
         if args.magnetic:
@@ -68,6 +70,11 @@ for dir in sorted_dirs:
             print(f"{Colors.GREEN}{dir}{Colors.RESET}\t{atoms.cell.cellpar()[4]:.2f}")
         if args.cell:
             print(f"{Colors.GREEN}{dir}{Colors.RESET}\t", atoms.cell.cellpar())
+        if args.hydrogen:
+            atoms = read(os.path.join(dir_path, 'atoms_bader_charge.json'))
+            charges = atoms.get_initial_charges()
+            h_charge = mean([charges[i] for i in range(len(atoms)) if atoms[i].symbol == 'H'])
+            print(f"{Colors.GREEN}{dir}{Colors.RESET}\t", h_charge)
         if args.z:
             zN = mean([atom.z for atom in atoms if atom.symbol == 'N'])
             zM = mean([atom.z for atom in atoms if atom.symbol != 'N' and atom.symbol != 'C' and atom.symbol != 'O' and atom.symbol != 'H'])
