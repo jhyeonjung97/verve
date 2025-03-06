@@ -7,6 +7,7 @@ from ase.io import read
 from statistics import mean
 
 parser = argparse.ArgumentParser()
+parser.add_argument('-i', '--input', type=str, default='final_with_calculator.json')
 parser.add_argument('-m', '--magnetic', action='store_true', default=False, help='Print magnetic moments')
 parser.add_argument('-c', '--charge', action='store_true', default=False, help='Print Bader charges')
 parser.add_argument('-p', '--cell', action='store_true', default=False, help='Print Cell Parameters')
@@ -51,7 +52,7 @@ for dir in sorted_dirs:
     #         atoms = read(traj_file)
     #         break
     
-    path = os.path.join(dir_path, 'final_with_calculator.json')
+    path = os.path.join(dir_path, args.input)
     if os.path.exists(path):
         atoms = read(path)
         if args.magnetic:
