@@ -63,6 +63,8 @@ alias dz='python ~/bin/verve/dz.py'
 alias spreada='sh ~/bin/verve/spreada.sh'
 alias gathera='sh ~/bin/verve/gathera.sh'
 alias convert='python ~/bin/verve/convert.py'
+alias sym='sed -i -e "s/_symprec.py/.py/" submit.sh
+sed -i -e "s/fm.py/fm_symprec.py/" submit.sh'
 
 # Analysis
 alias dp='display'
