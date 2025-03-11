@@ -10,7 +10,7 @@ elif [[ ${here} == 'mac' ]]; then
     stanford='/Users/hailey/Library/CloudStorage/OneDrive-Stanford'
 fi
 
-if [[ -n $stanford ]]; then
+if [[ -d $stanford ]]; then
     cd "$stanford" || { echo "Failed to change directory to $stanford"; exit 1; }
     
     /usr/bin/rsync -avzpl ~/bin/orange ./bin
@@ -21,7 +21,7 @@ if [[ -n $stanford ]]; then
     /usr/bin/rsync -e ssh -avlzp jiuy97@perlmutter.nersc.gov:/pscratch/sd/j/jiuy97/5_HEO .
     /usr/bin/rsync -e ssh -avlzp jiuy97@perlmutter.nersc.gov:/pscratch/sd/j/jiuy97/6_MNC .
 
-    if [[ -n $google ]]; then
+    if [[ -d $google ]]; then
         /usr/bin/rsync -avzpl $google google
     fi
 fi
