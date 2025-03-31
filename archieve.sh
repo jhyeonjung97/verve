@@ -18,7 +18,6 @@ if [[ -d $stanford ]]; then
     /usr/bin/rsync -avzpl ~/bin/verve ./bin
     /usr/bin/rsync -avzpl ~/bin/tools ./bin
     
-    # /usr/bin/rsync -e ssh -avlzp jiuy97@perlmutter.nersc.gov:/pscratch/sd/j/jiuy97/5_HEO .
     /usr/bin/rsync -e ssh -avlzp jiuy97@perlmutter.nersc.gov:/pscratch/sd/j/jiuy97/6_MNC .
 
     if [[ -d $google ]]; then
