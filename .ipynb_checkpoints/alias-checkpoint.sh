@@ -98,7 +98,9 @@ alias gap='python ~/bin/verve/gap.py'
 alias restart='sh ~/bin/verve/correct-contcar.sh; python ~/bin/get_restart3'
 
 #SSH
-alias hi='sh ~/bin/verve/gits.sh orange shoulder verve tools
+alias hi='~/bin/sshproxy.sh -u jiuy97
+ssh -X -Y -l jiuy97 -i ~/.ssh/nersc perlmutter.nersc.gov'
+alias hihi='sh ~/bin/verve/gits.sh orange shoulder verve tools
 ~/bin/sshproxy.sh -u jiuy97
 ssh -X -Y -l jiuy97 -i ~/.ssh/nersc perlmutter.nersc.gov'
 alias bye='sh ~/bin/verve/gits.sh orange shoulder verve tools'
