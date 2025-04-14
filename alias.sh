@@ -25,6 +25,7 @@ alias spread='~/bin/verve/spread.sh'
 alias conda-hi='conda init; conda activate py3'
 alias conda-bye='conda deactivate; conda init --reverse'
 alias conti='sh ~/bin/verve/conti.sh'
+alias rsync='/opt/homebrew/bin/rsync'
 
 # Preperation
 alias ma='grep MAGMOM */INCAR'
@@ -98,9 +99,8 @@ alias gap='python ~/bin/verve/gap.py'
 alias restart='sh ~/bin/verve/correct-contcar.sh; python ~/bin/get_restart3'
 
 #SSH
-alias hi='~/bin/sshproxy.sh -u jiuy97
-ssh -X -Y -l jiuy97 -i ~/.ssh/nersc perlmutter.nersc.gov'
-alias hihi='sh ~/bin/verve/gits.sh orange shoulder verve tools
+alias proxy='~/bin/sshproxy.sh -u jiuy97'
+alias hi='sh ~/bin/verve/gits.sh orange shoulder verve tools
 ~/bin/sshproxy.sh -u jiuy97
 ssh -X -Y -l jiuy97 -i ~/.ssh/nersc perlmutter.nersc.gov'
 alias bye='sh ~/bin/verve/gits.sh orange shoulder verve tools'
