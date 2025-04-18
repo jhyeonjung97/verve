@@ -1,6 +1,7 @@
 stanford=""
 personal=""
 google=""
+tetra=""
 
 if [[ ${here} == 'slac' ]]; then
     toshiba='/Volumes/TOSHIBA'
@@ -8,6 +9,7 @@ if [[ ${here} == 'slac' ]]; then
     stanford='/Users/jiuy97/Library/CloudStorage/OneDrive-Stanford'
     personal='/Users/jiuy97/Library/CloudStorage/OneDrive-Personal'
     google='/Users/jiuy97/Library/CloudStorage/GoogleDrive-jiuy97@stanford.edu/My Drive/'
+    tetra='/Users/jiuy97/Library/CloudStorage/GoogleDrive-jiuy97@stanford.edu/My Drive/Tetrahedral_oxides_ML/Figures'
 elif [[ ${here} == 'mac' ]]; then
     toshiba='/Volumes/TOSHIBA'
     jeung2hailey='/Volumes/jeung2hailey'
@@ -45,4 +47,9 @@ fi
 if [[ -d $personal ]] && [[ -d $google ]]; then
     cd "$personal" || { echo "Failed to change directory to $personal"; exit 1; }
     /opt/homebrew/bin/rsync -av --min-size=1 $google ./GoogleDrive
+fi
+
+if [[ -d $tetra ]]; then
+    cd "$tetra" || { echo "Failed to change directory to $tetra"; exit 1; }
+    /opt/homebrew/bin/rsync -e ssh -av --min-size=1 /Users/jiuy97/Desktop/7_V_bulk/figures .
 fi
