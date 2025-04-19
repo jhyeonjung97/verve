@@ -116,7 +116,7 @@ alias x2347='ssh -X -Y x2347a10@nurion.ksc.re.kr'
 alias x2755='ssh -X -Y x2755a09@nurion.ksc.re.kr'
 alias cori='ssh -X -Y jiuy97@cori.nersc.gov'
 alias nersc='ssh -X -Y jiuy97@perlmutter.nersc.gov'
-alias snu='ssh -p 54329 hyeonjung@114.71.51.21'
+alias snu='ssh -X -Y -p 54329 hyeonjung@114.71.51.21'
 
 alias send='sh ~/bin/orange/send.sh'
 alias get='sh ~/bin/orange/get.sh'
