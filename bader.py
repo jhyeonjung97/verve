@@ -25,7 +25,7 @@ def get_bader_charges(traj):
     print('# Run Bader analysis')
     
     file = open('ACF.dat', 'r')
-    lines = file.readlines() # This is what you forgot
+    lines = file.readlines()
     file.close()
     for j in [1, 0, -4, -3, -2, -1]:
         del lines[j]
@@ -38,7 +38,19 @@ def get_bader_charges(traj):
     newlines = np.array(newlines)
     charge = newlines[:,4]
     
-    atoms=read(traj)
+    # Try to read CONTCAR first, if not available try OUTCAR
+    if os.path.exists('CONTCAR'):
+        atoms = read('CONTCAR')
+    elif os.path.exists('POSCAR'):
+        atoms = read('POSCAR')
+    else:
+        try:
+            atoms = read(traj)
+        except Exception as e:
+            print(f"Error reading {traj}: {str(e)}")
+            print("Please make sure CONTCAR, POSCAR, or a valid OUTCAR exists.")
+            sys.exit(1)
+    
     write('qn.xyz',atoms)
     
     filelist = glob.glob('*.xyz')
@@ -99,8 +111,19 @@ if __name__ == '__main__':
 	atoms_charge=get_bader_charges(traj)
 	write_charge_traj=True
 	if write_charge_traj:
-		atoms=read(traj)
-		#atoms_charge.set_initial_magnetic_moments(write_charge)
+		# Try to read CONTCAR first, if not available try OUTCAR
+		if os.path.exists('CONTCAR'):
+			atoms = read('CONTCAR')
+		elif os.path.exists('POSCAR'):
+			atoms = read('POSCAR')
+		else:
+			try:
+				atoms = read(traj)
+			except Exception as e:
+				print(f"Error reading {traj}: {str(e)}")
+				print("Please make sure CONTCAR, POSCAR, or a valid OUTCAR exists.")
+				sys.exit(1)
+		
 		atoms.set_initial_charges(atoms_charge)
 		write('atoms_bader_charge.json',atoms)
 
