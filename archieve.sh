@@ -8,20 +8,20 @@ if [[ ${here} == 'slac' ]]; then
     jeung2hailey='/Volumes/jeung2hailey'
     stanford='/Users/jiuy97/Library/CloudStorage/OneDrive-Stanford'
     personal='/Users/jiuy97/Library/CloudStorage/OneDrive-Personal'
-    google='/Users/jiuy97/Library/CloudStorage/GoogleDrive-jiuy97@stanford.edu/My Drive/'
-    tetra='/Users/jiuy97/Library/CloudStorage/GoogleDrive-jiuy97@stanford.edu/My Drive/Tetrahedral_oxides_ML/Figures'
+    google='/Users/jiuy97/Library/CloudStorage/GoogleDrive-jiuy97@stanford.edu/Shared drives/'
+    tetra='/Users/jiuy97/Library/CloudStorage/GoogleDrive-jiuy97@stanford.edu/Shared drives/Tetrahedral_oxides_ML/Figures'
 elif [[ ${here} == 'mac' ]]; then
     toshiba='/Volumes/TOSHIBA'
     jeung2hailey='/Volumes/jeung2hailey'
     stanford='/Users/hailey/Library/CloudStorage/OneDrive-Stanford'
     personal='/Users/hailey/Library/CloudStorage/OneDrive-Personal'
-    google='/Users/hailey/Library/CloudStorage/GoogleDrive-jiuy97@stanford.edu/My Drive/'
+    google='/Users/hailey/Library/CloudStorage/GoogleDrive-jiuy97@stanford.edu/Shared drives/'
 elif [[ ${here} == 'mini' ]]; then
     toshiba='/Volumes/TOSHIBA'
     jeung2hailey='/Volumes/jeung2hailey'
     stanford='/Users/hailey/Library/CloudStorage/OneDrive-Stanford'
     personal='/Users/hailey/Library/CloudStorage/OneDrive-Personal'
-    google='/Users/hailey/Library/CloudStorage/GoogleDrive-jiuy97@stanford.edu/My Drive/'
+    google='/Users/hailey/Library/CloudStorage/GoogleDrive-jiuy97@stanford.edu/Shared drives/'
 fi
 
 if [[ -d $toshiba ]]; then
@@ -51,5 +51,5 @@ fi
 
 if [[ -d $tetra ]]; then
     cd "$tetra" || { echo "Failed to change directory to $tetra"; exit 1; }
-    /opt/homebrew/bin/rsync -e ssh -av --min-size=1 /Users/jiuy97/Desktop/7_V_bulk/figures .
+    rsync -avz --min-size=1 /Users/jiuy97/Desktop/7_V_bulk/figures .
 fi
