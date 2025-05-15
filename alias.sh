@@ -70,6 +70,7 @@ sed -i -e "s/fm.py/fm_symprec.py/" submit.sh'
 # Analysis
 alias dp='display'
 alias ta='tail */vasp.out'
+alias va='tail */vib/vasp.out'
 alias te='grep free_energy */final*json'
 alias me='grep MAGMOM */OUTCAR'
 alias e='grep E0 OSZICAR'

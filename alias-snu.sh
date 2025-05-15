@@ -14,3 +14,5 @@ alias qdel-all="squeue | grep jiuy97 | awk '{print \$1}' | xargs -I {} scancel {
 
 alias k='python ~/bin/verve/show_kpoints.py POSCAR
 python ~/bin/verve/show_kpoints.py CONTCAR'
+
+alias va='tail */vib/stdout.*.out'
