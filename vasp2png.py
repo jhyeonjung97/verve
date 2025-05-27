@@ -7,4 +7,4 @@ for vasp_file in os.listdir('.'):  # List all files in the current directory
         atoms = atoms.repeat((1,1,1))
         filename = os.path.splitext(vasp_file)[0]  # Get the filename without extension
         png_file = f"{filename}.png"  # Define output PNG filename
-        write(png_file, atoms, rotation='0x, 0y, 0z', show_unit_cell=0)  # Write PNG
+        write(png_file, atoms, rotation='0x, 90y, 0z', show_unit_cell=1)  # Write PNG
