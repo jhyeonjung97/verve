@@ -78,7 +78,7 @@ for file in matching_files:
         displacement = [0, 0, atoms.cell.lengths()[2]/2]
         atoms.translate(displacement)
     if vacuum:
-        # print('vacuum')
+        print('vacuum')
         min_z = atoms.positions[:,2].min()
         max_z = atoms.positions[:,2].max()
         height = max_z - min_z + vacuum
