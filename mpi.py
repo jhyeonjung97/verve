@@ -10,7 +10,7 @@ parser.add_argument('ids', nargs='+', help="Material IDs to download")
 args = parser.parse_args()
 
 # Your API key for the Materials Project
-api_key = '3jSckrUWEJ94DEo93ZOlCwNd2B1BHerV'
+api_key = '####'
 adaptor = AseAtomsAdaptor()
 
 with MPRester(api_key) as mpr:

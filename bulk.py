@@ -5,7 +5,7 @@ import subprocess
 import os
 
 def main():
-    api_key = '3jSckrUWEJ94DEo93ZOlCwNd2B1BHerV'
+    api_key = '####'
     metal_rows = {
         '3d': ['Ca', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn', 'Ga', 'Ge'],
         '4d': ['Sr', 'Y', 'Zr', 'Nb', 'Mo', 'Tc', 'Ru', 'Rh', 'Pd', 'Ag', 'Cd', 'In', 'Sn'],
