@@ -102,7 +102,7 @@ alias restart='sh ~/bin/verve/correct-contcar.sh; python ~/bin/get_restart3'
 #SSH
 alias proxy='~/bin/sshproxy.sh -u jiuy97
 ssh -X -Y -l jiuy97 -i ~/.ssh/nersc perlmutter.nersc.gov'
-alias hi='sh ~/bin/verve/gits.sh orange shoulder verve tools Resume
+alias hi='sh ~/bin/verve/gits.sh orange shoulder verve tools Resume HybridPB
 ~/bin/sshproxy.sh -u jiuy97
 ssh -X -Y -l jiuy97 -i ~/.ssh/nersc perlmutter.nersc.gov'
 alias burning='ssh -X -Y hyeonjung@burning.postech.ac.kr -p 54329'
@@ -130,7 +130,7 @@ alias orange='sh ~/bin/verve/gits.sh orange'
 alias shoulder='sh ~/bin/verve/gits.sh shoulder'
 alias verve='sh ~/bin/verve/gits.sh verve'
 alias tools='sh ~/bin/verve/gits.sh tools'
-alias bye='sh ~/bin/verve/gits.sh orange shoulder verve tools Resume'
+alias bye='sh ~/bin/verve/gits.sh orange shoulder verve tools Resume HybridPB'
 alias byebye='sh ~/bin/verve/gits.sh orange shoulder verve tools Resume && sh ~/bin/verve/archieve.sh'
 
 #ASE
