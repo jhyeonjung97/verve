@@ -1,26 +1,15 @@
 #!/bin/bash
 
-if [[ -n $1 ]]; then
-    prefix=$1
-else
-    prefix='sumo'
-fi
+sumo-dosplot \
+    --elements Co.d \
+    --atoms Co.19.20.22.23.25.26 \
+    --prefix surround
 
 sumo-dosplot \
-    --no-legend \
-    --elements N.p.s \
-    --orbitals N.p.s \
-    --config ~/bin/verve/orbital_colours.conf \
-    --format png \
-    --dpi 100 \
-    --column 1 \
-    --width 6 \
-    --height 4 \
-    --yscale 1 \
-    --zero-line \
-    --prefix $prefix \
-    --xmin -8 \
-    --xmax 6 \
-    --gaussian 0.05
-    
+    --elements Co.d \
+    --atoms Co.19.20.21.22.23.24.25.26 \
+    --prefix top
 
+sumo-dosplot \
+    --elements Co.d \
+    --prefix host
