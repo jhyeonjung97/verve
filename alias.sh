@@ -25,7 +25,7 @@ alias spread='~/bin/verve/spread.sh'
 alias conda-hi='conda init; conda activate py3'
 alias conda-bye='conda deactivate; conda init --reverse'
 alias conti='sh ~/bin/verve/conti.sh'
-alias rsync='/opt/homebrew/bin/rsync'
+# alias rsync='/opt/homebrew/bin/rsync'
 
 # Preperation
 alias ma='grep MAGMOM */INCAR'
