@@ -71,6 +71,8 @@ for dir in sorted_dirs:
             print(f"{Colors.GREEN}{dir}{Colors.RESET}\t{atoms.cell.cellpar()[4]:.2f}")
         if args.cell:
             print(f"{Colors.GREEN}{dir}{Colors.RESET}\t", atoms.cell.cellpar())
+        if args.volume:
+            print(f"{Colors.GREEN}{dir}{Colors.RESET}\t", atoms.get_volume())
         if args.hydrogen:
             atoms = read(os.path.join(dir_path, 'atoms_bader_charge.json'))
             charges = atoms.get_initial_charges()
