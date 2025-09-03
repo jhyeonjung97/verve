@@ -10,12 +10,12 @@ from ase.constraints import FixAtoms
 from ase.geometry.geometry import get_duplicate_atoms
 from ase.io.vasp import read_vasp_xdatcar, write_vasp_xdatcar
 
-def reorder_ir_first(atoms):
-    """Reorder atoms so that Ir comes first"""
+def reorder_ru_first(atoms):
+    """Reorder atoms so that Ru comes first"""
     symbols = atoms.get_chemical_symbols()
-    ir_indices = [i for i, sym in enumerate(symbols) if sym == 'Ir']
-    other_indices = [i for i, sym in enumerate(symbols) if sym != 'Ir']
-    new_indices = ir_indices + other_indices
+    ru_indices = [i for i, sym in enumerate(symbols) if sym == 'Ru']
+    other_indices = [i for i, sym in enumerate(symbols) if sym != 'Ru']
+    new_indices = ru_indices + other_indices
     return atoms[new_indices]
 
 def sort_by_xyz(atoms):
@@ -29,6 +29,7 @@ def sort_by_xyz(atoms):
 
 parser = argparse.ArgumentParser(description='Command-line options example')
 parser.add_argument('filename', type=str, default='', help='input filename (e.g., a for a1~a3.vasp, OR you can type POSCAR, CONTCAR, XDATCAR)')
+parser.add_argument('-o', '--output', type=str, default=None)
 parser.add_argument('-t', '--type', type=str, default='vasp')
 parser.add_argument('-a', '--add', type=float, default=0)
 parser.add_argument('-z', '--height', type=float, default=None)
@@ -46,7 +47,9 @@ parser.add_argument('-r', '--repeat', type=str, default=None)
 args = parser.parse_args()
 filename = args.filename
 type = args.type
-
+output = args.output
+if output is None:
+    output = filename
 add = args.add
 height = args.height
 vacuum = args.vacuum
@@ -68,9 +71,6 @@ for file in matching_files:
         # print('repeat')
         a, b, c = map(int, repeat.split(','))
         atoms = atoms.repeat((a,b,c))
-    if args.wrap:
-        # print('wrap')
-        atoms.wrap()
     if add:
         atoms.positions[:,2] += add
     if args.displacement:
@@ -78,7 +78,7 @@ for file in matching_files:
         displacement = [0, 0, atoms.cell.lengths()[2]/2]
         atoms.translate(displacement)
     if vacuum:
-        print('vacuum')
+        # print('vacuum')
         min_z = atoms.positions[:,2].min()
         max_z = atoms.positions[:,2].max()
         height = max_z - min_z + vacuum
@@ -92,11 +92,19 @@ for file in matching_files:
         a3 = atoms.cell.angles()[2]
         atoms.cell = (l1, l2, height, a1, a2, a3)
     if args.vector:
+        print(atoms.cell.array)
         # print('vector')
-        V = np.array([[2, 1, 0],
-                      [-1, 2, 0],
-                      [0, 0, 1]]) # √5x√5
+        # V = np.array([[2, 1, 0],
+        #               [-1, 2, 0],
+        #               [0, 0, 1]]) # √5x√5
+        V = np.array([[0, 0, 1],
+                      [1, 0, 0],
+                      [0, 1, 0]]) # √5x√5
         atoms = make_supercell(atoms, V)
+        print(atoms.cell.array)
+    if args.wrap:
+        # print('wrap')
+        atoms.wrap()
     if args.fix:
         # print('fix')
         min_z = atoms.positions[:,2].min()
@@ -110,8 +118,9 @@ for file in matching_files:
     if args.sort:
         # print('sort')
         atoms = sort(atoms)
-    if 'Ir' in atoms.get_chemical_symbols():
-        atoms = reorder_ir_first(atoms)
-    atoms = sort_by_xyz(atoms)
+    # if 'Ru' in atoms.get_chemical_symbols():
+    #     print('reorder Ru first')
+    #     atoms = reorder_ru_first(atoms)
+    # atoms = sort_by_xyz(atoms)
     get_duplicate_atoms(atoms, cutoff=0.1, delete=True)
-    write(f'{file}',atoms)
+    write(f'{output}.{type}',atoms)
