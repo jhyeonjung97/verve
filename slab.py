@@ -14,8 +14,9 @@ def reorder_ru_first(atoms):
     """Reorder atoms so that Ru comes first"""
     symbols = atoms.get_chemical_symbols()
     ru_indices = [i for i, sym in enumerate(symbols) if sym == 'Ru']
-    other_indices = [i for i, sym in enumerate(symbols) if sym != 'Ru']
-    new_indices = ru_indices + other_indices
+    re_indices = [i for i, sym in enumerate(symbols) if sym == 'Re']
+    other_indices = [i for i, sym in enumerate(symbols) if sym != 'Ru' and sym != 'Re']
+    new_indices = ru_indices + re_indices + other_indices
     return atoms[new_indices]
 
 def sort_by_xyz(atoms):
@@ -75,7 +76,9 @@ for file in matching_files:
         atoms.positions[:,2] += add
     if args.displacement:
         # print('displacement')
-        displacement = [0, 0, atoms.cell.lengths()[2]/2]
+        min_z = atoms.positions[:,2].min()
+        displacement = [0, 0, -min_z+0.1]
+        # displacement = [0, 0, atoms.cell.lengths()[2]/2]
         atoms.translate(displacement)
     if vacuum:
         # print('vacuum')
@@ -97,9 +100,12 @@ for file in matching_files:
         # V = np.array([[2, 1, 0],
         #               [-1, 2, 0],
         #               [0, 0, 1]]) # √5x√5
-        V = np.array([[0, 0, 1],
+        # V = np.array([[0, 0, 1],
+        #               [1, 0, 0],
+        #               [0, 1, 0]]) # √5x√5
+        V = np.array([[0, -1, 0],
                       [1, 0, 0],
-                      [0, 1, 0]]) # √5x√5
+                      [0, 0, 1]])
         atoms = make_supercell(atoms, V)
         print(atoms.cell.array)
     if args.wrap:
@@ -110,7 +116,8 @@ for file in matching_files:
         min_z = atoms.positions[:,2].min()
         max_z = atoms.positions[:,2].max()
         mid_z = (max_z - min_z) / 4 + min_z
-        fixed = FixAtoms(indices=[atom.index for atom in atoms if atom.position[2] < mid_z])
+        # fixed = FixAtoms(indices=[atom.index for atom in atoms if atom.position[2] < mid_z])
+        fixed = FixAtoms(indices=[atom.index for atom in atoms if atom.position[2] < 6])
         atoms.set_constraint(fixed)
     if args.center:
         # print('center')
@@ -118,9 +125,9 @@ for file in matching_files:
     if args.sort:
         # print('sort')
         atoms = sort(atoms)
-    # if 'Ru' in atoms.get_chemical_symbols():
-    #     print('reorder Ru first')
-    #     atoms = reorder_ru_first(atoms)
+    if 'Ru' in atoms.get_chemical_symbols():
+        print('reorder Ru first')
+        atoms = reorder_ru_first(atoms)
     # atoms = sort_by_xyz(atoms)
     get_duplicate_atoms(atoms, cutoff=0.1, delete=True)
     write(f'{output}.{type}',atoms)
