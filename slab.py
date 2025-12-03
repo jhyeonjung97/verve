@@ -30,7 +30,6 @@ def sort_by_xyz(atoms):
 
 parser = argparse.ArgumentParser(description='Command-line options example')
 parser.add_argument('filename', type=str, default='', help='input filename (e.g., a for a1~a3.vasp, OR you can type POSCAR, CONTCAR, XDATCAR)')
-parser.add_argument('-o', '--output', type=str, default=None)
 parser.add_argument('-t', '--type', type=str, default='vasp')
 parser.add_argument('-a', '--add', type=float, default=0)
 parser.add_argument('-z', '--height', type=float, default=None)
@@ -48,9 +47,6 @@ parser.add_argument('-r', '--repeat', type=str, default=None)
 args = parser.parse_args()
 filename = args.filename
 type = args.type
-output = args.output
-if output is None:
-    output = filename
 add = args.add
 height = args.height
 vacuum = args.vacuum
@@ -59,8 +55,10 @@ facet = args.facet
 repeat = args.repeat
 
 pattern = os.path.join('./', f'{filename}*.{type}')
+
 matching_files = glob.glob(pattern)
 for file in matching_files:
+    output = file.split('.')[0] + '_slab'
     atoms = read(f'{file}')
     # l = atoms.cell.lengths()[2]
     # atoms.positions += (0, 0, -l/4)
