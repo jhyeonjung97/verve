@@ -35,7 +35,7 @@ fi
 if [[ -d $jeung2hailey ]]; then
     cd "$jeung2hailey" || { echo "Failed to change directory to $jeung2hailey"; exit 1; }
     /opt/homebrew/bin/rsync -e ssh -av --min-size=1 jiuy97@perlmutter.nersc.gov:/pscratch/sd/j/jiuy97/1_cation .
-    /opt/homebrew/bin/rsync -e ssh -av --min-size=1 jiuy97@perlmutter.nersc.gov:/pscratch/sd/j/jiuy97/5_HEO .
+    # /opt/homebrew/bin/rsync -e ssh -av --min-size=1 jiuy97@perlmutter.nersc.gov:/pscratch/sd/j/jiuy97/5_HEO .
 fi
 
 if [[ -d $stanford ]]; then
