@@ -16,3 +16,4 @@ alias k='python ~/bin/verve/show_kpoints.py POSCAR
 python ~/bin/verve/show_kpoints.py CONTCAR'
 
 alias va='tail */vib/stdout.*.out'
+alias ta='tail */vasp.out'
