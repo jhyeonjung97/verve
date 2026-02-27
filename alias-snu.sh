@@ -17,3 +17,4 @@ python ~/bin/verve/show_kpoints.py CONTCAR'
 
 alias va='tail */vib/stdout.*.out'
 alias ta='tail */vasp.out'
+alias restart='sh ~/bin/verve/correct-contcar.sh; python ~/bin/get_restart.py'
