@@ -79,7 +79,7 @@ def get_bader_charges(traj):
                 'La': 11, 'Hf': 4, 'Ta': 5, 'W': 6, 'Re': 7, 'Os': 8,
                 'Ir': 9, 'Pt': 10, 'Au': 11, 'Hg': 12, 'Tl': 13, 'Pb': 14,
                 'S': 6, 'O': 6, 'N': 5, 'C': 4, 'P': 5, 'B': 3, 
-                'Li': 1, 'Na': 1, 'K': 7, 'Cl': 7, 'Bi': 5, 'H': 1}
+                'Li': 3, 'Na': 7, 'K': 9, 'Rb': 9, 'Cs': 9, 'Cl': 7, 'Bi': 5, 'H': 1}
     
     write_charge=[]
     outfilename = 'bader_charges.tsv'
