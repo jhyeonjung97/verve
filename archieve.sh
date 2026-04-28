@@ -42,7 +42,10 @@ if [[ -d $stanford ]]; then
     cd "$stanford" || { echo "Failed to change directory to $stanford"; exit 1; }
     /opt/homebrew/bin/rsync -e ssh -av --min-size=1 jiuy97@perlmutter.nersc.gov:/pscratch/sd/j/jiuy97/3_RuO2 .
     /opt/homebrew/bin/rsync -e ssh -av --min-size=1 jiuy97@perlmutter.nersc.gov:/pscratch/sd/j/jiuy97/4_MnO2 .
-    /opt/homebrew/bin/rsync -e ssh -av --min-size=1 jiuy97@perlmutter.nersc.gov:/pscratch/sd/j/jiuy97/6_MNC .
+    /opt/homebrew/bin/rsync -e ssh -av --min-size=1 \
+    --exclude='WAVECAR' --exclude='moments.traj' --exclude='qn.xyz' --exclude='vaspout.h5' \
+    --exclude='EIGENVAL' --exclude='IBZKPT' --exclude='PCDAT' --exclude='POT' --exclude='REPORT' \
+    jiuy97@perlmutter.nersc.gov:/pscratch/sd/j/jiuy97/6_MNC .
     /opt/homebrew/bin/rsync -e ssh -av --min-size=1 jiuy97@perlmutter.nersc.gov:/pscratch/sd/j/jiuy97/9_pourbaixGC .
 fi
 
