@@ -60,7 +60,11 @@ if [[ -d $stanford ]]; then
     --exclude='moments.traj' --exclude='qn.xyz' --exclude='vaspout.h5' \
     --exclude='EIGENVAL' --exclude='IBZKPT' --exclude='PCDAT' --exclude='POT' --exclude='REPORT' \
     jiuy97@perlmutter.nersc.gov:/pscratch/sd/j/jiuy97/9_pourbaixGC .
-    
+
+    /opt/homebrew/bin/rsync -e ssh -av --min-size=1 \
+    --exclude='moments.traj' --exclude='qn.xyz' --exclude='vaspout.h5' \
+    --exclude='EIGENVAL' --exclude='IBZKPT' --exclude='PCDAT' --exclude='POT' --exclude='REPORT' \
+    jiuy97@perlmutter.nersc.gov:/pscratch/sd/j/jiuy97/7_prediction .
 fi
 
 if [[ -d $personal ]] && [[ -d $google ]]; then
