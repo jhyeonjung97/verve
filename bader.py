@@ -10,6 +10,41 @@ import glob
 home=os.path.expanduser('~')
 homebin=home+'/bin'
 
+def zvals_from_outcar(path='OUTCAR'):
+    """{symbol: ZVAL} as the run itself used them, read from OUTCAR.
+
+    Bader gives the number of electrons on an atom; turning that into a net charge
+    needs the valence count of the POTCAR that was actually used, and that is a
+    property of the run, not of the element.  A hardcoded table cannot know which
+    variant was chosen -- plain Sn is 4 while Sn_d is 14, and this file assumed the
+    _d ones for Sn and Pb while the runs used plain, putting every Sn and Pb charge
+    off by 10 e.  Ti/Hf/Mo/W are the same trap in the other direction (plain 4/4/6/6
+    vs _pv 10/10/12/12).
+
+    OUTCAR lists, per POTCAR block, a VRHFIN line naming the element and a ZVAL line
+    giving its valence count, in the same order, so the two can be zipped.
+    Returns {} when OUTCAR is missing or unparsable, and the caller falls back.
+    """
+    import re
+    if not os.path.exists(path):
+        return {}
+    try:
+        with open(path, errors='ignore') as fh:
+            txt = fh.read(400000)          # the POTCAR blocks are all in the header
+        syms = re.findall(r'VRHFIN\s*=\s*([A-Za-z]+)\s*:', txt)
+        zs = [float(x) for x in re.findall(r'ZVAL\s*=\s*([\d.]+)\s+mass', txt)]
+    except Exception:
+        return {}
+    if not syms or len(syms) != len(zs):
+        return {}
+    out = {}
+    for sym, z in zip(syms, zs):
+        if sym in out and out[sym] != z:    # same element with two POTCARs: refuse to guess
+            return {}
+        out[sym] = z
+    return out
+
+
 def get_bader_charges(traj):
     # Check for the existence and non-emptiness of CHGCAR
     if not os.path.exists('CHGCAR') or os.path.getsize('CHGCAR') == 0:
@@ -81,6 +116,19 @@ def get_bader_charges(traj):
                 'S': 6, 'O': 6, 'N': 5, 'C': 4, 'P': 5, 'B': 3, 
                 'Li': 3, 'Na': 7, 'K': 9, 'Rb': 9, 'Cs': 9, 'Cl': 7, 'Bi': 5, 'H': 1}
     
+    # ZVAL from the run itself wherever OUTCAR is readable; the table above is only a
+    # fallback.  Any disagreement is printed rather than silently preferred, because a
+    # wrong valence count shifts every charge of that element by a whole electron or ten.
+    zval = dict(chargedict)
+    from_outcar = zvals_from_outcar()
+    for sym, z in from_outcar.items():
+        if sym in chargedict and abs(chargedict[sym] - z) > 1e-6:
+            print(f'# ZVAL {sym}: OUTCAR says {z:g}, table said {chargedict[sym]:g}'
+                  f' -- using OUTCAR')
+        zval[sym] = z
+    if not from_outcar:
+        print('# WARNING: could not read ZVAL from OUTCAR, falling back to the table')
+
     write_charge=[]
     outfilename = 'bader_charges.tsv'
     with open(outfilename, 'w') as f:
@@ -89,7 +137,7 @@ def get_bader_charges(traj):
             name_i = name[i]
             index = i
             charge_i = charge[i]
-            netcharge = -(charge_i-chargedict[name_i])
+            netcharge = -(charge_i-zval[name_i])
             netcharge_round = round(netcharge,2)
             print (netcharge_round)
             f.write("%d\t %s\t %f\n" % (index, name_i, netcharge))
